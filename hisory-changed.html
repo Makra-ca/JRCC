@@ -1,0 +1,581 @@
+<style>
+  body {
+      font-family: 'Urbanist', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #1e293b;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+  }
+  
+  .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+  }
+  
+  .header-section {
+      text-align: center;
+      margin-bottom: 4rem;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  .header-section h1 {
+      font-weight: 800;
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      text-align: center;
+  }
+  
+  .header-section p {
+      font-size: 1.25rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+  }
+  
+  .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+  }
+  
+  .timeline-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #e2e8f0;
+      position: relative;
+      overflow: hidden;
+  }
+  
+  .timeline-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #f59e0b);
+  }
+  
+  .timeline-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  
+  .timeline-year {
+      display: inline-block;
+      background: white;
+      color: #2563eb;
+      padding: 0.5rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 2px solid #2563eb;
+  }
+  
+  .timeline-events {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+  
+  .timeline-events li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+      padding-left: 1.5rem;
+  }
+  
+  .timeline-events li:last-child {
+      border-bottom: none;
+  }
+  
+  .timeline-events li::before {
+      content: '•';
+      color: #f59e0b;
+      font-weight: bold;
+      font-size: 1.5rem;
+      position: absolute;
+      left: 0;
+      top: 0.5rem;
+  }
+  
+  .timeline-events li:last-child::before {
+      color: #2563eb;
+  }
+  
+  .footer-section {
+      text-align: center;
+      color: white;
+      margin-top: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+  }
+  
+  .footer-section p {
+      font-size: 1.1rem;
+      font-style: italic;
+      margin: 0;
+      opacity: 0.9;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+      .header-section h1 {
+          font-size: 2.5rem;
+      }
+      
+      .timeline-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+      }
+      
+      .timeline-card {
+          padding: 1.5rem;
+          /* Reduce colors on mobile */
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      
+      .timeline-card::before {
+          /* Simplify the top border on mobile */
+          background: #e2e8f0;
+      }
+      
+      .timeline-year {
+          /* Use more muted colors on mobile */
+          background: #f1f5f9;
+          color: #475569;
+          border: 1px solid #cbd5e1;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+      
+      .timeline-events li::before {
+          /* Use more muted bullet colors on mobile */
+          color: #94a3b8;
+      }
+      
+      .timeline-events li:last-child::before {
+          color: #64748b;
+      }
+      
+      .footer-section {
+          /* Simplify footer on mobile */
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: none;
+      }
+      
+      .container {
+          padding: 1rem;
+      }
+  }
+  
+  @media screen and (max-width: 480px) {
+      .header-section h1 {
+          font-size: 2rem;
+      }
+      
+      .timeline-card {
+          padding: 1rem;
+          /* Even more muted on very small screens */
+          background: #ffffff;
+          border: 1px solid #f1f5f9;
+      }
+      
+      .timeline-year {
+          /* Further reduce colors on very small screens */
+          background: #ffffff;
+          color: #64748b;
+          border: 1px solid #e2e8f0;
+      }
+      
+      .timeline-events li::before {
+          color: #cbd5e1;
+      }
+      
+      .timeline-events li:last-child::before {
+          color: #94a3b8;
+      }
+  }
+  </style>
+  
+  <div class="container">
+      <div class="header-section" style="font-family: 'Urbanist', sans-serif;">
+          <h1 style="font-family: 'Urbanist', sans-serif;">Our Journey</h1>
+          <p style="font-family: 'Urbanist', sans-serif;">Below is a brief history of the work done in the JRCC by its leaders, visionaries, and respected members.</p>
+      </div>
+  
+      <div class="timeline-grid">
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1980</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Charged by the Rebbe with the responsibility of helping to unify a growing Jewish Russian community and to infuse it with Jewish pride, joy, and knowledge, Rabbi Yoseph Zaltzman and his wife Chiena moved to Toronto with the assistance of Rabbi Zalman A. Grossbaum; Head Shliach of Chabad Lubavitch of Ontario, and the help of Mr. Dov Parshan (OBM) and Rabbi Shlomo Hochler (OBM).</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC became the first organization in Ontario to successfully serve the Jewish Russian community, building off of the pioneering work done by Chabad worldwide.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1981</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Adult Education classes begin.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Holiday Programs begin.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Rebbe's Ten Mitzvah campaigns and Children's Sefer Torah campaign begins.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1983</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Exodus Newspaper (in Russian) is first published. (The original eight-page issue grows to become a 40 page magazine filled with insightful articles and information relevant to the community.)</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1985</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Incorporation of the JRCC.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Synagogue services begin in a rented room at the Bernard Betel Centre.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1986</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Levi Yitzchok Kollel for Seniors is established.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1987</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC at 18 Rockford Road opens.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Menorah erected at 5987 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1988</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Youth program commences.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Menorah is erected at Mel Lastman Square</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1990</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">First JRCC Hebrew School in North York opens with 25 students.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">First JRCC Lottery is held.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">First Gala Wedding is held.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1992</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC opens its administrative offices at 5987 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1993</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Second branch of Hebrew School opens in Thornhill.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1994</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Pre-School and Daycare opens at 5950 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1995</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Satellite at 4300 Bathurst St. opens.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1996</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Satellite at 4455 Bathurst St. opens.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Tenth anniversary Gala Dinner.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Third Branch of the JRCC Hebrew School opens.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1997</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Expansion of Pre-School and Daycare brings the total number of children attending to 55 between the ages of 18 months and six years.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Gala Concert at the Ford Centre.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Ohr Menachem Academy Day School opens.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1998</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Second JRCC Branch opens: JRCC West Thornhill</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Institute of Jewish Studies Adult Education program begins.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">1999</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">8808 Bathurst St. is purchased for Ohr Menachem Academy Day School.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2000</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Ohr Menachem Academy moves to its own premises after completing renovations.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2001</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Third JRCC Branch opens: JRCC of Concord.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Annual Jewish Calendar & Program Guide published on its own for the first time.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2002</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Exodus Magazine, a monthly English publication, makes its debut.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Pre-School expands to five classrooms, serving 99 children.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Fourth JRCC Branch opens: JRCC Thornhill Woods.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2003</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC celebrates 18 years of operation.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC satellite at 3174 Bathurst St. opens.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Opening of the JRCC Bookstore, with one of the best and largest selections of Jewish Russian Books on the planet.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2004</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Ohr Menachem Academy, now 8 years old, reaches Grade 8.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Torah for Teens program begins.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2005</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Fifth JRCC Branch opens: JRCC East Thornhill</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">A Jewish Birthday congratulation program is launched.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2006</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC prints an Annual Report of all its programs and financials for the first time.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Exodus Magazine changes its look to a colour, glossy style magazine.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation with Chabad of Niagara established</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Tribute Dinner in honour of the JRCC's 25th Anniversary – proceeds used to establish the JRCC Endowment Fund for Jewish Education.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2007</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC expands outside the GTA opening: JRCC of Ottawa.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Chesed assistance program with a soup kitchen and furniture bank program opens</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Annual Report expands to a full color magazine mailed out to the whole community.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC satellite at 175 Hilda Ave. opens.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Hebrew School opens new location in East Thornhill.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation with Jewish Gorsky Community established.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2008</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC "Jewish Identity Grants" project is launched, (including Free Tefillin and Mezuzahs, and a grant when making one's home Kosher).</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Purchases a 3.8 Acre lot for building its future Centre.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Education Scholarships Fund is established.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2009</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Launch of the Gmach Meir Shlomo Free Loan Assistance program.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Sixth JRCC Branch opens: JRCC S Richmond Hill & Maple.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC @ Rockford completes its first major renovation.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation with Chabad of Hamilton & Chabad of Danforth-Beaches is established.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Winter Camp launched for boys.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2010</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC's First North American Russian Retreat.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation in London, Ontario & with Chabad of Dorham is established.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Summer Camp Program launched for boys and girls.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2011</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Furniture Depot moves to 1416 Centre St. Basement.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Tribute Dinner in honor of the JRCC's 30th Anniversary.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Community wide Gala Chanuka Concert in honor of the JRCC's 30th Anniversary.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2012</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Seventh JRCC Branch opens: JRCC South Thornhill.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation with Chabad of Waterloo Region established.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Hebrew school Sunday location moves to a upgraded location and renamed as the JRCC Maple Hebrew school.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC sells the 3.8 acres of land purchased for a future center.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">9699 Bathurst St. is purchased for JRCC S. Richmond Hill & Maple.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Furniture Depot receives federal and OTF grants for a over 1M renovation for a state of the art 13,000 square foot facility.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2013</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Hebrew School opens a location in North Richmond Hill.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Affiliation with Chabad of Windsor established.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Hebrew School opens new location in Concord, bringing the total locations to six.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Rabbis Yoseph and Mendel Zaltzman receive the Queens Diamond Jubilee medal in recognition of their dedication to the Community.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Establishes a Free Tax Clinic for low income people</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC of Thornhill Woods structure is adjusted to operating independently as the JRCC affiliate and representative in the neighbourhood.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2015</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">1252 Centre St. is Purchased for the development of the JRCC West Thornhill Future Home.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC East Thornhill moves into its new Home at 7608 Yonge St. after a yearlong construction.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2016</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Furniture Depot serves over 800 families and gives out 6,000 items of Furniture.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2017</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">The JRCC Furniture Depot receives an OTF Grant and enhances the facility with a close to 1M renovation.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Eighth JRCC branch opens at Steeles/Hilda.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2018</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC Appoints a CEO and COO for the first time.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC hires a young Dynamic Rabbi to take over operations at JRCC @ Rockford.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2019</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Ninth JRCC branch opens: JRCC of Willowdale.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">A dozen BBQ`s in Rural Communities around the GTA are held with the JRCC Mitzva Tank.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Tenth JRCC branch opens in Woodbridge.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2020</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC @ Rockford has a fire and undergoes major renovation.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC lunches JRCC.Help, to help seniors during Covid-19. Helping and reaching out to thousands of Seniors in the Community.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Purchased 7616 Yonge Street for the future JRCC East Thornhill youth centre and Community Mikva.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Established the JRCC Social Services department.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Renovated the ground floor of JRCC S Richmond hill at 9699 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2021</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Purchased & Renovated a space for JRCC South Thornhill at 28 Townsgate Drive.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Launched JRCC Connect with life cycle and Holidays packages in the tens of thousands across the province.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2022</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Created the "City Wide Lag Ba`omer Family Festival" - uniting Chabad across the GTA in a Toronto and York region location.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Opened the enlarged Shlomo`les Library at the JRCC east Thornhill Youth Centre.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2023</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">JRCC's first Mikva at the JRCC East Thornhill opens.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Printed and distributed over 10,000 Tehillim's to most Jewish Russian families across the GTA</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Hired Rabbi Menachem & Sara Wolff to enhance services for newcomers from the war in Ukraine and create new Adult education programing in Russian.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Completed rezoning and a massive renovation on the outdoors of JRCC S Richmond Hill at 9699 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2024</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Printed and distributed over 10,000 Hagadah of Passover to most Jewish Russian families across the GTA.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Installed a elevator at JRCC S Richmond Hill at 9699 Bathurst St.</li>
+              </ul>
+          </div>
+          
+          <div class="timeline-card" style="font-family: 'Urbanist', sans-serif;">
+              <span class="timeline-year" style="font-family: 'Urbanist', sans-serif;">2025</span>
+              <ul class="timeline-events" style="font-family: 'Urbanist', sans-serif;">
+                  <li style="font-family: 'Urbanist', sans-serif;">Edward Kholodenko, CEO of Quespdtare appointed s JRCC's President.</li>
+                  <li style="font-family: 'Urbanist', sans-serif;">Started new a new weekly Seniors program in Richmond Hill</li>
+              </ul>
+          </div>
+      </div>
+  
+      <div class="footer-section" style="font-family: 'Urbanist', sans-serif;">
+          <p style="font-family: 'Urbanist', sans-serif;">With feverous hope Moshiach arrives. Mission accomplished</p>
+      </div>
+  </div> 
