@@ -1,0 +1,820 @@
+<!-- 
+    =========================================================================
+    STEP 1: PASTE THIS CODE INTO THE CHABAD ONE "HEADER" OR "CUSTOM CSS" AREA
+    =========================================================================
+-->
+
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&display=swap');
+
+    /* Main Body & Fonts */
+    #co_body_container {
+        font-family: 'Urbanist', sans-serif !important;
+        background: transparent !important; /* Remove dark background */
+        color: #111111 !important; /* Dark text for light backgrounds */
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+
+    /* Hide animated dark background layer */
+    .bg-animation { display: none !important; }
+
+    /* Ensure Urbanist on common CMS containers and text elements */
+    body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_content *, p, li, .timeline-content, .timeline-intro, .timeline-events, .footer-section, .hero-subtitle {
+        font-family: 'Urbanist', sans-serif !important;
+        color: #222222; /* readable default */
+    }
+
+    /* H1: switch to Urbanist and static color, centered */
+    .hero-title {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        margin: 0 0 0.75rem 0;
+        color: #111111 !important; /* Static, high-contrast for light bg */
+        letter-spacing: 0.5px;
+        text-shadow: none;
+        background: none;
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        background-clip: initial;
+        animation: none;
+        text-align: center;
+    }
+
+    /* Hero Section: center perfectly */
+    .hero-section {
+        min-height: 70vh; /* slightly shorter now that bg is removed */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        padding: 3rem 2rem 2rem 2rem;
+    }
+
+    .hero-content {
+        max-width: 900px;
+        z-index: 2;
+        margin: 0 auto;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.1rem, 3vw, 1.6rem);
+        font-weight: 400;
+        margin: 0 auto 1.5rem auto;
+        color: #333333 !important; /* Darker text for visibility */
+        line-height: 1.6;
+        text-shadow: none;
+        max-width: 900px;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        cursor: pointer;
+    }
+
+    .scroll-indicator::before {
+        content: '↓';
+        font-size: 2rem;
+        color: #777777; /* neutral for light theme */
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-10px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Timeline Container */
+    .timeline-container {
+        padding: 4rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .timeline-intro {
+        text-align: center !important;
+        margin-bottom: 3rem;
+    }
+
+    .timeline-intro h2 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: clamp(1.8rem, 4.5vw, 3rem);
+        margin-bottom: 0.75rem;
+        color: #111111;
+    }
+
+    .timeline-intro p {
+        font-size: 1.1rem;
+        color: #333333 !important;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: none;
+        text-align: center !important;
+    }
+
+    /* Creative Timeline: adjust for light theme */
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin: 3rem 0;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease;
+    }
+
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .timeline-item:nth-child(odd) {
+        padding-right: 50%;
+        text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    .timeline-content {
+        background: rgba(0, 0, 0, 0.03);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px) scale(1.01);
+        background: rgba(0, 0, 0, 0.06);
+        border-color: rgba(0, 0, 0, 0.12);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .timeline-year {
+        position: absolute;
+        top: -20px;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        color: #000;
+        padding: 0.5rem 1.25rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.25);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-year { right: 1.5rem; }
+    .timeline-item:nth-child(even) .timeline-year { left: 1.5rem; }
+
+    .timeline-dot {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        background: #ffd700;
+        border: 4px solid #ffffff; /* light ring on light bg */
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 18px rgba(255, 215, 0, 0.45);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-dot {
+        transform: translate(-50%, -50%) scale(1.35);
+        box-shadow: 0 0 28px rgba(255, 215, 0, 0.7);
+    }
+
+    .timeline-events { list-style: none; margin-top: 1rem; }
+
+    .timeline-events li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.25rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #222222;
+    }
+
+    .timeline-events li::before {
+        content: '✦';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        color: #4ecdc4;
+        font-size: 0.8rem;
+    }
+
+    /* Footer */
+    .footer-section {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(0, 0, 0, 0.02);
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .footer-text {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 1.4rem;
+        color: #111111;
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-subtitle {
+        font-size: 1rem;
+        color: #555555;
+        font-style: italic;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .timeline::before { left: 2rem; }
+        .timeline-item {
+            padding-left: 4rem !important;
+            padding-right: 1rem !important;
+            text-align: left !important;
+        }
+        .timeline-year { left: 1rem !important; right: auto !important; }
+        .timeline-dot { left: 2rem; }
+        .hero-title { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+        .hero-subtitle { font-size: clamp(1rem, 4vw, 1.3rem); }
+        .hero-section { min-height: 60vh; padding-top: 3rem; }
+    }
+</style>
+
+<!-- 
+    =========================================================================
+    STEP 2: PASTE THIS CODE INTO THE CHABAD ONE "BODY" OR "CONTENT" AREA
+    =========================================================================
+-->
+
+<div class="bg-animation"></div>
+<div class="particles" id="particles-container"></div>
+<div class="mouse-follower" id="mouse-follower"></div>
+
+<section class="hero-section" style="font-family: 'Urbanist', sans-serif;">
+    <div class="hero-content">
+        <!-- <h1 class="hero-title">Our Journey</h1> -->
+        <!-- <p class="hero-subtitle">A story of faith, community, and transformation. From humble beginnings to a thriving center of Jewish life, discover the remarkable journey of the JRCC.</p> -->
+    </div>
+    <div class="scroll-indicator"></div>
+</section>
+
+<div class="timeline-container" id="timeline-container" style="font-family: 'Urbanist', sans-serif;">
+    <div class="timeline-intro" style="text-align: center;">
+        <h2>The Story Unfolds</h2>
+        <p style="text-align: center; margin: 0 auto;">Below is a brief history of the work done in the JRCC by its leaders, visionaries, and respected members.</p>
+    </div>
+    <div class="timeline">
+        <!-- Timeline content from hisory-changed.html goes here -->
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1980</div>
+                <ul class="timeline-events">
+                    <li>Charged by the Rebbe with the responsibility of helping to unify a growing Jewish Russian community and to infuse it with Jewish pride, joy, and knowledge, Rabbi Yoseph Zaltzman and his wife Chiena moved to Toronto with the assistance of Rabbi Zalman A. Grossbaum; Head Shliach of Chabad Lubavitch of Ontario, and the help of Mr. Dov Parshan (OBM) and Rabbi Shlomo Hochler (OBM).</li>
+                    <li>The JRCC became the first organization in Ontario to successfully serve the Jewish Russian community, building off of the pioneering work done by Chabad worldwide.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1981</div>
+                <ul class="timeline-events">
+                    <li>Adult Education classes begin.</li>
+                    <li>Holiday Programs begin.</li>
+                    <li>Rebbe's Ten Mitzvah campaigns and Children's Sefer Torah campaign begins.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1983</div>
+                <ul class="timeline-events">
+                    <li>Exodus Newspaper (in Russian) is first published. (The original eight-page issue grows to become a 40 page magazine filled with insightful articles and information relevant to the community.)</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1985</div>
+                <ul class="timeline-events">
+                    <li>Incorporation of the JRCC.</li>
+                    <li>Synagogue services begin in a rented room at the Bernard Betel Centre.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1986</div>
+                <ul class="timeline-events">
+                    <li>Levi Yitzchok Kollel for Seniors is established.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1987</div>
+                <ul class="timeline-events">
+                    <li>The JRCC at 18 Rockford Road opens.</li>
+                    <li>Menorah erected at 5987 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1988</div>
+                <ul class="timeline-events">
+                    <li>Youth program commences.</li>
+                    <li>Menorah is erected at Mel Lastman Square</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1990</div>
+                <ul class="timeline-events">
+                    <li>First JRCC Hebrew School in North York opens with 25 students.</li>
+                    <li>First JRCC Lottery is held.</li>
+                    <li>First Gala Wedding is held.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1992</div>
+                <ul class="timeline-events">
+                    <li>The JRCC opens its administrative offices at 5987 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1993</div>
+                <ul class="timeline-events">
+                    <li>Second branch of Hebrew School opens in Thornhill.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1994</div>
+                <ul class="timeline-events">
+                    <li>Pre-School and Daycare opens at 5950 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1995</div>
+                <ul class="timeline-events">
+                    <li>JRCC Satellite at 4300 Bathurst St. opens.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1996</div>
+                <ul class="timeline-events">
+                    <li>JRCC Satellite at 4455 Bathurst St. opens.</li>
+                    <li>Tenth anniversary Gala Dinner.</li>
+                    <li>Third Branch of the JRCC Hebrew School opens.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1997</div>
+                <ul class="timeline-events">
+                    <li>Expansion of Pre-School and Daycare brings the total number of children attending to 55 between the ages of 18 months and six years.</li>
+                    <li>JRCC Gala Concert at the Ford Centre.</li>
+                    <li>Ohr Menachem Academy Day School opens.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1998</div>
+                <ul class="timeline-events">
+                    <li>Second JRCC Branch opens: JRCC West Thornhill</li>
+                    <li>JRCC Institute of Jewish Studies Adult Education program begins.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">1999</div>
+                <ul class="timeline-events">
+                    <li>8808 Bathurst St. is purchased for Ohr Menachem Academy Day School.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2000</div>
+                <ul class="timeline-events">
+                    <li>Ohr Menachem Academy moves to its own premises after completing renovations.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2001</div>
+                <ul class="timeline-events">
+                    <li>Third JRCC Branch opens: JRCC of Concord.</li>
+                    <li>JRCC Annual Jewish Calendar & Program Guide published on its own for the first time.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2002</div>
+                <ul class="timeline-events">
+                    <li>Exodus Magazine, a monthly English publication, makes its debut.</li>
+                    <li>Pre-School expands to five classrooms, serving 99 children.</li>
+                    <li>Fourth JRCC Branch opens: JRCC Thornhill Woods.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2003</div>
+                <ul class="timeline-events">
+                    <li>The JRCC celebrates 18 years of operation.</li>
+                    <li>JRCC satellite at 3174 Bathurst St. opens.</li>
+                    <li>Opening of the JRCC Bookstore, with one of the best and largest selections of Jewish Russian Books on the planet.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2004</div>
+                <ul class="timeline-events">
+                    <li>Ohr Menachem Academy, now 8 years old, reaches Grade 8.</li>
+                    <li>Torah for Teens program begins.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2005</div>
+                <ul class="timeline-events">
+                    <li>Fifth JRCC Branch opens: JRCC East Thornhill</li>
+                    <li>A Jewish Birthday congratulation program is launched.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2006</div>
+                <ul class="timeline-events">
+                    <li>The JRCC prints an Annual Report of all its programs and financials for the first time.</li>
+                    <li>Exodus Magazine changes its look to a colour, glossy style magazine.</li>
+                    <li>JRCC Affiliation with Chabad of Niagara established</li>
+                    <li>Tribute Dinner in honour of the JRCC's 25th Anniversary – proceeds used to establish the JRCC Endowment Fund for Jewish Education.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2007</div>
+                <ul class="timeline-events">
+                    <li>JRCC expands outside the GTA opening: JRCC of Ottawa.</li>
+                    <li>Chesed assistance program with a soup kitchen and furniture bank program opens</li>
+                    <li>The JRCC Annual Report expands to a full color magazine mailed out to the whole community.</li>
+                    <li>JRCC satellite at 175 Hilda Ave. opens.</li>
+                    <li>The JRCC Hebrew School opens new location in East Thornhill.</li>
+                    <li>JRCC Affiliation with Jewish Gorsky Community established.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2008</div>
+                <ul class="timeline-events">
+                    <li>The JRCC "Jewish Identity Grants" project is launched, (including Free Tefillin and Mezuzahs, and a grant when making one's home Kosher).</li>
+                    <li>JRCC Purchases a 3.8 Acre lot for building its future Centre.</li>
+                    <li>Education Scholarships Fund is established.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2009</div>
+                <ul class="timeline-events">
+                    <li>Launch of the Gmach Meir Shlomo Free Loan Assistance program.</li>
+                    <li>Sixth JRCC Branch opens: JRCC S Richmond Hill & Maple.</li>
+                    <li>JRCC @ Rockford completes its first major renovation.</li>
+                    <li>JRCC Affiliation with Chabad of Hamilton & Chabad of Danforth-Beaches is established.</li>
+                    <li>JRCC Winter Camp launched for boys.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2010</div>
+                <ul class="timeline-events">
+                    <li>JRCC's First North American Russian Retreat.</li>
+                    <li>JRCC Affiliation in London, Ontario & with Chabad of Dorham is established.</li>
+                    <li>JRCC Summer Camp Program launched for boys and girls.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2011</div>
+                <ul class="timeline-events">
+                    <li>JRCC Furniture Depot moves to 1416 Centre St. Basement.</li>
+                    <li>Tribute Dinner in honor of the JRCC's 30th Anniversary.</li>
+                    <li>Community wide Gala Chanuka Concert in honor of the JRCC's 30th Anniversary.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2012</div>
+                <ul class="timeline-events">
+                    <li>Seventh JRCC Branch opens: JRCC South Thornhill.</li>
+                    <li>JRCC Affiliation with Chabad of Waterloo Region established.</li>
+                    <li>The JRCC Hebrew school Sunday location moves to a upgraded location and renamed as the JRCC Maple Hebrew school.</li>
+                    <li>JRCC sells the 3.8 acres of land purchased for a future center.</li>
+                    <li>9699 Bathurst St. is purchased for JRCC S. Richmond Hill & Maple.</li>
+                    <li>JRCC Furniture Depot receives federal and OTF grants for a over 1M renovation for a state of the art 13,000 square foot facility.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2013</div>
+                <ul class="timeline-events">
+                    <li>The JRCC Hebrew School opens a location in North Richmond Hill.</li>
+                    <li>JRCC Affiliation with Chabad of Windsor established.</li>
+                    <li>The JRCC Hebrew School opens new location in Concord, bringing the total locations to six.</li>
+                    <li>Rabbis Yoseph and Mendel Zaltzman receive the Queens Diamond Jubilee medal in recognition of their dedication to the Community.</li>
+                    <li>JRCC Establishes a Free Tax Clinic for low income people</li>
+                    <li>JRCC of Thornhill Woods structure is adjusted to operating independently as the JRCC affiliate and representative in the neighbourhood.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2015</div>
+                <ul class="timeline-events">
+                    <li>1252 Centre St. is Purchased for the development of the JRCC West Thornhill Future Home.</li>
+                    <li>JRCC East Thornhill moves into its new Home at 7608 Yonge St. after a yearlong construction.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2016</div>
+                <ul class="timeline-events">
+                    <li>The JRCC Furniture Depot serves over 800 families and gives out 6,000 items of Furniture.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2017</div>
+                <ul class="timeline-events">
+                    <li>The JRCC Furniture Depot receives an OTF Grant and enhances the facility with a close to 1M renovation.</li>
+                    <li>Eighth JRCC branch opens at Steeles/Hilda.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2018</div>
+                <ul class="timeline-events">
+                    <li>JRCC Appoints a CEO and COO for the first time.</li>
+                    <li>JRCC hires a young Dynamic Rabbi to take over operations at JRCC @ Rockford.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2019</div>
+                <ul class="timeline-events">
+                    <li>Ninth JRCC branch opens: JRCC of Willowdale.</li>
+                    <li>A dozen BBQ`s in Rural Communities around the GTA are held with the JRCC Mitzva Tank.</li>
+                    <li>Tenth JRCC branch opens in Woodbridge.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2020</div>
+                <ul class="timeline-events">
+                    <li>JRCC @ Rockford has a fire and undergoes major renovation.</li>
+                    <li>JRCC lunches JRCC.Help, to help seniors during Covid-19. Helping and reaching out to thousands of Seniors in the Community.</li>
+                    <li>Purchased 7616 Yonge Street for the future JRCC East Thornhill youth centre and Community Mikva.</li>
+                    <li>Established the JRCC Social Services department.</li>
+                    <li>Renovated the ground floor of JRCC S Richmond hill at 9699 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2021</div>
+                <ul class="timeline-events">
+                    <li>Purchased & Renovated a space for JRCC South Thornhill at 28 Townsgate Drive.</li>
+                    <li>Launched JRCC Connect with life cycle and Holidays packages in the tens of thousands across the province.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2022</div>
+                <ul class="timeline-events">
+                    <li>Created the "City Wide Lag Ba`omer Family Festival" - uniting Chabad across the GTA in a Toronto and York region location.</li>
+                    <li>Opened the enlarged Shlomo`les Library at the JRCC east Thornhill Youth Centre.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2023</div>
+                <ul class="timeline-events">
+                    <li>JRCC's first Mikva at the JRCC East Thornhill opens.</li>
+                    <li>Printed and distributed over 10,000 Tehillim's to most Jewish Russian families across the GTA</li>
+                    <li>Hired Rabbi Menachem & Sara Wolff to enhance services for newcomers from the war in Ukraine and create new Adult education programing in Russian.</li>
+                    <li>Completed rezoning and a massive renovation on the outdoors of JRCC S Richmond Hill at 9699 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2024</div>
+                <ul class="timeline-events">
+                    <li>Printed and distributed over 10,000 Hagadah of Passover to most Jewish Russian families across the GTA.</li>
+                    <li>Installed a elevator at JRCC S Richmond Hill at 9699 Bathurst St.</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="timeline-year">2025</div>
+                <ul class="timeline-events">
+                    <li>Edward Kholodenko, CEO of Quespdtare appointed s JRCC's President.</li>
+                    <li>Started new a new weekly Seniors program in Richmond Hill</li>
+                </ul>
+            </div>
+            <div class="timeline-dot"></div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-section" style="font-family: 'Urbanist', sans-serif;">
+    <div class="footer-text">With fervent hope Moshiach arrives</div>
+    <div class="footer-subtitle">Mission accomplished</div>
+</footer>
+
+<!-- 
+    =========================================================================
+    STEP 3: PASTE THIS CODE INTO THE CHABAD ONE "FOOTER" OR "CUSTOM JAVASCRIPT" AREA
+    =========================================================================
+-->
+<script type="text/javascript">
+//<![CDATA[
+    (function() {
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles-container');
+            if (!particlesContainer) return;
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Mouse follower effect
+        function initMouseFollower() {
+            const follower = document.getElementById('mouse-follower');
+            if (!follower) return;
+            document.addEventListener('mousemove', (e) => {
+                follower.style.left = e.clientX - 10 + 'px';
+                follower.style.top = e.clientY - 10 + 'px';
+            });
+        }
+        
+        // Intersection Observer for timeline animations
+        function initTimelineAnimations() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            if (timelineItems.length === 0) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+        }
+        
+        // Smooth scrolling for navigation
+        function initSmoothScrolling() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            const timelineContainer = document.getElementById('timeline-container');
+            if (!scrollIndicator || !timelineContainer) return;
+            
+            scrollIndicator.addEventListener('click', () => {
+                timelineContainer.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Initialize everything
+        function initialize() {
+            createParticles();
+            initMouseFollower();
+            initTimelineAnimations();
+            initSmoothScrolling();
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+    })();
+//]]>
+</script> 
