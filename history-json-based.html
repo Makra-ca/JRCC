@@ -1,0 +1,666 @@
+<!-- 
+    =========================================================================
+    STEP 1: PASTE THIS CODE INTO THE CHABAD ONE "HEADER" OR "CUSTOM CSS" AREA
+    =========================================================================
+-->
+
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700&display=swap');
+
+    /* Main Body & Fonts */
+    #co_body_container {
+        font-family: 'Urbanist', sans-serif !important;
+        background: transparent !important; /* Remove dark background */
+        color: #111111 !important; /* Dark text for light backgrounds */
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+
+    /* Hide animated dark background layer */
+    .bg-animation { display: none !important; }
+
+    /* Ensure Urbanist on common CMS containers and text elements */
+    body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_content *, p, li, .timeline-content, .timeline-intro, .timeline-events, .footer-section, .hero-subtitle {
+        font-family: 'Urbanist', sans-serif !important;
+        color: #222222; /* readable default */
+    }
+
+    /* H1: switch to Urbanist and static color, centered */
+    .hero-title {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        margin: 0 0 0.75rem 0;
+        color: #111111 !important; /* Static, high-contrast for light bg */
+        letter-spacing: 0.5px;
+        text-shadow: none;
+        background: none;
+        -webkit-background-clip: initial;
+        -webkit-text-fill-color: initial;
+        background-clip: initial;
+        animation: none;
+        text-align: center;
+    }
+
+    /* Hero Section: center perfectly */
+    .hero-section {
+        min-height: 70vh; /* slightly shorter now that bg is removed */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        padding: 3rem 2rem 2rem 2rem;
+    }
+
+    .hero-content {
+        max-width: 900px;
+        z-index: 2;
+        margin: 0 auto;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.1rem, 3vw, 1.6rem);
+        font-weight: 400;
+        margin: 0 auto 1.5rem auto;
+        color: #333333 !important; /* Darker text for visibility */
+        line-height: 1.6;
+        text-shadow: none;
+        max-width: 900px;
+    }
+
+    .scroll-indicator {
+        position: absolute;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        cursor: pointer;
+    }
+
+    .scroll-indicator::before {
+        content: '↓';
+        font-size: 2rem;
+        color: #777777; /* neutral for light theme */
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-10px); }
+        60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    /* Timeline Container */
+    .timeline-container {
+        padding: 4rem 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .timeline-intro {
+        text-align: center !important;
+        margin-bottom: 3rem;
+    }
+
+    .timeline-intro h2 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: clamp(1.8rem, 4.5vw, 3rem);
+        margin-bottom: 0.75rem;
+        color: #111111;
+    }
+
+    .timeline-intro p {
+        font-size: 1.1rem;
+        color: #333333 !important;
+        max-width: 700px;
+        margin: 0 auto;
+        text-shadow: none;
+        text-align: center !important;
+    }
+
+    /* Creative Timeline: adjust for light theme */
+    .timeline {
+        position: relative;
+        padding: 2rem 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+
+    .timeline-item {
+        position: relative;
+        margin: 3rem 0;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease;
+    }
+
+    .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .timeline-item:nth-child(odd) {
+        padding-right: 50%;
+        text-align: right;
+    }
+
+    .timeline-item:nth-child(even) {
+        padding-left: 50%;
+        text-align: left;
+    }
+
+    .timeline-content {
+        background: rgba(0, 0, 0, 0.03);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .timeline-content:hover {
+        transform: translateY(-5px) scale(1.01);
+        background: rgba(0, 0, 0, 0.06);
+        border-color: rgba(0, 0, 0, 0.12);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .timeline-year {
+        position: absolute;
+        top: -20px;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b);
+        color: #000;
+        padding: 0.5rem 1.25rem;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.25);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-year { right: 1.5rem; }
+    .timeline-item:nth-child(even) .timeline-year { left: 1.5rem; }
+
+    .timeline-dot {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 18px;
+        height: 18px;
+        background: #ffd700;
+        border: 4px solid #ffffff; /* light ring on light bg */
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 18px rgba(255, 215, 0, 0.45);
+        transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-dot {
+        transform: translate(-50%, -50%) scale(1.35);
+        box-shadow: 0 0 28px rgba(255, 215, 0, 0.7);
+    }
+
+    .timeline-events { list-style: none; margin-top: 1rem; }
+
+    .timeline-events li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.25rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #222222;
+    }
+
+    .timeline-events li::before {
+        content: '✦';
+        position: absolute;
+        left: 0;
+        top: 0.5rem;
+        color: #4ecdc4;
+        font-size: 0.8rem;
+    }
+
+    /* Footer */
+    .footer-section {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: rgba(0, 0, 0, 0.02);
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .footer-text {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 1.4rem;
+        color: #111111;
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-subtitle {
+        font-size: 1rem;
+        color: #555555;
+        font-style: italic;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .timeline::before { left: 2rem; }
+        .timeline-item {
+            padding-left: 4rem !important;
+            padding-right: 1rem !important;
+            text-align: left !important;
+        }
+        .timeline-year { left: 1rem !important; right: auto !important; }
+        .timeline-dot { left: 2rem; }
+        .hero-title { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+        .hero-subtitle { font-size: clamp(1rem, 4vw, 1.3rem); }
+        .hero-section { min-height: 60vh; padding-top: 3rem; }
+    }
+</style>
+
+<!-- 
+    =========================================================================
+    STEP 2: PASTE THIS CODE INTO THE CHABAD ONE "BODY" OR "CONTENT" AREA
+    =========================================================================
+-->
+
+<!-- 
+    =========================================================================
+    EDITING INSTRUCTIONS:
+    
+    To add or edit timeline events, modify the JSON data in the script tag below.
+    
+    FORMAT:
+    "YEAR": ["Event 1", "Event 2", "Event 3"]
+    
+    RULES:
+    - Keep the quotes around years and events
+    - Separate events with commas
+    - Use square brackets [ ] for the event list
+    - End each year with a comma (except the last one)
+    
+    EXAMPLE:
+    "2026": ["New community center opens", "Youth programs expand"],
+    "2027": ["Mikva renovation completed"]
+    
+    The JSON data is between <script type="application/json" id="timeline-data">
+    and </script> tags below.
+    =========================================================================
+-->
+
+<script type="application/json" id="timeline-data">
+{
+  "1980": [
+    "Charged by the Rebbe with the responsibility of helping to unify a growing Jewish Russian community and to infuse it with Jewish pride, joy, and knowledge, Rabbi Yoseph Zaltzman and his wife Chiena moved to Toronto with the assistance of Rabbi Zalman A. Grossbaum; Head Shliach of Chabad Lubavitch of Ontario, and the help of Mr. Dov Parshan (OBM) and Rabbi Shlomo Hochler (OBM).",
+    "The JRCC became the first organization in Ontario to successfully serve the Jewish Russian community, building off of the pioneering work done by Chabad worldwide."
+  ],
+  "1981": [
+    "Adult Education classes begin.",
+    "Holiday Programs begin.",
+    "Rebbe's Ten Mitzvah campaigns and Children's Sefer Torah campaign begins."
+  ],
+  "1983": [
+    "Exodus Newspaper (in Russian) is first published. (The original eight-page issue grows to become a 40 page magazine filled with insightful articles and information relevant to the community.)"
+  ],
+  "1985": [
+    "Incorporation of the JRCC.",
+    "Synagogue services begin in a rented room at the Bernard Betel Centre."
+  ],
+  "1986": [
+    "Levi Yitzchok Kollel for Seniors is established."
+  ],
+  "1987": [
+    "The JRCC at 18 Rockford Road opens.",
+    "Menorah erected at 5987 Bathurst St."
+  ],
+  "1988": [
+    "Youth program commences.",
+    "Menorah is erected at Mel Lastman Square"
+  ],
+  "1990": [
+    "First JRCC Hebrew School in North York opens with 25 students.",
+    "First JRCC Lottery is held.",
+    "First Gala Wedding is held."
+  ],
+  "1992": [
+    "The JRCC opens its administrative offices at 5987 Bathurst St."
+  ],
+  "1993": [
+    "Second branch of Hebrew School opens in Thornhill."
+  ],
+  "1994": [
+    "Pre-School and Daycare opens at 5950 Bathurst St."
+  ],
+  "1995": [
+    "JRCC Satellite at 4300 Bathurst St. opens."
+  ],
+  "1996": [
+    "JRCC Satellite at 4455 Bathurst St. opens.",
+    "Tenth anniversary Gala Dinner.",
+    "Third Branch of the JRCC Hebrew School opens."
+  ],
+  "1997": [
+    "Expansion of Pre-School and Daycare brings the total number of children attending to 55 between the ages of 18 months and six years.",
+    "JRCC Gala Concert at the Ford Centre.",
+    "Ohr Menachem Academy Day School opens."
+  ],
+  "1998": [
+    "Second JRCC Branch opens: JRCC West Thornhill",
+    "JRCC Institute of Jewish Studies Adult Education program begins."
+  ],
+  "1999": [
+    "8808 Bathurst St. is purchased for Ohr Menachem Academy Day School."
+  ],
+  "2000": [
+    "Ohr Menachem Academy moves to its own premises after completing renovations."
+  ],
+  "2001": [
+    "Third JRCC Branch opens: JRCC of Concord.",
+    "JRCC Annual Jewish Calendar and Program Guide published on its own for the first time."
+  ],
+  "2002": [
+    "Exodus Magazine, a monthly English publication, makes its debut.",
+    "Pre-School expands to five classrooms, serving 99 children.",
+    "Fourth JRCC Branch opens: JRCC Thornhill Woods."
+  ],
+  "2003": [
+    "The JRCC celebrates 18 years of operation.",
+    "JRCC satellite at 3174 Bathurst St. opens.",
+    "Opening of the JRCC Bookstore, with one of the best and largest selections of Jewish Russian Books on the planet."
+  ],
+  "2004": [
+    "Ohr Menachem Academy, now 8 years old, reaches Grade 8.",
+    "Torah for Teens program begins."
+  ],
+  "2005": [
+    "Fifth JRCC Branch opens: JRCC East Thornhill",
+    "A Jewish Birthday congratulation program is launched."
+  ],
+  "2006": [
+    "The JRCC prints an Annual Report of all its programs and financials for the first time.",
+    "Exodus Magazine changes its look to a colour, glossy style magazine.",
+    "JRCC Affiliation with Chabad of Niagara established",
+    "Tribute Dinner in honour of the JRCC's 25th Anniversary – proceeds used to establish the JRCC Endowment Fund for Jewish Education."
+  ],
+  "2007": [
+    "JRCC expands outside the GTA opening: JRCC of Ottawa.",
+    "Chesed assistance program with a soup kitchen and furniture bank program opens",
+    "The JRCC Annual Report expands to a full color magazine mailed out to the whole community.",
+    "JRCC satellite at 175 Hilda Ave. opens.",
+    "The JRCC Hebrew School opens new location in East Thornhill.",
+    "JRCC Affiliation with Jewish Gorsky Community established."
+  ],
+  "2008": [
+    "The JRCC 'Jewish Identity Grants' project is launched, (including Free Tefillin and Mezuzahs, and a grant when making one's home Kosher).",
+    "JRCC Purchases a 3.8 Acre lot for building its future Centre.",
+    "Education Scholarships Fund is established."
+  ],
+  "2009": [
+    "Launch of the Gmach Meir Shlomo Free Loan Assistance program.",
+    "Sixth JRCC Branch opens: JRCC S Richmond Hill and Maple.",
+    "JRCC @ Rockford completes its first major renovation.",
+    "JRCC Affiliation with Chabad of Hamilton and Chabad of Danforth-Beaches is established.",
+    "JRCC Winter Camp launched for boys."
+  ],
+  "2010": [
+    "JRCC's First North American Russian Retreat.",
+    "JRCC Affiliation in London, Ontario and with Chabad of Dorham is established.",
+    "JRCC Summer Camp Program launched for boys and girls."
+  ],
+  "2011": [
+    "JRCC Furniture Depot moves to 1416 Centre St. Basement.",
+    "Tribute Dinner in honor of the JRCC's 30th Anniversary.",
+    "Community wide Gala Chanuka Concert in honor of the JRCC's 30th Anniversary."
+  ],
+  "2012": [
+    "Seventh JRCC Branch opens: JRCC South Thornhill.",
+    "JRCC Affiliation with Chabad of Waterloo Region established.",
+    "The JRCC Hebrew school Sunday location moves to a upgraded location and renamed as the JRCC Maple Hebrew school.",
+    "JRCC sells the 3.8 acres of land purchased for a future center.",
+    "9699 Bathurst St. is purchased for JRCC S. Richmond Hill and Maple.",
+    "JRCC Furniture Depot receives federal and OTF grants for a over 1M renovation for a state of the art 13,000 square foot facility."
+  ],
+  "2013": [
+    "The JRCC Hebrew School opens a location in North Richmond Hill.",
+    "JRCC Affiliation with Chabad of Windsor established.",
+    "The JRCC Hebrew School opens new location in Concord, bringing the total locations to six.",
+    "Rabbis Yoseph and Mendel Zaltzman receive the Queens Diamond Jubilee medal in recognition of their dedication to the Community.",
+    "JRCC Establishes a Free Tax Clinic for low income people",
+    "JRCC of Thornhill Woods structure is adjusted to operating independently as the JRCC affiliate and representative in the neighbourhood."
+  ],
+  "2015": [
+    "1252 Centre St. is Purchased for the development of the JRCC West Thornhill Future Home.",
+    "JRCC East Thornhill moves into its new Home at 7608 Yonge St. after a yearlong construction."
+  ],
+  "2016": [
+    "The JRCC Furniture Depot serves over 800 families and gives out 6,000 items of Furniture."
+  ],
+  "2017": [
+    "The JRCC Furniture Depot receives an OTF Grant and enhances the facility with a close to 1M renovation.",
+    "Eighth JRCC branch opens at Steeles/Hilda."
+  ],
+  "2018": [
+    "JRCC Appoints a CEO and COO for the first time.",
+    "JRCC hires a young Dynamic Rabbi to take over operations at JRCC @ Rockford."
+  ],
+  "2019": [
+    "Ninth JRCC branch opens: JRCC of Willowdale.",
+    "A dozen BBQs in Rural Communities around the GTA are held with the JRCC Mitzva Tank.",
+    "Tenth JRCC branch opens in Woodbridge."
+  ],
+  "2020": [
+    "JRCC @ Rockford has a fire and undergoes major renovation.",
+    "JRCC lunches JRCC.Help, to help seniors during Covid-19. Helping and reaching out to thousands of Seniors in the Community.",
+    "Purchased 7616 Yonge Street for the future JRCC East Thornhill youth centre and Community Mikva.",
+    "Established the JRCC Social Services department.",
+    "Renovated the ground floor of JRCC S Richmond hill at 9699 Bathurst St."
+  ],
+  "2021": [
+    "Purchased and Renovated a space for JRCC South Thornhill at 28 Townsgate Drive.",
+    "Launched JRCC Connect with life cycle and Holidays packages in the tens of thousands across the province."
+  ],
+  "2022": [
+    "Created the 'City Wide Lag BaOmer Family Festival' - uniting Chabad across the GTA in a Toronto and York region location.",
+    "Opened the enlarged Shlomoles Library at the JRCC east Thornhill Youth Centre."
+  ],
+  "2023": [
+    "JRCC's first Mikva at the JRCC East Thornhill opens.",
+    "Printed and distributed over 10,000 Tehillim's to most Jewish Russian families across the GTA",
+    "Hired Rabbi Menachem and Sara Wolff to enhance services for newcomers from the war in Ukraine and create new Adult education programing in Russian.",
+    "Completed rezoning and a massive renovation on the outdoors of JRCC S Richmond Hill at 9699 Bathurst St."
+  ],
+  "2024": [
+    "Printed and distributed over 10,000 Hagadah of Passover to most Jewish Russian families across the GTA.",
+    "Installed a elevator at JRCC S Richmond Hill at 9699 Bathurst St."
+  ],
+  "2025": [
+    "Edward Kholodenko, CEO of Quespdtare appointed s JRCC's President.",
+    "Started new a new weekly Seniors program in Richmond Hill"
+  ]
+}
+</script>
+
+<div class="bg-animation"></div>
+<div class="particles" id="particles-container"></div>
+<div class="mouse-follower" id="mouse-follower"></div>
+
+<section class="hero-section" style="font-family: 'Urbanist', sans-serif;">
+    <div class="hero-content">
+        <!-- <h1 class="hero-title">Our Journey</h1> -->
+        <!-- <p class="hero-subtitle">A story of faith, community, and transformation. From humble beginnings to a thriving center of Jewish life, discover the remarkable journey of the JRCC.</p> -->
+    </div>
+    <div class="scroll-indicator"></div>
+</section>
+
+<div class="timeline-container" id="timeline-container" style="font-family: 'Urbanist', sans-serif;">
+    <div class="timeline-intro" style="text-align: center;">
+        <h2>The Story Unfolds</h2>
+        <p style="text-align: center; margin: 0 auto;">Below is a brief history of the work done in the JRCC by its leaders, visionaries, and respected members.</p>
+    </div>
+    
+    <div class="timeline" id="dynamic-timeline">
+        <!-- Timeline will be generated automatically from JSON data -->
+    </div>
+</div>
+
+<footer class="footer-section" style="font-family: 'Urbanist', sans-serif;">
+    <div class="footer-text">With fervent hope Moshiach arrives</div>
+    <div class="footer-subtitle">Mission accomplished</div>
+</footer>
+
+<!-- 
+    =========================================================================
+    STEP 3: PASTE THIS CODE INTO THE CHABAD ONE "FOOTER" OR "CUSTOM JAVASCRIPT" AREA
+    =========================================================================
+-->
+<script type="text/javascript">
+//<![CDATA[
+    (function() {
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles-container');
+            if (!particlesContainer) return;
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Mouse follower effect
+        function initMouseFollower() {
+            const follower = document.getElementById('mouse-follower');
+            if (!follower) return;
+            document.addEventListener('mousemove', (e) => {
+                follower.style.left = e.clientX - 10 + 'px';
+                follower.style.top = e.clientY - 10 + 'px';
+            });
+        }
+        
+        // Generate timeline from JSON data
+        function generateTimeline() {
+            const timelineContainer = document.getElementById('dynamic-timeline');
+            if (!timelineContainer) return;
+            
+            try {
+                // Extract JSON data from script tag
+                const jsonScript = document.getElementById('timeline-data');
+                
+                if (!jsonScript) {
+                    console.error('Timeline JSON script tag not found');
+                    return;
+                }
+                
+                const timelineData = JSON.parse(jsonScript.textContent);
+                
+                // Sort years chronologically
+                const sortedYears = Object.keys(timelineData).sort((a, b) => parseInt(a) - parseInt(b));
+                
+                // Generate HTML for each year
+                sortedYears.forEach(year => {
+                    const events = timelineData[year];
+                    
+                    const timelineItem = document.createElement('div');
+                    timelineItem.className = 'timeline-item';
+                    
+                    const timelineContent = document.createElement('div');
+                    timelineContent.className = 'timeline-content';
+                    
+                    const timelineYear = document.createElement('div');
+                    timelineYear.className = 'timeline-year';
+                    timelineYear.textContent = year;
+                    
+                    const timelineEvents = document.createElement('ul');
+                    timelineEvents.className = 'timeline-events';
+                    
+                    events.forEach(event => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = event;
+                        timelineEvents.appendChild(listItem);
+                    });
+                    
+                    const timelineDot = document.createElement('div');
+                    timelineDot.className = 'timeline-dot';
+                    
+                    timelineContent.appendChild(timelineYear);
+                    timelineContent.appendChild(timelineEvents);
+                    timelineItem.appendChild(timelineContent);
+                    timelineItem.appendChild(timelineDot);
+                    
+                    timelineContainer.appendChild(timelineItem);
+                });
+                
+            } catch (error) {
+                console.error('Error parsing timeline JSON:', error);
+                // Fallback: show error message
+                timelineContainer.innerHTML = '<p style="text-align: center; color: red;">Error loading timeline data. Please check JSON format.</p>';
+            }
+        }
+        
+        // Intersection Observer for timeline animations
+        function initTimelineAnimations() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            if (timelineItems.length === 0) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+        }
+        
+        // Smooth scrolling for navigation
+        function initSmoothScrolling() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            const timelineContainer = document.getElementById('timeline-container');
+            if (!scrollIndicator || !timelineContainer) return;
+            
+            scrollIndicator.addEventListener('click', () => {
+                timelineContainer.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Initialize everything
+        function initialize() {
+            generateTimeline();
+            createParticles();
+            initMouseFollower();
+            // Delay animation setup to allow timeline generation
+            setTimeout(initTimelineAnimations, 100);
+            initSmoothScrolling();
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initialize);
+        } else {
+            initialize();
+        }
+    })();
+//]]>
+</script>
