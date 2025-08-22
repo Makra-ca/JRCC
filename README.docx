@@ -1,0 +1,131 @@
+JRCC WEBSITE - HISTORY TIMELINE
+Documentation and User Guide
+
+
+OVERVIEW
+
+This document provides comprehensive information about the history timeline page for the Jewish Russian Community Center (JRCC) website. The timeline is designed to work with the Chabad One CMS platform and allows for easy content management by non-technical users.
+
+
+PROJECT STRUCTURE
+
+Main Files:
+• history-json-based.html - PRIMARY FILE - Modern timeline with JSON-based editing
+• EDITING-INSTRUCTIONS.md - Complete guide for non-technical users  
+• CLAUDE.md - Development context and technical notes
+
+Archive Files:
+• history-for-chabad-one.html - Legacy version with manual HTML editing
+• History - JRCC.org.html - Original website archive
+• history-original.html - Backup of original version
+
+
+QUICK START GUIDE
+
+For Content Editors (Non-Technical Users):
+1. Read the EDITING-INSTRUCTIONS.md file - This contains everything you need to know
+2. Always create a backup of history-json-based.html before making changes
+3. Edit only the JSON data section (lines 302-491)
+4. Test changes on a preview before publishing live
+
+For Developers:
+The project uses HTML injection into Chabad One CMS with the following components:
+• Inline CSS styling (no external stylesheets allowed)
+• Self-contained JavaScript for animations
+• JSON-based data structure for easy content management
+• Responsive design with mobile optimization
+
+
+HOW THE SYSTEM WORKS
+
+Timeline Data Format:
+The timeline events are stored in a simple JSON format:
+{
+  "YEAR": [
+    "Event description 1",
+    "Event description 2"
+  ]
+}
+
+Three-Step Implementation Process:
+1. CSS - Copy and paste into Chabad One "Header" or "Custom CSS" area
+2. HTML - Copy and paste into Chabad One "Body" or "Content" area
+3. JavaScript - Copy and paste into Chabad One "Footer" or "Custom JavaScript" area
+
+
+FEATURES
+
+Visual Design:
+• Modern timeline with alternating left/right layout
+• Animated entrance effects as users scroll
+• Hover effects and interactive elements
+• Golden color scheme with gradient accents
+• Responsive mobile design
+
+User Experience:
+• Smooth scrolling navigation
+• Intersection Observer animations
+• Floating particle effects
+• Mouse follower interaction
+• Error handling for malformed JSON
+
+Content Management:
+• JSON-based data structure
+• Non-technical user friendly
+• Clear editing instructions
+• Built-in error handling
+• Automatic chronological sorting
+
+
+CONTENT EDITING WORKFLOW
+
+1. Open history-json-based.html in any text editor
+2. Locate the JSON data section (lines 302-491)
+3. Edit events using the simple JSON format
+4. Save the file and test on preview
+5. Deploy to Chabad One CMS
+
+
+IMPORTANT CONSIDERATIONS
+
+Platform Constraints:
+• Must work within Chabad One CMS limitations
+• All code must be inline/embedded (no external files allowed)
+• Compatible with CMS text editor injection
+
+Editing Rules:
+• Always use quotes around years and events
+• Include commas between items (except the last item)
+• Maintain proper bracket structure
+• Save backups before making any edits
+
+
+SUPPORT AND TROUBLESHOOTING
+
+For Content Issues:
+• Refer to EDITING-INSTRUCTIONS.md for detailed guidance
+• Verify JSON format using online validators
+• Restore from backup if timeline functionality breaks
+
+For Technical Issues:
+• Review browser console for JavaScript errors
+• Validate HTML structure in developer tools
+• Check CSS compatibility with Chabad One platform
+
+
+DEVELOPMENT CONTEXT
+
+This project was developed to provide:
+1. Easy content management for non-technical JRCC staff
+2. Professional timeline design within CMS constraints
+3. Responsive user experience across all devices
+4. Future-proof architecture for ongoing updates
+
+The JSON-based approach allows content updates without requiring knowledge of HTML/CSS code, making it sustainable for long-term use by the JRCC team.
+
+
+DOCUMENT INFORMATION
+
+Maintained for: Jewish Russian Community Center (JRCC)
+Platform: Chabad One CMS
+Last Updated: 2025
