@@ -1,117 +1,109 @@
-# JRCC Website - History Timeline
+# JRCC Website Project
 
 ## Overview
-This repository contains the history timeline page for the Jewish Russian Community Center (JRCC) website, designed to work with the Chabad One CMS platform.
+This repository contains all code and assets for the Jewish Russian Community Center (JRCC) website, designed to work with the Chabad One CMS platform.
 
 ## 📁 Project Structure
 
-### Main Files:
-- **`history-json-based.html`** - ✅ **PRIMARY FILE** - Modern timeline with JSON-based editing
-- **`EDITING-INSTRUCTIONS.md`** - Complete guide for non-technical users
-- **`CLAUDE.md`** - Development context and technical notes
+```
+JRCC/
+├── pages/              # All website pages organized by type
+│   ├── history/        # History timeline page
+│   │   ├── LIVE/       # ✅ Active production files
+│   │   └── archive/    # Old versions for reference
+│   └── contact/        # Contact page
+│       ├── LIVE/       # ✅ Active production files
+│       └── archive/    # Old versions for reference
+│
+├── shared/             # Reusable code snippets
+│   └── common-header-scripts.html
+│
+├── docs/               # Documentation and guides
+│   ├── EDITING-INSTRUCTIONS.md
+│   └── screenshots/
+│
+├── PROJECT-STRUCTURE.md  # Detailed structure guide
+├── CLAUDE.md            # Development context
+└── README.md            # This file
+```
 
-### Archive Files:
-- `history-for-chabad-one.html` - Legacy version with manual HTML editing
-- `History - JRCC.org.html` - Original website archive
-- `history-original.html` - Backup of original version
+**📖 See [PROJECT-STRUCTURE.md](PROJECT-STRUCTURE.md) for detailed information.**
 
 ## 🚀 Quick Start
 
 ### For Content Editors (Non-Technical Users):
-1. **Read the [EDITING-INSTRUCTIONS.md](EDITING-INSTRUCTIONS.md)** - This has everything you need!
-2. **Always backup** `history-json-based.html` before making changes
-3. **Edit only** the JSON data section (lines 302-491)
-4. **Test changes** on a preview before going live
+1. **Read [docs/EDITING-INSTRUCTIONS.md](docs/EDITING-INSTRUCTIONS.md)** - Complete editing guide
+2. **Find your page** in `pages/[page-name]/LIVE/`
+3. **Edit only** the JSON data sections (never touch HTML/CSS)
+4. **Always backup** before making changes
+5. **Test changes** on a preview before going live
 
 ### For Developers:
-The project uses HTML injection into Chabad One CMS with:
-- Inline CSS styling (no external stylesheets)
-- Self-contained JavaScript for animations
-- JSON-based data structure for easy content management
-- Responsive design with mobile optimization
+1. **Review [PROJECT-STRUCTURE.md](PROJECT-STRUCTURE.md)** - Complete architecture guide
+2. **Use files in `pages/[page]/LIVE/`** for production code
+3. **Copy `shared/common-header-scripts.html`** for new pages
+4. **Design with JSON-based editing** for non-technical staff
+5. **Keep all code self-contained** (inline CSS/JS required for Chabad One)
 
-## 🎯 How It Works
+## 🎯 Key Features
 
-### Timeline Data Format:
-```json
-{
-  "YEAR": [
-    "Event description 1",
-    "Event description 2"
-  ]
-}
-```
+### JSON-Based Content Management
+- **Easy editing** for non-technical staff
+- **Data stored** in simple `<script type="application/json">` tags
+- **Automatic rendering** via JavaScript
+- **Error handling** for malformed data
 
-### Three-Step Implementation:
-1. **CSS** - Paste into Chabad One "Header" or "Custom CSS" area
-2. **HTML** - Paste into Chabad One "Body" or "Content" area  
-3. **JavaScript** - Paste into Chabad One "Footer" or "Custom JavaScript" area
+### Chabad One CMS Compatible
+- **Self-contained files** with inline CSS/JS
+- **Three-step deployment:** Header → Body → Footer
+- **No external dependencies** required
+- **Works with basic text editor** in Chabad One
 
-## ✨ Features
+## 📋 Current Pages
 
-### Visual Design:
-- Modern timeline with alternating left/right layout
-- Animated entrance effects as user scrolls
-- Hover effects and interactive elements
-- Golden color scheme with gradient accents
-- Responsive mobile design
+### History Timeline (`pages/history/LIVE/`)
+- ✅ **Active:** `history-json-based.html`
+- Modern animated timeline with JSON editing
+- See [docs/EDITING-INSTRUCTIONS.md](docs/EDITING-INSTRUCTIONS.md) for how to update
 
-### User Experience:
-- Smooth scrolling navigation
-- Intersection Observer animations
-- Floating particle effects
-- Mouse follower interaction
-- Error handling for malformed JSON
+### Contact Page (`pages/contact/`)
+- 🔄 **In Development:** JSON-based version coming soon
+- Archive contains old header code versions
 
-### Content Management:
-- JSON-based data structure
-- Non-technical user friendly
-- Clear editing instructions
-- Built-in error handling
-- Automatic chronological sorting
+## ⚠️ Important Rules
 
-## 📋 Content Editing Workflow
+### ✅ DO:
+- Edit files in `pages/[page]/LIVE/` folders
+- Backup before making changes
+- Follow JSON format exactly (quotes, commas, brackets)
+- Test in Chabad One preview before going live
+- Commit changes to git with clear messages
 
-1. **Open** `history-json-based.html` in any text editor
-2. **Find** the JSON data section (lines 302-491)
-3. **Edit** events using the simple JSON format
-4. **Save** and test on preview
-5. **Deploy** to Chabad One CMS
-
-## ⚠️ Important Notes
-
-### Platform Constraints:
-- Must work within Chabad One CMS limitations
-- All code must be inline/embedded (no external files)
-- Compatible with CMS text editor injection
-
-### Editing Rules:
-- Always use quotes around years and events
-- Include commas between items (except last item)
-- Maintain proper bracket structure
-- Save backups before editing
+### ❌ DON'T:
+- Don't edit files in `archive/` folders (reference only)
+- Don't delete archive files (keep history)
+- Don't touch HTML/CSS unless you're a developer
+- Don't skip testing changes before deployment
 
 ## 🆘 Support
 
-### For Content Issues:
-- Check [EDITING-INSTRUCTIONS.md](EDITING-INSTRUCTIONS.md)
-- Verify JSON format using online validators
-- Restore from backup if timeline breaks
+**For Content Editing Help:**
+- Read [docs/EDITING-INSTRUCTIONS.md](docs/EDITING-INSTRUCTIONS.md)
+- Check JSON format with online validators
+- Restore from git history if something breaks
 
-### For Technical Issues:
-- Review browser console for JavaScript errors
-- Validate HTML structure in developer tools
-- Check CSS compatibility with Chabad One
+**For Technical Development:**
+- Review [PROJECT-STRUCTURE.md](PROJECT-STRUCTURE.md)
+- Check [CLAUDE.md](CLAUDE.md) for AI assistant context
+- Use `shared/common-header-scripts.html` as starting point
 
-## 📈 Development Context
+## 🎯 Project Goals
 
-This project was developed to provide:
-1. **Easy content management** for non-technical JRCC staff
-2. **Professional timeline design** within CMS constraints
-3. **Responsive user experience** across all devices
-4. **Future-proof architecture** for ongoing updates
-
-The JSON-based approach allows content updates without touching HTML/CSS code, making it sustainable for long-term use by the JRCC team.
+1. **Accessible Updates** - Non-technical staff can edit content
+2. **Professional Design** - Modern, responsive, animated interfaces
+3. **Platform Compatibility** - Works within Chabad One limitations
+4. **Maintainable Code** - Clear structure, good documentation
+5. **Future-Proof** - Easy to add new pages with same pattern
 
 ---
 
