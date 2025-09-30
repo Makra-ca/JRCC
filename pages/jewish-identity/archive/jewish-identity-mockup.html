@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewish Identity Verification Service - JRCC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #3d6bb3 100%);
+            color: white;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><path d="M50 10 L90 90 L10 90 Z" fill="rgba(255,255,255,0.03)"/></svg>');
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 300;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 4rem 0;
+        }
+
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: #1e3c72;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Application Forms Section */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Special Highlight Card */
+        .highlight-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            grid-column: 1 / -1;
+        }
+
+        .highlight-card .form-card-title {
+            font-size: 1.5rem;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .info-box-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .donation-box {
+            background: linear-gradient(135deg, #ffeaa715 0%, #ffcc0015 100%);
+            border-left: 4px solid #ffcc00;
+        }
+
+        .donation-box .info-box-title {
+            color: #d68000;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-section .section-title {
+            color: white;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 2.5rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .contact-icon {
+            font-size: 1.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 1.5rem 2.5rem;
+            }
+
+            .section {
+                padding: 2rem 1.5rem;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .highlight-card {
+                grid-column: 1;
+            }
+        }
+
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Jewish Identity Verification Service</h1>
+            <p class="hero-subtitle">Professional confirmation of Jewish identity and lineage • Trusted guidance for your spiritual journey</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+
+            <!-- Image Gallery Section -->
+            <section class="section">
+                <div class="image-gallery">
+                    <div class="image-card">
+                        <img src="/media/images/1151/CfOC11510245.jpg" alt="Jewish Identity Documentation">
+                    </div>
+                    <div class="image-card">
+                        <img src="/media/images/1151/KjVu11510246.jpg" alt="Jewish Lineage Verification">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Application Forms Section -->
+            <section class="section">
+                <h2 class="section-title">Application Forms</h2>
+                <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #555;">
+                    Choose your preferred format and language below to begin your application
+                </p>
+
+                <div class="forms-grid">
+                    <!-- Fillable PDF -->
+                    <a href="/media/pdf/1181/gwAA11810979.pdf" class="form-card highlight-card">
+                        <div class="form-card-icon">📄</div>
+                        <div class="form-card-title">Fillable PDF Form</div>
+                        <div class="form-card-subtitle">Complete digitally • English only • Recommended</div>
+                    </a>
+
+                    <!-- English Part I -->
+                    <a href="/media/pdf/1093/SwGI10937251.pdf" class="form-card">
+                        <div class="form-card-icon">🇬🇧</div>
+                        <div class="form-card-title">English Part I</div>
+                        <div class="form-card-subtitle">Print and fill</div>
+                    </a>
+
+                    <!-- English Part II -->
+                    <a href="/media/pdf/1108/UdEv11085656.pdf" class="form-card">
+                        <div class="form-card-icon">🇬🇧</div>
+                        <div class="form-card-title">English Part II</div>
+                        <div class="form-card-subtitle">Print and fill</div>
+                    </a>
+
+                    <!-- Russian Part I -->
+                    <a href="/media/pdf/1099/DPSb10991314.pdf" class="form-card">
+                        <div class="form-card-icon">🇷🇺</div>
+                        <div class="form-card-title">Russian Part I</div>
+                        <div class="form-card-subtitle">Печать и заполнение</div>
+                    </a>
+
+                    <!-- Russian Part II -->
+                    <a href="/media/pdf/1108/gSKL11082665.pdf" class="form-card">
+                        <div class="form-card-icon">🇷🇺</div>
+                        <div class="form-card-title">Russian Part II</div>
+                        <div class="form-card-subtitle">Печать и заполнение</div>
+                    </a>
+
+                    <!-- Hebrew -->
+                    <a href="/media/pdf/988/KGuC9887017.pdf" class="form-card">
+                        <div class="form-card-icon">🇮🇱</div>
+                        <div class="form-card-title">Hebrew</div>
+                        <div class="form-card-subtitle">הדפס ומלא</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Single Status Letter -->
+            <section class="section">
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <span>💍</span>
+                        <span>Single Status Letter</span>
+                    </div>
+                    <div class="info-box-content">
+                        Need confirmation of single status for marriage purposes?
+                        <a href="/media/pdf/819/obxH8193319.pdf" style="color: #667eea; font-weight: 600; text-decoration: none; border-bottom: 2px solid #667eea;">Download the application form here →</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donation Information -->
+            <section class="section">
+                <div class="info-box donation-box">
+                    <div class="info-box-title">
+                        <span>🤝</span>
+                        <span>Supporting Our Service</span>
+                    </div>
+                    <div class="info-box-content">
+                        <strong>This service is provided free of charge by the JRCC.</strong><br>
+                        Suggested donation to cover research and administrative costs is <strong>$250 per applicant</strong>.<br>
+                        Any donation is greatly appreciated and helps us continue serving our community.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="section contact-section">
+                <h2 class="section-title">Get In Touch</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.95;">
+                    Our Jewish Identity Department Coordinator is here to help
+                </p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>416-222-7105 ext. 237</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span>jewishidentity@jrcc.org</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</body>
+</html>
