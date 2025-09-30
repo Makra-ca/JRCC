@@ -1,0 +1,54 @@
+JRCC WEBSITE - HISTORY TIMELINE
+Documentation and User Guide
+
+
+QUICK START GUIDE
+
+For Content Editors (Non-Technical Users):
+1. Test changes on a preview before publishing live
+
+
+HOW THE SYSTEM WORKS
+
+Timeline Data Format:
+The timeline events are stored in a simple JSON format:
+{
+  "YEAR": [
+    "Event description 1",
+    "Event description 2"
+  ]
+}
+
+
+FEATURES
+
+CONTENT EDITING WORKFLOW
+
+TO ADD A NEW YEAR:
+1. Open history-json-based.html in any text editor
+2. Use Ctrl+F (or Cmd+F on Mac) to search for "timeline-data"
+3. Scroll to the bottom before the closing }
+4. Add a comma after the last year's closing bracket ], then add:
+   "2026": [
+     "Your event description here"
+   ]
+
+TO ADD EVENTS TO EXISTING YEAR:
+1. Use Ctrl+F to search for the year (like "2025":)
+2. Go to the end of the last event before the closing ]
+3. Add a comma and your new event:
+   "Your new event here"
+
+TO EDIT EXISTING EVENTS:
+1. Use Ctrl+F to search for part of the event text
+2. Edit the text between quotes, keep the quotes:
+   BEFORE: "Started new a new program"
+   AFTER:  "Started a new program"
+
+JSON RULES:
+• Always use quotes around years: "2025":
+• Always use quotes around events: "Event description"
+• Use commas between events: "Event 1", "Event 2"
+• Use commas between years (except the last one)
+• Use square brackets for events: ["Event 1", "Event 2"]
+• Save backup before editing

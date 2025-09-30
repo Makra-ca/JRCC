@@ -15,13 +15,17 @@ The timeline events are stored in a simple text format called JSON. You can edit
 
 **Step 1:** Open `history-json-based.html` in any text editor
 
-**Step 2:** Find the JSON data section (around line 302-491). Look for:
+**Step 2:** Find the JSON data section. Use Ctrl+F (or Cmd+F on Mac) to search for:
+```
+timeline-data
+```
+You'll find a section that looks like this:
 ```html
 <script type="application/json" id="timeline-data">
 {
 ```
 
-**Step 3:** Scroll to the very bottom of the data, right before the closing `}`
+**Step 3:** Scroll down to see all the year data. Find the very bottom, right before the closing `}`
 
 **Step 4:** Add your new year. If 2025 is the last year, add a comma after its closing bracket `],` then add:
 ```json
@@ -45,7 +49,7 @@ The timeline events are stored in a simple text format called JSON. You can edit
 
 ### ✅ TO ADD MORE EVENTS TO AN EXISTING YEAR:
 
-**Step 1:** Find the year you want to update (like `"2025":`)
+**Step 1:** Use Ctrl+F (or Cmd+F) to search for the year you want (like `"2025":`)
 
 **Step 2:** Look inside the square brackets `[ ]` for that year
 
@@ -62,7 +66,7 @@ The timeline events are stored in a simple text format called JSON. You can edit
 
 ### ✅ TO EDIT EXISTING EVENTS:
 
-**Step 1:** Find the event you want to change
+**Step 1:** Use Ctrl+F (or Cmd+F) to search for part of the event text you want to change
 
 **Step 2:** Replace the text between the quotes, but keep the quotes:
 ```json
