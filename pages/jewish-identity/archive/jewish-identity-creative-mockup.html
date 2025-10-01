@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewish Identity Verification - JRCC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section with Gradient */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 5rem 2rem 3rem;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .hero-images {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-image {
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 380px;
+            height: auto;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-image:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            cursor: pointer;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-8px); }
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-intro h2 {
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .section-intro p {
+            font-size: 1.15rem;
+            color: #555555;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Creative Forms Grid */
+        .forms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 5rem;
+        }
+
+        .form-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+
+        .form-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .form-card-number {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.05);
+            line-height: 1;
+        }
+
+        .form-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-card p {
+            font-size: 1rem;
+            color: #666666;
+            margin-bottom: 1.75rem;
+            line-height: 1.6;
+        }
+
+        .form-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .form-link {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .form-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        /* Special Highlight Card */
+        .form-card.featured {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .form-card.featured h3 {
+            color: #ffffff;
+            font-size: 1.8rem;
+        }
+
+        .form-card.featured p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-card.featured .form-link {
+            background: #ffffff;
+            color: #667eea;
+        }
+
+        .form-card.featured .form-link:hover {
+            background: #f8f9fa;
+            transform: scale(1.05);
+        }
+
+        .form-card.featured .form-card-number {
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Info Sections */
+        .info-section {
+            margin: 5rem 0;
+            padding: 3rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-section.single-status {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: #ffffff;
+        }
+
+        .info-section.donation {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #1a1a1a;
+        }
+
+        .info-section h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .info-section p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+        }
+
+        .info-section a {
+            color: inherit;
+            font-weight: 700;
+            text-decoration: underline;
+            transition: opacity 0.3s ease;
+        }
+
+        .info-section a:hover {
+            opacity: 0.8;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .contact-section h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .contact-items {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.05);
+        }
+
+        .contact-item a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 60vh;
+                padding: 3rem 1.5rem;
+            }
+
+            .hero-images {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-image {
+                max-width: 90%;
+            }
+
+            .forms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card.featured {
+                grid-column: 1;
+            }
+
+            .contact-items {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .info-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Jewish Identity Verification Service</h1>
+            <p class="hero-subtitle">Professional guidance for your spiritual journey • Trusted documentation • Serving our community with care</p>
+            <div class="hero-images">
+                <img src="/media/images/1151/CfOC11510245.jpg" alt="Jewish Identity Documentation" class="hero-image" width="420" height="559">
+                <img src="/media/images/1151/KjVu11510246.jpg" alt="Jewish Lineage Verification" class="hero-image" width="420" height="559">
+            </div>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+
+        <!-- Section Intro -->
+        <div class="section-intro fade-in">
+            <h2>Application Forms</h2>
+            <p>Choose your preferred format and language below to begin your application for Jewish identity verification</p>
+        </div>
+
+        <!-- Forms Grid -->
+        <div class="forms-grid">
+
+            <!-- Featured: Fillable PDF -->
+            <div class="form-card featured fade-in">
+                <div class="form-card-number">★</div>
+                <h3>Fillable PDF Form (Recommended)</h3>
+                <p>Complete digitally on your computer • English only • Easiest option</p>
+                <div class="form-links">
+                    <a href="/media/pdf/1181/gwAA11810979.pdf" class="form-link">Download Fillable PDF</a>
+                </div>
+            </div>
+
+            <!-- English Forms -->
+            <div class="form-card fade-in">
+                <div class="form-card-number">01</div>
+                <h3>English Forms</h3>
+                <p>Print and complete by hand</p>
+                <div class="form-links">
+                    <a href="/media/pdf/1093/SwGI10937251.pdf" class="form-link">English Part I</a>
+                    <a href="/media/pdf/1108/UdEv11085656.pdf" class="form-link">English Part II</a>
+                </div>
+            </div>
+
+            <!-- Russian Forms -->
+            <div class="form-card fade-in">
+                <div class="form-card-number">02</div>
+                <h3>Русские формы</h3>
+                <p>Печать и заполнение вручную</p>
+                <div class="form-links">
+                    <a href="/media/pdf/1099/DPSb10991314.pdf" class="form-link">Russian Part I</a>
+                    <a href="/media/pdf/1108/gSKL11082665.pdf" class="form-link">Russian Part II</a>
+                </div>
+            </div>
+
+            <!-- Hebrew Form -->
+            <div class="form-card fade-in">
+                <div class="form-card-number">03</div>
+                <h3>טפסים בעברית</h3>
+                <p>להדפסה ומילוי ידני</p>
+                <div class="form-links">
+                    <a href="/media/pdf/988/KGuC9887017.pdf" class="form-link">Hebrew Application</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Single Status Section -->
+        <div class="info-section single-status fade-in">
+            <h3>Single Status Letter</h3>
+            <p>Need confirmation of single status for marriage purposes? <a href="/media/pdf/819/obxH8193319.pdf">Download the application form here →</a></p>
+        </div>
+
+        <!-- Donation Section -->
+        <div class="info-section donation fade-in">
+            <h3>Supporting Our Service</h3>
+            <p><strong>This service is provided free of charge by the JRCC.</strong><br><br>
+            Suggested donation to cover research and administrative costs is <strong>$250 per applicant</strong>. Any donation is greatly appreciated and helps us continue serving our community with excellence.</p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section fade-in">
+            <h3>Get In Touch</h3>
+            <p>Our Jewish Identity Department Coordinator is here to help with any questions</p>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <a href="tel:416-222-7105">📞 416-222-7105 ext. 237</a>
+                </div>
+                <div class="contact-item">
+                    <a href="mailto:jewishidentity@jrcc.org">✉️ jewishidentity@jrcc.org</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Scroll indicator
+        document.querySelector('.scroll-indicator').addEventListener('click', () => {
+            document.querySelector('.container').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>

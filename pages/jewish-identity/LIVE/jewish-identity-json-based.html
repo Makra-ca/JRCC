@@ -5,15 +5,15 @@
 -->
 
 <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Urbanist:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
     /* Main Body & Fonts */
     #co_body_container {
         font-family: 'Urbanist', sans-serif !important;
-        background: transparent !important;
-        color: #111111 !important;
+        background: #ffffff !important;
+        color: #1a1a1a !important;
         overflow-x: hidden;
-        line-height: 1.6;
+        line-height: 1.7;
     }
 
     /* Hide animated dark background layer */
@@ -22,123 +22,142 @@
     /* Ensure Urbanist on common CMS containers and text elements */
     body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_content *, p, li {
         font-family: 'Urbanist', sans-serif !important;
-        color: #222222;
+        color: #1a1a1a;
     }
 
-    /* Hero Section */
-    .ji-hero-section {
-        min-height: 65vh;
+    /* Hero Section with Gradient */
+    .ji-hero {
+        min-height: 70vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
-        padding: 4rem 2rem 3rem 2rem;
+        padding: 5rem 2rem 3rem;
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
         position: relative;
-        background: transparent;
+        overflow: hidden;
+    }
+
+    .ji-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+        pointer-events: none;
     }
 
     .ji-hero-content {
-        max-width: 1000px;
+        position: relative;
         z-index: 2;
-        margin: 0 auto;
+        max-width: 900px;
     }
 
     .ji-hero-title {
         font-family: 'Urbanist', sans-serif !important;
         font-size: clamp(2.5rem, 7vw, 4.5rem);
         font-weight: 800;
-        margin: 0 0 1rem 0;
-        color: #111111 !important;
-        letter-spacing: -0.5px;
+        color: #ffffff !important;
+        margin-bottom: 1.5rem;
+        letter-spacing: -1px;
         text-shadow: none;
-        background: none;
-        -webkit-background-clip: initial;
-        -webkit-text-fill-color: initial;
-        background-clip: initial;
-        animation: none;
     }
 
     .ji-hero-subtitle {
-        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        font-size: clamp(1.1rem, 3vw, 1.4rem);
+        color: rgba(255, 255, 255, 0.9) !important;
+        margin-bottom: 3rem;
         font-weight: 400;
-        margin: 0 auto 2.5rem auto;
-        color: #333333 !important;
-        line-height: 1.7;
-        text-shadow: none;
-        max-width: 800px;
+        line-height: 1.6;
     }
 
     .ji-hero-images {
         display: flex;
         gap: 2rem;
         justify-content: center;
-        margin-top: 2rem;
         flex-wrap: wrap;
     }
 
     .ji-hero-image {
         border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        max-width: 100%;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 380px;
         height: auto;
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        border: 3px solid rgba(255, 255, 255, 0.2);
     }
 
     .ji-hero-image:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
     }
 
-    /* Main Content Container */
+    /* Scroll Indicator */
+    .ji-scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: ji-bounce 2s infinite;
+        cursor: pointer;
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    @keyframes ji-bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+        40% { transform: translateX(-50%) translateY(-15px); }
+        60% { transform: translateX(-50%) translateY(-8px); }
+    }
+
+    /* Main Content */
     .ji-container {
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
-        padding: 4rem 2rem;
-    }
-
-    /* Section Styling */
-    .ji-section {
-        margin-bottom: 4rem;
-    }
-
-    .ji-section-title {
-        font-family: 'Urbanist', sans-serif !important;
-        font-size: clamp(2rem, 5vw, 3rem);
-        font-weight: 700;
-        color: #111111;
-        margin-bottom: 1rem;
-        text-align: center;
+        padding: 5rem 2rem;
     }
 
     .ji-section-intro {
-        font-size: 1.1rem;
-        color: #444444;
         text-align: center !important;
-        max-width: 800px;
-        margin: 0 auto 3rem auto;
-        line-height: 1.7;
+        margin-bottom: 4rem;
     }
 
-    /* Forms Grid */
+    .ji-section-intro h2 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: clamp(2rem, 5vw, 3rem);
+        font-weight: 800;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+    }
+
+    .ji-section-intro p {
+        font-size: 1.15rem;
+        color: #555555;
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center !important;
+    }
+
+    /* Creative Forms Grid */
     .ji-forms-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 2rem;
-        margin-top: 2.5rem;
+        gap: 2.5rem;
+        margin-bottom: 5rem;
     }
 
     .ji-form-card {
-        background: rgba(0, 0, 0, 0.02);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(0, 0, 0, 0.08);
-        border-radius: 16px;
-        padding: 2rem;
-        text-align: center;
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 20px;
+        padding: 2.5rem;
         position: relative;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         overflow: hidden;
+        border: 2px solid transparent;
     }
 
     .ji-form-card::before {
@@ -147,40 +166,48 @@
         top: 0;
         left: 0;
         right: 0;
-        height: 4px;
-        background: linear-gradient(to right, #ffd700, #ff6b6b, #4ecdc4);
-        opacity: 0;
-        transition: opacity 0.3s ease;
+        height: 5px;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
     }
 
     .ji-form-card:hover {
-        transform: translateY(-8px);
-        background: rgba(0, 0, 0, 0.04);
-        border-color: rgba(0, 0, 0, 0.12);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        transform: translateY(-12px);
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+        border-color: #667eea;
     }
 
     .ji-form-card:hover::before {
-        opacity: 1;
+        transform: scaleX(1);
     }
 
-    .ji-form-icon {
-        display: none; /* No icons - clean professional design */
+    .ji-form-card-number {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 4rem;
+        font-weight: 900;
+        color: rgba(0, 0, 0, 0.05);
+        line-height: 1;
     }
 
     .ji-form-title {
         font-family: 'Urbanist', sans-serif !important;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: #111111;
+        color: #1a1a1a;
         margin-bottom: 0.75rem;
+        position: relative;
+        z-index: 2;
     }
 
     .ji-form-description {
-        font-size: 0.95rem;
+        font-size: 1rem;
         color: #666666;
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
+        margin-bottom: 1.75rem;
+        line-height: 1.6;
     }
 
     .ji-form-links {
@@ -191,109 +218,156 @@
 
     .ji-form-link {
         display: inline-block;
-        padding: 0.9rem 1.75rem;
-        background: linear-gradient(135deg, #ffd700, #ffed4e);
-        color: #000000 !important;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #ffffff !important;
         text-decoration: none !important;
-        border-radius: 10px;
+        border-radius: 12px;
         font-weight: 600;
-        font-size: 0.95rem;
+        text-align: center;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
     }
 
     .ji-form-link:hover {
-        background: linear-gradient(135deg, #ffed4e, #ffd700);
-        transform: scale(1.05);
-        box-shadow: 0 6px 18px rgba(255, 215, 0, 0.35);
-        color: #000000 !important;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        color: #ffffff !important;
         text-decoration: none !important;
     }
 
-    /* Donation Section */
-    .ji-donation-box {
-        background: rgba(255, 245, 230, 0.6);
-        border: 2px solid rgba(255, 215, 0, 0.3);
-        border-radius: 16px;
-        padding: 2.5rem;
+    /* Special Featured Card */
+    .ji-form-card.ji-featured {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        grid-column: 1 / -1;
         text-align: center;
-        margin: 3rem auto;
-        max-width: 900px;
-        box-shadow: 0 8px 24px rgba(255, 215, 0, 0.12);
     }
 
-    .ji-donation-icon {
-        display: none; /* No icons - clean professional design */
+    .ji-form-card.ji-featured .ji-form-title {
+        color: #ffffff;
+        font-size: 1.8rem;
     }
 
-    .ji-donation-text {
-        font-family: 'Urbanist', sans-serif !important;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: #222222;
-        line-height: 1.8;
-        margin: 0;
+    .ji-form-card.ji-featured .ji-form-description {
+        color: rgba(255, 255, 255, 0.9);
     }
 
-    /* Contact Section */
-    .ji-contact-box {
-        background: rgba(0, 0, 0, 0.02);
-        border-radius: 16px;
-        padding: 2.5rem;
-        text-align: center;
-        margin-top: 3rem;
-        border: 1px solid rgba(0, 0, 0, 0.08);
+    .ji-form-card.ji-featured .ji-form-link {
+        background: #ffffff;
+        color: #667eea !important;
     }
 
-    .ji-contact-title {
+    .ji-form-card.ji-featured .ji-form-link:hover {
+        background: #f8f9fa;
+        transform: scale(1.05);
+        color: #667eea !important;
+    }
+
+    .ji-form-card.ji-featured .ji-form-card-number {
+        color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Info Sections */
+    .ji-info-section {
+        margin: 5rem 0;
+        padding: 3rem;
+        border-radius: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ji-info-section.ji-single-status {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: #ffffff;
+    }
+
+    .ji-info-section.ji-donation {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #1a1a1a;
+    }
+
+    .ji-info-section h3 {
         font-family: 'Urbanist', sans-serif !important;
         font-size: 2rem;
         font-weight: 700;
-        color: #111111;
         margin-bottom: 1rem;
     }
 
-    .ji-contact-description {
-        font-size: 1.05rem;
-        color: #666666;
-        margin-bottom: 2rem;
+    .ji-info-section p {
+        font-size: 1.15rem;
+        line-height: 1.8;
     }
 
-    .ji-contact-info {
+    .ji-info-section a {
+        color: inherit;
+        font-weight: 700;
+        text-decoration: underline;
+        transition: opacity 0.3s ease;
+    }
+
+    .ji-info-section a:hover {
+        opacity: 0.8;
+    }
+
+    /* Contact Section */
+    .ji-contact-section {
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+        border-radius: 20px;
+        padding: 4rem 3rem;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    .ji-contact-section h3 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .ji-contact-section p {
+        font-size: 1.2rem;
+        margin-bottom: 2.5rem;
+        color: #ffffff !important;
+        opacity: 1;
+        font-weight: 500;
+    }
+
+    .ji-contact-items {
         display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        align-items: center;
+        gap: 2rem;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .ji-contact-item {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        font-size: 1.15rem;
-        color: #333333;
-    }
-
-    .ji-contact-icon {
-        display: none; /* No icons - clean professional design */
-    }
-
-    .ji-contact-link {
-        color: #0066cc;
-        text-decoration: none;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem 3rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
         font-weight: 600;
-        transition: color 0.3s ease;
+        transition: all 0.3s ease;
+        border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
-    .ji-contact-link:hover {
-        color: #004499;
-        text-decoration: underline;
+    .ji-contact-item:hover {
+        background: rgba(255, 255, 255, 0.25);
+        transform: scale(1.05);
     }
 
-    /* Animation for scroll entrance */
+    .ji-contact-item a {
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
+
+    /* Animations */
     .ji-fade-in {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(40px);
         transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -302,25 +376,16 @@
         transform: translateY(0);
     }
 
-    /* Responsive Design */
+    /* Responsive */
     @media (max-width: 768px) {
-        .ji-hero-section {
-            min-height: 50vh;
-            padding: 3rem 1.5rem 2rem 1.5rem;
-        }
-
-        .ji-hero-title {
-            font-size: clamp(2rem, 8vw, 3rem);
-        }
-
-        .ji-hero-subtitle {
-            font-size: clamp(1rem, 4vw, 1.2rem);
+        .ji-hero {
+            min-height: 60vh;
+            padding: 3rem 1.5rem;
         }
 
         .ji-hero-images {
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
         }
 
         .ji-hero-image {
@@ -329,25 +394,23 @@
 
         .ji-forms-grid {
             grid-template-columns: 1fr;
-            gap: 1.5rem;
+        }
+
+        .ji-form-card.ji-featured {
+            grid-column: 1;
+        }
+
+        .ji-contact-items {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .ji-info-section {
+            padding: 2rem 1.5rem;
         }
 
         .ji-container {
             padding: 3rem 1.5rem;
-        }
-
-        .ji-section-title {
-            font-size: clamp(1.75rem, 6vw, 2.5rem);
-        }
-
-        .ji-donation-box,
-        .ji-contact-box {
-            padding: 2rem 1.5rem;
-        }
-
-        .ji-contact-item {
-            flex-direction: column;
-            text-align: center;
         }
     }
 </style>
@@ -367,8 +430,8 @@
     FORMS FORMAT:
     {
       "category": "Category Name",
-      "icon": "emoji icon",
       "description": "Description text",
+      "isFeatured": true/false,
       "forms": [
         {"label": "Form Name", "url": "/path/to/form.pdf"}
       ]
@@ -383,30 +446,32 @@
 {
   "hero": {
     "title": "Jewish Identity Verification Service",
-    "subtitle": "Helping you confirm Jewish identity and lineage with professional documentation services",
+    "subtitle": "Professional guidance for your spiritual journey • Trusted documentation • Serving our community with care",
     "images": [
       {
         "src": "/media/images/1151/CfOC11510245.jpg",
-        "alt": "Jewish Identity Service",
+        "alt": "Jewish Identity Documentation",
         "width": 420,
         "height": 559
       },
       {
         "src": "/media/images/1151/KjVu11510246.jpg",
-        "alt": "Identity Verification",
+        "alt": "Jewish Lineage Verification",
         "width": 420,
         "height": 559
       }
     ]
   },
-  "formsIntro": "Application forms for confirmation of Jewish identity and lineage. Choose your preferred language and format below:",
+  "formsIntro": "Choose your preferred format and language below to begin your application for Jewish identity verification",
   "formCategories": [
     {
-      "category": "Fillable PDF Form",
-      "description": "Complete directly on your computer (English only)",
+      "category": "Fillable PDF Form (Recommended)",
+      "description": "Complete digitally on your computer • English only • Easiest option",
+      "isFeatured": true,
+      "cardNumber": "★",
       "forms": [
         {
-          "label": "Fillable PDF Application",
+          "label": "Download Fillable PDF",
           "url": "/media/pdf/1181/gwAA11810979.pdf"
         }
       ]
@@ -414,6 +479,8 @@
     {
       "category": "English Forms",
       "description": "Print and complete by hand",
+      "isFeatured": false,
+      "cardNumber": "01",
       "forms": [
         {
           "label": "English Part I",
@@ -426,8 +493,10 @@
       ]
     },
     {
-      "category": "Russian Forms",
-      "description": "Формы на русском языке",
+      "category": "Русские формы",
+      "description": "Печать и заполнение вручную",
+      "isFeatured": false,
+      "cardNumber": "02",
       "forms": [
         {
           "label": "Russian Part I",
@@ -440,60 +509,122 @@
       ]
     },
     {
-      "category": "Hebrew Form",
-      "description": "טופס בעברית",
+      "category": "טפסים בעברית",
+      "description": "להדפסה ומילוי ידני",
+      "isFeatured": false,
+      "cardNumber": "03",
       "forms": [
         {
           "label": "Hebrew Application",
           "url": "/media/pdf/988/KGuC9887017.pdf"
         }
       ]
-    },
-    {
-      "category": "Single Status Letter",
-      "description": "Application for single status verification",
-      "forms": [
-        {
-          "label": "Single Status Application",
-          "url": "/media/pdf/819/obxH8193319.pdf"
-        }
-      ]
     }
   ],
+  "singleStatus": {
+    "text": "Need confirmation of single status for marriage purposes? <a href='/media/pdf/819/obxH8193319.pdf'>Download the application form here →</a>"
+  },
   "donation": {
-    "text": "This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative cost is $250 per applicant. Any donation is appreciated."
+    "text": "This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative costs is $250 per applicant. Any donation is greatly appreciated and helps us continue serving our community with excellence."
   },
   "contact": {
-    "title": "Need Assistance?",
-    "phone": "416-222-7105 #237",
-    "email": "jewishidentity@jrcc.org",
-    "description": "Contact the Jewish Identity Department Coordinator for more information"
+    "title": "Get In Touch",
+    "description": "Our Jewish Identity Department Coordinator is here to help with any questions",
+    "phone": "416-222-7105",
+    "phoneExt": "ext. 237",
+    "email": "jewishidentity@jrcc.org"
   }
 }
 </script>
 
-<div class="ji-hero-section" style="font-family: 'Urbanist', sans-serif;">
+<section class="ji-hero" style="font-family: 'Urbanist', sans-serif;">
     <div class="ji-hero-content">
-        <h1 class="ji-hero-title" id="ji-hero-title"></h1>
-        <p class="ji-hero-subtitle" id="ji-hero-subtitle"></p>
-        <div class="ji-hero-images" id="ji-hero-images"></div>
+        <h1 class="ji-hero-title" id="ji-hero-title">Jewish Identity Verification Service</h1>
+        <p class="ji-hero-subtitle" id="ji-hero-subtitle">Professional guidance for your spiritual journey • Trusted documentation • Serving our community with care</p>
+        <div class="ji-hero-images" id="ji-hero-images">
+            <img src="/media/images/1151/CfOC11510245.jpg" alt="Jewish Identity Documentation" class="ji-hero-image" width="420" height="559">
+            <img src="/media/images/1151/KjVu11510246.jpg" alt="Jewish Lineage Verification" class="ji-hero-image" width="420" height="559">
+        </div>
     </div>
-</div>
+    <div class="ji-scroll-indicator">↓</div>
+</section>
 
 <div class="ji-container" style="font-family: 'Urbanist', sans-serif;">
-    <section class="ji-section ji-fade-in">
-        <h2 class="ji-section-title">Application Forms</h2>
-        <p class="ji-section-intro" id="ji-forms-intro" style="text-align: center !important;"></p>
-        <div class="ji-forms-grid" id="ji-forms-grid"></div>
-    </section>
 
-    <section class="ji-section ji-fade-in">
-        <div class="ji-donation-box" id="ji-donation-box"></div>
-    </section>
+    <div class="ji-section-intro ji-fade-in visible" style="text-align: center;">
+        <h2>Application Forms</h2>
+        <p id="ji-forms-intro" style="text-align: center;">Choose your preferred format and language below to begin your application for Jewish identity verification</p>
+    </div>
 
-    <section class="ji-section ji-fade-in">
-        <div class="ji-contact-box" id="ji-contact-box"></div>
-    </section>
+    <div class="ji-forms-grid" id="ji-forms-grid">
+
+        <!-- Fillable PDF Form - Featured -->
+        <div class="ji-form-card ji-featured ji-fade-in visible">
+            <div class="ji-form-card-number">★</div>
+            <h3 class="ji-form-title">Fillable PDF Form (Recommended)</h3>
+            <p class="ji-form-description">Complete digitally on your computer • English only • Easiest option</p>
+            <div class="ji-form-links">
+                <a href="/media/pdf/1181/gwAA11810979.pdf" class="ji-form-link" target="_blank">Download Fillable PDF</a>
+            </div>
+        </div>
+
+        <!-- English Forms -->
+        <div class="ji-form-card ji-fade-in visible">
+            <div class="ji-form-card-number">01</div>
+            <h3 class="ji-form-title">English Forms</h3>
+            <p class="ji-form-description">Print and complete by hand</p>
+            <div class="ji-form-links">
+                <a href="/media/pdf/1093/SwGI10937251.pdf" class="ji-form-link" target="_blank">English Part I</a>
+                <a href="/media/pdf/1108/UdEv11085656.pdf" class="ji-form-link" target="_blank">English Part II</a>
+            </div>
+        </div>
+
+        <!-- Russian Forms -->
+        <div class="ji-form-card ji-fade-in visible">
+            <div class="ji-form-card-number">02</div>
+            <h3 class="ji-form-title">Русские формы</h3>
+            <p class="ji-form-description">Печать и заполнение вручную</p>
+            <div class="ji-form-links">
+                <a href="/media/pdf/1099/DPSb10991314.pdf" class="ji-form-link" target="_blank">Russian Part I</a>
+                <a href="/media/pdf/1108/gSKL11082665.pdf" class="ji-form-link" target="_blank">Russian Part II</a>
+            </div>
+        </div>
+
+        <!-- Hebrew Form -->
+        <div class="ji-form-card ji-fade-in visible">
+            <div class="ji-form-card-number">03</div>
+            <h3 class="ji-form-title">טפסים בעברית</h3>
+            <p class="ji-form-description">להדפסה ומילוי ידני</p>
+            <div class="ji-form-links">
+                <a href="/media/pdf/988/KGuC9887017.pdf" class="ji-form-link" target="_blank">Hebrew Application</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ji-info-section ji-single-status ji-fade-in visible" id="ji-single-status">
+        <h3>Single Status Letter</h3>
+        <p>Need confirmation of single status for marriage purposes? <a href='/media/pdf/819/obxH8193319.pdf'>Download the application form here →</a></p>
+    </div>
+
+    <div class="ji-info-section ji-donation ji-fade-in visible" id="ji-donation">
+        <h3>Supporting Our Service</h3>
+        <p>This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative costs is $250 per applicant. Any donation is greatly appreciated and helps us continue serving our community with excellence.</p>
+    </div>
+
+    <div class="ji-contact-section ji-fade-in visible" id="ji-contact">
+        <h3>Get In Touch</h3>
+        <p>Our Jewish Identity Department Coordinator is here to help with any questions</p>
+        <div class="ji-contact-items">
+            <div class="ji-contact-item">
+                <a href="tel:416-222-7105">📞 416-222-7105 ext. 237</a>
+            </div>
+            <div class="ji-contact-item">
+                <a href="mailto:jewishidentity@jrcc.org">✉️ jewishidentity@jrcc.org</a>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!--
@@ -507,46 +638,28 @@
         // Generate page content from JSON data
         function generateContent() {
             try {
-                // Extract JSON data from script tag
                 const jsonScript = document.getElementById('jewish-identity-data');
-
                 if (!jsonScript) {
-                    console.error('Jewish Identity JSON script tag not found');
+                    console.log('Jewish Identity JSON script tag not found - using fallback HTML');
                     return;
                 }
 
                 const data = JSON.parse(jsonScript.textContent);
 
-                // Generate Hero Section
-                const heroTitle = document.getElementById('ji-hero-title');
-                const heroSubtitle = document.getElementById('ji-hero-subtitle');
-                const heroImages = document.getElementById('ji-hero-images');
-
-                if (heroTitle) heroTitle.textContent = data.hero.title;
-                if (heroSubtitle) heroSubtitle.textContent = data.hero.subtitle;
-
-                if (heroImages && data.hero.images) {
-                    data.hero.images.forEach(img => {
-                        const imgElement = document.createElement('img');
-                        imgElement.src = img.src;
-                        imgElement.alt = img.alt;
-                        imgElement.width = img.width;
-                        imgElement.height = img.height;
-                        imgElement.className = 'ji-hero-image';
-                        heroImages.appendChild(imgElement);
-                    });
-                }
-
-                // Generate Forms Intro
-                const formsIntro = document.getElementById('ji-forms-intro');
-                if (formsIntro) formsIntro.textContent = data.formsIntro;
-
-                // Generate Forms Grid
+                // Generate Forms Grid (only part that needs JS generation)
                 const formsGrid = document.getElementById('ji-forms-grid');
                 if (formsGrid && data.formCategories) {
-                    data.formCategories.forEach(category => {
+                    formsGrid.innerHTML = ''; // Clear placeholder
+                    data.formCategories.forEach((category, index) => {
                         const card = document.createElement('div');
-                        card.className = 'ji-form-card';
+                        card.className = 'ji-form-card ji-fade-in visible';
+                        if (category.isFeatured) {
+                            card.classList.add('ji-featured');
+                        }
+
+                        const cardNumber = document.createElement('div');
+                        cardNumber.className = 'ji-form-card-number';
+                        cardNumber.textContent = category.cardNumber || (index + 1).toString().padStart(2, '0');
 
                         const title = document.createElement('h3');
                         title.className = 'ji-form-title';
@@ -568,6 +681,7 @@
                             linksContainer.appendChild(link);
                         });
 
+                        card.appendChild(cardNumber);
                         card.appendChild(title);
                         card.appendChild(description);
                         card.appendChild(linksContainer);
@@ -575,64 +689,20 @@
                     });
                 }
 
-                // Generate Donation Box
-                const donationBox = document.getElementById('ji-donation-box');
-                if (donationBox && data.donation) {
-                    const text = document.createElement('p');
-                    text.className = 'ji-donation-text';
-                    text.textContent = data.donation.text;
-
-                    donationBox.appendChild(text);
-                }
-
-                // Generate Contact Box
-                const contactBox = document.getElementById('ji-contact-box');
-                if (contactBox && data.contact) {
-                    const title = document.createElement('h3');
-                    title.className = 'ji-contact-title';
-                    title.textContent = data.contact.title;
-
-                    const description = document.createElement('p');
-                    description.className = 'ji-contact-description';
-                    description.textContent = data.contact.description;
-
-                    const infoContainer = document.createElement('div');
-                    infoContainer.className = 'ji-contact-info';
-
-                    // Phone
-                    const phoneItem = document.createElement('div');
-                    phoneItem.className = 'ji-contact-item';
-                    const phoneLabel = document.createElement('span');
-                    phoneLabel.textContent = 'Phone: ';
-                    const phoneLink = document.createElement('a');
-                    phoneLink.href = `tel:${data.contact.phone.replace(/\s/g, '')}`;
-                    phoneLink.className = 'ji-contact-link';
-                    phoneLink.textContent = data.contact.phone;
-                    phoneItem.appendChild(phoneLabel);
-                    phoneItem.appendChild(phoneLink);
-
-                    // Email
-                    const emailItem = document.createElement('div');
-                    emailItem.className = 'ji-contact-item';
-                    const emailLabel = document.createElement('span');
-                    emailLabel.textContent = 'Email: ';
-                    const emailLink = document.createElement('a');
-                    emailLink.href = `mailto:${data.contact.email}`;
-                    emailLink.className = 'ji-contact-link';
-                    emailLink.textContent = data.contact.email;
-                    emailItem.appendChild(emailLabel);
-                    emailItem.appendChild(emailLink);
-
-                    infoContainer.appendChild(phoneItem);
-                    infoContainer.appendChild(emailItem);
-
-                    contactBox.appendChild(title);
-                    contactBox.appendChild(description);
-                    contactBox.appendChild(infoContainer);
-                }
-
             } catch (error) {
                 console.error('Error parsing Jewish Identity JSON:', error);
+                console.log('Using fallback HTML content');
+            }
+        }
+
+        // Scroll indicator
+        function initScrollIndicator() {
+            const scrollIndicator = document.querySelector('.ji-scroll-indicator');
+            const container = document.querySelector('.ji-container');
+            if (scrollIndicator && container) {
+                scrollIndicator.addEventListener('click', () => {
+                    container.scrollIntoView({ behavior: 'smooth' });
+                });
             }
         }
 
@@ -660,7 +730,7 @@
         // Initialize everything
         function initialize() {
             generateContent();
-            // Delay animation setup to allow content generation
+            initScrollIndicator();
             setTimeout(initScrollAnimations, 100);
         }
 
