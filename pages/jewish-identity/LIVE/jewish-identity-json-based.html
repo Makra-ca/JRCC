@@ -278,12 +278,12 @@
     }
 
     .ji-info-section.ji-single-status {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        background: linear-gradient(135deg, #5f6c7b 0%, #4a5568 100%);
         color: #ffffff;
     }
 
     .ji-info-section.ji-donation {
-        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
         color: #1a1a1a;
     }
 
@@ -308,6 +308,21 @@
 
     .ji-info-section a:hover {
         opacity: 0.8;
+    }
+
+    .ji-info-section.ji-single-status h3 {
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .ji-info-section.ji-single-status p {
+        color: #ffffff !important;
+        font-weight: 500;
+    }
+
+    .ji-info-section.ji-single-status a {
+        color: #ffffff !important;
+        font-weight: 700;
     }
 
     /* Contact Section */
@@ -446,7 +461,7 @@
 {
   "hero": {
     "title": "Jewish Identity Verification Service",
-    "subtitle": "Professional guidance for your spiritual journey • Trusted documentation • Serving our community with care",
+    "subtitle": "Application forms for confirmation of Jewish identity and lineage",
     "images": [
       {
         "src": "/media/images/1151/CfOC11510245.jpg",
@@ -462,23 +477,23 @@
       }
     ]
   },
-  "formsIntro": "Choose your preferred format and language below to begin your application for Jewish identity verification",
+  "formsIntro": "Complete a fillable PDF form (English only) or print the following forms available in the following languages:",
   "formCategories": [
     {
-      "category": "Fillable PDF Form (Recommended)",
-      "description": "Complete digitally on your computer • English only • Easiest option",
+      "category": "Fillable PDF",
+      "description": "",
       "isFeatured": true,
       "cardNumber": "★",
       "forms": [
         {
-          "label": "Download Fillable PDF",
+          "label": "Fillable PDF Form",
           "url": "/media/pdf/1181/gwAA11810979.pdf"
         }
       ]
     },
     {
-      "category": "English Forms",
-      "description": "Print and complete by hand",
+      "category": "English",
+      "description": "",
       "isFeatured": false,
       "cardNumber": "01",
       "forms": [
@@ -493,8 +508,8 @@
       ]
     },
     {
-      "category": "Русские формы",
-      "description": "Печать и заполнение вручную",
+      "category": "Russian",
+      "description": "",
       "isFeatured": false,
       "cardNumber": "02",
       "forms": [
@@ -509,29 +524,29 @@
       ]
     },
     {
-      "category": "טפסים בעברית",
-      "description": "להדפסה ומילוי ידני",
+      "category": "Hebrew",
+      "description": "",
       "isFeatured": false,
       "cardNumber": "03",
       "forms": [
         {
-          "label": "Hebrew Application",
+          "label": "Hebrew",
           "url": "/media/pdf/988/KGuC9887017.pdf"
         }
       ]
     }
   ],
   "singleStatus": {
-    "text": "Need confirmation of single status for marriage purposes? <a href='/media/pdf/819/obxH8193319.pdf'>Download the application form here →</a>"
+    "text": "<a href='/media/pdf/819/obxH8193319.pdf'>Click here</a> for the application form for <strong>single status letter.</strong>"
   },
   "donation": {
-    "text": "This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative costs is $250 per applicant. Any donation is greatly appreciated and helps us continue serving our community with excellence."
+    "text": "This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative cost is $250 per applicant. Any donation is appreciated."
   },
   "contact": {
-    "title": "Get In Touch",
-    "description": "Our Jewish Identity Department Coordinator is here to help with any questions",
+    "title": "For more information",
+    "description": "Contact our Jewish Identity Department Coordinator at:",
     "phone": "416-222-7105",
-    "phoneExt": "ext. 237",
+    "phoneExt": "#237",
     "email": "jewishidentity@jrcc.org"
   }
 }
@@ -540,7 +555,7 @@
 <section class="ji-hero" style="font-family: 'Urbanist', sans-serif;">
     <div class="ji-hero-content">
         <h1 class="ji-hero-title" id="ji-hero-title">Jewish Identity Verification Service</h1>
-        <p class="ji-hero-subtitle" id="ji-hero-subtitle">Professional guidance for your spiritual journey • Trusted documentation • Serving our community with care</p>
+        <p class="ji-hero-subtitle" id="ji-hero-subtitle">Application forms for confirmation of Jewish identity and lineage</p>
         <div class="ji-hero-images" id="ji-hero-images">
             <img src="/media/images/1151/CfOC11510245.jpg" alt="Jewish Identity Documentation" class="ji-hero-image" width="420" height="559">
             <img src="/media/images/1151/KjVu11510246.jpg" alt="Jewish Lineage Verification" class="ji-hero-image" width="420" height="559">
@@ -553,7 +568,7 @@
 
     <div class="ji-section-intro ji-fade-in visible" style="text-align: center;">
         <h2>Application Forms</h2>
-        <p id="ji-forms-intro" style="text-align: center;">Choose your preferred format and language below to begin your application for Jewish identity verification</p>
+        <p id="ji-forms-intro" style="text-align: center;">Complete a fillable PDF form (English only) or print the following forms available in the following languages:</p>
     </div>
 
     <div class="ji-forms-grid" id="ji-forms-grid">
@@ -561,18 +576,16 @@
         <!-- Fillable PDF Form - Featured -->
         <div class="ji-form-card ji-featured ji-fade-in visible">
             <div class="ji-form-card-number">★</div>
-            <h3 class="ji-form-title">Fillable PDF Form (Recommended)</h3>
-            <p class="ji-form-description">Complete digitally on your computer • English only • Easiest option</p>
+            <h3 class="ji-form-title">Fillable PDF</h3>
             <div class="ji-form-links">
-                <a href="/media/pdf/1181/gwAA11810979.pdf" class="ji-form-link" target="_blank">Download Fillable PDF</a>
+                <a href="/media/pdf/1181/gwAA11810979.pdf" class="ji-form-link" target="_blank">Fillable PDF Form</a>
             </div>
         </div>
 
         <!-- English Forms -->
         <div class="ji-form-card ji-fade-in visible">
             <div class="ji-form-card-number">01</div>
-            <h3 class="ji-form-title">English Forms</h3>
-            <p class="ji-form-description">Print and complete by hand</p>
+            <h3 class="ji-form-title">English</h3>
             <div class="ji-form-links">
                 <a href="/media/pdf/1093/SwGI10937251.pdf" class="ji-form-link" target="_blank">English Part I</a>
                 <a href="/media/pdf/1108/UdEv11085656.pdf" class="ji-form-link" target="_blank">English Part II</a>
@@ -582,8 +595,7 @@
         <!-- Russian Forms -->
         <div class="ji-form-card ji-fade-in visible">
             <div class="ji-form-card-number">02</div>
-            <h3 class="ji-form-title">Русские формы</h3>
-            <p class="ji-form-description">Печать и заполнение вручную</p>
+            <h3 class="ji-form-title">Russian</h3>
             <div class="ji-form-links">
                 <a href="/media/pdf/1099/DPSb10991314.pdf" class="ji-form-link" target="_blank">Russian Part I</a>
                 <a href="/media/pdf/1108/gSKL11082665.pdf" class="ji-form-link" target="_blank">Russian Part II</a>
@@ -593,10 +605,9 @@
         <!-- Hebrew Form -->
         <div class="ji-form-card ji-fade-in visible">
             <div class="ji-form-card-number">03</div>
-            <h3 class="ji-form-title">טפסים בעברית</h3>
-            <p class="ji-form-description">להדפסה ומילוי ידני</p>
+            <h3 class="ji-form-title">Hebrew</h3>
             <div class="ji-form-links">
-                <a href="/media/pdf/988/KGuC9887017.pdf" class="ji-form-link" target="_blank">Hebrew Application</a>
+                <a href="/media/pdf/988/KGuC9887017.pdf" class="ji-form-link" target="_blank">Hebrew</a>
             </div>
         </div>
 
@@ -604,20 +615,20 @@
 
     <div class="ji-info-section ji-single-status ji-fade-in visible" id="ji-single-status">
         <h3>Single Status Letter</h3>
-        <p>Need confirmation of single status for marriage purposes? <a href='/media/pdf/819/obxH8193319.pdf'>Download the application form here →</a></p>
+        <p><a href='/media/pdf/819/obxH8193319.pdf'>Click here</a> for the application form for <strong>single status letter.</strong></p>
     </div>
 
     <div class="ji-info-section ji-donation ji-fade-in visible" id="ji-donation">
         <h3>Supporting Our Service</h3>
-        <p>This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative costs is $250 per applicant. Any donation is greatly appreciated and helps us continue serving our community with excellence.</p>
+        <p>This service is provided free of charge by the JRCC. Suggested donation to cover research and administrative cost is $250 per applicant. Any donation is appreciated.</p>
     </div>
 
     <div class="ji-contact-section ji-fade-in visible" id="ji-contact">
-        <h3>Get In Touch</h3>
-        <p>Our Jewish Identity Department Coordinator is here to help with any questions</p>
+        <h3>For more information</h3>
+        <p>Contact our Jewish Identity Department Coordinator at:</p>
         <div class="ji-contact-items">
             <div class="ji-contact-item">
-                <a href="tel:416-222-7105">📞 416-222-7105 ext. 237</a>
+                <a href="tel:416-222-7105">📞 416-222-7105 #237</a>
             </div>
             <div class="ji-contact-item">
                 <a href="mailto:jewishidentity@jrcc.org">✉️ jewishidentity@jrcc.org</a>
