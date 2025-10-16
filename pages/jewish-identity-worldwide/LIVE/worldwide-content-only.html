@@ -1,0 +1,230 @@
+<!--
+    ========================================================================
+    STAFF: This is the ONLY file you need to edit!
+
+    To find where to edit, press Ctrl+F (or Cmd+F on Mac) and search for:
+    "EDIT THE DATA BELOW"
+    ========================================================================
+-->
+
+<!-- Load styles from GitHub -->
+<link rel="stylesheet" href="https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/pages/jewish-identity-worldwide/LIVE/worldwide-styles.css">
+
+<!--
+    ========================================================================
+    📝 STAFF: EDIT THE DATA BELOW TO ADD/MODIFY SERVICES
+    ========================================================================
+
+    See EDITING-INSTRUCTIONS.md for help!
+
+    Quick tips:
+    - Change text between "quotes"
+    - Copy cards/locations as templates
+    - Add commas between items (NOT after the last one)
+    - Use "" for empty fields
+    ========================================================================
+-->
+
+<script type="application/json" id="worldwide-data">
+{
+  "hero": {
+    "title": "Jewish Identity Verification Services Worldwide",
+    "subtitle": "For Jews of Russian descent"
+  },
+  "locations": [
+    {
+      "locationName": "Toronto, Canada",
+      "cards": [
+        {
+          "serviceName": "Jewish Identity Verification Service (JIVS)",
+          "featured": true,
+          "website": "https://www.jrcc.org/jewishidentity",
+          "websiteDisplay": "www.jrcc.org/jewishidentity",
+          "cost": "",
+          "isFree": true,
+          "freeText": "FREE - For the Russian Community of Ontario",
+          "donationNote": "A suggested donation is $250 CAD per individual to cover the expenses. All donations are greatly appreciated and tax deductible. Thank you!",
+          "contact": "Ms. Mazal Makalski",
+          "title": "Jewish Identity Verification Coordinator",
+          "email": "mazal.makalski@jrcc.org",
+          "phone": "416-222-7105 ext. 237"
+        }
+      ]
+    },
+    {
+      "locationName": "Worldwide",
+      "cards": [
+        {
+          "serviceName": "Institute of Jewish Status",
+          "featured": false,
+          "website": "https://www.jewishstatus.org/",
+          "websiteDisplay": "www.jewishstatus.org",
+          "cost": "$280 USD per individual",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "",
+          "title": "",
+          "email": "",
+          "phone": ""
+        }
+      ]
+    },
+    {
+      "locationName": "USA",
+      "cards": [
+        {
+          "serviceName": "RCA - Jewish Verification",
+          "featured": false,
+          "website": "https://bethdin.org/application-to-open-a-file-for-a-status-certificate/",
+          "websiteDisplay": "bethdin.org/application-to-open-a-file-for-a-status-certificate",
+          "cost": "$275 USD per individual",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "",
+          "title": "",
+          "email": "",
+          "phone": ""
+        }
+      ]
+    },
+    {
+      "locationName": "Israel",
+      "cards": [
+        {
+          "serviceName": "Am Levaded",
+          "featured": false,
+          "website": "",
+          "websiteDisplay": "",
+          "cost": "",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "Rabbi Naftoli Shraiber",
+          "title": "",
+          "email": "Naftoli_shraiber@yahoo.com",
+          "phone": "+972-54-522-9879"
+        }
+      ]
+    },
+    {
+      "locationName": "Russia",
+      "cards": [
+        {
+          "serviceName": "Beis Din Services",
+          "featured": false,
+          "website": "",
+          "websiteDisplay": "",
+          "cost": "",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "Rabbi Israel Barenbaum",
+          "title": "",
+          "email": "beis-din@mail.ru",
+          "phone": "+7-495-926-0002"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ========== AUTO-GENERATED CONTENT (DO NOT EDIT BELOW) ========== -->
+
+<section class="jiw-hero" id="jiw-hero-section"></section>
+<div class="jiw-container" id="jiw-content-container"></div>
+
+<script>
+(function() {
+    // Load JSON data
+    const dataElement = document.getElementById('worldwide-data');
+    const data = JSON.parse(dataElement.textContent);
+
+    // Build Hero Section
+    const heroSection = document.getElementById('jiw-hero-section');
+    heroSection.innerHTML = `
+        <div class="jiw-hero-content">
+            <h1 class="jiw-hero-title">${data.hero.title}</h1>
+            <p class="jiw-hero-subtitle">${data.hero.subtitle}</p>
+        </div>
+    `;
+
+    // Build Content
+    const container = document.getElementById('jiw-content-container');
+    let cardNumber = 1;
+    let html = '';
+
+    data.locations.forEach(location => {
+        html += `
+            <div class="jiw-location-section">
+                <div class="jiw-location-header">
+                    <h2 class="jiw-location-title">${location.locationName}</h2>
+                </div>
+                <div class="jiw-services-grid">
+        `;
+
+        location.cards.forEach(card => {
+            const featuredClass = card.featured ? ' featured' : '';
+
+            html += `
+                <div class="jiw-service-card${featuredClass}">
+                    <div class="jiw-service-number">${cardNumber}</div>
+                    <h3 class="jiw-service-name">${card.serviceName}</h3>
+            `;
+
+            // Website and Cost Section
+            if (card.website || card.cost || card.isFree) {
+                html += '<div class="jiw-service-info">';
+
+                if (card.website) {
+                    html += `<a href="${card.website}" class="jiw-service-link" target="_blank">${card.websiteDisplay}</a>`;
+                }
+
+                if (card.isFree) {
+                    html += `<div class="jiw-service-cost free">${card.freeText}</div>`;
+                } else if (card.cost) {
+                    html += `<div class="jiw-service-cost">Cost: ${card.cost}</div>`;
+                }
+
+                if (card.donationNote) {
+                    html += `<p style="margin-top: 1rem; font-size: 0.95rem; line-height: 1.6;">${card.donationNote}</p>`;
+                }
+
+                html += '</div>';
+            }
+
+            // Contact Section
+            if (card.contact || card.title || card.email || card.phone) {
+                html += '<div class="jiw-contact-info">';
+
+                if (card.contact) {
+                    html += `<div class="jiw-contact-item"><strong>Contact:</strong> ${card.contact}</div>`;
+                }
+                if (card.title) {
+                    html += `<div class="jiw-contact-item"><strong>Title:</strong> ${card.title}</div>`;
+                }
+                if (card.email) {
+                    html += `<div class="jiw-contact-item"><strong>Email:</strong> <a href="mailto:${card.email}">${card.email}</a></div>`;
+                }
+                if (card.phone) {
+                    html += `<div class="jiw-contact-item"><strong>Phone:</strong> <a href="tel:${card.phone.replace(/\s/g, '')}">${card.phone}</a></div>`;
+                }
+
+                html += '</div>';
+            }
+
+            html += '</div>';
+            cardNumber++;
+        });
+
+        html += `
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+})();
+</script>
