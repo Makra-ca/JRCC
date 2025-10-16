@@ -1,263 +1,277 @@
 /*
  * Jewish Identity Worldwide - Styles
  * Host this file on GitHub and link to it from your HTML
+ * High specificity to override Chabad One CMS styles
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
-/* Main Body & Fonts */
-#co_body_container {
+/* Reset and Override CMS Styles */
+.jiw-hero,
+.jiw-hero *,
+.jiw-container,
+.jiw-container * {
+    box-sizing: border-box !important;
     font-family: 'Urbanist', sans-serif !important;
-    background: #ffffff !important;
-    color: #1a1a1a !important;
-    overflow-x: hidden;
-    line-height: 1.7;
-}
-
-.bg-animation { display: none !important; }
-
-body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_content *, p, li {
-    font-family: 'Urbanist', sans-serif !important;
-    color: #1a1a1a;
 }
 
 /* Hero Section */
 .jiw-hero {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 5rem 2rem 3rem;
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%);
-    position: relative;
-    overflow: hidden;
+    min-height: 60vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 5rem 2rem 3rem !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    width: 100% !important;
 }
 
 .jiw-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-    pointer-events: none;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%) !important;
+    pointer-events: none !important;
 }
 
 .jiw-hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
+    position: relative !important;
+    z-index: 2 !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
 }
 
 .jiw-hero-title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: clamp(2.5rem, 7vw, 4rem);
-    font-weight: 800;
+    font-size: clamp(2.5rem, 7vw, 4rem) !important;
+    font-weight: 800 !important;
     color: #1a1a1a !important;
-    margin-bottom: 2rem;
-    letter-spacing: -1px;
-    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
-    line-height: 1.2;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 1rem 2rem;
-    border-radius: 16px;
-    display: block;
+    margin-bottom: 2rem !important;
+    margin-top: 0 !important;
+    letter-spacing: -1px !important;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5) !important;
+    line-height: 1.2 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    padding: 1rem 2rem !important;
+    border-radius: 16px !important;
+    display: block !important;
+    text-align: center !important;
 }
 
 .jiw-hero-subtitle {
-    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+    font-size: clamp(1.3rem, 3.5vw, 1.8rem) !important;
     color: #1a1a1a !important;
-    font-weight: 700;
-    font-style: italic;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.75rem 2rem;
-    border-radius: 12px;
-    display: block;
-    width: fit-content;
-    margin: 0 auto;
+    font-weight: 700 !important;
+    font-style: italic !important;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    display: block !important;
+    width: fit-content !important;
+    margin: 0 auto !important;
+    text-align: center !important;
 }
 
 /* Container */
 .jiw-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 5rem 2rem;
-}
-
-.jiw-intro {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 4rem;
-    font-size: 1.1rem;
-    color: #555555;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 5rem 2rem !important;
+    width: 100% !important;
 }
 
 /* Location Sections */
 .jiw-location-section {
-    margin-bottom: 5rem;
+    margin-bottom: 5rem !important;
+    width: 100% !important;
 }
 
 .jiw-location-header {
-    text-align: center;
-    margin-bottom: 3rem;
+    text-align: center !important;
+    margin-bottom: 3rem !important;
 }
 
 .jiw-location-title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: clamp(2rem, 4vw, 2.5rem);
-    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 2.5rem) !important;
+    font-weight: 700 !important;
     color: #1a1a1a !important;
-    margin-bottom: 0.5rem;
-    position: relative;
-    display: inline-block;
+    margin-bottom: 1.5rem !important;
+    margin-top: 0 !important;
+    position: relative !important;
+    display: inline-block !important;
+    padding-bottom: 0.5rem !important;
+    text-align: center !important;
 }
 
 .jiw-location-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 100%);
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 100%) !important;
 }
 
 /* Service Cards */
 .jiw-services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 2.5rem !important;
+    width: 100% !important;
 }
 
 .jiw-service-card {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 20px;
-    padding: 2.5rem;
-    position: relative;
-    transition: all 0.4s ease;
-    border: 2px solid transparent;
-    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem !important;
+    position: relative !important;
+    transition: all 0.4s ease !important;
+    border: 2px solid transparent !important;
+    overflow: hidden !important;
+    width: 100% !important;
 }
 
 .jiw-service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 100%);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    transform: scaleX(0) !important;
+    transform-origin: left !important;
+    transition: transform 0.4s ease !important;
 }
 
 .jiw-service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(30, 90, 142, 0.25);
-    border-color: #2a75b8;
+    transform: translateY(-10px) !important;
+    box-shadow: 0 20px 60px rgba(30, 90, 142, 0.25) !important;
+    border-color: #2a75b8 !important;
 }
 
 .jiw-service-card:hover::before {
-    transform: scaleX(1);
+    transform: scaleX(1) !important;
 }
 
 .jiw-service-number {
-    position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 800;
+    position: absolute !important;
+    top: 1.5rem !important;
+    left: 1.5rem !important;
+    width: 50px !important;
+    height: 50px !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
     color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(30, 90, 142, 0.3);
+    box-shadow: 0 4px 15px rgba(30, 90, 142, 0.3) !important;
 }
 
 .jiw-service-name {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
     color: #1a1a1a !important;
-    margin-bottom: 1.5rem;
-    padding-left: 70px;
+    margin-bottom: 1.5rem !important;
+    margin-top: 0 !important;
+    padding-left: 70px !important;
+    text-align: left !important;
 }
 
 .jiw-service-info {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem !important;
+    text-align: left !important;
+}
+
+.jiw-service-info p {
+    color: #1a1a1a !important;
+    margin: 1rem 0 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    text-align: left !important;
 }
 
 .jiw-service-link {
-    display: block;
+    display: block !important;
     color: #1e5a8e !important;
-    text-decoration: none;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    word-break: break-all;
-    transition: color 0.3s ease;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.75rem !important;
+    word-break: break-all !important;
+    transition: color 0.3s ease !important;
+    text-align: left !important;
 }
 
 .jiw-service-link:hover {
     color: #2a75b8 !important;
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .jiw-service-cost {
-    display: inline-block;
-    background: #f5f5f5;
-    padding: 0.75rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 600;
+    display: inline-block !important;
+    background: #f5f5f5 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    font-weight: 600 !important;
     color: #1a1a1a !important;
-    margin: 1rem 0;
-    border: 2px solid #e0e0e0;
+    margin: 1rem 0 !important;
+    border: 2px solid #e0e0e0 !important;
 }
 
 .jiw-service-cost.free {
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%);
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
     color: #ffffff !important;
-    border-color: #1e5a8e;
+    border-color: #1e5a8e !important;
 }
 
 .jiw-contact-info {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 2px solid rgba(0, 0, 0, 0.1) !important;
+    text-align: left !important;
 }
 
 .jiw-contact-item {
-    margin: 0.5rem 0;
+    margin: 0.5rem 0 !important;
     color: #555555 !important;
+    font-size: 1rem !important;
+    text-align: left !important;
 }
 
 .jiw-contact-item strong {
     color: #1a1a1a !important;
-    font-weight: 600;
+    font-weight: 600 !important;
 }
 
 .jiw-contact-item a {
     color: #1e5a8e !important;
-    text-decoration: none;
-    font-weight: 600;
+    text-decoration: none !important;
+    font-weight: 600 !important;
 }
 
 .jiw-contact-item a:hover {
-    text-decoration: underline;
+    text-decoration: underline !important;
     color: #2a75b8 !important;
 }
 
 /* Featured Card (Toronto) */
 .jiw-service-card.featured {
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%);
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
     color: #ffffff !important;
 }
 
@@ -267,16 +281,16 @@ body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_
 
 .jiw-service-card.featured .jiw-service-link {
     color: #ffffff !important;
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .jiw-service-card.featured .jiw-service-link:hover {
-    opacity: 0.9;
+    opacity: 0.9 !important;
     color: #ffffff !important;
 }
 
 .jiw-service-card.featured .jiw-contact-info {
-    border-top-color: rgba(255, 255, 255, 0.3);
+    border-top-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .jiw-service-card.featured .jiw-contact-item {
@@ -289,46 +303,47 @@ body, .co_body_container, .content, #content, .page-content, .co3_content, .co3_
 
 .jiw-service-card.featured .jiw-contact-item a {
     color: #ffffff !important;
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 .jiw-service-card.featured .jiw-contact-item a:hover {
-    opacity: 0.9;
+    opacity: 0.9 !important;
     color: #ffffff !important;
 }
 
 .jiw-service-card.featured .jiw-service-number {
-    background: #ffffff;
+    background: #ffffff !important;
     color: #1e5a8e !important;
 }
 
 .jiw-service-card.featured .jiw-service-cost.free {
-    background: #ffffff;
+    background: #ffffff !important;
     color: #1e5a8e !important;
-    border-color: #ffffff;
-    font-weight: 700;
-    font-size: 1.05rem;
+    border-color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
 }
 
-.jiw-service-card.featured p {
+.jiw-service-card.featured p,
+.jiw-service-card.featured .jiw-service-info p {
     color: #ffffff !important;
-    font-size: 1rem;
-    line-height: 1.7;
-    font-weight: 500;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    font-weight: 500 !important;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
     .jiw-hero {
-        min-height: 50vh;
-        padding: 3rem 1.5rem;
+        min-height: 50vh !important;
+        padding: 3rem 1.5rem !important;
     }
 
     .jiw-services-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
     }
 
     .jiw-container {
-        padding: 3rem 1.5rem;
+        padding: 3rem 1.5rem !important;
     }
 }
