@@ -7,8 +7,137 @@
     ========================================================================
 -->
 
-<!-- Load styles from GitHub via jsDelivr CDN (fixes MIME type issue) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jewish-identity-worldwide/LIVE/worldwide-styles.css?v=3" />
+<!-- Embedded styles for immediate effect (no CDN caching issues) -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* White background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix {
+    background: #ffffff !important;
+}
+
+/* Hide breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* Modern header styling */
+#BodyContainer .article-header,
+.article-header {
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    padding: 4rem 2rem !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title,
+.article-header .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 7vw, 4rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Service Cards - Modern Design */
+.jiw-service-card {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    padding-top: 2rem !important;
+    position: relative !important;
+    border: 1px solid #e5e7eb !important;
+    margin-bottom: 1.5rem !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.jiw-service-card:hover {
+    box-shadow: 0 10px 25px rgba(30, 90, 142, 0.15) !important;
+    transform: translateY(-2px) !important;
+    border-color: #2a75b8 !important;
+}
+
+/* Featured card (Toronto) */
+.jiw-service-card.featured {
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-color: transparent !important;
+}
+
+.jiw-service-card.featured * {
+    color: #ffffff !important;
+}
+
+.jiw-service-card.featured .jiw-service-number {
+    background: #ffffff !important;
+    color: #1e5a8e !important;
+}
+
+/* Card Numbers */
+.jiw-service-number {
+    position: absolute !important;
+    top: 1.5rem !important;
+    right: 1.5rem !important;
+    width: 45px !important;
+    height: 45px !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 8px rgba(30, 90, 142, 0.3) !important;
+}
+
+/* Location Titles */
+.jiw-location-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    text-align: center !important;
+    margin: 3rem 0 2rem !important;
+    position: relative !important;
+    display: inline-block !important;
+    width: 100% !important;
+}
+
+.jiw-location-title::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -8px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #1e5a8e, #2a75b8) !important;
+    border-radius: 2px !important;
+}
+
+/* Service Name */
+.jiw-service-name {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+    color: #1a1a1a !important;
+}
+
+.jiw-service-card.featured .jiw-service-name {
+    color: #ffffff !important;
+}
+</style>
 
 <!--
     ========================================================================

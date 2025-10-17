@@ -25,34 +25,39 @@ Use these formatting options:
    - Click **"Heading 2"** in the toolbar
    - The CSS will automatically center it and add a blue underline
 
-#### Adding a New Service
+#### Adding a New Service Card
 
-1. **Wrap the service in a div** (optional, for card styling):
-   - Type `<div class="service-item">` before the service
-   - Add your content
-   - Type `</div>` after the service
+**EASIEST METHOD - Copy & Paste:**
 
-2. **Service name**:
-   - Type the service name (e.g., "Jewish Identity Verification Service")
-   - Highlight it and click **"Heading 3"**
+1. **Find an existing service card** similar to what you want to add
+2. **In the visual editor**, highlight the entire card (from the service name to the contact info)
+3. **Copy it** (Ctrl+C or Cmd+C)
+4. **Click where you want the new card** (after another service or location)
+5. **Paste it** (Ctrl+V or Cmd+V)
+6. **Edit the pasted content** - just change the text to your new service details
 
-3. **Website link**:
-   - Type the website URL
-   - Highlight it
-   - Click the **"Insert Link"** button
-   - Paste the full URL
+**MANUAL METHOD - Using Source Code:**
 
-4. **Cost or FREE badge**:
-   - For free services: Type "FREE - For the Russian Community of Ontario"
-   - For paid services: Type "Cost: $280 USD per individual"
-   - Make "Cost:" **bold**
+1. **Click the "Source" button** in the toolbar (looks like `<>`)
+2. **Find an existing service** that looks like this:
+   ```html
+   <div class="service-item">
+   <h3>Service Name</h3>
+   <p>...</p>
+   </div>
+   ```
+3. **Copy the entire `<div class="service-item">...</div>` block**
+4. **Paste it where you want the new service**
+5. **Click "Source" again** to go back to visual editor
+6. **Edit the text** in your new card
 
-5. **Contact Information**:
-   - Type "Contact:" and make it **bold**
-   - Type the contact name
-   - Press Enter for new line
-   - Type "Email:" (make bold), then add email as a link
-   - Type "Phone:" (make bold), then add phone number
+**WHAT TO EDIT:**
+
+- **Service name**: Change the Heading 3 text
+- **Website link**: Click the link, click "Edit Link" button, update URL
+- **Cost/FREE text**: Just edit the text
+- **Contact info**: Update name, email, phone number
+- **For featured cards** (like Toronto): Use `<div class="service-item featured">` instead
 
 ### Step 3: Save Changes
 

@@ -31,6 +31,12 @@
 4. **Chabad One Compatible**: Ensure all code works when injected into their CMS platform
 5. **Responsive Design**: Must work across different devices and screen sizes
 
+## Git Workflow
+**IMPORTANT**: Do NOT use `git commit` or `git push` unless explicitly requested by the user.
+- The user will handle all git commits and pushes themselves
+- You may use `git add` to stage files if needed
+- Wait for explicit permission before committing changes
+
 ## Timeline Data Structure
 Events stored in JSON format within `<script type="application/json" id="timeline-data">` tags:
 ```json
