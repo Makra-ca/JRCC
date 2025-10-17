@@ -14,12 +14,29 @@
     font-family: 'Urbanist', sans-serif !important;
 }
 
-/* White Background */
+/* White Background - No Images */
 body.cco_body,
 #BodyContainer,
 #co_content_container,
 .clearfix,
 .jiw-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
     background: #ffffff !important;
 }
 
