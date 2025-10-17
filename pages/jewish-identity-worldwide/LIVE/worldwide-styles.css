@@ -340,3 +340,36 @@
     #co_content_container .jiw-container {
         padding: 3rem 1.5rem !important;
     }
+
+/* Fallback styles without #co_content_container (in case elements are not wrapped) */
+.jiw-service-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem !important;
+    padding-top: 4rem !important;
+    position: relative !important;
+    border: 2px solid transparent !important;
+}
+
+.jiw-service-number {
+    position: absolute !important;
+    top: 1.5rem !important;
+    right: 1.5rem !important;
+    width: 50px !important;
+    height: 50px !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+}
+
+.jiw-hero {
+    min-height: 60vh !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    padding: 5rem 2rem 3rem !important;
+    text-align: center !important;
+}
