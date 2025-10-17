@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   MEIR SHLOMO SIMCHA GMACH - MINIMAL CSS
+
+   This CSS automatically styles content based on HTML structure.
+   Staff can edit content visually - no code knowledge needed!
+   =================================================================== */
+
+/* Reset and Base Styles */
+.gmach-content,
+.gmach-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* White Background - No Images */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.gmach-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles on master-content-wrapper */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   BANNER IMAGE
+   =================================================================== */
+
+.gmach-banner {
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    padding: 0 !important;
+}
+
+.gmach-banner img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ===================================================================
+   TEXT CONTENT
+   =================================================================== */
+
+.gmach-text {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 2rem !important;
+}
+
+.gmach-text p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 1.5rem 0 !important;
+    text-align: justify !important;
+}
+
+.gmach-text p:last-child {
+    margin-bottom: 0 !important;
+}
+
+/* Emphasis on key phrases */
+.gmach-text strong,
+.gmach-text b {
+    color: #1e5a8e !important;
+    font-weight: 700 !important;
+}
+
+/* Quotes or italics */
+.gmach-text em,
+.gmach-text i {
+    font-style: italic !important;
+    color: #2a75b8 !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .gmach-text {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .gmach-text p {
+        font-size: 1rem !important;
+        text-align: left !important;
+    }
+
+    .gmach-banner {
+        margin: 0 0 2rem 0 !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+/* Ensure our styles override Chabad One's default styling */
+#BodyContainer .gmach-content p,
+#BodyContainer .gmach-text p {
+    font-family: 'Urbanist', sans-serif !important;
+    text-align: justify !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
