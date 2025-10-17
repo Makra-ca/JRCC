@@ -33,9 +33,19 @@ body.cco_body,
 .body_wrapper,
 #content,
 .master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
 .co_content_container,
 [class*="wrapper"],
 [class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles on master-content-wrapper */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
     background-image: none !important;
     background: #ffffff !important;
 }
