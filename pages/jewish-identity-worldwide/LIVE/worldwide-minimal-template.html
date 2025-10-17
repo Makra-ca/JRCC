@@ -85,3 +85,26 @@ The CSS will automatically style everything beautifully!
 <!-- END EXAMPLE CONTENT -->
 
 </div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style>
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: #ffffff !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
