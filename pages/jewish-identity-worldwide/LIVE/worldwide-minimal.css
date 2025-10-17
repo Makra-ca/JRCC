@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   JEWISH IDENTITY WORLDWIDE - MINIMAL CSS
+
+   This CSS automatically styles content based on HTML structure.
+   Staff can edit content visually - no code knowledge needed!
+   =================================================================== */
+
+/* Reset and Base Styles */
+.jiw-content,
+.jiw-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* White Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.jiw-content {
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HEADER SECTION
+   =================================================================== */
+
+/* Main Page Title (H1) */
+.jiw-content > h1,
+.jiw-content h1:first-child {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 7vw, 4rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    padding: 4rem 2rem !important;
+    margin: 0 0 1rem 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (first paragraph or .subtitle) */
+.jiw-content .subtitle,
+.jiw-content > p:first-of-type {
+    font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    font-style: italic !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    padding: 1rem !important;
+}
+
+/* ===================================================================
+   LOCATION SECTIONS
+   =================================================================== */
+
+/* Location Titles (H2) */
+.jiw-content h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 4vw, 2.2rem) !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    text-align: center !important;
+    margin: 4rem 0 2rem 0 !important;
+    position: relative !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Underline for location titles */
+.jiw-content h2::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #1e5a8e, #2a75b8) !important;
+    border-radius: 2px !important;
+}
+
+/* ===================================================================
+   SERVICE CARDS
+   =================================================================== */
+
+/* Service Item Container */
+.jiw-content .service-item {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.jiw-content .service-item:hover {
+    box-shadow: 0 10px 25px rgba(30, 90, 142, 0.15) !important;
+    transform: translateY(-2px) !important;
+    border-color: #2a75b8 !important;
+}
+
+/* Featured Service (Toronto) */
+.jiw-content .service-item.featured {
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-color: transparent !important;
+}
+
+.jiw-content .service-item.featured h3,
+.jiw-content .service-item.featured p,
+.jiw-content .service-item.featured strong,
+.jiw-content .service-item.featured a {
+    color: #ffffff !important;
+}
+
+.jiw-content .service-item.featured a:hover {
+    opacity: 0.9 !important;
+}
+
+/* Service Names (H3) */
+.jiw-content .service-item h3,
+.jiw-content h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+/* Links */
+.jiw-content .service-item a {
+    color: #1e5a8e !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.jiw-content .service-item a:hover {
+    color: #2a75b8 !important;
+    text-decoration: underline !important;
+}
+
+/* Paragraphs in service items */
+.jiw-content .service-item p {
+    color: #1a1a1a !important;
+    line-height: 1.7 !important;
+    margin: 0.5rem 0 !important;
+}
+
+/* Bold labels (Contact:, Email:, etc.) */
+.jiw-content .service-item strong {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+/* Free Badge */
+.jiw-content .free-badge,
+.jiw-content .service-item p.free-badge {
+    background: #ffffff !important;
+    color: #1e5a8e !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+    margin: 1rem 0 !important;
+}
+
+.jiw-content .service-item.featured .free-badge {
+    background: #ffffff !important;
+    color: #1e5a8e !important;
+}
+
+/* Cost Information */
+.jiw-content .service-item p strong:first-child {
+    display: inline-block !important;
+    min-width: 80px !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .jiw-content > h1,
+    .jiw-content h1:first-child {
+        font-size: 2rem !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .jiw-content h2 {
+        font-size: 1.5rem !important;
+        margin: 3rem 0 1.5rem 0 !important;
+    }
+
+    .jiw-content .service-item {
+        padding: 1.5rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+/* Ensure our styles override Chabad One's default styling */
+#BodyContainer .jiw-content h1,
+#BodyContainer .jiw-content h2,
+#BodyContainer .jiw-content h3,
+#BodyContainer .jiw-content p,
+#BodyContainer .jiw-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
