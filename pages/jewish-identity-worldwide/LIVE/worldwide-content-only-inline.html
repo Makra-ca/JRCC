@@ -1,0 +1,334 @@
+<!--
+    ========================================================================
+    STAFF: This is the ONLY file you need to edit!
+
+    To find where to edit, press Ctrl+F (or Cmd+F on Mac) and search for:
+    "EDIT THE DATA BELOW"
+    ========================================================================
+-->
+
+<!-- Load styles from GitHub via jsDelivr CDN (fixes MIME type issue) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jewish-identity-worldwide/LIVE/worldwide-styles.css" />
+
+<!--
+    ========================================================================
+    📝 STAFF: EDIT THE DATA BELOW TO ADD/MODIFY SERVICES
+    ========================================================================
+
+    See EDITING-INSTRUCTIONS.md for help!
+
+    Quick tips:
+    - Change text between "quotes"
+    - Copy cards/locations as templates
+    - Add commas between items (NOT after the last one)
+    - Use "" for empty fields
+    ========================================================================
+-->
+
+<script type="application/json" id="worldwide-data">
+{
+  "hero": {
+    "title": "Jewish Identity Verification Services Worldwide",
+    "subtitle": "For Jews of Russian descent"
+  },
+  "locations": [
+    {
+      "locationName": "Toronto, Canada",
+      "cards": [
+        {
+          "serviceName": "Jewish Identity Verification Service (JIVS)",
+          "featured": true,
+          "website": "https://www.jrcc.org/jewishidentity",
+          "websiteDisplay": "www.jrcc.org/jewishidentity",
+          "cost": "",
+          "isFree": true,
+          "freeText": "FREE - For the Russian Community of Ontario",
+          "donationNote": "A suggested donation is $250 CAD per individual to cover the expenses. All donations are greatly appreciated and tax deductible. Thank you!",
+          "contact": "Ms. Mazal Makalski",
+          "title": "Jewish Identity Verification Coordinator",
+          "email": "mazal.makalski@jrcc.org",
+          "phone": "416-222-7105 ext. 237"
+        }
+      ]
+    },
+    {
+      "locationName": "Worldwide",
+      "cards": [
+        {
+          "serviceName": "Institute of Jewish Status",
+          "featured": false,
+          "website": "https://www.jewishstatus.org/",
+          "websiteDisplay": "www.jewishstatus.org",
+          "cost": "$280 USD per individual",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "",
+          "title": "",
+          "email": "",
+          "phone": ""
+        }
+      ]
+    },
+    {
+      "locationName": "USA",
+      "cards": [
+        {
+          "serviceName": "RCA - Jewish Verification",
+          "featured": false,
+          "website": "https://bethdin.org/application-to-open-a-file-for-a-status-certificate/",
+          "websiteDisplay": "bethdin.org/application-to-open-a-file-for-a-status-certificate",
+          "cost": "$275 USD per individual",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "",
+          "title": "",
+          "email": "",
+          "phone": ""
+        }
+      ]
+    },
+    {
+      "locationName": "Israel",
+      "cards": [
+        {
+          "serviceName": "Am Levaded",
+          "featured": false,
+          "website": "",
+          "websiteDisplay": "",
+          "cost": "",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "Rabbi Naftoli Shraiber",
+          "title": "",
+          "email": "Naftoli_shraiber@yahoo.com",
+          "phone": "+972-54-522-9879"
+        }
+      ]
+    },
+    {
+      "locationName": "Russia",
+      "cards": [
+        {
+          "serviceName": "Beis Din Services",
+          "featured": false,
+          "website": "",
+          "websiteDisplay": "",
+          "cost": "",
+          "isFree": false,
+          "freeText": "",
+          "donationNote": "",
+          "contact": "Rabbi Israel Barenbaum",
+          "title": "",
+          "email": "beis-din@mail.ru",
+          "phone": "+7-495-926-0002"
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ========== AUTO-GENERATED CONTENT (DO NOT EDIT BELOW) ========== -->
+
+<div class="jiw-hero" id="jiw-hero-section"></div>
+<div class="jiw-container" id="jiw-content-container"></div>
+
+<script>
+(function() {
+    console.log('=== INLINE SCRIPT LOADED ===');
+    console.log('Document ready state:', document.readyState);
+
+    function tryInitialize() {
+        console.log('=== ATTEMPTING TO INITIALIZE ===');
+        var heroSection = document.getElementById('jiw-hero-section');
+        var container = document.getElementById('jiw-content-container');
+        console.log('Hero section found:', !!heroSection);
+        console.log('Container found:', !!container);
+
+        if (!heroSection || !container) {
+            console.log('Elements not ready yet, retrying in 200ms...');
+            setTimeout(tryInitialize, 200);
+            return;
+        }
+
+        console.log('Elements found! Proceeding with initialization...');
+        initWorldwideServices();
+    }
+
+    function initWorldwideServices() {
+        console.log('=== INITIALIZING WORLDWIDE SERVICES ===');
+        var dataElement = document.getElementById('worldwide-data');
+        console.log('Found dataElement:', dataElement);
+
+        if (!dataElement) {
+            console.error('ERROR: worldwide-data element not found!');
+            return;
+        }
+
+        console.log('dataElement text content length:', dataElement.textContent.length);
+
+        var data;
+        try {
+            data = JSON.parse(dataElement.textContent);
+            console.log('Successfully loaded data:', data);
+        } catch (e) {
+            console.error('Failed to parse JSON:', e);
+            return;
+        }
+
+        console.log('Building hero section...');
+        var heroSection = document.getElementById('jiw-hero-section');
+        var heroContent = document.createElement('div');
+        heroContent.className = 'jiw-hero-content';
+        var heroTitle = document.createElement('h1');
+        heroTitle.className = 'jiw-hero-title';
+        heroTitle.textContent = data.hero.title;
+        var heroSubtitle = document.createElement('p');
+        heroSubtitle.className = 'jiw-hero-subtitle';
+        heroSubtitle.textContent = data.hero.subtitle;
+        heroContent.appendChild(heroTitle);
+        heroContent.appendChild(heroSubtitle);
+        heroSection.appendChild(heroContent);
+        console.log('Hero section built successfully');
+
+        console.log('Building content...');
+        var container = document.getElementById('jiw-content-container');
+        var cardNumber = 1;
+        console.log('Processing', data.locations.length, 'locations...');
+
+        data.locations.forEach(function(location) {
+            var locationSection = document.createElement('div');
+            locationSection.className = 'jiw-location-section';
+            var locationHeader = document.createElement('div');
+            locationHeader.className = 'jiw-location-header';
+            var locationTitle = document.createElement('h2');
+            locationTitle.className = 'jiw-location-title';
+            locationTitle.textContent = location.locationName;
+            locationHeader.appendChild(locationTitle);
+            locationSection.appendChild(locationHeader);
+            var servicesGrid = document.createElement('div');
+            servicesGrid.className = 'jiw-services-grid';
+
+            location.cards.forEach(function(card) {
+                var serviceCard = document.createElement('div');
+                serviceCard.className = 'jiw-service-card' + (card.featured ? ' featured' : '');
+                var serviceNumber = document.createElement('div');
+                serviceNumber.className = 'jiw-service-number';
+                serviceNumber.textContent = cardNumber;
+                serviceCard.appendChild(serviceNumber);
+                var serviceName = document.createElement('h3');
+                serviceName.className = 'jiw-service-name';
+                serviceName.textContent = card.serviceName;
+                serviceCard.appendChild(serviceName);
+
+                if (card.website || card.cost || card.isFree) {
+                    var serviceInfo = document.createElement('div');
+                    serviceInfo.className = 'jiw-service-info';
+                    if (card.website) {
+                        var link = document.createElement('a');
+                        link.href = card.website;
+                        link.className = 'jiw-service-link';
+                        link.target = '_blank';
+                        link.textContent = card.websiteDisplay;
+                        serviceInfo.appendChild(link);
+                    }
+                    if (card.isFree) {
+                        var costDiv = document.createElement('div');
+                        costDiv.className = 'jiw-service-cost free';
+                        costDiv.textContent = card.freeText;
+                        serviceInfo.appendChild(costDiv);
+                    } else if (card.cost) {
+                        var costDiv = document.createElement('div');
+                        costDiv.className = 'jiw-service-cost';
+                        costDiv.textContent = 'Cost: ' + card.cost;
+                        serviceInfo.appendChild(costDiv);
+                    }
+                    if (card.donationNote) {
+                        var noteP = document.createElement('p');
+                        noteP.style.marginTop = '1rem';
+                        noteP.style.fontSize = '0.95rem';
+                        noteP.style.lineHeight = '1.6';
+                        noteP.textContent = card.donationNote;
+                        serviceInfo.appendChild(noteP);
+                    }
+                    serviceCard.appendChild(serviceInfo);
+                }
+
+                if (card.contact || card.title || card.email || card.phone) {
+                    var contactInfo = document.createElement('div');
+                    contactInfo.className = 'jiw-contact-info';
+                    if (card.contact) {
+                        var contactItem = document.createElement('div');
+                        contactItem.className = 'jiw-contact-item';
+                        var strong = document.createElement('strong');
+                        strong.textContent = 'Contact:';
+                        contactItem.appendChild(strong);
+                        contactItem.appendChild(document.createTextNode(' ' + card.contact));
+                        contactInfo.appendChild(contactItem);
+                    }
+                    if (card.title) {
+                        var titleItem = document.createElement('div');
+                        titleItem.className = 'jiw-contact-item';
+                        var strong = document.createElement('strong');
+                        strong.textContent = 'Title:';
+                        titleItem.appendChild(strong);
+                        titleItem.appendChild(document.createTextNode(' ' + card.title));
+                        contactInfo.appendChild(titleItem);
+                    }
+                    if (card.email) {
+                        var emailItem = document.createElement('div');
+                        emailItem.className = 'jiw-contact-item';
+                        var strong = document.createElement('strong');
+                        strong.textContent = 'Email:';
+                        emailItem.appendChild(strong);
+                        emailItem.appendChild(document.createTextNode(' '));
+                        var emailLink = document.createElement('a');
+                        emailLink.href = 'mailto:' + card.email;
+                        emailLink.textContent = card.email;
+                        emailItem.appendChild(emailLink);
+                        contactInfo.appendChild(emailItem);
+                    }
+                    if (card.phone) {
+                        var phoneItem = document.createElement('div');
+                        phoneItem.className = 'jiw-contact-item';
+                        var strong = document.createElement('strong');
+                        strong.textContent = 'Phone:';
+                        phoneItem.appendChild(strong);
+                        phoneItem.appendChild(document.createTextNode(' '));
+                        var phoneLink = document.createElement('a');
+                        phoneLink.href = 'tel:' + card.phone.replace(/\s/g, '');
+                        phoneLink.textContent = card.phone;
+                        phoneItem.appendChild(phoneLink);
+                        contactInfo.appendChild(phoneItem);
+                    }
+                    serviceCard.appendChild(contactInfo);
+                }
+
+                servicesGrid.appendChild(serviceCard);
+                cardNumber++;
+            });
+
+            locationSection.appendChild(servicesGrid);
+            container.appendChild(locationSection);
+        });
+
+        console.log('=== SUCCESS ===');
+        console.log('Successfully built', cardNumber - 1, 'cards');
+        console.log('=== DONE ===');
+    }
+
+    if (document.readyState === 'loading') {
+        console.log('Waiting for DOMContentLoaded...');
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOMContentLoaded fired!');
+            setTimeout(tryInitialize, 100);
+        });
+    } else {
+        console.log('DOM already ready, initializing with delay...');
+        setTimeout(tryInitialize, 100);
+    }
+})();
+</script>
