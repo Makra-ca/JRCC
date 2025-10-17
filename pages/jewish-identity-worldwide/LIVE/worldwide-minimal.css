@@ -216,92 +216,9 @@ div.master-content-wrapper.g960[style*="background-image"] {
 }
 
 /* ===================================================================
-   FOOTER STYLING
+   FOOTER STYLING - Handled in HTML template inline styles
    =================================================================== */
-
-/* Footer container */
-#footer,
-.footer,
-div[id*="footer"],
-div[class*="footer_container"] {
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
-    color: #ffffff !important;
-    padding: 3rem 2rem 2rem 2rem !important;
-    margin-top: 4rem !important;
-    border-top: 4px solid #3b8fd1 !important;
-}
-
-/* Footer text */
-.footer *,
-#footer *,
-div[class*="footer"] * {
-    color: #ffffff !important;
-    font-family: 'Urbanist', sans-serif !important;
-}
-
-/* Footer title */
-.footer_title,
-.footer h1,
-.footer h2,
-.footer h3,
-#footer h1,
-#footer h2,
-#footer h3 {
-    color: #ffffff !important;
-    font-weight: 700 !important;
-    margin-bottom: 1rem !important;
-    font-size: 1.5rem !important;
-}
-
-/* Footer address and contact info */
-.footer_address,
-.footer p,
-#footer p {
-    color: #ffffff !important;
-    line-height: 1.8 !important;
-    opacity: 0.95 !important;
-}
-
-/* Footer links */
-.footer a,
-#footer a,
-div[class*="footer"] a {
-    color: #ffffff !important;
-    text-decoration: none !important;
-    transition: opacity 0.3s ease !important;
-}
-
-.footer a:hover,
-#footer a:hover,
-div[class*="footer"] a:hover {
-    opacity: 0.8 !important;
-    text-decoration: underline !important;
-}
-
-/* Copyright text */
-.footer_text,
-div[class*="footer"] .copyright,
-#footer .copyright {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 0.9rem !important;
-    margin-top: 1.5rem !important;
-    padding-top: 1.5rem !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-}
-
-/* Footer "Powered by Chabad.org" */
-div[class*="footer"] a[href*="chabad.org"],
-#footer a[href*="chabad.org"] {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 0.85rem !important;
-}
-
-/* Remove bottom padding that creates white space */
-.bottom_padding,
-div.bottom_padding {
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-}
+/* Footer styles removed - now in worldwide-minimal-template.html */
 
 /* ===================================================================
    RESPONSIVE DESIGN
@@ -321,13 +238,6 @@ div.bottom_padding {
 
     .jiw-content .service-item {
         padding: 1.5rem !important;
-    }
-
-    /* Footer responsive */
-    #footer,
-    .footer,
-    div[class*="footer_container"] {
-        padding: 2rem 1.5rem !important;
     }
 }
 
