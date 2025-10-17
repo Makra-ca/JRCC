@@ -163,7 +163,7 @@
 #co_content_container .jiw-service-number {
     position: absolute !important;
     top: 1.5rem !important;
-    left: 1.5rem !important;
+    right: 1.5rem !important;
     width: 50px !important;
     height: 50px !important;
     background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
