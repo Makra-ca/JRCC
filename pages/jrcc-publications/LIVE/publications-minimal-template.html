@@ -113,7 +113,7 @@ div[class*="content"] {
 .publications-content {
     max-width: 1400px !important;
     margin: 0 auto !important;
-    padding: 4rem 3rem !important;
+    padding: 2rem 3rem 4rem 3rem !important;
     position: relative !important;
     z-index: 1 !important;
 }
@@ -121,11 +121,11 @@ div[class*="content"] {
 /* Main page title */
 .publications-content > h1 {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 3rem !important;
+    font-size: 4rem !important;
     font-weight: 700 !important;
     color: #1e5a8e !important;
     text-align: center !important;
-    margin: 0 0 4rem 0 !important;
+    margin: 0 0 3rem 0 !important;
     padding: 0 !important;
     position: relative !important;
     z-index: 2 !important;
@@ -163,7 +163,7 @@ div[class*="content"] {
 
 .publication-card img {
     width: 100% !important;
-    height: 300px !important;
+    height: 350px !important;
     object-fit: cover !important;
     display: block !important;
     transition: transform 0.3s ease !important;
@@ -175,10 +175,10 @@ div[class*="content"] {
 
 .publication-card .card-title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.5rem !important;
+    font-size: 1.75rem !important;
     font-weight: 700 !important;
     color: #1e5a8e !important;
-    padding: 1.5rem !important;
+    padding: 2rem !important;
     margin: 0 !important;
     text-align: center !important;
     background: #ffffff !important;
@@ -192,11 +192,18 @@ div[class*="content"] {
     color: #2a75b8 !important;
 }
 
+/* Carousel wrapper for articles */
+.carousel-wrapper {
+    position: relative !important;
+    overflow: hidden !important;
+    padding: 2rem 0 !important;
+    z-index: 2 !important;
+}
+
 /* Style the Chabad One article index container */
 .article_index_container,
 .co_index {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    display: flex !important;
     gap: 3rem !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -204,6 +211,22 @@ div[class*="content"] {
     background: transparent !important;
     position: relative !important;
     z-index: 2 !important;
+    animation: carousel-scroll 30s linear infinite !important;
+    width: max-content !important;
+}
+
+.article_index_container:hover,
+.co_index:hover {
+    animation-play-state: paused !important;
+}
+
+@keyframes carousel-scroll {
+    0% {
+        transform: translateX(0) !important;
+    }
+    100% {
+        transform: translateX(-50%) !important;
+    }
 }
 
 /* Individual publication cards */
@@ -217,7 +240,9 @@ div[class*="content"] {
     display: flex !important;
     flex-direction: column !important;
     position: relative !important;
-    height: 100% !important;
+    min-width: 350px !important;
+    max-width: 350px !important;
+    flex-shrink: 0 !important;
 }
 
 .co_index .item:hover,
@@ -230,7 +255,7 @@ div[class*="content"] {
 .co_index .item img,
 .article_index_container .item img {
     width: 100% !important;
-    height: 300px !important;
+    height: 350px !important;
     object-fit: cover !important;
     display: block !important;
     transition: transform 0.3s ease !important;
@@ -245,10 +270,10 @@ div[class*="content"] {
 .co_index .item .title,
 .article_index_container .item .title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.5rem !important;
+    font-size: 1.75rem !important;
     font-weight: 700 !important;
     color: #1e5a8e !important;
-    padding: 1.5rem !important;
+    padding: 2rem !important;
     margin: 0 !important;
     text-align: center !important;
     background: #ffffff !important;
@@ -293,46 +318,81 @@ div[class*="content"] {
 /* Mobile responsive */
 @media (max-width: 768px) {
     .publications-content {
-        padding: 2rem 1.5rem !important;
+        padding: 1rem 1.5rem 2rem 1.5rem !important;
     }
 
     .publications-content > h1 {
-        font-size: 2rem !important;
+        font-size: 2.5rem !important;
         margin: 0 0 2rem 0 !important;
     }
 
-    .article_index_container,
-    .co_index {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
+    .co_index .item,
+    .article_index_container .item {
+        min-width: 280px !important;
+        max-width: 280px !important;
     }
 
     .co_index .item img,
     .article_index_container .item img {
-        height: 250px !important;
+        height: 280px !important;
     }
 
     .co_index .item .title,
     .article_index_container .item .title {
-        font-size: 1.25rem !important;
-        padding: 1rem !important;
+        font-size: 1.35rem !important;
+        padding: 1.5rem !important;
+    }
+
+    .publication-card img {
+        height: 280px !important;
+    }
+
+    .publication-card .card-title {
+        font-size: 1.35rem !important;
+        padding: 1.5rem !important;
     }
 }
 
 /* Tablet responsive */
 @media (min-width: 769px) and (max-width: 1024px) {
-    .article_index_container,
-    .co_index {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 2.5rem !important;
+    .publications-content > h1 {
+        font-size: 3rem !important;
     }
-}
 
-/* Large screens - 3 columns */
-@media (min-width: 1025px) {
-    .article_index_container,
-    .co_index {
-        grid-template-columns: repeat(3, 1fr) !important;
+    .co_index .item,
+    .article_index_container .item {
+        min-width: 320px !important;
+        max-width: 320px !important;
     }
 }
 </style>
+
+<!-- Carousel JavaScript for seamless infinite scroll -->
+<script>
+(function() {
+    // Wait for DOM to load
+    function initCarousel() {
+        const coIndex = document.querySelector('.co_index, .article_index_container');
+
+        if (!coIndex || coIndex.children.length === 0) {
+            // Retry after a short delay if articles haven't loaded yet
+            setTimeout(initCarousel, 500);
+            return;
+        }
+
+        // Duplicate all items for seamless loop
+        const items = Array.from(coIndex.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            coIndex.appendChild(clone);
+        });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+        initCarousel();
+    }
+})();
+</script>
