@@ -7,10 +7,8 @@
     ========================================================================
 -->
 
-<!-- Load styles from GitHub -->
-<style>
-@import url('https://raw.githubusercontent.com/bestestiscool/JRCC/refs/heads/main/pages/jewish-identity-worldwide/LIVE/worldwide-styles.css');
-</style>
+<!-- Load styles from GitHub via jsDelivr CDN (fixes MIME type issue) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jewish-identity-worldwide/LIVE/worldwide-styles.css" />
 
 <!--
     ========================================================================
@@ -142,7 +140,19 @@
 (function() {
     // Load JSON data
     const dataElement = document.getElementById('worldwide-data');
-    const data = JSON.parse(dataElement.textContent);
+    if (!dataElement) {
+        console.error('worldwide-data element not found!');
+        return;
+    }
+
+    let data;
+    try {
+        data = JSON.parse(dataElement.textContent);
+        console.log('Successfully loaded data:', data);
+    } catch (e) {
+        console.error('Failed to parse JSON:', e);
+        return;
+    }
 
     // Build Hero Section
     const heroSection = document.getElementById('jiw-hero-section');
@@ -228,5 +238,8 @@
     });
 
     container.innerHTML = html;
+    console.log('Successfully built', cardNumber - 1, 'cards');
+    console.log('Hero element:', document.getElementById('jiw-hero-section'));
+    console.log('Container element:', document.getElementById('jiw-content-container'));
 })();
 </script>
