@@ -136,5 +136,11 @@
 <section class="jiw-hero" id="jiw-hero-section"></section>
 <div class="jiw-container" id="jiw-content-container"></div>
 
-<!-- Load JavaScript from GitHub via jsDelivr CDN (bypasses CSP restrictions) -->
-<script src="https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jewish-identity-worldwide/LIVE/worldwide-script.js"></script>
+<!-- Load JavaScript dynamically to bypass CMS sanitization -->
+<script>
+(function() {
+    var script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jewish-identity-worldwide/LIVE/worldwide-script.js?v=' + Date.now();
+    document.body.appendChild(script);
+})();
+</script>
