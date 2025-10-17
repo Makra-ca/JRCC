@@ -1,0 +1,227 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template styles your publication articles automatically.
+Add new publications using the normal Chabad One article system.
+====================================================================
+-->
+
+<!-- Load styling from GitHub (auto-updates when design changes) -->
+<style>
+@import url('https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/jrcc-publications/LIVE/publications-minimal.css');
+</style>
+
+<!--
+====================================================================
+STAFF INSTRUCTIONS: Adding New Publications
+====================================================================
+To add a new publication:
+1. Go to the article management section in Chabad One
+2. Click "Add Article"
+3. Upload the publication image
+4. Add the publication title
+5. Add the link URL
+6. Publish - the styling will be applied automatically!
+
+The CSS will style all articles in a modern grid layout.
+====================================================================
+-->
+
+<div class="publications-content">
+
+<h1>JRCC Publications</h1>
+
+<!--
+  Publications will appear here automatically from Chabad One's article system.
+  The .co_index container with .item cards will be styled by our CSS.
+-->
+
+</div>
+
+<!-- Inline styles for immediate effect -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Publications content wrapper */
+.publications-content {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 4rem 3rem !important;
+    position: relative !important;
+}
+
+/* Main page title */
+.publications-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    text-align: center !important;
+    margin: 0 0 4rem 0 !important;
+    padding: 0 !important;
+}
+
+/* Style the Chabad One article index container */
+.article_index_container,
+.co_index {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 3rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+    background: transparent !important;
+}
+
+/* Individual publication cards */
+.co_index .item,
+.article_index_container .item {
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+    height: 100% !important;
+}
+
+.co_index .item:hover,
+.article_index_container .item:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 32px rgba(30, 90, 142, 0.2) !important;
+}
+
+/* Publication card images */
+.co_index .item img,
+.article_index_container .item img {
+    width: 100% !important;
+    height: 300px !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.3s ease !important;
+}
+
+.co_index .item:hover img,
+.article_index_container .item:hover img {
+    transform: scale(1.05) !important;
+}
+
+/* Publication titles */
+.co_index .item .title,
+.article_index_container .item .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    padding: 1.5rem !important;
+    margin: 0 !important;
+    text-align: center !important;
+    background: #ffffff !important;
+    flex-grow: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.co_index .item .title a,
+.article_index_container .item .title a {
+    color: #1e5a8e !important;
+    text-decoration: none !important;
+    transition: color 0.3s ease !important;
+}
+
+.co_index .item:hover .title a,
+.article_index_container .item:hover .title a {
+    color: #2a75b8 !important;
+}
+
+/* Publication subtitles/descriptions */
+.co_index .item .subtitle,
+.co_index .item .synopsis,
+.article_index_container .item .subtitle,
+.article_index_container .item .synopsis {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1rem !important;
+    color: #666666 !important;
+    padding: 0 1.5rem 1.5rem 1.5rem !important;
+    margin: 0 !important;
+    text-align: center !important;
+    font-style: italic !important;
+}
+
+/* Remove any default clearfix styling */
+.co_index .clearfix,
+.article_index_container .clearfix {
+    display: contents !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .publications-content {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .publications-content > h1 {
+        font-size: 2rem !important;
+        margin: 0 0 2rem 0 !important;
+    }
+
+    .article_index_container,
+    .co_index {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    .co_index .item img,
+    .article_index_container .item img {
+        height: 250px !important;
+    }
+
+    .co_index .item .title,
+    .article_index_container .item .title {
+        font-size: 1.25rem !important;
+        padding: 1rem !important;
+    }
+}
+
+/* Tablet responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .article_index_container,
+    .co_index {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 2.5rem !important;
+    }
+}
+
+/* Large screens - 3 columns */
+@media (min-width: 1025px) {
+    .article_index_container,
+    .co_index {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+</style>
