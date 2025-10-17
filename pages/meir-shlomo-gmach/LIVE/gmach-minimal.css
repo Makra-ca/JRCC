@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
 /* ===================================================================
-   MEIR SHLOMO SIMCHA GMACH - MINIMAL CSS
+   MEIR SHLOMO SIMCHA GMACH - MODERN DESIGN
 
    This CSS automatically styles content based on HTML structure.
    Staff can edit content visually - no code knowledge needed!
@@ -58,39 +58,53 @@ div.master-content-wrapper.g960[style*="background-image"] {
 }
 
 /* ===================================================================
-   BANNER IMAGE
+   BANNER IMAGE - MODERN STYLE
    =================================================================== */
 
 .gmach-banner {
     text-align: center !important;
-    margin: 0 0 3rem 0 !important;
+    margin: 0 0 4rem 0 !important;
     padding: 0 !important;
 }
 
 .gmach-banner img {
     max-width: 100% !important;
     height: auto !important;
-    border-radius: 12px !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
 /* ===================================================================
-   TEXT CONTENT
+   TEXT CONTENT - LARGER & MORE MODERN
    =================================================================== */
 
 .gmach-text {
-    max-width: 900px !important;
-    margin: 0 auto !important;
-    padding: 2rem !important;
+    max-width: 1000px !important;
+    margin: 0 auto 5rem auto !important;
+    padding: 0 3rem !important;
 }
 
+/* Introduction paragraph - larger and standout */
+.gmach-text .gmach-intro {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    line-height: 1.9 !important;
+    color: #1e5a8e !important;
+    font-weight: 500 !important;
+    margin: 0 0 3rem 0 !important;
+    padding: 2rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%) !important;
+    border-left: 4px solid #2a75b8 !important;
+    border-radius: 8px !important;
+}
+
+/* Regular paragraphs - much larger */
 .gmach-text p {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.125rem !important;
-    line-height: 1.8 !important;
-    color: #1a1a1a !important;
-    margin: 0 0 1.5rem 0 !important;
-    text-align: justify !important;
+    font-size: 1.25rem !important;
+    line-height: 2 !important;
+    color: #2a2a2a !important;
+    margin: 0 0 2rem 0 !important;
 }
 
 .gmach-text p:last-child {
@@ -109,6 +123,62 @@ div.master-content-wrapper.g960[style*="background-image"] {
 .gmach-text i {
     font-style: italic !important;
     color: #2a75b8 !important;
+    font-weight: 500 !important;
+}
+
+/* ===================================================================
+   ACTION BUTTONS - MODERN & ENGAGING
+   =================================================================== */
+
+.gmach-actions {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 3rem !important;
+    display: flex !important;
+    gap: 2rem !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+
+.gmach-button {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    padding: 1.25rem 3rem !important;
+    border-radius: 50px !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    text-align: center !important;
+    min-width: 240px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Primary Button (Donation) */
+.gmach-button-primary {
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    color: #ffffff !important;
+    border: 2px solid transparent !important;
+}
+
+.gmach-button-primary:hover {
+    background: linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
+}
+
+/* Secondary Button (Loan Application) */
+.gmach-button-secondary {
+    background: #ffffff !important;
+    color: #1e5a8e !important;
+    border: 2px solid #1e5a8e !important;
+}
+
+.gmach-button-secondary:hover {
+    background: #1e5a8e !important;
+    color: #ffffff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
 }
 
 /* ===================================================================
@@ -117,16 +187,31 @@ div.master-content-wrapper.g960[style*="background-image"] {
 
 @media (max-width: 768px) {
     .gmach-text {
-        padding: 1.5rem 1rem !important;
+        padding: 0 1.5rem !important;
+    }
+
+    .gmach-text .gmach-intro {
+        font-size: 1.25rem !important;
+        padding: 1.5rem !important;
     }
 
     .gmach-text p {
-        font-size: 1rem !important;
-        text-align: left !important;
+        font-size: 1.125rem !important;
+        line-height: 1.8 !important;
     }
 
     .gmach-banner {
-        margin: 0 0 2rem 0 !important;
+        margin: 0 0 3rem 0 !important;
+    }
+
+    .gmach-actions {
+        padding: 2rem 1.5rem !important;
+        gap: 1.5rem !important;
+    }
+
+    .gmach-button {
+        width: 100% !important;
+        min-width: auto !important;
     }
 }
 
@@ -138,7 +223,12 @@ div.master-content-wrapper.g960[style*="background-image"] {
 #BodyContainer .gmach-content p,
 #BodyContainer .gmach-text p {
     font-family: 'Urbanist', sans-serif !important;
-    text-align: justify !important;
+}
+
+#BodyContainer .gmach-content a,
+#BodyContainer .gmach-button {
+    font-family: 'Urbanist', sans-serif !important;
+    text-decoration: none !important;
 }
 
 #BodyContainer .article-header,
