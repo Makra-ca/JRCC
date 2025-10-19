@@ -1,0 +1,529 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template provides modern styling for the Welcome Meeting page.
+All styles are inline for maximum compatibility with Chabad One CMS.
+Includes subtle fade-in and slide animations on page load.
+====================================================================
+-->
+
+<div class="welcome-content">
+
+    <!-- Decorative background -->
+    <div class="welcome-bg-decorator"></div>
+
+    <h1 class="fade-in-title">Welcome Meeting</h1>
+    
+    <!-- Main content card -->
+    <div class="content-card fade-in-card">
+      <div class="card-body">
+        <p class="lead-text fade-in-text">Have you recently immigrated to Canada? We would like to officially welcome you and help you integrate into our community.</p>
+    
+        <div class="highlight-box slide-in-box">
+          <h2>What We Offer</h2>
+          <p>New immigrants may not be fully aware of the services our community has to offer, so the Jewish Russian Community Centre (JRCC) is providing welcome meetings to guide immigrants to services that can improve their lives in Canada.</p>
+    
+          <p>These meetings include a walk-through of all the services that are offered in our community – at JRCC and other Jewish community services – that may aid you and your family in your transition. We also assess your needs and give you referrals to partner agencies that offer the services you require.</p>
+    
+          <p><strong>Note:</strong> The meetings occur virtually (e.g., Zoom) or via a phone call until further notice.</p>
+        </div>
+    
+        <p class="info-text glow-text">If you are interested in scheduling a welcome meeting, please contact us.</p>
+      </div>
+    </div>
+    
+    <!-- Contact section -->
+    <div class="contact-section fade-in-contact">
+      <h2>Contact Information</h2>
+    
+      <div class="contact-grid">
+        <a href="tel:4162227105,999" class="contact-card">
+          <div class="contact-icon">
+            <span style="font-size: 28px; line-height: 1; color: #ffffff; font-weight: 300;">☎</span>
+          </div>
+          <div class="contact-info">
+            <div class="contact-label">Phone</div>
+            <div class="contact-value">416-222-7105 ext. 999</div>
+          </div>
+        </a>
+    
+        <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm" class="contact-card">
+          <div class="contact-icon">
+            <span style="font-size: 28px; line-height: 1; color: #ffffff; font-weight: 300;">✉</span>
+          </div>
+          <div class="contact-info">
+            <div class="contact-label">Email</div>
+            <div class="contact-value">Fill out this form</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    </div>
+    
+    <!-- Inline styles for immediate effect -->
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+    
+    /* Remove default background images and spacing */
+    body,
+    body.cco_body,
+    #BodyContainer,
+    #co_content_container,
+    .clearfix,
+    .body_wrapper,
+    #content,
+    .master-content-wrapper,
+    .master-content-wrapper.g960,
+    div.master-content-wrapper.g960,
+    div[class*="master-content"],
+    div[class*="wrapper"],
+    div[class*="content"] {
+        background-image: none !important;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        min-height: 0 !important;
+    }
+    
+    /* Remove header spacing */
+    #BodyContainer {
+        padding-top: 0 !important;
+    }
+    
+    .master-content-wrapper {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+    
+    /* Decorative background element */
+    .welcome-bg-decorator {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 100vh !important;
+        background:
+            radial-gradient(circle at 20% 10%, rgba(30, 90, 142, 0.04) 0%, transparent 40%),
+            radial-gradient(circle at 80% 30%, rgba(42, 117, 184, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 40% 70%, rgba(59, 143, 209, 0.03) 0%, transparent 40%),
+            linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f0f7fb 60%, #e8f4f8 100%) !important;
+        z-index: 0 !important;
+        pointer-events: none !important;
+        animation: bgFloat 20s ease-in-out infinite !important;
+    }
+    
+    @keyframes bgFloat {
+        0%, 100% { transform: translateY(0) !important; }
+        50% { transform: translateY(-20px) !important; }
+    }
+    
+    /* Fade-in animations */
+    @keyframes fadeInDown {
+        from {
+            opacity: 0 !important;
+            transform: translateY(-30px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0 !important;
+            transform: translateY(30px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+    
+    @keyframes slideInLeft {
+        from {
+            opacity: 0 !important;
+            transform: translateX(-40px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+    }
+    
+    @keyframes scaleIn {
+        from {
+            opacity: 0 !important;
+            transform: scale(0.95) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0 !important;
+        }
+        to {
+            opacity: 1 !important;
+        }
+    }
+
+    /* Simple opacity pulse - most compatible */
+    @keyframes opacityPulse {
+        0%, 100% {
+            opacity: 0.85 !important;
+        }
+        50% {
+            opacity: 1 !important;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0 !important;
+            transform: translateY(20px) !important;
+        }
+        to {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+    }
+
+    /* Shimmer animation for title */
+    @keyframes shimmer {
+        0% {
+            background-position: -200% center !important;
+        }
+        100% {
+            background-position: 200% center !important;
+        }
+    }
+
+    /* Pulse animation */
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1) !important;
+        }
+        50% {
+            transform: scale(1.05) !important;
+        }
+    }
+
+    /* Bounce animation */
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0) !important;
+        }
+        40% {
+            transform: translateY(-10px) !important;
+        }
+        60% {
+            transform: translateY(-5px) !important;
+        }
+    }
+    
+    /* Highlight text styling */
+    .glow-text {
+        animation: opacityPulse 2s ease-in-out infinite !important;
+        font-weight: 700 !important;
+        font-size: 1.875rem !important;
+        color: #1e5a8e !important;
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+        padding: 1.5rem 3rem !important;
+        border-radius: 18px !important;
+        display: inline-block !important;
+        max-width: 95% !important;
+        border: 3px solid #2a75b8 !important;
+        box-shadow:
+            0 8px 30px rgba(30, 90, 142, 0.3),
+            0 4px 15px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+        text-shadow: none !important;
+        transition: all 0.3s ease !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .glow-text:hover {
+        transform: translateY(-2px) !important;
+        background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%) !important;
+        border-color: #1e5a8e !important;
+        box-shadow:
+            0 12px 40px rgba(30, 90, 142, 0.4),
+            0 6px 20px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    }
+
+    /* Apply animations to elements */
+    .fade-in-title {
+        animation: fadeInDown 0.8s ease-out, shimmer 3s linear infinite !important;
+        background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 25%, #3b8fd1 50%, #2a75b8 75%, #1e5a8e 100%) !important;
+        background-size: 200% auto !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+    
+    .fade-in-card {
+        animation: fadeIn 1.2s ease-out 2s !important;
+    }
+    
+    .fade-in-text {
+        animation: fadeIn 1s ease-out 0.3s !important;
+    }
+    
+    .slide-in-box {
+        animation: slideInLeft 0.8s ease-out 0.5s !important;
+    }
+    
+    
+    .fade-in-contact {
+        animation: fadeInUp 0.8s ease-out 0.9s !important;
+    }
+    
+    /* Content wrapper */
+    .welcome-content {
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        padding: 0.5rem 3rem 4rem 3rem !important;
+        position: relative !important;
+        z-index: 1 !important;
+    }
+    
+    /* Main page title */
+    .welcome-content > h1 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 4rem !important;
+        font-weight: 800 !important;
+        text-align: center !important;
+        margin: 0 0 2.5rem 0 !important;
+        padding: 0 !important;
+        position: relative !important;
+        z-index: 2 !important;
+        letter-spacing: -1px !important;
+    }
+    
+    /* Main content card */
+    .content-card {
+        background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+        border-radius: 24px !important;
+        padding: 3rem !important;
+        margin-bottom: 3rem !important;
+        box-shadow:
+            0 10px 40px rgba(0, 0, 0, 0.08),
+            0 2px 8px rgba(30, 90, 142, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+        position: relative !important;
+        z-index: 2 !important;
+        border: 2px solid rgba(30, 90, 142, 0.08) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    }
+    
+    .content-card:hover {
+        transform: translateY(-4px) !important;
+        box-shadow:
+            0 15px 50px rgba(0, 0, 0, 0.1),
+            0 4px 12px rgba(30, 90, 142, 0.08) !important;
+    }
+    
+    .card-body p {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 1.5rem !important;
+        line-height: 1.8 !important;
+        color: #333333 !important;
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .lead-text {
+        font-size: 1.625rem !important;
+        font-weight: 500 !important;
+        color: #1e5a8e !important;
+        text-align: center !important;
+    }
+    
+    .highlight-box {
+        background: linear-gradient(135deg, rgba(30, 90, 142, 0.05) 0%, rgba(59, 143, 209, 0.05) 100%) !important;
+        border-left: 4px solid #2a75b8 !important;
+        border-radius: 12px !important;
+        padding: 2rem !important;
+        margin: 2rem 0 !important;
+        transition: transform 0.3s ease, border-color 0.3s ease !important;
+    }
+    
+    .highlight-box:hover {
+        transform: translateX(8px) !important;
+        border-color: #3b8fd1 !important;
+    }
+    
+    .highlight-box h2 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 2rem !important;
+        font-weight: 700 !important;
+        background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        margin: 0 0 1rem 0 !important;
+        animation: pulse 3s ease-in-out infinite !important;
+    }
+    
+    .highlight-box p {
+        margin-bottom: 1rem !important;
+        font-size: 1.5rem !important;
+    }
+    
+    .info-text {
+        text-align: center !important;
+        font-weight: 500 !important;
+        color: #1e5a8e !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    
+    /* Contact section */
+    .contact-section {
+        position: relative !important;
+        z-index: 2 !important;
+        margin-top: 4rem !important;
+        padding-top: 2rem !important;
+    }
+    
+    .contact-section h2 {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 2.5rem !important;
+        font-weight: 700 !important;
+        background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        text-align: center !important;
+        margin: 0 0 2rem 0 !important;
+    }
+    
+    .contact-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 1.5rem !important;
+    }
+    
+    .contact-card {
+        background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+        border-radius: 20px !important;
+        padding: 2rem !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 1.5rem !important;
+        text-decoration: none !important;
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.08),
+            0 2px 8px rgba(30, 90, 142, 0.06) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        border: 2px solid rgba(30, 90, 142, 0.08) !important;
+    }
+    
+    .contact-card:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+        box-shadow:
+            0 16px 48px rgba(30, 90, 142, 0.15),
+            0 4px 16px rgba(0, 0, 0, 0.1) !important;
+        border-color: rgba(30, 90, 142, 0.2) !important;
+    }
+    
+    .contact-icon {
+        flex-shrink: 0 !important;
+        width: 56px !important;
+        height: 56px !important;
+        background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #ffffff !important;
+        transition: transform 0.3s ease !important;
+    }
+    
+    .contact-card:hover .contact-icon {
+        transform: rotate(10deg) scale(1.1) !important;
+        animation: bounce 0.6s ease !important;
+    }
+    
+    .contact-info {
+        flex: 1 !important;
+    }
+    
+    .contact-label {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 1.125rem !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.5px !important;
+        color: #666666 !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .contact-value {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 1.375rem !important;
+        font-weight: 600 !important;
+        background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+    
+    /* Sidebar spacing fix */
+    #sidebar-local-navigation,
+    .sidebar-local-navigation,
+    aside[class*="sidebar"],
+    .co_local_menu {
+        padding-top: 2rem !important;
+        margin-top: 2rem !important;
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .welcome-content {
+            padding: 0.25rem 1rem 2rem 1rem !important;
+        }
+    
+        .welcome-content > h1 {
+            font-size: 2.5rem !important;
+            margin: 0 0 1.5rem 0 !important;
+        }
+    
+        .content-card {
+            padding: 2rem 1.5rem !important;
+        }
+    
+        .highlight-box {
+            padding: 1.5rem !important;
+        }
+    
+        .contact-grid {
+            grid-template-columns: 1fr !important;
+        }
+    
+        .contact-card {
+            padding: 1.5rem !important;
+        }
+    }
+    
+    /* Reduce motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+    </style>
+    
