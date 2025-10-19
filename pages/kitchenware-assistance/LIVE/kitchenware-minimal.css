@@ -248,10 +248,15 @@ div.card-icon svg {
 div.contact-icon svg {
     width: 28px !important;
     height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
     stroke: currentColor !important;
     stroke-width: 2 !important;
     fill: none !important;
-    display: inline-block !important;
+    display: block !important;
+    flex-shrink: 0 !important;
 }
 
 .contact-info {
