@@ -1,0 +1,320 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template provides modern styling for the Healthy @ Home page.
+Bilingual (Russian/English) content included.
+All styles are inline for maximum compatibility with Chabad One CMS.
+====================================================================
+-->
+
+<div class="healthy-content">
+
+<!-- Decorative background -->
+<div class="healthy-bg-decorator"></div>
+
+<h1>Healthy @ Home</h1>
+<h2 class="subtitle">Здоровье для пенсионеров</h2>
+
+<!-- Header Image -->
+<div class="header-image">
+  <img src="/media/images/1330/goPi13303901.png" alt="Healthy @ Home Program" style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+</div>
+
+<!-- Russian Section -->
+<div class="content-card language-section">
+  <h2 class="section-title">Описание Программы</h2>
+
+  <div class="card-body">
+    <p class="lead-text"><strong><em>Программа «Здоровье для пенсионеров»</em></strong> предназначена для создания поддерживающей среды для пожилых людей в нашей общине, многие из которых сталкиваются с одиночеством и изоляцией, а также испытывают трудности с доступом к информации о медицинской помощи и услугах.</p>
+
+    <div class="highlight-box">
+      <p>Эта программа поддерживает и укрепляет еврейскую связь в местах проживания пожилых людей — в многоквартирных домах вдоль Bathurst Street. Участники программы получают возможность собираться в дружественной обстановке, узнавать о важных и жизненно необходимых вопросах здоровья, а также получать доступ к услугам на дому.</p>
+    </div>
+
+    <p class="info-text">Для получения дополнительной информации о программе «Здоровье для пенсионеров» свяжитесь с нашим главным офисом по телефону <strong>416-222-7105, доб. 293</strong>.</p>
+  </div>
+</div>
+
+<!-- English Section -->
+<div class="content-card language-section">
+  <h2 class="section-title">Program Overview</h2>
+
+  <div class="card-body">
+    <p class="lead-text"><strong><em>Healthy at Home</em></strong> is designed to create supportive environments for seniors in our community, many of whom are isolated and lonely, and find it difficult to access information about health care and health care services.</p>
+
+    <div class="highlight-box">
+      <p><em>Healthy at Home</em> builds networks and Jewish connectivity where seniors live - in apartment buildings along the Bathurst Street corridor. It provides them opportunities to gather in social settings in which they learn about important, and often life-saving health matters, and receive access to in-home services.</p>
+    </div>
+
+    <p class="info-text">For more information about <em>Healthy at Home</em>, contact our main office at <strong>416-222-7105, ext. 293</strong>.</p>
+  </div>
+</div>
+
+<!-- Program Image -->
+<div class="program-image">
+  <img src="/media/images/1333/bwQy13330721.png" alt="Healthy @ Home Activities" style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); margin: 2rem 0;">
+</div>
+
+<!-- Registration Button -->
+<div class="registration-section">
+  <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/6991302/jewish/Healthy-At-Home-Registration.htm" class="registration-button">
+    <img src="/media/images/1330/tPnn13303520.png" alt="Register Now" style="max-width: 100%; height: auto;">
+  </a>
+</div>
+
+</div>
+
+<!-- Inline styles for immediate effect -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Decorative background element */
+.healthy-bg-decorator {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(30, 90, 142, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(42, 117, 184, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(59, 143, 209, 0.03) 0%, transparent 40%),
+        linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f0f7fb 60%, #e8f4f8 100%) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    animation: bgFloat 20s ease-in-out infinite !important;
+}
+
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(0) !important; }
+    50% { transform: translateY(-20px) !important; }
+}
+
+/* Content wrapper */
+.healthy-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.healthy-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    margin: 0 0 1rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (Russian) */
+.subtitle {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 600 !important;
+    color: #2a75b8 !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Header image container */
+.header-image {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Program image container */
+.program-image {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Language sections */
+.language-section {
+    margin-bottom: 2rem !important;
+}
+
+/* Section title */
+.section-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    margin: 0 0 1.5rem 0 !important;
+    text-align: center !important;
+}
+
+/* Main content card */
+.content-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin-bottom: 3rem !important;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(30, 90, 142, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    border: 2px solid rgba(30, 90, 142, 0.08) !important;
+}
+
+.card-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.lead-text {
+    font-size: 1.625rem !important;
+    font-weight: 500 !important;
+    color: #1e5a8e !important;
+    text-align: center !important;
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, rgba(30, 90, 142, 0.05) 0%, rgba(59, 143, 209, 0.05) 100%) !important;
+    border-left: 4px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    margin: 2rem 0 !important;
+}
+
+.highlight-box p {
+    margin-bottom: 0 !important;
+    font-size: 1.5rem !important;
+}
+
+.info-text {
+    text-align: center !important;
+    font-weight: 500 !important;
+    color: #1e5a8e !important;
+    font-size: 1.5rem !important;
+}
+
+/* Registration section */
+.registration-section {
+    text-align: center !important;
+    margin: 3rem 0 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.registration-button {
+    display: inline-block !important;
+    transition: all 0.3s ease !important;
+}
+
+.registration-button:hover {
+    transform: translateY(-4px) !important;
+    filter: brightness(1.05) !important;
+}
+
+.registration-button img {
+    transition: all 0.3s ease !important;
+}
+
+/* Sidebar spacing fix */
+#sidebar-local-navigation,
+.sidebar-local-navigation,
+aside[class*="sidebar"],
+.co_local_menu {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .healthy-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .healthy-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 0.75rem 0 !important;
+    }
+
+    .subtitle {
+        font-size: 1.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .section-title {
+        font-size: 1.75rem !important;
+    }
+
+    .content-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .card-body p {
+        font-size: 1.25rem !important;
+    }
+
+    .lead-text {
+        font-size: 1.375rem !important;
+    }
+
+    .highlight-box p {
+        font-size: 1.25rem !important;
+    }
+
+    .info-text {
+        font-size: 1.25rem !important;
+    }
+}
+</style>
