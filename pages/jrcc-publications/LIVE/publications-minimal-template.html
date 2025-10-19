@@ -54,7 +54,7 @@ The CSS will style all articles in a modern grid layout.
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
-/* Remove default background images */
+/* Remove default background images and spacing */
 body,
 body.cco_body,
 #BodyContainer,
@@ -71,49 +71,75 @@ div[class*="content"] {
     background-image: none !important;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
     padding-top: 0 !important;
+    padding-bottom: 0 !important;
     margin-top: 0 !important;
+    margin-bottom: 0 !important;
     min-height: 0 !important;
 }
 
-/* Decorative background element */
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Decorative background element - More modern and creative */
 .publications-bg-decorator {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    height: 100vh !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 30%, #f0f7fb 70%, #e8f4f8 100%) !important;
+    height: 150vh !important;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(30, 90, 142, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(42, 117, 184, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(59, 143, 209, 0.03) 0%, transparent 40%),
+        linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f0f7fb 60%, #e8f4f8 100%) !important;
     z-index: 0 !important;
     pointer-events: none !important;
+    animation: bgFloat 20s ease-in-out infinite !important;
+}
+
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(0) !important; }
+    50% { transform: translateY(-20px) !important; }
 }
 
 .publications-bg-decorator::before {
     content: '' !important;
     position: absolute !important;
-    top: 150px !important;
-    left: -150px !important;
-    width: 500px !important;
-    height: 500px !important;
-    background: radial-gradient(circle, rgba(30, 90, 142, 0.08) 0%, transparent 70%) !important;
+    top: 100px !important;
+    left: -200px !important;
+    width: 700px !important;
+    height: 700px !important;
+    background: radial-gradient(circle, rgba(30, 90, 142, 0.12) 0%, rgba(42, 117, 184, 0.06) 30%, transparent 70%) !important;
     pointer-events: none !important;
+    border-radius: 50% !important;
+    filter: blur(60px) !important;
 }
 
 .publications-bg-decorator::after {
     content: '' !important;
     position: absolute !important;
-    top: 400px !important;
-    right: -150px !important;
-    width: 600px !important;
-    height: 600px !important;
-    background: radial-gradient(circle, rgba(42, 117, 184, 0.1) 0%, transparent 70%) !important;
+    top: 500px !important;
+    right: -200px !important;
+    width: 800px !important;
+    height: 800px !important;
+    background: radial-gradient(circle, rgba(59, 143, 209, 0.14) 0%, rgba(42, 117, 184, 0.07) 35%, transparent 70%) !important;
     pointer-events: none !important;
+    border-radius: 50% !important;
+    filter: blur(80px) !important;
 }
 
 /* Publications content wrapper */
 .publications-content {
     max-width: 1400px !important;
     margin: 0 auto !important;
-    padding: 2rem 3rem 4rem 3rem !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
     position: relative !important;
     z-index: 1 !important;
 }
@@ -121,75 +147,81 @@ div[class*="content"] {
 /* Main page title */
 .publications-content > h1 {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 4rem !important;
-    font-weight: 700 !important;
-    color: #1e5a8e !important;
+    font-size: 4.5rem !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     text-align: center !important;
-    margin: 0 0 3rem 0 !important;
+    margin: 0 0 2.5rem 0 !important;
     padding: 0 !important;
     position: relative !important;
     z-index: 2 !important;
+    letter-spacing: -1px !important;
+    text-shadow: 0 2px 4px rgba(30, 90, 142, 0.1) !important;
 }
 
 /* Manual publication grid for custom cards */
 .publication-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
-    gap: 3rem !important;
+    display: block !important;
     padding: 0 !important;
-    margin: 0 0 3rem 0 !important;
+    margin: 0 0 4rem 0 !important;
     list-style: none !important;
     position: relative !important;
     z-index: 2 !important;
 }
 
-/* Individual publication card (manual) */
+/* Individual publication card (manual) - Featured/Hero style */
 .publication-card {
     background: #ffffff !important;
-    border-radius: 16px !important;
+    border-radius: 24px !important;
     overflow: hidden !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
-    display: flex !important;
-    flex-direction: column !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: block !important;
     text-decoration: none !important;
-    height: 100% !important;
+    position: relative !important;
 }
 
 .publication-card:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 32px rgba(30, 90, 142, 0.2) !important;
+    transform: translateY(-12px) scale(1.01) !important;
+    box-shadow: 0 20px 60px rgba(30, 90, 142, 0.25) !important;
 }
 
 .publication-card img {
     width: 100% !important;
-    height: 350px !important;
-    object-fit: cover !important;
+    height: 400px !important;
+    object-fit: contain !important;
     display: block !important;
-    transition: transform 0.3s ease !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background: #ffffff !important;
 }
 
 .publication-card:hover img {
-    transform: scale(1.05) !important;
+    transform: scale(1.03) !important;
 }
 
 .publication-card .card-title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.75rem !important;
+    font-size: 2.5rem !important;
     font-weight: 700 !important;
-    color: #1e5a8e !important;
-    padding: 2rem !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    padding: 2.5rem !important;
     margin: 0 !important;
     text-align: center !important;
-    background: #ffffff !important;
-    flex-grow: 1 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    background-color: #ffffff !important;
+    position: relative !important;
 }
 
 .publication-card:hover .card-title {
-    color: #2a75b8 !important;
+    background: linear-gradient(135deg, #2a75b8 0%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 /* Carousel wrapper for articles */
@@ -233,50 +265,55 @@ div[class*="content"] {
 .co_index .item,
 .article_index_container .item {
     background: #ffffff !important;
-    border-radius: 16px !important;
+    border-radius: 20px !important;
     overflow: hidden !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
     position: relative !important;
-    min-width: 350px !important;
-    max-width: 350px !important;
+    min-width: 420px !important;
+    max-width: 420px !important;
     flex-shrink: 0 !important;
+    border: 1px solid rgba(30, 90, 142, 0.08) !important;
 }
 
 .co_index .item:hover,
 .article_index_container .item:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 32px rgba(30, 90, 142, 0.2) !important;
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow: 0 16px 48px rgba(30, 90, 142, 0.22) !important;
+    border-color: rgba(30, 90, 142, 0.15) !important;
 }
 
 /* Publication card images */
 .co_index .item img,
 .article_index_container .item img {
     width: 100% !important;
-    height: 350px !important;
+    height: 420px !important;
     object-fit: cover !important;
     display: block !important;
-    transition: transform 0.3s ease !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .co_index .item:hover img,
 .article_index_container .item:hover img {
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
 }
 
 /* Publication titles */
 .co_index .item .title,
 .article_index_container .item .title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.75rem !important;
+    font-size: 2rem !important;
     font-weight: 700 !important;
-    color: #1e5a8e !important;
-    padding: 2rem !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    padding: 2.5rem !important;
     margin: 0 !important;
     text-align: center !important;
-    background: #ffffff !important;
+    background-color: #ffffff !important;
     flex-grow: 1 !important;
     display: flex !important;
     align-items: center !important;
@@ -285,14 +322,20 @@ div[class*="content"] {
 
 .co_index .item .title a,
 .article_index_container .item .title a {
-    color: #1e5a8e !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     text-decoration: none !important;
-    transition: color 0.3s ease !important;
+    transition: all 0.3s ease !important;
 }
 
 .co_index .item:hover .title a,
 .article_index_container .item:hover .title a {
-    color: #2a75b8 !important;
+    background: linear-gradient(135deg, #2a75b8 0%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 /* Publication subtitles/descriptions */
@@ -318,45 +361,13 @@ div[class*="content"] {
 /* Mobile responsive */
 @media (max-width: 768px) {
     .publications-content {
-        padding: 1rem 1.5rem 2rem 1.5rem !important;
+        padding: 0.25rem 1rem 2rem 1rem !important;
     }
 
     .publications-content > h1 {
-        font-size: 2.5rem !important;
-        margin: 0 0 2rem 0 !important;
-    }
-
-    .co_index .item,
-    .article_index_container .item {
-        min-width: 280px !important;
-        max-width: 280px !important;
-    }
-
-    .co_index .item img,
-    .article_index_container .item img {
-        height: 280px !important;
-    }
-
-    .co_index .item .title,
-    .article_index_container .item .title {
-        font-size: 1.35rem !important;
-        padding: 1.5rem !important;
-    }
-
-    .publication-card img {
-        height: 280px !important;
-    }
-
-    .publication-card .card-title {
-        font-size: 1.35rem !important;
-        padding: 1.5rem !important;
-    }
-}
-
-/* Tablet responsive */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .publications-content > h1 {
-        font-size: 3rem !important;
+        font-size: 2.8rem !important;
+        margin: 0 0 1.5rem 0 !important;
+        letter-spacing: -0.5px !important;
     }
 
     .co_index .item,
@@ -364,12 +375,146 @@ div[class*="content"] {
         min-width: 320px !important;
         max-width: 320px !important;
     }
+
+    .co_index .item img,
+    .article_index_container .item img {
+        height: 320px !important;
+    }
+
+    .co_index .item .title,
+    .article_index_container .item .title {
+        font-size: 1.5rem !important;
+        padding: 1.75rem !important;
+    }
+
+    .publication-card img {
+        height: 300px !important;
+    }
+
+    .publication-card .card-title {
+        font-size: 1.75rem !important;
+        padding: 2rem !important;
+    }
+}
+
+/* Tablet responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .publications-content {
+        padding: 0.5rem 2rem 3rem 2rem !important;
+    }
+
+    .publications-content > h1 {
+        font-size: 3.5rem !important;
+    }
+
+    .co_index .item,
+    .article_index_container .item {
+        min-width: 380px !important;
+        max-width: 380px !important;
+    }
+
+    .co_index .item img,
+    .article_index_container .item img {
+        height: 380px !important;
+    }
+
+    .publication-card img {
+        height: 350px !important;
+    }
 }
 </style>
 
-<!-- Carousel JavaScript for seamless infinite scroll -->
+<!-- Carousel Navigation Arrows -->
+<style>
+.carousel-nav {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #1e5a8e !important;
+    border-radius: 50% !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.carousel-nav:hover {
+    background: #1e5a8e !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
+}
+
+.carousel-nav:hover::before {
+    color: #ffffff !important;
+}
+
+.carousel-nav.prev {
+    left: 20px !important;
+}
+
+.carousel-nav.next {
+    right: 20px !important;
+}
+
+.carousel-nav::before {
+    content: '' !important;
+    border: solid #1e5a8e !important;
+    border-width: 0 4px 4px 0 !important;
+    display: inline-block !important;
+    padding: 8px !important;
+    transition: color 0.3s ease !important;
+}
+
+.carousel-nav.prev::before {
+    transform: rotate(135deg) !important;
+    margin-left: 5px !important;
+}
+
+.carousel-nav.next::before {
+    transform: rotate(-45deg) !important;
+    margin-right: 5px !important;
+}
+
+.carousel-nav:hover::before {
+    border-color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+    .carousel-nav {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .carousel-nav.prev {
+        left: 10px !important;
+    }
+
+    .carousel-nav.next {
+        right: 10px !important;
+    }
+
+    .carousel-nav::before {
+        padding: 6px !important;
+        border-width: 0 3px 3px 0 !important;
+    }
+}
+</style>
+
+<!-- Carousel JavaScript for seamless infinite scroll and navigation -->
 <script>
+//<![CDATA[
 (function() {
+    let scrollInterval = null;
+    let currentScroll = 0;
+    const scrollSpeed = 1; // pixels per frame
+    const cardWidth = 420 + 48; // card width + gap (in pixels)
+
     // Wait for DOM to load
     function initCarousel() {
         const coIndex = document.querySelector('.co_index, .article_index_container');
@@ -386,6 +531,69 @@ div[class*="content"] {
             const clone = item.cloneNode(true);
             coIndex.appendChild(clone);
         });
+
+        // Create wrapper for carousel with navigation
+        const originalParent = coIndex.parentElement;
+        const carouselWrapper = document.createElement('div');
+        carouselWrapper.style.position = 'relative';
+        carouselWrapper.style.overflow = 'hidden';
+        carouselWrapper.style.width = '100%';
+
+        // Move coIndex into wrapper
+        originalParent.insertBefore(carouselWrapper, coIndex);
+        carouselWrapper.appendChild(coIndex);
+
+        const prevButton = document.createElement('div');
+        prevButton.className = 'carousel-nav prev';
+        prevButton.setAttribute('aria-label', 'Previous');
+
+        const nextButton = document.createElement('div');
+        nextButton.className = 'carousel-nav next';
+        nextButton.setAttribute('aria-label', 'Next');
+
+        carouselWrapper.appendChild(prevButton);
+        carouselWrapper.appendChild(nextButton);
+
+        // Manual scroll function
+        function scrollCarousel(direction) {
+            const scrollAmount = cardWidth * direction;
+            currentScroll += scrollAmount;
+
+            // Smooth scroll
+            coIndex.style.transition = 'transform 0.5s ease';
+            coIndex.style.transform = 'translateX(' + (-currentScroll) + 'px)';
+
+            // Reset position for infinite loop
+            const halfWidth = coIndex.scrollWidth / 2;
+            setTimeout(function() {
+                if (currentScroll >= halfWidth) {
+                    coIndex.style.transition = 'none';
+                    currentScroll = 0;
+                    coIndex.style.transform = 'translateX(0)';
+                } else if (currentScroll < 0) {
+                    coIndex.style.transition = 'none';
+                    currentScroll = halfWidth - cardWidth;
+                    coIndex.style.transform = 'translateX(' + (-currentScroll) + 'px)';
+                }
+            }, 500);
+        }
+
+        // Button click handlers
+        prevButton.addEventListener('click', function() {
+            scrollCarousel(-1);
+        });
+        nextButton.addEventListener('click', function() {
+            scrollCarousel(1);
+        });
+
+        // Pause animation on hover
+        carouselWrapper.addEventListener('mouseenter', function() {
+            coIndex.style.animationPlayState = 'paused';
+        });
+
+        carouselWrapper.addEventListener('mouseleave', function() {
+            coIndex.style.animationPlayState = 'running';
+        });
     }
 
     // Initialize when DOM is ready
@@ -395,4 +603,5 @@ div[class*="content"] {
         initCarousel();
     }
 })();
+//]]>
 </script>

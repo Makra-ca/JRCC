@@ -119,10 +119,11 @@ div[class*="content"] {
 
 .publication-card img {
     width: 100% !important;
-    height: 350px !important;
-    object-fit: cover !important;
+    height: 400px !important;
+    object-fit: contain !important;
     display: block !important;
-    transition: transform 0.3s ease !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    background: #ffffff !important;
 }
 
 .publication-card:hover img {
