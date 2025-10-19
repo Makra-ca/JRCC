@@ -103,11 +103,15 @@ div[class*="content"] {
     color: #2a75b8 !important;
 }
 
-.card-icon svg {
+.card-icon svg,
+.card-icon > svg,
+div.card-icon svg {
     width: 64px !important;
     height: 64px !important;
     stroke: currentColor !important;
+    stroke-width: 2 !important;
     fill: none !important;
+    display: inline-block !important;
 }
 
 .card-body p {
@@ -239,11 +243,15 @@ div[class*="content"] {
     color: #ffffff !important;
 }
 
-.contact-icon svg {
+.contact-icon svg,
+.contact-icon > svg,
+div.contact-icon svg {
     width: 28px !important;
     height: 28px !important;
     stroke: currentColor !important;
+    stroke-width: 2 !important;
     fill: none !important;
+    display: inline-block !important;
 }
 
 .contact-info {

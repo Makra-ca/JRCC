@@ -8,7 +8,7 @@ This template provides modern styling for the Kitchenware Assistance page.
 
 <!-- Load styling from GitHub (auto-updates when design changes) -->
 <style>
-@import url('https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/kitchenware-assistance/LIVE/kitchenware-minimal.css');
+@import url('https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/kitchenware-assistance/LIVE/kitchenware-minimal.css?v=2');
 </style>
 
 <div class="kitchenware-content">
@@ -186,11 +186,15 @@ div[class*="content"] {
     color: #2a75b8 !important;
 }
 
-.card-icon svg {
+.card-icon svg,
+.card-icon > svg,
+div.card-icon svg {
     width: 64px !important;
     height: 64px !important;
     stroke: currentColor !important;
+    stroke-width: 2 !important;
     fill: none !important;
+    display: inline-block !important;
 }
 
 .card-body p {
@@ -322,11 +326,15 @@ div[class*="content"] {
     color: #ffffff !important;
 }
 
-.contact-icon svg {
+.contact-icon svg,
+.contact-icon > svg,
+div.contact-icon svg {
     width: 28px !important;
     height: 28px !important;
     stroke: currentColor !important;
+    stroke-width: 2 !important;
     fill: none !important;
+    display: inline-block !important;
 }
 
 .contact-info {
