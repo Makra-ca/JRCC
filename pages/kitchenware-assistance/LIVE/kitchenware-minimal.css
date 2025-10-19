@@ -1,0 +1,297 @@
+/* Kitchenware Assistance Page - External CSS */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Decorative background element */
+.kitchenware-bg-decorator {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(30, 90, 142, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(42, 117, 184, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(59, 143, 209, 0.03) 0%, transparent 40%),
+        linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f0f7fb 60%, #e8f4f8 100%) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    animation: bgFloat 20s ease-in-out infinite !important;
+}
+
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(0) !important; }
+    50% { transform: translateY(-20px) !important; }
+}
+
+/* Content wrapper */
+.kitchenware-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.kitchenware-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+}
+
+/* Main content card */
+.content-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin-bottom: 3rem !important;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(30, 90, 142, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    border: 2px solid rgba(30, 90, 142, 0.08) !important;
+}
+
+.card-icon {
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+    color: #2a75b8 !important;
+}
+
+.card-icon svg {
+    width: 64px !important;
+    height: 64px !important;
+}
+
+.card-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.lead-text {
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    color: #1e5a8e !important;
+    text-align: center !important;
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, rgba(30, 90, 142, 0.05) 0%, rgba(59, 143, 209, 0.05) 100%) !important;
+    border-left: 4px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    margin: 2rem 0 !important;
+}
+
+.highlight-box h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+.highlight-box p {
+    margin-bottom: 1rem !important;
+}
+
+.highlight-box ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.highlight-box li {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    color: #333333 !important;
+    padding: 0.5rem 0 !important;
+    padding-left: 1.5rem !important;
+    position: relative !important;
+}
+
+.highlight-box li::before {
+    content: '✓' !important;
+    position: absolute !important;
+    left: 0 !important;
+    color: #2a75b8 !important;
+    font-weight: bold !important;
+}
+
+.info-text {
+    text-align: center !important;
+    font-weight: 500 !important;
+    color: #1e5a8e !important;
+}
+
+/* Contact section */
+.contact-section {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.contact-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    margin: 0 0 2rem 0 !important;
+}
+
+.contact-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+}
+
+.contact-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    text-decoration: none !important;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(30, 90, 142, 0.06) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 2px solid rgba(30, 90, 142, 0.08) !important;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow:
+        0 16px 48px rgba(30, 90, 142, 0.15),
+        0 4px 16px rgba(0, 0, 0, 0.1) !important;
+    border-color: rgba(30, 90, 142, 0.2) !important;
+}
+
+.contact-icon {
+    flex-shrink: 0 !important;
+    width: 56px !important;
+    height: 56px !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #ffffff !important;
+}
+
+.contact-icon svg {
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.contact-info {
+    flex: 1 !important;
+}
+
+.contact-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #666666 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.contact-value {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .kitchenware-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .kitchenware-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .content-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .card-icon svg {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .highlight-box {
+        padding: 1.5rem !important;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .contact-card {
+        padding: 1.5rem !important;
+    }
+}
