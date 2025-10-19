@@ -1,0 +1,308 @@
+<div class="newcomer-content">
+    <div class="newcomer-bg-decorator"></div>
+
+    <h1>Newcomer Package</h1>
+
+    <div class="card">
+        <p class="intro-text">
+            JRCC would like to welcome Jewish newcomers to our community with our newcomer packages!
+        </p>
+
+        <div class="highlight-box">
+            <p>If you are a recent Jewish-Russian immigrant (less than 1 year in Canada), you are eligible to receive our newcomer package. New Jewish immigrants will also receive a walk-through of all the services that are offered in our community – at JRCC and other Jewish community services – that may aid their transition.</p>
+            <p><strong>Note:</strong> These meetings occur virtually (e.g., Zoom) or via a phone call until further notice.</p>
+        </div>
+
+        <div class="cta-section">
+            <div class="glow-text">
+                If you are interested in receiving our newcomer package, please contact us.
+            </div>
+        </div>
+
+        <div class="contact-cards">
+            <div class="contact-card">
+                <h3>Phone</h3>
+                <p><a href="tel:+14162227105">416-222-7105</a></p>
+                <p style="font-size: 1rem !important; color: #6c757d !important;">ext. 999</p>
+            </div>
+
+            <div class="contact-card">
+                <h3>Email</h3>
+                <p><a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm" target="_blank" rel="noopener noreferrer">Fill out this form</a></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing - but preserve sidebar */
+body,
+body.cco_body {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+}
+
+#BodyContainer,
+#co_content_container,
+.body_wrapper,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Decorative background element */
+.newcomer-bg-decorator {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 100vh !important;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(30, 90, 142, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(42, 117, 184, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(59, 143, 209, 0.03) 0%, transparent 40%),
+        linear-gradient(135deg, #f8f9fa 0%, #ffffff 25%, #f0f7fb 60%, #e8f4f8 100%) !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    animation: bgFloat 20s ease-in-out infinite !important;
+}
+
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(0) !important; }
+    50% { transform: translateY(-20px) !important; }
+}
+
+/* Shimmer effect for title */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center !important;
+    }
+    100% {
+        background-position: 200% center !important;
+    }
+}
+
+/* Opacity pulse animation (CMS-compatible) */
+@keyframes opacityPulse {
+    0%, 100% {
+        opacity: 0.85 !important;
+    }
+    50% {
+        opacity: 1 !important;
+    }
+}
+
+/* Content wrapper */
+.newcomer-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.newcomer-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4.5rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 25%, #3b8fd1 50%, #2a75b8 75%, #1e5a8e 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: shimmer 3s linear infinite !important;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin: 0 0 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-shadow:
+        0 10px 40px rgba(30, 90, 142, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow:
+        0 20px 60px rgba(30, 90, 142, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+.intro-text {
+    font-size: 1.625rem !important;
+    line-height: 1.8 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 2rem !important;
+    font-weight: 400 !important;
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    border-left: 4px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    margin: 2rem 0 !important;
+}
+
+.highlight-box p {
+    font-size: 1.5rem !important;
+    color: #1e5a8e !important;
+    font-weight: 500 !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+.highlight-box p:last-child {
+    margin-bottom: 0 !important;
+}
+
+.highlight-box strong {
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+}
+
+/* Animated call-to-action with CMS-compatible opacity animation */
+.cta-section {
+    text-align: center !important;
+    margin: 3rem 0 2rem 0 !important;
+}
+
+.glow-text {
+    animation: opacityPulse 2s ease-in-out infinite !important;
+    font-weight: 700 !important;
+    font-size: 2.125rem !important;
+    color: #1e5a8e !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    padding: 1.5rem 3rem !important;
+    border-radius: 18px !important;
+    border: 3px solid #2a75b8 !important;
+    display: inline-block !important;
+    margin-bottom: 2rem !important;
+    line-height: 1.4 !important;
+}
+
+.contact-cards {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    margin-top: 2rem !important;
+}
+
+.contact-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    text-align: center !important;
+    box-shadow:
+        0 4px 12px rgba(30, 90, 142, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid transparent !important;
+}
+
+.contact-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #3b8fd1 !important;
+    box-shadow:
+        0 12px 28px rgba(30, 90, 142, 0.15),
+        0 4px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.contact-card h3 {
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    margin-bottom: 1rem !important;
+}
+
+.contact-card p {
+    font-size: 1.5rem !important;
+    color: #2c3e50 !important;
+    margin: 0.5rem 0 !important;
+}
+
+.contact-card a {
+    color: #2a75b8 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.contact-card a:hover {
+    color: #1e5a8e !important;
+    text-decoration: underline !important;
+}
+
+/* Sidebar spacing fix */
+#sidebar-local-navigation,
+.sidebar-local-navigation,
+aside[class*="sidebar"],
+.co_local_menu {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .newcomer-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .newcomer-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .glow-text {
+        font-size: 1.5rem !important;
+        padding: 1.25rem 2rem !important;
+    }
+
+    .contact-cards {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
