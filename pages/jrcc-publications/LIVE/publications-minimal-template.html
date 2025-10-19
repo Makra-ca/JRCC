@@ -191,11 +191,9 @@ div[class*="content"] {
 
 .publication-card img {
     width: 100% !important;
-    height: 400px !important;
-    object-fit: contain !important;
+    height: auto !important;
     display: block !important;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    background: #ffffff !important;
 }
 
 .publication-card:hover img {
@@ -272,8 +270,8 @@ div[class*="content"] {
     display: flex !important;
     flex-direction: column !important;
     position: relative !important;
-    min-width: 420px !important;
-    max-width: 420px !important;
+    min-width: 550px !important;
+    max-width: 550px !important;
     flex-shrink: 0 !important;
     border: 1px solid rgba(30, 90, 142, 0.08) !important;
 }
@@ -289,7 +287,7 @@ div[class*="content"] {
 .co_index .item img,
 .article_index_container .item img {
     width: 100% !important;
-    height: 420px !important;
+    height: 550px !important;
     object-fit: cover !important;
     display: block !important;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -304,13 +302,13 @@ div[class*="content"] {
 .co_index .item .title,
 .article_index_container .item .title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 2rem !important;
+    font-size: 2.25rem !important;
     font-weight: 700 !important;
     background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
-    padding: 2.5rem !important;
+    padding: 3rem !important;
     margin: 0 !important;
     text-align: center !important;
     background-color: #ffffff !important;
@@ -372,23 +370,19 @@ div[class*="content"] {
 
     .co_index .item,
     .article_index_container .item {
-        min-width: 320px !important;
-        max-width: 320px !important;
+        min-width: 380px !important;
+        max-width: 380px !important;
     }
 
     .co_index .item img,
     .article_index_container .item img {
-        height: 320px !important;
+        height: 380px !important;
     }
 
     .co_index .item .title,
     .article_index_container .item .title {
-        font-size: 1.5rem !important;
-        padding: 1.75rem !important;
-    }
-
-    .publication-card img {
-        height: 300px !important;
+        font-size: 1.75rem !important;
+        padding: 2rem !important;
     }
 
     .publication-card .card-title {
@@ -409,17 +403,13 @@ div[class*="content"] {
 
     .co_index .item,
     .article_index_container .item {
-        min-width: 380px !important;
-        max-width: 380px !important;
+        min-width: 480px !important;
+        max-width: 480px !important;
     }
 
     .co_index .item img,
     .article_index_container .item img {
-        height: 380px !important;
-    }
-
-    .publication-card img {
-        height: 350px !important;
+        height: 480px !important;
     }
 }
 </style>
@@ -513,7 +503,7 @@ div[class*="content"] {
     let scrollInterval = null;
     let currentScroll = 0;
     const scrollSpeed = 1; // pixels per frame
-    const cardWidth = 420 + 48; // card width + gap (in pixels)
+    const cardWidth = 550 + 48; // card width + gap (in pixels)
 
     // Wait for DOM to load
     function initCarousel() {

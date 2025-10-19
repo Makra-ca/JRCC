@@ -119,11 +119,9 @@ div[class*="content"] {
 
 .publication-card img {
     width: 100% !important;
-    height: 400px !important;
-    object-fit: contain !important;
+    height: auto !important;
     display: block !important;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    background: #ffffff !important;
 }
 
 .publication-card:hover img {
@@ -190,50 +188,55 @@ div[class*="content"] {
 .co_index .item,
 .article_index_container .item {
     background: #ffffff !important;
-    border-radius: 16px !important;
+    border-radius: 20px !important;
     overflow: hidden !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     flex-direction: column !important;
     position: relative !important;
-    min-width: 350px !important;
-    max-width: 350px !important;
+    min-width: 550px !important;
+    max-width: 550px !important;
     flex-shrink: 0 !important;
+    border: 1px solid rgba(30, 90, 142, 0.08) !important;
 }
 
 .co_index .item:hover,
 .article_index_container .item:hover {
-    transform: translateY(-8px) !important;
-    box-shadow: 0 12px 32px rgba(30, 90, 142, 0.2) !important;
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow: 0 16px 48px rgba(30, 90, 142, 0.22) !important;
+    border-color: rgba(30, 90, 142, 0.15) !important;
 }
 
 /* Publication card images */
 .co_index .item img,
 .article_index_container .item img {
     width: 100% !important;
-    height: 350px !important;
+    height: 550px !important;
     object-fit: cover !important;
     display: block !important;
-    transition: transform 0.3s ease !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .co_index .item:hover img,
 .article_index_container .item:hover img {
-    transform: scale(1.05) !important;
+    transform: scale(1.08) !important;
 }
 
 /* Publication titles */
 .co_index .item .title,
 .article_index_container .item .title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.75rem !important;
+    font-size: 2.25rem !important;
     font-weight: 700 !important;
-    color: #1e5a8e !important;
-    padding: 2rem !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    padding: 3rem !important;
     margin: 0 !important;
     text-align: center !important;
-    background: #ffffff !important;
+    background-color: #ffffff !important;
     flex-grow: 1 !important;
     display: flex !important;
     align-items: center !important;
@@ -242,14 +245,20 @@ div[class*="content"] {
 
 .co_index .item .title a,
 .article_index_container .item .title a {
-    color: #1e5a8e !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
     text-decoration: none !important;
-    transition: color 0.3s ease !important;
+    transition: all 0.3s ease !important;
 }
 
 .co_index .item:hover .title a,
 .article_index_container .item:hover .title a {
-    color: #2a75b8 !important;
+    background: linear-gradient(135deg, #2a75b8 0%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 /* Publication subtitles/descriptions */
