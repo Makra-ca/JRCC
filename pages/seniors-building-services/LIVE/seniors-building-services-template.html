@@ -1,0 +1,265 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template provides modern styling for the Seniors Building Services page.
+All styles are inline for maximum compatibility with Chabad One CMS.
+====================================================================
+-->
+
+<div class="seniors-content">
+
+<h1>Seniors Building Services</h1>
+
+<!-- Important Notice -->
+<div class="notice-card">
+  <p class="notice-text">Our receptionist has info related to Jewish Services.</p>
+  <p class="notice-warning"><strong>We DO NOT have any information related to building management.</strong></p>
+</div>
+
+<!-- Building Information -->
+<div class="content-card">
+  <div class="card-body">
+    <h2 class="building-title">Seniors' Residence</h2>
+
+    <div class="address-box">
+      <p class="address-main"><strong><a href="/Article.asp?AID=91949">4455 Bathurst St.</a> at Sheppard</strong></p>
+      <p class="contact-person"><strong><em>Mr. Roman Goldstein</em></strong></p>
+    </div>
+
+    <div class="highlight-box">
+      <h3 style="font-family: 'Urbanist', sans-serif; font-size: 1.75rem; font-weight: 600; color: #1e5a8e; margin: 0 0 1rem 0; text-align: center;">Shabbat & Festivals</h3>
+      <p style="text-align: center; font-size: 1.5rem; margin: 0;">Shabbat services at 9:30 am</p>
+    </div>
+  </div>
+</div>
+
+<!-- Building Image -->
+<div class="building-image">
+  <img src="/media/images/1265/OsVR12652456.png" alt="Seniors Building" style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+</div>
+
+</div>
+
+<!-- Inline styles for immediate effect -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Content wrapper */
+.seniors-content {
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.seniors-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 50%, #3b8fd1 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+}
+
+/* Notice Card (Red Warning) */
+.notice-card {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%) !important;
+    border-left: 4px solid #dc3545 !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15) !important;
+}
+
+.notice-text {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    color: #333333 !important;
+    margin: 0 0 0.75rem 0 !important;
+    font-weight: 500 !important;
+}
+
+.notice-warning {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    color: #dc3545 !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+}
+
+/* Main content card */
+.content-card {
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(30, 90, 142, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    border: 2px solid rgba(30, 90, 142, 0.08) !important;
+}
+
+.card-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.building-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+.address-box {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+}
+
+.address-main {
+    font-size: 1.625rem !important;
+    color: #1e5a8e !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.address-main a {
+    color: #2a75b8 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.address-main a:hover {
+    color: #1e5a8e !important;
+    text-decoration: underline !important;
+}
+
+.contact-person {
+    font-size: 1.5rem !important;
+    color: #2a75b8 !important;
+    margin-bottom: 0 !important;
+}
+
+.highlight-box {
+    background: linear-gradient(135deg, rgba(30, 90, 142, 0.05) 0%, rgba(59, 143, 209, 0.05) 100%) !important;
+    border-left: 4px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 2rem !important;
+    margin: 2rem 0 0 0 !important;
+}
+
+/* Building Image */
+.building-image {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Sidebar spacing fix */
+#sidebar-local-navigation,
+.sidebar-local-navigation,
+aside[class*="sidebar"],
+.co_local_menu {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .seniors-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .seniors-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .notice-card {
+        padding: 1.5rem !important;
+    }
+
+    .notice-text,
+    .notice-warning {
+        font-size: 1.25rem !important;
+    }
+
+    .content-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .building-title {
+        font-size: 2rem !important;
+    }
+
+    .card-body p {
+        font-size: 1.25rem !important;
+    }
+
+    .address-main {
+        font-size: 1.375rem !important;
+    }
+
+    .contact-person {
+        font-size: 1.25rem !important;
+    }
+}
+</style>
