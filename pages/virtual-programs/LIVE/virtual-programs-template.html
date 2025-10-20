@@ -1,0 +1,272 @@
+<div class="virtual-content">
+    <h1>Virtual Programs</h1>
+
+    <div class="card">
+        <p class="intro-text">
+            Join us online for our virtual programs and community activities!
+        </p>
+
+        <!-- Program Images -->
+        <div class="program-images">
+            <a href="https://jrcc-org.zoom.us/my/jrcchq" class="image-link">
+                <img src="/media/images/1266/ztdv12661564.jpg" alt="Virtual Program 1" />
+            </a>
+            <a href="https://jrcc-org.zoom.us/my/jrcchq" class="image-link">
+                <img src="/media/images/1266/EtbB12661563.jpg" alt="Virtual Program 2" />
+            </a>
+        </div>
+
+        <!-- Zoom Link Button -->
+        <div class="zoom-section">
+            <a href="https://jrcc-org.zoom.us/my/jrcchq" class="zoom-button">
+                <span class="zoom-icon">📹</span>
+                JOIN ZOOM MEETING
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Remove header spacing */
+#BodyContainer {
+    padding-top: 0 !important;
+}
+
+.master-content-wrapper {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Shimmer effect for title */
+@keyframes shimmer {
+    0% {
+        background-position: -200% center !important;
+    }
+    100% {
+        background-position: 200% center !important;
+    }
+}
+
+/* Opacity pulse animation (CMS-compatible) */
+@keyframes opacityPulse {
+    0%, 100% {
+        opacity: 0.85 !important;
+    }
+    50% {
+        opacity: 1 !important;
+    }
+}
+
+/* Pulse animation for zoom button */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1) !important;
+    }
+    50% {
+        transform: scale(1.05) !important;
+    }
+}
+
+/* Content wrapper */
+.virtual-content {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.virtual-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4.5rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+    background: linear-gradient(90deg, #1e5a8e 0%, #2a75b8 25%, #3b8fd1 50%, #2a75b8 75%, #1e5a8e 100%) !important;
+    background-size: 200% auto !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: shimmer 3s linear infinite !important;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin: 0 0 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-shadow:
+        0 10px 40px rgba(30, 90, 142, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.intro-text {
+    font-size: 1.625rem !important;
+    line-height: 1.8 !important;
+    color: #2c3e50 !important;
+    margin-bottom: 2rem !important;
+    font-weight: 400 !important;
+    text-align: center !important;
+}
+
+/* Program Images */
+.program-images {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin: 2rem 0 3rem 0 !important;
+}
+
+.image-link {
+    display: block !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.image-link:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 16px 40px rgba(30, 90, 142, 0.2) !important;
+}
+
+.image-link img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    transition: all 0.3s ease !important;
+}
+
+.image-link:hover img {
+    filter: brightness(1.05) !important;
+}
+
+/* Zoom Section */
+.zoom-section {
+    text-align: center !important;
+    margin: 3rem 0 2rem 0 !important;
+}
+
+.zoom-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    animation: opacityPulse 2s ease-in-out infinite !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 2.25rem !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #660000 0%, #8b0000 100%) !important;
+    padding: 1.75rem 4rem !important;
+    border-radius: 18px !important;
+    border: 4px solid #4a0000 !important;
+    text-decoration: none !important;
+    box-shadow:
+        0 8px 30px rgba(102, 0, 0, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 2px !important;
+}
+
+.zoom-button:hover {
+    transform: translateY(-4px) scale(1.05) !important;
+    background: linear-gradient(135deg, #8b0000 0%, #a00000 100%) !important;
+    box-shadow:
+        0 12px 40px rgba(102, 0, 0, 0.5),
+        0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.zoom-icon {
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+}
+
+/* Sidebar spacing fix */
+#sidebar-local-navigation,
+.sidebar-local-navigation,
+aside[class*="sidebar"],
+.co_local_menu {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .virtual-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .virtual-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .intro-text {
+        font-size: 1.375rem !important;
+    }
+
+    .program-images {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .zoom-button {
+        font-size: 1.5rem !important;
+        padding: 1.25rem 2.5rem !important;
+        letter-spacing: 1px !important;
+    }
+
+    .zoom-icon {
+        font-size: 2rem !important;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
