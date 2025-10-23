@@ -9,11 +9,20 @@
     function applyFixes() {
         console.log('Healthy @ Home: Applying overflow fixes...');
 
-        // Find all parent containers up to the root
-        const customTitle = document.querySelector('.healthy-content > h1');
+        // Find the custom title (it's the second h1 on the page)
+        const allH1s = document.querySelectorAll('h1');
+        const customTitle = allH1s[1]; // Second h1 is our custom styled one
         if (!customTitle) {
             console.warn('Healthy @ Home: Custom title not found');
             return;
+        }
+
+        // CRITICAL FIX: Target the specific problematic container
+        const problemContainer = document.querySelector('div#co_content_container.content.g960.no_margin.no_overflow');
+        if (problemContainer) {
+            problemContainer.style.setProperty('overflow', 'visible', 'important');
+            problemContainer.style.setProperty('padding-top', '10px', 'important');
+            console.log('Healthy @ Home: Fixed problematic container #co_content_container');
         }
 
         // Apply overflow fixes to all parent elements
