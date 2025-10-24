@@ -224,100 +224,22 @@ window['_fs_namespace'] = 'FS';
 </style>
 
 <!-- ========================================
-     JRCC MODERN GLASSMORPHISM SIDEBAR
-     Site-wide sidebar styling for desktop and mobile
+     JRCC MODERN SIDEBAR
+     Desktop sidebar is fully controlled by JavaScript in custom-footer-code.html
      ======================================== -->
 <style>
-/* Desktop Sidebar - Glassmorphism Effect */
+/* Hide search sidebar on all screen sizes */
+.cco_search_form,
+.cco_search_header form,
+div[class*="search-trigger"],
+div[class*="search_header"],
+.co_search_header,
+#cco_search_header {
+    display: none !important;
+}
+
+/* Desktop Sidebar - Custom scrollbar only (positioning handled by JS) */
 @media (min-width: 769px) {
-    /* Ultra-specific selectors to override CMS defaults */
-    body div.g260,
-    body .g260,
-    html body div.g260,
-    div.g260.no_margin,
-    .g260.cco_search_header,
-    div.g260.cco_search_header,
-    body div.g260.no_margin.cco_search_header,
-    body div.g260.no_margin.cco_search_header.float_right,
-    #BodyContainer .g260,
-    #co_body_container .g260 {
-        position: fixed !important;
-        right: 0 !important;
-        top: 50% !important;
-        left: auto !important;
-        float: none !important;
-        transform: translateY(-50%) translateX(calc(100% - 45px)) !important;
-
-        /* Glassmorphism effect */
-        background: rgba(255, 255, 255, 0.95) !important;
-        backdrop-filter: blur(20px) saturate(180%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-
-        /* Premium borders and shadows */
-        border-radius: 24px 0 0 24px !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-right: none !important;
-        box-shadow:
-            -8px 0 32px rgba(0, 0, 0, 0.12),
-            -2px 0 8px rgba(0, 0, 0, 0.06),
-            inset 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
-
-        /* Sizing and spacing */
-        padding: 2rem 1.5rem 2rem 3.5rem !important;
-        margin: 0 !important;
-        width: 300px !important;
-        max-width: 300px !important;
-        max-height: 85vh !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-
-        /* Smooth spring animation */
-        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-
-        /* Layer - below header to not block donate button */
-        z-index: 999 !important;
-    }
-
-    /* Hover effects are handled by JavaScript in custom-footer-code.html */
-    /* This ensures consistent behavior across all browsers */
-
-    /* Tab indicator - slim line with icon */
-    body div.g260::before,
-    body .g260::before,
-    div.g260.no_margin::before,
-    .g260.cco_search_header::before,
-    div.g260.cco_search_header::before {
-        content: '☰' !important;
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        width: 45px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        font-size: 24px !important;
-        color: rgba(30, 58, 138, 0.9) !important;
-        text-shadow: 0 2px 8px rgba(30, 58, 138, 0.3) !important;
-        transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-        pointer-events: auto !important;
-        cursor: pointer !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-radius: 24px 0 0 24px !important;
-    }
-
-    /* Indicator changes on hover */
-    body div.g260:hover::before,
-    body .g260:hover::before,
-    div.g260.no_margin:hover::before,
-    .g260.cco_search_header:hover::before,
-    div.g260.cco_search_header:hover::before {
-        color: rgba(59, 130, 246, 1) !important;
-        text-shadow: 0 4px 12px rgba(59, 130, 246, 0.5) !important;
-        background: rgba(255, 255, 255, 1) !important;
-    }
-
-    /* Custom scrollbar for sidebar */
     .g260::-webkit-scrollbar,
     div.g260::-webkit-scrollbar,
     .cco_search_header::-webkit-scrollbar {
