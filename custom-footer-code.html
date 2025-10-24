@@ -1,0 +1,308 @@
+<!-- ========================================
+     JRCC SIDEBAR ENHANCEMENT
+     Site-wide sidebar functionality for desktop and mobile
+     ======================================== -->
+<script>
+//<![CDATA[
+(function() {
+    // DESKTOP SIDEBAR ENHANCEMENT
+    if (window.innerWidth > 768) {
+        // Wait for sidebar to load
+        function enhanceDesktopSidebar() {
+            var sidebar = document.querySelector('.g260, div.g260, .cco_search_header');
+            if (!sidebar) {
+                setTimeout(enhanceDesktopSidebar, 500);
+                return;
+            }
+
+            console.log('JRCC Desktop Sidebar: Found sidebar, enhancing...');
+
+            var isExpanded = false;
+            var hoverTimeout = null;
+
+            // Add mouseenter event to expand
+            sidebar.addEventListener('mouseenter', function() {
+                clearTimeout(hoverTimeout);
+                if (!isExpanded) {
+                    isExpanded = true;
+                    sidebar.style.setProperty('transform', 'translateY(-50%) translateX(0)', 'important');
+                    console.log('JRCC Desktop Sidebar: Expanded');
+                }
+            });
+
+            // Add mouseleave event to collapse
+            sidebar.addEventListener('mouseleave', function() {
+                clearTimeout(hoverTimeout);
+                hoverTimeout = setTimeout(function() {
+                    isExpanded = false;
+                    sidebar.style.setProperty('transform', 'translateY(-50%) translateX(calc(100% - 45px))', 'important');
+                    console.log('JRCC Desktop Sidebar: Collapsed');
+                }, 300); // Small delay before collapsing
+            });
+
+            console.log('JRCC Desktop Sidebar: Enhancement complete!');
+        }
+
+        enhanceDesktopSidebar();
+        return; // Exit - don't run mobile code
+    }
+
+    // MOBILE SIDEBAR BOTTOM SHEET
+    // Only run on mobile devices
+
+    var mobileSidebar = null;
+    var backdrop = null;
+    var isOpen = false;
+    var initialized = false;
+
+    function createMobileSidebar() {
+        // Prevent multiple initializations
+        if (initialized) return;
+
+        // Find the original sidebar
+        var original = document.querySelector('.g260, div.g260, .cco_search_header');
+        if (!original) {
+            console.log('JRCC Mobile Sidebar: Sidebar element not found yet...');
+            return;
+        }
+
+        // Check for real content (navigation links, not just search form)
+        // The CMS loads search form first (~87 chars), then navigation dynamically
+        var contentLength = (original.textContent || '').trim().length;
+        var hasNavigation = original.querySelector('.co_local_menu, .sidebar-local-navigation, nav, ul li a') !== null;
+        var hasAnyChildren = original.children.length > 0;
+
+        // Log what we found for debugging
+        console.log('JRCC Mobile Sidebar: Found element:', original.className, 'Children:', original.children.length, 'Content length:', contentLength);
+
+        // If it has children or navigation, create the sidebar
+        // Even if textContent is 0 (might be hidden/styled strangely)
+        if (!hasNavigation && !hasAnyChildren && contentLength === 0) {
+            console.log('JRCC Mobile Sidebar: Sidebar is completely empty, waiting...');
+            return;
+        }
+
+        initialized = true;
+        console.log('JRCC Mobile Sidebar: Creating mobile sidebar with', original.children.length, 'children,', contentLength, 'chars of content');
+
+        // Calculate responsive sizing based on screen size
+        var viewportHeight = window.innerHeight;
+        var sidebarHeight = viewportHeight <= 667 ? '85vh' : '80vh'; // iPhone SE gets more height
+        var visibleTab = '80px'; // Larger visible tab for better discoverability
+
+        // Create mobile sidebar container
+        mobileSidebar = document.createElement('div');
+        mobileSidebar.className = 'jrcc-mobile-sidebar';
+        mobileSidebar.style.cssText = 'position:fixed!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:'+sidebarHeight+'!important;background:rgba(255,255,255,0.98)!important;backdrop-filter:blur(20px) saturate(180%)!important;-webkit-backdrop-filter:blur(20px) saturate(180%)!important;border-radius:28px 28px 0 0!important;box-shadow:0 -8px 32px rgba(0,0,0,0.2)!important;transform:translateY(calc(100% - '+visibleTab+'))!important;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)!important;z-index:100001!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:20px!important;padding-top:80px!important;';
+
+        // Add iOS-style handle pill at top
+        var handle = document.createElement('div');
+        handle.style.cssText = 'position:absolute!important;top:16px!important;left:50%!important;transform:translateX(-50%)!important;width:48px!important;height:5px!important;background:rgba(30,58,138,0.4)!important;border-radius:3px!important;pointer-events:none!important;';
+        mobileSidebar.appendChild(handle);
+
+        // Add visible label "SIDEBAR" below handle
+        var label = document.createElement('div');
+        label.textContent = 'SIDEBAR';
+        label.style.cssText = 'position:absolute!important;top:30px!important;left:0!important;right:0!important;text-align:center!important;font-family:Urbanist,sans-serif!important;font-size:14px!important;font-weight:700!important;color:rgba(30,58,138,0.8)!important;letter-spacing:0.1em!important;pointer-events:none!important;';
+        mobileSidebar.appendChild(label);
+
+        // Find navigation content - could be in sidebar OR in mobile menu
+        // Try multiple locations where CMS might put navigation
+        var navSources = [
+            original, // Original sidebar
+            document.querySelector('.co_local_menu'),
+            document.querySelector('.sidebar-local-navigation'),
+            document.querySelector('nav'),
+            document.querySelector('[class*="local-nav"]'),
+            document.querySelector('[class*="side-menu"]'),
+            document.querySelector('[data-list-name="local navigation"]')
+        ];
+
+        var contentWrapper = document.createElement('div');
+        contentWrapper.style.cssText = 'width:100%!important;overflow-x:hidden!important;';
+
+        // Try each source and use the one with the most content
+        var bestSource = original;
+        var maxLinks = 0;
+
+        for (var i = 0; i < navSources.length; i++) {
+            if (navSources[i]) {
+                var linkCount = navSources[i].querySelectorAll('a').length;
+                console.log('JRCC Mobile Sidebar: Found source with', linkCount, 'links:', navSources[i].className || navSources[i].tagName);
+                if (linkCount > maxLinks) {
+                    maxLinks = linkCount;
+                    bestSource = navSources[i];
+                }
+            }
+        }
+
+        console.log('JRCC Mobile Sidebar: Using source with', maxLinks, 'links');
+
+        // Clone the best source
+        var clonedContent = bestSource.cloneNode(true);
+        clonedContent.style.display = 'block';
+        clonedContent.style.visibility = 'visible';
+        clonedContent.style.opacity = '1';
+
+        // Transfer children
+        while (clonedContent.firstChild) {
+            contentWrapper.appendChild(clonedContent.firstChild);
+        }
+
+        // Force visibility of all child elements AND style them beautifully
+        var allElements = contentWrapper.getElementsByTagName('*');
+        for (var i = 0; i < allElements.length; i++) {
+            var el = allElements[i];
+            if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE' && el.type !== 'hidden') {
+                if (el.style.display === 'none') el.style.display = 'block';
+                el.style.visibility = 'visible';
+                if (el.style.opacity === '0') el.style.opacity = '1';
+            }
+        }
+
+        // Style all links beautifully
+        var allLinks = contentWrapper.querySelectorAll('a');
+        for (var i = 0; i < allLinks.length; i++) {
+            var link = allLinks[i];
+            link.style.cssText = 'display:block!important;padding:14px 18px!important;margin:6px 0!important;font-family:Urbanist,sans-serif!important;font-size:16px!important;font-weight:500!important;color:#1e3a8a!important;text-decoration:none!important;background:rgba(255,255,255,0.6)!important;border-radius:12px!important;border:1px solid rgba(30,58,138,0.1)!important;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)!important;';
+
+            // Add hover effect with event listeners
+            link.addEventListener('touchstart', function() {
+                this.style.background = 'rgba(30,58,138,0.1)';
+                this.style.transform = 'translateX(4px)';
+                this.style.borderColor = 'rgba(30,58,138,0.3)';
+            });
+            link.addEventListener('touchend', function() {
+                this.style.background = 'rgba(255,255,255,0.6)';
+                this.style.transform = 'translateX(0)';
+                this.style.borderColor = 'rgba(30,58,138,0.1)';
+            });
+        }
+
+        // Style section headers if they exist
+        var headers = contentWrapper.querySelectorAll('h2, h3, h4, .header, [class*="header"]');
+        for (var i = 0; i < headers.length; i++) {
+            headers[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:14px!important;font-weight:700!important;color:#64748b!important;text-transform:uppercase!important;letter-spacing:0.05em!important;margin:20px 0 10px 4px!important;';
+        }
+
+        mobileSidebar.appendChild(contentWrapper);
+        document.body.appendChild(mobileSidebar);
+
+        // Create backdrop overlay
+        backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;background:rgba(0,0,0,0.5)!important;opacity:0!important;visibility:hidden!important;z-index:100000!important;transition:all 0.3s ease!important;pointer-events:none!important;';
+        document.body.appendChild(backdrop);
+
+        // Touch event handlers
+        var touchStartY = 0;
+        var touchStartTime = 0;
+
+        mobileSidebar.addEventListener('touchstart', function(e) {
+            if (!isOpen) {
+                touchStartY = e.touches[0].clientY;
+                touchStartTime = Date.now();
+            }
+        }, {passive: true});
+
+        mobileSidebar.addEventListener('touchend', function(e) {
+            if (!isOpen) {
+                var touchEndY = e.changedTouches[0].clientY;
+                var touchEndTime = Date.now();
+                var verticalDiff = Math.abs(touchEndY - touchStartY);
+                var timeDiff = touchEndTime - touchStartTime;
+
+                // Tap to open (minimal movement, quick duration)
+                if (verticalDiff < 20 && timeDiff < 400) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    open();
+                }
+                // Swipe up to open
+                else if (touchEndY < touchStartY - 30 && timeDiff < 500) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    open();
+                }
+            }
+        });
+
+        // Click handler for desktop testing
+        mobileSidebar.addEventListener('click', function(e) {
+            if (!isOpen) {
+                var rect = mobileSidebar.getBoundingClientRect();
+                var clickY = e.clientY;
+                if (clickY >= rect.top) {
+                    e.preventDefault();
+                    open();
+                }
+            }
+        });
+
+        // Backdrop close handlers
+        backdrop.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            close();
+        });
+
+        backdrop.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            close();
+        });
+
+        // Keyboard handler
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isOpen) {
+                close();
+            }
+        });
+
+        function open() {
+            isOpen = true;
+            mobileSidebar.style.transform = 'translateY(0)';
+            mobileSidebar.style.setProperty('transform', 'translateY(0)', 'important');
+            backdrop.style.opacity = '1';
+            backdrop.style.visibility = 'visible';
+            backdrop.style.pointerEvents = 'auto';
+            console.log('JRCC Mobile Sidebar: Opened');
+        }
+
+        function close() {
+            isOpen = false;
+            mobileSidebar.style.setProperty('transform', 'translateY(calc(100% - '+visibleTab+'))', 'important');
+            backdrop.style.opacity = '0';
+            backdrop.style.visibility = 'hidden';
+            backdrop.style.pointerEvents = 'none';
+            console.log('JRCC Mobile Sidebar: Closed');
+        }
+
+        console.log('JRCC Mobile Sidebar: Initialization complete!');
+    }
+
+    // Try creating the sidebar multiple times with increasing delays
+    // This ensures we catch it after the CMS has loaded all navigation content
+    createMobileSidebar();
+    setTimeout(createMobileSidebar, 500);
+    setTimeout(createMobileSidebar, 1000);
+    setTimeout(createMobileSidebar, 1500);
+    setTimeout(createMobileSidebar, 2000);
+    setTimeout(createMobileSidebar, 3000);
+    setTimeout(createMobileSidebar, 4000);
+    setTimeout(createMobileSidebar, 5000);
+
+    // Also try on page load
+    window.addEventListener('load', createMobileSidebar);
+
+    // Watch for dynamic content loading with MutationObserver
+    var observer = new MutationObserver(function() {
+        if (!initialized) createMobileSidebar();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+})();
+//]]>
+</script>
