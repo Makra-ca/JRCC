@@ -7,10 +7,43 @@
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
+    /* Remove default background images and spacing - consistent with other pages */
+    body,
+    body.cco_body {
+        background-image: none !important;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+    }
+
+    /* Base overflow and spacing fixes for main containers */
+    #BodyContainer,
+    #co_content_container,
+    #co_body_container,
+    .body_wrapper,
+    #content {
+        background-image: none !important;
+        background: transparent !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Remove background images from CMS wrappers */
+    .master-content-wrapper,
+    .master-content-wrapper.g960,
+    div.master-content-wrapper,
+    div.master-content-wrapper.g960 {
+        background-image: none !important;
+        background: transparent !important;
+        background-color: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 0 !important;
+    }
+
     /* Main Body & Fonts */
     #co_body_container {
         font-family: 'Urbanist', sans-serif !important;
-        background: #ffffff !important;
         color: #1a1a1a !important;
         overflow-x: hidden;
         line-height: 1.7;
@@ -25,54 +58,50 @@
         color: #1a1a1a;
     }
 
-    /* Hero Section with Gradient */
+    /* Hero Section - Clean and Modern */
     .ji-hero {
-        min-height: 70vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 5rem 2rem 3rem;
-        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .ji-hero::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-        pointer-events: none;
+        min-height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 2rem 2rem 3rem !important;
+        margin: 0 !important;
+        background: transparent !important;
+        position: relative !important;
+        overflow: visible !important;
     }
 
     .ji-hero-content {
-        position: relative;
-        z-index: 2;
-        max-width: 900px;
+        position: relative !important;
+        z-index: 2 !important;
+        max-width: 900px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
     }
 
     .ji-hero-title {
         font-family: 'Urbanist', sans-serif !important;
-        font-size: clamp(2.5rem, 7vw, 4.5rem);
-        font-weight: 800;
-        color: #ffffff !important;
-        margin-bottom: 1.5rem;
-        letter-spacing: -1px;
-        text-shadow: none;
+        font-size: clamp(2.5rem, 7vw, 4.5rem) !important;
+        font-weight: 800 !important;
+        color: #000000 !important;
+        margin-bottom: 1.5rem !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        letter-spacing: -1px !important;
+        text-shadow: none !important;
+        text-align: center !important;
     }
 
     .ji-hero-subtitle {
-        font-size: clamp(1.1rem, 3vw, 1.4rem);
-        color: rgba(255, 255, 255, 0.9) !important;
-        margin-bottom: 3rem;
-        font-weight: 400;
-        line-height: 1.6;
+        font-size: clamp(1.1rem, 3vw, 1.4rem) !important;
+        color: #555555 !important;
+        margin-bottom: 3rem !important;
+        margin-top: 0 !important;
+        font-weight: 400 !important;
+        line-height: 1.6 !important;
+        text-align: center !important;
     }
 
     .ji-hero-images {
@@ -84,16 +113,16 @@
 
     .ji-hero-image {
         border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
         max-width: 380px;
         height: auto;
         transition: transform 0.4s ease, box-shadow 0.4s ease;
-        border: 3px solid rgba(255, 255, 255, 0.2);
+        border: none;
     }
 
     .ji-hero-image:hover {
         transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.1);
     }
 
     /* Scroll Indicator */
@@ -105,7 +134,7 @@
         animation: ji-bounce 2s infinite;
         cursor: pointer;
         font-size: 2rem;
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.4);
     }
 
     @keyframes ji-bounce {
@@ -278,8 +307,8 @@
     }
 
     .ji-info-section.ji-single-status {
-        background: linear-gradient(135deg, #5f6c7b 0%, #4a5568 100%);
-        color: #ffffff;
+        background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+        color: #1a1a1a;
     }
 
     .ji-info-section.ji-donation {
@@ -311,27 +340,34 @@
     }
 
     .ji-info-section.ji-single-status h3 {
-        color: #ffffff !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        color: #1a1a1a !important;
+        text-shadow: none;
     }
 
     .ji-info-section.ji-single-status p {
-        color: #ffffff !important;
+        color: #1a1a1a !important;
         font-weight: 500;
     }
 
     .ji-info-section.ji-single-status a {
-        color: #ffffff !important;
+        color: #1e3a8a !important;
         font-weight: 700;
+        text-decoration: underline;
+    }
+
+    .ji-info-section.ji-single-status a:hover {
+        color: #667eea !important;
     }
 
     /* Contact Section */
     .ji-contact-section {
-        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
+        background: #ffffff;
         border-radius: 20px;
         padding: 4rem 3rem;
         text-align: center;
-        color: #ffffff;
+        color: #1a1a1a;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06);
+        border: 2px solid rgba(0, 0, 0, 0.05);
     }
 
     .ji-contact-section h3 {
@@ -339,14 +375,14 @@
         font-size: 2.5rem;
         font-weight: 800;
         margin-bottom: 1.5rem;
-        color: #ffffff !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        color: #000000 !important;
+        text-shadow: none;
     }
 
     .ji-contact-section p {
         font-size: 1.2rem;
         margin-bottom: 2.5rem;
-        color: #ffffff !important;
+        color: #555555 !important;
         opacity: 1;
         font-weight: 500;
     }
@@ -359,23 +395,24 @@
     }
 
     .ji-contact-item {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
+        background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%);
+        backdrop-filter: none;
         padding: 1.5rem 3rem;
-        border-radius: 50px;
+        border-radius: 12px;
         font-size: 1.2rem;
         font-weight: 600;
         transition: all 0.3s ease;
-        border: 2px solid rgba(255, 255, 255, 0.2);
+        border: 2px solid #2a75b8;
     }
 
     .ji-contact-item:hover {
-        background: rgba(255, 255, 255, 0.25);
-        transform: scale(1.05);
+        background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(42, 117, 184, 0.2);
     }
 
     .ji-contact-item a {
-        color: #ffffff !important;
+        color: #1e3a8a !important;
         text-decoration: none !important;
     }
 
@@ -394,8 +431,8 @@
     /* Responsive */
     @media (max-width: 768px) {
         .ji-hero {
-            min-height: 60vh;
-            padding: 3rem 1.5rem;
+            min-height: auto;
+            padding: 1.5rem 1.5rem 2rem;
         }
 
         .ji-hero-images {
@@ -552,7 +589,7 @@
 }
 </script>
 
-<section class="ji-hero" style="font-family: 'Urbanist', sans-serif;">
+<div class="ji-hero" style="font-family: 'Urbanist', sans-serif;">
     <div class="ji-hero-content">
         <h1 class="ji-hero-title" id="ji-hero-title">Jewish Identity Verification Service</h1>
         <p class="ji-hero-subtitle" id="ji-hero-subtitle">Application forms for confirmation of Jewish identity and lineage</p>
@@ -562,7 +599,7 @@
         </div>
     </div>
     <div class="ji-scroll-indicator">↓</div>
-</section>
+</div>
 
 <div class="ji-container" style="font-family: 'Urbanist', sans-serif;">
 
