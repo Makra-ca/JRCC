@@ -1,0 +1,451 @@
+<!--
+====================================================================
+TEFILLIN BANK PAGE - BLACK LEATHER & PARCHMENT THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Traditional elegance inspired by black leather tefillin
+boxes and parchment scrolls.
+====================================================================
+-->
+
+<!-- Embedded Black Leather & Parchment Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   TEFILLIN BANK - BLACK LEATHER & PARCHMENT THEME
+
+   Colors inspired by tefillin:
+   - Deep Black (leather boxes)
+   - Warm Parchment (scrolls)
+   - Rich Brown (straps and text)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.tefillin-content,
+.tefillin-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Parchment Background - Main page */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.tefillin-content {
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - BLACK LEATHER
+   =================================================================== */
+
+/* Main Page Title (H1) - Black Leather Background */
+.tefillin-content > h1,
+.tefillin-content h1:first-child,
+.tefillin-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 8vw, 5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    padding: 3rem 2rem 1.5rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (H2 in hero) - Part of black banner */
+.tefillin-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 5vw, 2.5rem) !important;
+    font-weight: 600 !important;
+    color: #fbbf24 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    padding: 0 2rem 3rem !important;
+    margin: 0 0 2rem 0 !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.tefillin-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Introduction Paragraph */
+.tefillin-intro {
+    background: rgba(255, 255, 255, 0.6) !important;
+    padding: 2rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #4a3728 !important;
+    box-shadow: 0 2px 8px rgba(74, 55, 40, 0.1) !important;
+}
+
+/* Content Sections */
+.tefillin-section {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 4px 15px rgba(74, 55, 40, 0.12) !important;
+    border: 1px solid #e8dcc4 !important;
+}
+
+.tefillin-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 2.8rem) !important;
+    font-weight: 700 !important;
+    color: #4a3728 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 3px solid #8b6f47 !important;
+}
+
+.tefillin-section p {
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    color: #4a3728 !important;
+    margin: 1rem 0 !important;
+}
+
+.tefillin-section a {
+    color: #8b6f47 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1px solid #8b6f47 !important;
+}
+
+.tefillin-section a:hover {
+    color: #5c4033 !important;
+    border-bottom-color: #5c4033 !important;
+}
+
+.tefillin-section strong,
+.tefillin-section b {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+.tefillin-section em,
+.tefillin-section i {
+    color: #5c4033 !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   IMAGES
+   =================================================================== */
+
+.tefillin-section img {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(74, 55, 40, 0.2) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+/* Specific styling for tefillin images - Centered */
+.tefillin-image-main {
+    max-width: 400px !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+.tefillin-image-illustration {
+    max-width: 350px !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+/* ===================================================================
+   FEATURED FREE OFFER CARD - BLACK WITH GOLD ACCENT
+   =================================================================== */
+
+.tefillin-free-offer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem auto !important;
+    max-width: 900px !important;
+    text-align: center !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3) !important;
+    border: 3px solid #d97706 !important;
+    position: relative !important;
+}
+
+.tefillin-free-offer::before {
+    content: '🎁' !important;
+    position: absolute !important;
+    top: -30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 3rem !important;
+    background: #fbbf24 !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4) !important;
+}
+
+.tefillin-free-offer h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 6vw, 3.5rem) !important;
+    font-weight: 800 !important;
+    color: #fbbf24 !important;
+    margin: 1rem 0 1.5rem 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+.tefillin-free-offer p {
+    font-size: 1.5rem !important;
+    line-height: 1.7 !important;
+    color: #ffffff !important;
+    margin: 1.5rem 0 !important;
+    font-weight: 500 !important;
+}
+
+.tefillin-free-offer strong {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+}
+
+/* Call to Action Button */
+.tefillin-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
+    color: #1a1a1a !important;
+    padding: 1.25rem 3rem !important;
+    border-radius: 50px !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1.5rem 0 0 0 !important;
+    box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.tefillin-cta-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 30px rgba(251, 191, 36, 0.6) !important;
+    background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%) !important;
+}
+
+/* ===================================================================
+   ALTERNATE SECTION BACKGROUNDS
+   =================================================================== */
+
+.tefillin-section.parchment-light {
+    background: linear-gradient(135deg, #fefbf6 0%, #f5f1e8 100%) !important;
+}
+
+.tefillin-section.parchment-warm {
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .tefillin-content > h1,
+    .tefillin-content h1:first-child,
+    .tefillin-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .tefillin-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .tefillin-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .tefillin-intro {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.3rem !important;
+    }
+
+    .tefillin-free-offer {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .tefillin-image-main,
+    .tefillin-image-illustration {
+        max-width: 100% !important;
+        margin: 1.5rem auto !important;
+    }
+
+    .tefillin-cta-button {
+        padding: 1rem 2rem !important;
+        font-size: 1.2rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .tefillin-content h1,
+#BodyContainer .tefillin-content h2,
+#BodyContainer .tefillin-content h3,
+#BodyContainer .tefillin-content p,
+#BodyContainer .tefillin-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="tefillin-content">
+
+<!-- HERO SECTION - Black Leather Background -->
+<div class="tefillin-hero">
+    <h1>Tefillin Bank</h1>
+    <h2>Binding mind, heart and deed</h2>
+</div>
+
+<!-- INTRODUCTION -->
+<div class="tefillin-intro">
+    <p>The Mitzvah that binds our minds with our hearts and deeds, and allows a daily reunification within ourselves and with G-d. Tefillin: the what, the why, and the how-to.</p>
+</div>
+
+<!-- WHAT IS TEFILLIN SECTION -->
+<div class="tefillin-section parchment-light">
+    <h2>What is Tefillin?</h2>
+
+    <img class="tefillin-image-main" src="https://w2.chabad.org/media/images/1006/gUgC10060851.jpg?_i=_nF6BA04C2A210B6E773D53EE06C920208" alt="Tefillin" />
+
+    <p><i>Tefillin</i> (תְּפִלִּין) are black leather boxes containing Hebrew parchment scrolls, worn by Jewish men and boys on a daily basis. A set includes two—one for the head and one for the arm. Each consists of three main components: the scrolls, the box and the strap.</p>
+
+    <p><b><a href="https://www.Jrcc.org/library/article_cdo/aid/1918251/jewish/What-Are-Tefillin.htm">Read more about tefillin →</a></b></p>
+</div>
+
+<!-- WHY TEFILLIN SECTION -->
+<div class="tefillin-section parchment-warm">
+    <h2>Why Tefillin?</h2>
+
+    <img class="tefillin-image-illustration" src="/media/images/1149/uQrX11494566.png" alt="Tefillin Illustration" />
+
+    <p>The Torah commands Jewish men to bind tefillin onto their head and upper arm every weekday, in fulfillment of the verse (Deut. 6:8), "You shall bind them as a sign upon your hand, and they shall be for a reminder between your eyes."</p>
+
+    <p>When you put on tefillin, you'll be connecting to the Infinite, fulfilling G‑d's will and reminding yourself to be a better person. But you'll also be doing something that your great-great-grandfather did in exactly the same way. And when you do it, you're increasing the chances that your great-great-grandchildren will want to do it too. Those straps don't connect you just to G‑d; they connect you to your past, to your future, to your people.</p>
+
+    <p>So go ahead, give it a try.</p>
+</div>
+
+<!-- FREE OFFER - Featured Black Card -->
+<div class="tefillin-free-offer">
+    <h2>Free Tefillin Program</h2>
+    <p><strong>The JRCC Tefillin Bank offers one free pair of Tefillin for anyone who commits to using them daily.</strong></p>
+    <p>Connect to your heritage. Connect to your future. Start your daily tefillin practice today.</p>
+    <a href="mailto:info@jrcc.org" class="tefillin-cta-button">Apply Now</a>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure parchment background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
