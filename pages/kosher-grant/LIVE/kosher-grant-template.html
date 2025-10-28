@@ -1,0 +1,545 @@
+<!--
+====================================================================
+KOSHER GRANT PAGE - DEEP GREEN & GOLD THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Fresh and premium design inspired by kosher purity (green)
+and grant value (gold).
+====================================================================
+-->
+
+<!-- Embedded Deep Green & Gold Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   KOSHER GRANT - DEEP GREEN & GOLD THEME
+
+   Colors symbolize:
+   - Forest Green (kosher approved/pure)
+   - Gold (valuable grant program)
+   - Clean whites (purity and cleanliness)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.kosher-content,
+.kosher-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Clean White Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.kosher-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - DEEP GREEN
+   =================================================================== */
+
+/* Main Page Title (H1) - Green Background */
+.kosher-content > h1,
+.kosher-content h1:first-child,
+.kosher-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 8vw, 5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #166534 0%, #15803d 100%) !important;
+    padding: 3rem 2rem 1.5rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (H2 in hero) - Part of green banner */
+.kosher-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 5vw, 2.5rem) !important;
+    font-weight: 600 !important;
+    color: #fbbf24 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #166534 0%, #15803d 100%) !important;
+    padding: 0 2rem 3rem !important;
+    margin: 0 0 2rem 0 !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.kosher-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Introduction Paragraph */
+.kosher-intro {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+    padding: 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 2px 8px rgba(22, 101, 52, 0.1) !important;
+    border: 2px solid #bbf7d0 !important;
+}
+
+/* Logo Section */
+.kosher-logo-section {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 2rem auto !important;
+}
+
+.kosher-logo-section img {
+    max-width: 350px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.15) !important;
+}
+
+/* Content Sections */
+.kosher-section {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    border: 2px solid #f0fdf4 !important;
+}
+
+.kosher-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 2.8rem) !important;
+    font-weight: 700 !important;
+    color: #166534 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 3px solid #22c55e !important;
+}
+
+.kosher-section p {
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    margin: 1rem 0 !important;
+}
+
+.kosher-section a {
+    color: #15803d !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1px solid #15803d !important;
+}
+
+.kosher-section a:hover {
+    color: #166534 !important;
+    border-bottom-color: #166534 !important;
+}
+
+.kosher-section strong,
+.kosher-section b {
+    color: #166534 !important;
+    font-weight: 700 !important;
+}
+
+/* Styled Bullet Lists with Green Checkmarks */
+.kosher-section ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 1.5rem 0 !important;
+}
+
+.kosher-section ul li {
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    margin: 1rem 0 !important;
+    padding-left: 2.5rem !important;
+    position: relative !important;
+}
+
+.kosher-section ul li::before {
+    content: '✓' !important;
+    position: absolute !important;
+    left: 0 !important;
+    color: #22c55e !important;
+    font-weight: 700 !important;
+    font-size: 1.5rem !important;
+    line-height: 1.8 !important;
+}
+
+/* ===================================================================
+   IMAGES
+   =================================================================== */
+
+.kosher-section img {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.15) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+.kosher-image-main {
+    max-width: 400px !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+/* ===================================================================
+   FEATURED GRANT OFFER CARD - GREEN WITH GOLD ACCENT
+   =================================================================== */
+
+.kosher-grant-offer {
+    background: linear-gradient(135deg, #166534 0%, #15803d 100%) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem auto !important;
+    max-width: 900px !important;
+    text-align: center !important;
+    box-shadow: 0 8px 30px rgba(22, 101, 52, 0.3) !important;
+    border: 3px solid #fbbf24 !important;
+    position: relative !important;
+}
+
+.kosher-grant-offer::before {
+    content: '💰' !important;
+    position: absolute !important;
+    top: -30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 3rem !important;
+    background: #fbbf24 !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4) !important;
+}
+
+.kosher-grant-offer h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 6vw, 3.5rem) !important;
+    font-weight: 800 !important;
+    color: #fbbf24 !important;
+    margin: 1rem 0 1.5rem 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+.kosher-grant-offer p {
+    font-size: 1.5rem !important;
+    line-height: 1.7 !important;
+    color: #ffffff !important;
+    margin: 1.5rem 0 !important;
+    font-weight: 500 !important;
+}
+
+.kosher-grant-offer strong {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    font-size: 1.6rem !important;
+}
+
+.kosher-grant-offer .grant-amount {
+    font-size: 2rem !important;
+    color: #fbbf24 !important;
+    font-weight: 800 !important;
+    display: block !important;
+    margin: 1rem 0 !important;
+}
+
+/* ===================================================================
+   CTA CARDS - Side by Side
+   =================================================================== */
+
+.kosher-cta-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin: 3rem auto !important;
+    max-width: 900px !important;
+    padding: 0 2rem !important;
+}
+
+.kosher-cta-card {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+    border-radius: 16px !important;
+    padding: 2.5rem 2rem !important;
+    text-align: center !important;
+    box-shadow: 0 4px 15px rgba(22, 101, 52, 0.1) !important;
+    border: 2px solid #22c55e !important;
+    transition: all 0.3s ease !important;
+}
+
+.kosher-cta-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 25px rgba(22, 101, 52, 0.2) !important;
+}
+
+.kosher-cta-card h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #166534 !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+.kosher-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
+    color: #ffffff !important;
+    padding: 1.25rem 2.5rem !important;
+    border-radius: 50px !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1rem 0 0 0 !important;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.kosher-cta-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 25px rgba(34, 197, 94, 0.4) !important;
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    text-decoration: none !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .kosher-content > h1,
+    .kosher-content h1:first-child,
+    .kosher-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .kosher-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .kosher-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .kosher-intro {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.3rem !important;
+    }
+
+    .kosher-grant-offer {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .kosher-image-main {
+        max-width: 100% !important;
+        margin: 1.5rem auto !important;
+    }
+
+    .kosher-cta-container {
+        grid-template-columns: 1fr !important;
+        padding: 0 1rem !important;
+    }
+
+    .kosher-cta-button {
+        padding: 1rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .kosher-logo-section {
+        padding: 2rem 1rem !important;
+    }
+
+    .kosher-logo-section img {
+        max-width: 90% !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .kosher-content h1,
+#BodyContainer .kosher-content h2,
+#BodyContainer .kosher-content h3,
+#BodyContainer .kosher-content p,
+#BodyContainer .kosher-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="kosher-content">
+
+<!-- HERO SECTION - Deep Green Background -->
+<div class="kosher-hero">
+    <h1>Kosher Grant</h1>
+    <h2>Supporting Your Kosher Kitchen Journey</h2>
+</div>
+
+<!-- LOGO SECTION -->
+<div class="kosher-logo-section">
+    <img src="https://w2.chabad.org/media/images/204/JJNd2043675.jpg" alt="JRCC Kosher Grant Logo" />
+</div>
+
+<!-- INTRODUCTION -->
+<div class="kosher-intro">
+    <p>The kosher laws were commanded by G‑d to the children of Israel in the Sinai Desert. A sacred tradition spanning 4,000 years, emphasizing that Judaism is a total way of life where even eating becomes a G‑dly act.</p>
+</div>
+
+<!-- WHAT IS KOSHER SECTION -->
+<div class="kosher-section">
+    <h2>The Kosher Laws</h2>
+
+    <p>The kosher laws were commanded by G‑d to the children of Israel in the Sinai Desert. Moses taught them to the people and wrote the basics of these laws in Leviticus 11 and Deuteronomy 14. The details were handed down through the generations and eventually written down in the Mishnah and Talmud. Various ordinances were enacted through the generations by the rabbinical authorities as safeguards for these biblical laws.</p>
+
+    <p>Throughout our 4,000-year history, the observance of kosher has been a hallmark of Jewish identity. Perhaps more than any other mitzvah, the kosher laws emphasize that Judaism is much more than a religion in the conventional sense of the word. To the Jew, holiness is not confined to holy places and times outside the everyday; rather, life in its totality is a sacred endeavor. Even the seemingly mundane activity of eating is a G‑dly act and a uniquely Jewish experience.</p>
+</div>
+
+<!-- KOSHER KITCHEN REQUIREMENTS -->
+<div class="kosher-section">
+    <h2>Kosher Kitchen Basics</h2>
+
+    <p>A kosher kitchen is a kitchen in which food is prepared according to the Jewish kosher dietary laws. Some basic elements of the kosher kitchen:</p>
+
+    <ul>
+        <li>Meat and dairy are kept strictly separate.</li>
+        <li>Only kosher ingredients are used.</li>
+        <li>Any traces of non-kosher have been purged from the kitchen utensils and surfaces before they can be used.</li>
+    </ul>
+</div>
+
+<!-- GRANT OFFER - Featured Green Card -->
+<div class="kosher-grant-offer">
+    <h2>JRCC Kosher Grant Program</h2>
+    <p><strong>The JRCC Kosher Grant offers a reimbursement of 50% of the expenses of koshering a home</strong></p>
+    <span class="grant-amount">Up to $500</span>
+    <p>We're here to support your journey to a kosher kitchen. Making kosher accessible and achievable for every family.</p>
+</div>
+
+<!-- CTA CARDS -->
+<div class="kosher-cta-container">
+    <div class="kosher-cta-card">
+        <h3>Learn More</h3>
+        <p>Discover what makes a kitchen kosher and how the process works.</p>
+        <a href="#" class="kosher-cta-button">What is Kosher?</a>
+    </div>
+
+    <div class="kosher-cta-card">
+        <h3>Apply Today</h3>
+        <p>Ready to kosher your kitchen? Start your application now.</p>
+        <a href="#" class="kosher-cta-button">Application Form</a>
+    </div>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure white background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
