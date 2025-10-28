@@ -1,0 +1,606 @@
+<!--
+====================================================================
+JEWISH IDENTITY GRANT PAGE - ROYAL BLUE & GOLD THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Bold and inspiring design representing Torah wisdom (royal blue)
+and divine light (gold). Symbolizes the transformative power of Jewish identity.
+====================================================================
+-->
+
+<!-- Embedded Royal Blue & Gold Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   JEWISH IDENTITY GRANT - ROYAL BLUE & GOLD THEME
+
+   Colors symbolize:
+   - Royal Blue (Torah wisdom, tradition, spirituality)
+   - Gold (divine light, eternal value, preciousness)
+   - Clean whites (clarity and unity)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.jewish-identity-content,
+.jewish-identity-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Clean White Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.jewish-identity-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - ROYAL BLUE
+   =================================================================== */
+
+/* Main Page Title (H1) - Royal Blue Background */
+.jewish-identity-content > h1,
+.jewish-identity-content h1:first-child,
+.jewish-identity-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 10vw, 7.5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+    padding: 4rem 2rem 2rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+    line-height: 1.2 !important;
+}
+
+/* Subtitle (H2 in hero) - Part of blue banner */
+.jewish-identity-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 6vw, 3.75rem) !important;
+    font-weight: 600 !important;
+    color: #fbbf24 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+    padding: 1rem 2rem 4rem !important;
+    margin: 0 0 3rem 0 !important;
+    font-style: italic !important;
+    line-height: 1.3 !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.jewish-identity-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Logo/Image Section */
+.jewish-identity-logo-section {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 3rem 1rem !important;
+}
+
+.jewish-identity-logo-section img {
+    max-width: 500px !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.15) !important;
+}
+
+/* Introduction Paragraph */
+.jewish-identity-intro {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    padding: 2.5rem 2rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    border-radius: 20px !important;
+    text-align: center !important;
+    font-size: clamp(1.8rem, 5vw, 3.5rem) !important;
+    line-height: 1.6 !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 3px 12px rgba(30, 64, 175, 0.1) !important;
+    border: 3px solid #93c5fd !important;
+    font-weight: 600 !important;
+}
+
+.jewish-identity-intro p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Content Sections */
+.jewish-identity-section {
+    background: #ffffff !important;
+    border-radius: 25px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08) !important;
+    border: 3px solid #dbeafe !important;
+}
+
+.jewish-identity-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.2rem) !important;
+    font-weight: 700 !important;
+    color: #1e40af !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 4.5px solid #3b82f6 !important;
+    line-height: 1.3 !important;
+}
+
+.jewish-identity-section p {
+    font-size: clamp(1.2rem, 3.5vw, 1.875rem) !important;
+    line-height: 1.7 !important;
+    color: #1a1a1a !important;
+    margin: 1.5rem 0 !important;
+}
+
+.jewish-identity-section a {
+    color: #1e40af !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1.5px solid #1e40af !important;
+}
+
+.jewish-identity-section a:hover {
+    color: #1e3a8a !important;
+    border-bottom-color: #1e3a8a !important;
+}
+
+.jewish-identity-section strong,
+.jewish-identity-section b {
+    color: #1e40af !important;
+    font-weight: 700 !important;
+}
+
+.jewish-identity-section em,
+.jewish-identity-section i {
+    color: #1e3a8a !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   IMAGES
+   =================================================================== */
+
+.jewish-identity-section img {
+    border-radius: 16px !important;
+    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.15) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 2.5rem auto !important;
+}
+
+.jewish-identity-image-main {
+    max-width: 500px !important;
+    display: block !important;
+    margin: 2.5rem auto !important;
+}
+
+/* Image aligned right (like original) */
+.jewish-identity-section img[align="right"] {
+    float: right !important;
+    margin: 0 0 2rem 2rem !important;
+    max-width: 450px !important;
+}
+
+/* ===================================================================
+   FEATURED IDENTITY MESSAGE - ROYAL BLUE WITH GOLD ACCENT
+   =================================================================== */
+
+.jewish-identity-message {
+    background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+    border-radius: 25px !important;
+    padding: 3.5rem 2.5rem 3rem !important;
+    margin: 4rem 1rem !important;
+    max-width: 1100px !important;
+    text-align: center !important;
+    box-shadow: 0 10px 40px rgba(30, 64, 175, 0.3) !important;
+    border: 4.5px solid #fbbf24 !important;
+}
+
+.jewish-identity-message h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.8rem) !important;
+    font-weight: 800 !important;
+    color: #fbbf24 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.3 !important;
+}
+
+.jewish-identity-message p {
+    font-size: clamp(1.3rem, 4vw, 2.25rem) !important;
+    line-height: 1.6 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 500 !important;
+}
+
+.jewish-identity-message strong {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    font-size: clamp(1.4rem, 4.2vw, 2.4rem) !important;
+}
+
+/* ===================================================================
+   GRANT CARDS - Grid Display for 5 Grants
+   =================================================================== */
+
+.jewish-identity-grants-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin: 4rem 1rem !important;
+    max-width: 1300px !important;
+    padding: 0 1rem !important;
+}
+
+.jewish-identity-grant-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem 2rem !important;
+    text-align: left !important;
+    box-shadow: 0 5px 20px rgba(30, 64, 175, 0.1) !important;
+    border: 3px solid #3b82f6 !important;
+    transition: all 0.3s ease !important;
+}
+
+.jewish-identity-grant-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 10px 35px rgba(30, 64, 175, 0.2) !important;
+}
+
+.jewish-identity-grant-card h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 5vw, 2.7rem) !important;
+    font-weight: 700 !important;
+    color: #1e40af !important;
+    margin: 0 0 1rem 0 !important;
+    line-height: 1.3 !important;
+}
+
+.jewish-identity-grant-card p {
+    font-size: clamp(1.1rem, 3.2vw, 1.725rem) !important;
+    line-height: 1.6 !important;
+    color: #1a1a1a !important;
+    margin: 0.75rem 0 !important;
+}
+
+/* Grant bullet points */
+.jewish-identity-grant-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 2.5rem auto !important;
+    max-width: 1100px !important;
+}
+
+.jewish-identity-grant-list li {
+    background: #ffffff !important;
+    border-left: 7.5px solid #3b82f6 !important;
+    padding: 1.5rem 2rem !important;
+    margin: 1.5rem 1rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 3px 12px rgba(30, 64, 175, 0.1) !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.875rem) !important;
+    line-height: 1.6 !important;
+}
+
+.jewish-identity-grant-list li strong {
+    color: #1e40af !important;
+    font-weight: 700 !important;
+    font-size: clamp(1.3rem, 3.8vw, 2.025rem) !important;
+}
+
+/* ===================================================================
+   CTA BUTTON
+   =================================================================== */
+
+.jewish-identity-cta {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 4rem 1rem !important;
+}
+
+.jewish-identity-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    color: #ffffff !important;
+    padding: 1.5rem 3rem !important;
+    border-radius: 60px !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.95rem) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 3px solid #fbbf24 !important;
+    line-height: 1.4 !important;
+}
+
+.jewish-identity-cta-button:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 35px rgba(59, 130, 246, 0.4) !important;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+    text-decoration: none !important;
+}
+
+/* ===================================================================
+   QUOTE/HIGHLIGHT BOX
+   =================================================================== */
+
+.jewish-identity-highlight {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+    border-left: 7.5px solid #f59e0b !important;
+    padding: 2rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    border-radius: 16px !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.95rem) !important;
+    line-height: 1.6 !important;
+    color: #1a1a1a !important;
+    font-style: italic !important;
+    box-shadow: 0 3px 12px rgba(245, 158, 11, 0.15) !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .jewish-identity-content > h1,
+    .jewish-identity-content h1:first-child,
+    .jewish-identity-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .jewish-identity-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .jewish-identity-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .jewish-identity-intro {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.5rem !important;
+    }
+
+    .jewish-identity-message {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .jewish-identity-image-main {
+        max-width: 100% !important;
+        margin: 1.5rem auto !important;
+    }
+
+    .jewish-identity-section img[align="right"] {
+        float: none !important;
+        max-width: 100% !important;
+        margin: 1.5rem auto !important;
+    }
+
+    .jewish-identity-grants-grid {
+        grid-template-columns: 1fr !important;
+        padding: 0 1rem !important;
+    }
+
+    .jewish-identity-cta-button {
+        padding: 1.25rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .jewish-identity-logo-section {
+        padding: 2rem 1rem !important;
+    }
+
+    .jewish-identity-logo-section img {
+        max-width: 90% !important;
+    }
+
+    .jewish-identity-highlight {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.2rem !important;
+    }
+
+    .jewish-identity-grant-list li {
+        margin: 1.5rem 1rem !important;
+        padding: 1.25rem 1.5rem !important;
+        font-size: 1.15rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .jewish-identity-content h1,
+#BodyContainer .jewish-identity-content h2,
+#BodyContainer .jewish-identity-content h3,
+#BodyContainer .jewish-identity-content p,
+#BodyContainer .jewish-identity-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="jewish-identity-content">
+
+<!-- HERO SECTION - Royal Blue Background -->
+<div class="jewish-identity-hero">
+    <h1>Got Jewish?</h1>
+    <h2>JRCC Jewish Identity Grants</h2>
+</div>
+
+<!-- LOGO/IMAGE SECTION -->
+<div class="jewish-identity-logo-section">
+    <img src="https://w2.chabad.org/media/images/1013/hFPT10130440.jpg" alt="Jewish Identity" />
+</div>
+
+<!-- INTRODUCTION -->
+<div class="jewish-identity-intro">
+    <p>What does it mean to be Jewish, and how do we connect to our Jewishness? These are perhaps the most powerful questions we can ask ourselves in the 21st Century.</p>
+</div>
+
+<!-- THE MESSAGE SECTION -->
+<div class="jewish-identity-section">
+    <h2>The Power of Jewish Identity</h2>
+
+    <p>The biggest threat to Jewish survival is not antisemitism or assimilation, which many are obsessed with, but rather confused Jewish identity. A pessimistic and negative presentation of being Jewish turns off young Jews more than anything else. When we obsess about anti-Semitism we paint ourselves as perpetual victims. When we over-emphasize the threat of assimilation, it makes us feel like an endangered species. We should instead focus on what being Jewish is all about, and what Judaism has to offer me, my family, and the world.</p>
+</div>
+
+<!-- HIGHLIGHT SECTION -->
+<div class="jewish-identity-message">
+    <h2>Judaism: A Revolutionary Force</h2>
+    <p>Judaism is the most powerful idea that the world has ever seen. We have a message that the world needs to hear. The Jewish way of life is a revolutionary force that transforms ordinary lives into lives of meaning.</p>
+</div>
+
+<!-- WHAT JUDAISM TEACHES -->
+<div class="jewish-identity-section">
+    <h2>What Judaism Teaches</h2>
+
+    <p>A family that keeps Shabbat is always reminded of what is really important—that there is more to life than accumulating wealth. The kosher laws teach us that we are not mere animals that must feed our every urge and desire, and that eating itself can be holy. A mezuzah on the door tells the world that this home is built for a higher purpose. Judaism teaches lessons that the world urgently needs to learn—that every individual person is created in the image of G‑d, and is therefore unique and valuable; that morality is not relative but absolute; that humans are partners with G‑d in creation, with a mission to create heaven on earth.</p>
+</div>
+
+<!-- THE NEED SECTION -->
+<div class="jewish-identity-section">
+    <h2>Making Jewish Connection Accessible</h2>
+
+    <p>These bold Jewish ideas are more relevant now than ever. But bold Jewish ideas need bold Jewish people to perpetuate them. But it isn't always easy. Connecting to Jewish practices requires patience, learning and guidance. Fortunately, those can be found in many places, including your local JRCC Branch, Chabad House, or other Jewish centre. But often the observance of Jewish practices also costs money, and cost can often be an obstacle to furthering ones commitment and connection to Judaism. In order to help mitigate this obstacle, the JRCC offers several Jewish Identity Grants as a community service to those who, seeking to grow Jewishly, are met with a financial barrier.</p>
+</div>
+
+<!-- GRANTS LIST -->
+<div class="jewish-identity-section">
+    <h2>Available Jewish Identity Grants</h2>
+
+    <ul class="jewish-identity-grant-list">
+        <li><strong>Tefillin Bank</strong> – one free pair of Tefillin for anyone who commits to using them daily.</li>
+
+        <li><strong>Mezuzah Bank</strong> – one free Mezuzah for any home without a Mezuzah.</li>
+
+        <li><strong>Kosher Grant</strong> – a reimbursement of 50% of the expensed of koshering a home (up to $500).</li>
+
+        <li><strong>Shaitel Grant</strong> – a grant of up to $250 towards a shaitel for a bride or a married woman who wants to cover her hair according to Jewish tradition.</li>
+
+        <li><strong>Jewish Discovery Scholarship</strong> – financial assistance to help young men and women from the FSU find out more about and connect with their Jewish roots, with a choice of several educational institutions in Israel, New York and New Jersey.</li>
+    </ul>
+</div>
+
+<!-- CTA SECTION -->
+<div class="jewish-identity-cta">
+    <p style="font-size: 1.95rem; margin-bottom: 2.5rem; color: #1a1a1a; line-height: 1.7;">Any Jewish resident of Ontario whose family comes from the FSU can apply to the JRCC for the following grants to enhance their Jewish identity by speaking with one of our rabbis and completing the appropriate application form at jrcc.org/JIG.</p>
+    <a href="https://www.jrcc.org/JIG" class="jewish-identity-cta-button">Apply for a Grant</a>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure white background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
