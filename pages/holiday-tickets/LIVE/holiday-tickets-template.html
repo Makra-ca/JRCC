@@ -1,0 +1,459 @@
+<!--
+====================================================================
+HOLIDAY TICKETS PAGE - FESTIVAL GOLD & WARM BURGUNDY THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Warm and welcoming design representing celebration (festival gold)
+and dignity (warm burgundy). Symbolizes the joy of Jewish holidays and community support.
+====================================================================
+-->
+
+<!-- Embedded Festival Gold & Burgundy Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   HOLIDAY TICKETS - FESTIVAL GOLD & WARM BURGUNDY THEME
+
+   Colors symbolize:
+   - Festival Gold (celebration, joy, holiday lights)
+   - Warm Burgundy (dignity, tradition, richness)
+   - Cream/Ivory (warmth, welcome, comfort)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.holiday-tickets-content,
+.holiday-tickets-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Clean Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.holiday-tickets-content {
+    background: #faf8f5 !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - WARM BURGUNDY
+   =================================================================== */
+
+/* Main Page Title (H1) - Burgundy Background */
+.holiday-tickets-content > h1,
+.holiday-tickets-content h1:first-child,
+.holiday-tickets-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 10vw, 7.5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    padding: 4rem 2rem 2rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+    line-height: 1.2 !important;
+}
+
+/* Subtitle (H2 in hero) - Part of burgundy banner */
+.holiday-tickets-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 6vw, 3.75rem) !important;
+    font-weight: 600 !important;
+    color: #f4e4c1 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    padding: 1rem 2rem 4rem !important;
+    margin: 0 0 3rem 0 !important;
+    font-style: italic !important;
+    line-height: 1.3 !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.holiday-tickets-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Introduction Paragraph */
+.holiday-tickets-intro {
+    background: linear-gradient(135deg, #f4e4c1 0%, #f9f0d9 100%) !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    border-radius: 20px !important;
+    text-align: center !important;
+    font-size: clamp(1.8rem, 5vw, 2.7rem) !important;
+    line-height: 1.5 !important;
+    color: #3d1f2b !important;
+    box-shadow: 0 3px 12px rgba(125, 46, 77, 0.15) !important;
+    border: 3px solid #d4af37 !important;
+    font-weight: 600 !important;
+}
+
+.holiday-tickets-intro p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Content Sections */
+.holiday-tickets-section {
+    background: #ffffff !important;
+    border-radius: 25px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08) !important;
+    border: 3px solid #f4e4c1 !important;
+}
+
+.holiday-tickets-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.2rem) !important;
+    font-weight: 700 !important;
+    color: #7d2e4d !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 4.5px solid #d4af37 !important;
+    line-height: 1.3 !important;
+}
+
+.holiday-tickets-section p {
+    font-size: clamp(1.2rem, 3.5vw, 1.875rem) !important;
+    line-height: 1.7 !important;
+    color: #1a1a1a !important;
+    margin: 1.5rem 0 !important;
+}
+
+.holiday-tickets-section a {
+    color: #7d2e4d !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1.5px solid #7d2e4d !important;
+}
+
+.holiday-tickets-section a:hover {
+    color: #9b3d5f !important;
+    border-bottom-color: #9b3d5f !important;
+}
+
+.holiday-tickets-section strong,
+.holiday-tickets-section b {
+    color: #7d2e4d !important;
+    font-weight: 700 !important;
+}
+
+/* ===================================================================
+   FEATURED MESSAGE BOX - BURGUNDY WITH GOLD ACCENT
+   =================================================================== */
+
+.holiday-tickets-message {
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    border-radius: 25px !important;
+    padding: 3.5rem 2.5rem 3rem !important;
+    margin: 4rem 1rem !important;
+    max-width: 1100px !important;
+    text-align: center !important;
+    box-shadow: 0 10px 40px rgba(125, 46, 77, 0.3) !important;
+    border: 4.5px solid #d4af37 !important;
+}
+
+.holiday-tickets-message h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.8rem) !important;
+    font-weight: 800 !important;
+    color: #f4e4c1 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.3 !important;
+}
+
+.holiday-tickets-message p {
+    font-size: clamp(1.3rem, 4vw, 2.25rem) !important;
+    line-height: 1.6 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 500 !important;
+}
+
+.holiday-tickets-message strong {
+    color: #f4e4c1 !important;
+    font-weight: 700 !important;
+}
+
+/* ===================================================================
+   CONTACT INFO BOX - GOLD HIGHLIGHT
+   =================================================================== */
+
+.holiday-tickets-contact {
+    background: linear-gradient(135deg, #f4e4c1 0%, #f9f0d9 100%) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    text-align: center !important;
+    box-shadow: 0 5px 20px rgba(125, 46, 77, 0.15) !important;
+    border: 3px solid #d4af37 !important;
+}
+
+.holiday-tickets-contact h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-weight: 700 !important;
+    color: #7d2e4d !important;
+    margin: 0 0 2rem 0 !important;
+    line-height: 1.3 !important;
+}
+
+.holiday-tickets-contact p {
+    font-size: clamp(1.3rem, 4vw, 2rem) !important;
+    line-height: 1.8 !important;
+    color: #3d1f2b !important;
+    margin: 1rem 0 !important;
+}
+
+.holiday-tickets-contact a {
+    color: #7d2e4d !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid #d4af37 !important;
+    transition: all 0.3s ease !important;
+}
+
+.holiday-tickets-contact a:hover {
+    color: #9b3d5f !important;
+    border-bottom-color: #9b3d5f !important;
+}
+
+/* ===================================================================
+   CTA BUTTON
+   =================================================================== */
+
+.holiday-tickets-cta {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 4rem 1rem !important;
+}
+
+.holiday-tickets-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%) !important;
+    color: #3d1f2b !important;
+    padding: 1.5rem 3rem !important;
+    border-radius: 60px !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.95rem) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 3px solid #7d2e4d !important;
+    line-height: 1.4 !important;
+}
+
+.holiday-tickets-cta-button:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 35px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #f4e4c1 0%, #d4af37 100%) !important;
+    text-decoration: none !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .holiday-tickets-content > h1,
+    .holiday-tickets-content h1:first-child,
+    .holiday-tickets-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .holiday-tickets-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .holiday-tickets-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .holiday-tickets-intro {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.5rem !important;
+    }
+
+    .holiday-tickets-message {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .holiday-tickets-contact {
+        padding: 2rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .holiday-tickets-cta-button {
+        padding: 1.25rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .holiday-tickets-content h1,
+#BodyContainer .holiday-tickets-content h2,
+#BodyContainer .holiday-tickets-content h3,
+#BodyContainer .holiday-tickets-content p,
+#BodyContainer .holiday-tickets-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="holiday-tickets-content">
+
+<!-- HERO SECTION - Warm Burgundy Background -->
+<div class="holiday-tickets-hero">
+    <h1>Holiday Tickets</h1>
+    <h2>Join Us in Celebration</h2>
+</div>
+
+<!-- INTRODUCTION -->
+<div class="holiday-tickets-intro">
+    <p>The Jewish Russian Community Centre hosts various events around the Jewish holidays to bring our community together.</p>
+</div>
+
+<!-- MAIN MESSAGE -->
+<div class="holiday-tickets-section">
+    <h2>Everyone Deserves to Celebrate</h2>
+
+    <p>If you would like to attend holiday services but may not have the financial means to buy you or your family members tickets, we may be able to help you!</p>
+
+    <p>Please contact us to check whether you are eligible for receiving tickets to our holiday events at a reduced price or for free.</p>
+</div>
+
+<!-- FEATURED MESSAGE -->
+<div class="holiday-tickets-message">
+    <h2>No One Should Celebrate Alone</h2>
+    <p>Our community is here to support you. Don't let financial concerns keep you from experiencing the joy and connection of our holiday celebrations together.</p>
+</div>
+
+<!-- CONTACT INFORMATION -->
+<div class="holiday-tickets-contact">
+    <h3>How to Get Help</h3>
+
+    <p><strong>Phone:</strong> 416-222-7105 ext. 999</p>
+
+    <p><strong>Email:</strong> <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm">Fill out this form</a></p>
+
+    <p>Our team will reach out to discuss your eligibility and help you access holiday tickets for you and your family.</p>
+</div>
+
+<!-- CTA SECTION -->
+<div class="holiday-tickets-cta">
+    <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm" class="holiday-tickets-cta-button">Request Holiday Tickets</a>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure cream background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
