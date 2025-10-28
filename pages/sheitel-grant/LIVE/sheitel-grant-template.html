@@ -1,0 +1,539 @@
+<!--
+====================================================================
+SHEITEL GRANT PAGE - PURPLE & ROSE GOLD THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Elegant design inspired by modesty (purple) and inner beauty
+(rose gold).
+====================================================================
+-->
+
+<!-- Embedded Purple & Rose Gold Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   SHEITEL GRANT - PURPLE & ROSE GOLD THEME
+
+   Colors symbolize:
+   - Deep Purple (modesty, dignity, royalty)
+   - Rose Gold (inner beauty, femininity, elegance)
+   - Soft whites (purity and grace)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.sheitel-content,
+.sheitel-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* Clean White Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.sheitel-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - DEEP PURPLE
+   =================================================================== */
+
+/* Main Page Title (H1) - Purple Background */
+.sheitel-content > h1,
+.sheitel-content h1:first-child,
+.sheitel-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 8vw, 5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%) !important;
+    padding: 3rem 2rem 1.5rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (H2 in hero) - Part of purple banner */
+.sheitel-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 5vw, 2.5rem) !important;
+    font-weight: 600 !important;
+    color: #fbbf24 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%) !important;
+    padding: 0 2rem 3rem !important;
+    margin: 0 0 2rem 0 !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.sheitel-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Introduction Paragraph */
+.sheitel-intro {
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
+    padding: 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    box-shadow: 0 2px 8px rgba(126, 34, 206, 0.1) !important;
+    border: 2px solid #e9d5ff !important;
+}
+
+/* Logo Section */
+.sheitel-logo-section {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 2rem auto !important;
+}
+
+.sheitel-logo-section img {
+    max-width: 350px !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(126, 34, 206, 0.15) !important;
+}
+
+/* Content Sections */
+.sheitel-section {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    border: 2px solid #faf5ff !important;
+}
+
+.sheitel-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 2.8rem) !important;
+    font-weight: 700 !important;
+    color: #7e22ce !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 3px solid #a855f7 !important;
+}
+
+.sheitel-section p {
+    font-size: 1.25rem !important;
+    line-height: 1.8 !important;
+    color: #1a1a1a !important;
+    margin: 1rem 0 !important;
+}
+
+.sheitel-section a {
+    color: #7e22ce !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1px solid #7e22ce !important;
+}
+
+.sheitel-section a:hover {
+    color: #6b21a8 !important;
+    border-bottom-color: #6b21a8 !important;
+}
+
+.sheitel-section strong,
+.sheitel-section b {
+    color: #7e22ce !important;
+    font-weight: 700 !important;
+}
+
+.sheitel-section em,
+.sheitel-section i {
+    color: #6b21a8 !important;
+    font-style: italic !important;
+}
+
+/* ===================================================================
+   IMAGES
+   =================================================================== */
+
+.sheitel-section img {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(126, 34, 206, 0.15) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+.sheitel-image-main {
+    max-width: 400px !important;
+    display: block !important;
+    margin: 2rem auto !important;
+}
+
+/* ===================================================================
+   FEATURED GRANT OFFER CARD - PURPLE WITH ROSE GOLD ACCENT
+   =================================================================== */
+
+.sheitel-grant-offer {
+    background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem auto !important;
+    max-width: 900px !important;
+    text-align: center !important;
+    box-shadow: 0 8px 30px rgba(126, 34, 206, 0.3) !important;
+    border: 3px solid #fbbf24 !important;
+    position: relative !important;
+}
+
+.sheitel-grant-offer::before {
+    content: '👑' !important;
+    position: absolute !important;
+    top: -30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 3rem !important;
+    background: #fbbf24 !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4) !important;
+}
+
+.sheitel-grant-offer h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 6vw, 3.5rem) !important;
+    font-weight: 800 !important;
+    color: #fbbf24 !important;
+    margin: 1rem 0 1.5rem 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+}
+
+.sheitel-grant-offer p {
+    font-size: 1.5rem !important;
+    line-height: 1.7 !important;
+    color: #ffffff !important;
+    margin: 1.5rem 0 !important;
+    font-weight: 500 !important;
+}
+
+.sheitel-grant-offer strong {
+    color: #fbbf24 !important;
+    font-weight: 700 !important;
+    font-size: 1.6rem !important;
+}
+
+.sheitel-grant-offer .grant-amount {
+    font-size: 2rem !important;
+    color: #fbbf24 !important;
+    font-weight: 800 !important;
+    display: block !important;
+    margin: 1rem 0 !important;
+}
+
+/* ===================================================================
+   CTA CARDS - Side by Side
+   =================================================================== */
+
+.sheitel-cta-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin: 3rem auto !important;
+    max-width: 900px !important;
+    padding: 0 2rem !important;
+}
+
+.sheitel-cta-card {
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
+    border-radius: 16px !important;
+    padding: 2.5rem 2rem !important;
+    text-align: center !important;
+    box-shadow: 0 4px 15px rgba(126, 34, 206, 0.1) !important;
+    border: 2px solid #a855f7 !important;
+    transition: all 0.3s ease !important;
+}
+
+.sheitel-cta-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 25px rgba(126, 34, 206, 0.2) !important;
+}
+
+.sheitel-cta-card h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #7e22ce !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+.sheitel-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%) !important;
+    color: #ffffff !important;
+    padding: 1.25rem 2.5rem !important;
+    border-radius: 50px !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1rem 0 0 0 !important;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.sheitel-cta-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 25px rgba(168, 85, 247, 0.4) !important;
+    background: linear-gradient(135deg, #9333ea 0%, #a855f7 100%) !important;
+    text-decoration: none !important;
+}
+
+/* ===================================================================
+   QUOTE/HIGHLIGHT BOX
+   =================================================================== */
+
+.sheitel-highlight {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%) !important;
+    border-left: 5px solid #f59e0b !important;
+    padding: 2rem 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    border-radius: 12px !important;
+    font-size: 1.3rem !important;
+    line-height: 1.7 !important;
+    color: #1a1a1a !important;
+    font-style: italic !important;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15) !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .sheitel-content > h1,
+    .sheitel-content h1:first-child,
+    .sheitel-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .sheitel-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .sheitel-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .sheitel-intro {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.3rem !important;
+    }
+
+    .sheitel-grant-offer {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .sheitel-image-main {
+        max-width: 100% !important;
+        margin: 1.5rem auto !important;
+    }
+
+    .sheitel-cta-container {
+        grid-template-columns: 1fr !important;
+        padding: 0 1rem !important;
+    }
+
+    .sheitel-cta-button {
+        padding: 1rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .sheitel-logo-section {
+        padding: 2rem 1rem !important;
+    }
+
+    .sheitel-logo-section img {
+        max-width: 90% !important;
+    }
+
+    .sheitel-highlight {
+        padding: 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.2rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .sheitel-content h1,
+#BodyContainer .sheitel-content h2,
+#BodyContainer .sheitel-content h3,
+#BodyContainer .sheitel-content p,
+#BodyContainer .sheitel-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="sheitel-content">
+
+<!-- HERO SECTION - Deep Purple Background -->
+<div class="sheitel-hero">
+    <h1>Sheitel Grant</h1>
+    <h2>Where Modesty Meets Beauty</h2>
+</div>
+
+<!-- LOGO SECTION -->
+<div class="sheitel-logo-section">
+    <img src="/media/images/467/TvCI4679374.jpg" alt="JRCC Sheitel Grant Logo" />
+</div>
+
+<!-- INTRODUCTION -->
+<div class="sheitel-intro">
+    <p>The hair-covering has a profound effect on the wearer. It creates a psychological barrier, a cognitive distance between her and strangers. Her beauty becomes visible but inconspicuous; she is attractive but unavailable.</p>
+</div>
+
+<!-- THE PURPOSE SECTION -->
+<div class="sheitel-section">
+    <h2>Privacy & Dignity</h2>
+
+    <p>The wig achieves the desired effect exactly, because a wig allows a woman to cover all her hair, while maintaining her attractive appearance. She can be proud of the way she looks without compromising her privacy. And even if her wig looks so real as to be mistaken for natural hair, she knows that no one is looking at the real her. She has created a private space, and only she decides who to let into that space.</p>
+</div>
+
+<!-- HIGHLIGHT QUOTE -->
+<div class="sheitel-highlight">
+    <p>"Perhaps in other religions modesty and beauty don't mix. This is not the Jewish view. True beauty, inner beauty, needs modesty to protect it and allow it to thrive."</p>
+</div>
+
+<!-- GRANT OFFER - Featured Purple Card -->
+<div class="sheitel-grant-offer">
+    <h2>JRCC Sheitel Grant Program</h2>
+    <p><strong>The JRCC Sheitel Grant offers a grant of up to $250 towards a sheitel for a bride or a married woman who wants to cover her hair according to Jewish tradition.</strong></p>
+    <span class="grant-amount">Up to $250</span>
+    <p>Supporting your journey to modest beauty. We're here to help make this important tradition accessible and achievable.</p>
+</div>
+
+<!-- CTA CARDS -->
+<div class="sheitel-cta-container">
+    <div class="sheitel-cta-card">
+        <h3>Learn More</h3>
+        <p>Discover the beauty and significance of hair covering in Jewish tradition.</p>
+        <a href="#" class="sheitel-cta-button">Why Hair Covering?</a>
+    </div>
+
+    <div class="sheitel-cta-card">
+        <h3>Apply Today</h3>
+        <p>Ready to begin your journey? Start your application now.</p>
+        <a href="#" class="sheitel-cta-button">Application Form</a>
+    </div>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure white background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
