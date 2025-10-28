@@ -1,0 +1,376 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+After pasting this, you can edit content using the visual editor.
+All styling is embedded inline - fully self-contained.
+====================================================================
+-->
+
+<!-- Embedded Black & Gold Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   JEWISH IDENTITY WORLDWIDE - INLINE BLACK & GOLD THEME
+
+   This CSS automatically styles content based on HTML structure.
+   Staff can edit content visually - no code knowledge needed!
+   =================================================================== */
+
+/* Reset and Base Styles */
+.jiw-content,
+.jiw-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* White Background - No Images */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.jiw-content {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Override inline styles on master-content-wrapper */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #ffffff !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HEADER SECTION - BLACK GRADIENT
+   =================================================================== */
+
+/* Main Page Title (H1) - Black Background */
+.jiw-content > h1,
+.jiw-content h1:first-child {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2.5rem, 7vw, 4rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    padding: 4rem 2rem !important;
+    margin: 0 0 1rem 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+}
+
+/* Subtitle (first paragraph or .subtitle) */
+.jiw-content .subtitle,
+.jiw-content > p:first-of-type {
+    font-size: clamp(1.2rem, 3vw, 1.5rem) !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    font-style: italic !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    padding: 1rem !important;
+}
+
+/* ===================================================================
+   LOCATION SECTIONS - GOLD THEME
+   =================================================================== */
+
+/* Location Titles (H2) - Gold Color */
+.jiw-content h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 4vw, 2.2rem) !important;
+    font-weight: 700 !important;
+    color: #92400e !important;
+    text-align: center !important;
+    margin: 4rem 0 2rem 0 !important;
+    position: relative !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Underline for location titles - Gold Gradient */
+.jiw-content h2::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 60px !important;
+    height: 3px !important;
+    background: linear-gradient(90deg, #d97706, #fbbf24) !important;
+    border-radius: 2px !important;
+}
+
+/* ===================================================================
+   SERVICE CARDS
+   =================================================================== */
+
+/* Service Item Container */
+.jiw-content .service-item {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin: 0 auto 1.5rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+.jiw-content .service-item:hover {
+    box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2) !important;
+    transform: translateY(-2px) !important;
+    border-color: #d97706 !important;
+}
+
+/* Featured Service (Toronto) - Black Gradient */
+.jiw-content .service-item.featured {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%) !important;
+    border-color: transparent !important;
+}
+
+.jiw-content .service-item.featured h3,
+.jiw-content .service-item.featured p,
+.jiw-content .service-item.featured strong,
+.jiw-content .service-item.featured a {
+    color: #ffffff !important;
+}
+
+.jiw-content .service-item.featured a:hover {
+    opacity: 0.9 !important;
+}
+
+/* Service Names (H3) */
+.jiw-content .service-item h3,
+.jiw-content h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 1rem 0 !important;
+}
+
+/* Links - Gold Color */
+.jiw-content .service-item a {
+    color: #92400e !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+}
+
+.jiw-content .service-item a:hover {
+    color: #b45309 !important;
+    text-decoration: underline !important;
+}
+
+/* Paragraphs in service items */
+.jiw-content .service-item p {
+    color: #1a1a1a !important;
+    line-height: 1.7 !important;
+    margin: 0.5rem 0 !important;
+}
+
+/* Bold labels (Contact:, Email:, etc.) */
+.jiw-content .service-item strong {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+}
+
+/* Free Badge - Gold Theme */
+.jiw-content .free-badge,
+.jiw-content .service-item p.free-badge {
+    background: #ffffff !important;
+    color: #92400e !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 50px !important;
+    font-weight: 700 !important;
+    display: inline-block !important;
+    margin: 1rem 0 !important;
+}
+
+.jiw-content .service-item.featured .free-badge {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+    border: 2px solid #d97706 !important;
+}
+
+/* Cost Information */
+.jiw-content .service-item p strong:first-child {
+    display: inline-block !important;
+    min-width: 80px !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .jiw-content > h1,
+    .jiw-content h1:first-child {
+        font-size: 2rem !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .jiw-content h2 {
+        font-size: 1.5rem !important;
+        margin: 3rem 0 1.5rem 0 !important;
+    }
+
+    .jiw-content .service-item {
+        padding: 1.5rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+/* Ensure our styles override Chabad One's default styling */
+#BodyContainer .jiw-content h1,
+#BodyContainer .jiw-content h2,
+#BodyContainer .jiw-content h3,
+#BodyContainer .jiw-content p,
+#BodyContainer .jiw-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+EDIT CONTENT BELOW USING THE VISUAL EDITOR
+====================================================================
+Use the normal formatting buttons:
+- Heading 1 (H1) for main page title
+- Heading 2 (H2) for location names (Toronto, Worldwide, USA, etc.)
+- Heading 3 (H3) for service names
+- Bold for labels (Contact:, Email:, Phone:, etc.)
+- Insert Link for websites
+- Normal text for descriptions
+
+Add class="featured" to make Toronto stand out with black background!
+Add class="free-badge" to create gold badge buttons!
+
+The CSS will automatically style everything beautifully!
+====================================================================
+-->
+
+<div class="jiw-content">
+
+<!-- EXAMPLE CONTENT - Replace this with your own using the visual editor -->
+
+<h1>Jewish Identity Verification Services Worldwide</h1>
+<p class="subtitle"><em>For Jews of Russian descent</em></p>
+
+<h2>Toronto, Canada</h2>
+
+<div class="service-item featured">
+<h3>Jewish Identity Verification Service (JIVS)</h3>
+<p><a href="https://www.jrcc.org/jewishidentity">www.jrcc.org/jewishidentity</a></p>
+<p class="free-badge">FREE - For the Russian Community of Ontario</p>
+<p>A suggested donation is $250 CAD per individual to cover the expenses. All donations are greatly appreciated and tax deductible. Thank you!</p>
+<p><strong>Contact:</strong> Ms. Mazal Makalski<br>
+<strong>Title:</strong> Jewish Identity Verification Coordinator<br>
+<strong>Email:</strong> <a href="mailto:mazal.makalski@jrcc.org">mazal.makalski@jrcc.org</a><br>
+<strong>Phone:</strong> 416-222-7105 ext. 237</p>
+</div>
+
+<h2>Worldwide</h2>
+
+<div class="service-item">
+<h3>Institute of Jewish Status</h3>
+<p><a href="https://www.jewishstatus.org/">www.jewishstatus.org</a></p>
+<p><strong>Cost:</strong> $280 USD per individual</p>
+</div>
+
+<h2>USA</h2>
+
+<div class="service-item">
+<h3>RCA - Jewish Verification</h3>
+<p><a href="https://bethdin.org/application-to-open-a-file-for-a-status-certificate/">bethdin.org/application-to-open-a-file-for-a-status-certificate</a></p>
+<p><strong>Cost:</strong> $275 USD per individual</p>
+</div>
+
+<h2>Israel</h2>
+
+<div class="service-item">
+<h3>Am Levaded</h3>
+<p><strong>Contact:</strong> Rabbi Naftoli Shraiber<br>
+<strong>Email:</strong> <a href="mailto:Naftoli_shraiber@yahoo.com">Naftoli_shraiber@yahoo.com</a><br>
+<strong>Phone:</strong> +972-54-522-9879</p>
+</div>
+
+<h2>Russia</h2>
+
+<div class="service-item">
+<h3>Beis Din Services</h3>
+<p><strong>Contact:</strong> Rabbi Israel Barenbaum<br>
+<strong>Email:</strong> <a href="mailto:beis-din@mail.ru">beis-din@mail.ru</a><br>
+<strong>Phone:</strong> +7-495-926-0002</p>
+</div>
+
+<!-- END EXAMPLE CONTENT -->
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure white background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: #ffffff !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>
