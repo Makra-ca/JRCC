@@ -1,0 +1,502 @@
+<!--
+====================================================================
+EVENT TICKETS PAGE - FESTIVAL GOLD & WARM BURGUNDY THEME
+====================================================================
+Paste this template into Chabad One CMS.
+All styling is embedded inline - fully self-contained.
+
+THEME: Warm and welcoming design representing celebration (festival gold)
+and dignity (warm burgundy). Symbolizes the joy of community events and support.
+====================================================================
+-->
+
+<!-- Embedded Festival Gold & Burgundy Theme Styles -->
+<style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* ===================================================================
+   EVENT TICKETS - FESTIVAL GOLD & WARM BURGUNDY THEME
+
+   Colors symbolize:
+   - Festival Gold (celebration, joy, community events)
+   - Warm Burgundy (dignity, tradition, richness)
+   - Cream/Ivory (warmth, welcome, comfort)
+   =================================================================== */
+
+/* Reset and Base Styles */
+.event-tickets-content,
+.event-tickets-content * {
+    box-sizing: border-box !important;
+    font-family: 'Urbanist', sans-serif !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+/* Clean Background */
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.event-tickets-content {
+    background: #faf8f5 !important;
+    background-image: none !important;
+}
+
+/* Remove background images from all Chabad One containers */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+.co_content_container,
+[class*="wrapper"],
+[class*="container"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+}
+
+/* Override inline styles */
+.master-content-wrapper[style*="background-image"],
+.master-content-wrapper.g960[style*="background-image"],
+div.master-content-wrapper.g960[style*="background-image"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+}
+
+/* Hide Breadcrumbs */
+.breadcrumbs,
+.show_for_print,
+[class*="breadcrumb"] {
+    display: none !important;
+}
+
+/* ===================================================================
+   HERO SECTION - WARM BURGUNDY
+   =================================================================== */
+
+/* Main Page Title (H1) - Burgundy Background */
+.event-tickets-content > h1,
+.event-tickets-content h1:first-child,
+.event-tickets-hero h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(3rem, 10vw, 7.5rem) !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    padding: 4rem 2rem 2rem !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    letter-spacing: -1px !important;
+    line-height: 1.2 !important;
+}
+
+/* Subtitle (H2 in hero) - Part of burgundy banner */
+.event-tickets-hero h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(1.8rem, 6vw, 3.75rem) !important;
+    font-weight: 600 !important;
+    color: #f4e4c1 !important;
+    text-align: center !important;
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    padding: 1rem 2rem 4rem !important;
+    margin: 0 0 3rem 0 !important;
+    font-style: italic !important;
+    line-height: 1.3 !important;
+}
+
+/* ===================================================================
+   CONTENT SECTIONS
+   =================================================================== */
+
+.event-tickets-content {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* Introduction Paragraph */
+.event-tickets-intro {
+    background: linear-gradient(135deg, #f4e4c1 0%, #f9f0d9 100%) !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    border-radius: 20px !important;
+    text-align: center !important;
+    font-size: clamp(1.8rem, 5vw, 2.7rem) !important;
+    line-height: 1.5 !important;
+    color: #3d1f2b !important;
+    box-shadow: 0 3px 12px rgba(125, 46, 77, 0.15) !important;
+    border: 3px solid #d4af37 !important;
+    font-weight: 600 !important;
+}
+
+.event-tickets-intro p {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Content Sections */
+.event-tickets-section {
+    background: #ffffff !important;
+    border-radius: 25px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08) !important;
+    border: 3px solid #f4e4c1 !important;
+}
+
+.event-tickets-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.2rem) !important;
+    font-weight: 700 !important;
+    color: #7d2e4d !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 1rem !important;
+    border-bottom: 4.5px solid #d4af37 !important;
+    line-height: 1.3 !important;
+}
+
+.event-tickets-section p {
+    font-size: clamp(1.2rem, 3.5vw, 1.875rem) !important;
+    line-height: 1.7 !important;
+    color: #1a1a1a !important;
+    margin: 1.5rem 0 !important;
+}
+
+.event-tickets-section a {
+    color: #7d2e4d !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color 0.3s ease !important;
+    border-bottom: 1.5px solid #7d2e4d !important;
+}
+
+.event-tickets-section a:hover {
+    color: #9b3d5f !important;
+    border-bottom-color: #9b3d5f !important;
+}
+
+.event-tickets-section strong,
+.event-tickets-section b {
+    color: #7d2e4d !important;
+    font-weight: 700 !important;
+}
+
+/* ===================================================================
+   EVENT LIST - GOLD ACCENTS
+   =================================================================== */
+
+.event-tickets-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 2.5rem 1rem !important;
+    max-width: 1100px !important;
+}
+
+.event-tickets-list li {
+    background: linear-gradient(135deg, #faf8f5 0%, #f9f0d9 100%) !important;
+    border-left: 7.5px solid #d4af37 !important;
+    padding: 1.5rem 2rem !important;
+    margin: 1.5rem 0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 3px 12px rgba(125, 46, 77, 0.1) !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.875rem) !important;
+    line-height: 1.6 !important;
+    color: #1a1a1a !important;
+}
+
+.event-tickets-list li strong {
+    color: #7d2e4d !important;
+    font-weight: 700 !important;
+}
+
+/* ===================================================================
+   FEATURED MESSAGE BOX - BURGUNDY WITH GOLD ACCENT
+   =================================================================== */
+
+.event-tickets-message {
+    background: linear-gradient(135deg, #7d2e4d 0%, #9b3d5f 100%) !important;
+    border-radius: 25px !important;
+    padding: 3.5rem 2.5rem 3rem !important;
+    margin: 4rem 1rem !important;
+    max-width: 1100px !important;
+    text-align: center !important;
+    box-shadow: 0 10px 40px rgba(125, 46, 77, 0.3) !important;
+    border: 4.5px solid #d4af37 !important;
+}
+
+.event-tickets-message h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 6vw, 4.8rem) !important;
+    font-weight: 800 !important;
+    color: #f4e4c1 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    border-bottom: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    line-height: 1.3 !important;
+}
+
+.event-tickets-message p {
+    font-size: clamp(1.3rem, 4vw, 2.25rem) !important;
+    line-height: 1.6 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 500 !important;
+}
+
+.event-tickets-message strong {
+    color: #f4e4c1 !important;
+    font-weight: 700 !important;
+}
+
+/* ===================================================================
+   CONTACT INFO BOX - GOLD HIGHLIGHT
+   =================================================================== */
+
+.event-tickets-contact {
+    background: linear-gradient(135deg, #f4e4c1 0%, #f9f0d9 100%) !important;
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    margin: 3rem 1rem !important;
+    max-width: 1100px !important;
+    text-align: center !important;
+    box-shadow: 0 5px 20px rgba(125, 46, 77, 0.15) !important;
+    border: 3px solid #d4af37 !important;
+}
+
+.event-tickets-contact h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: clamp(2rem, 5vw, 3.5rem) !important;
+    font-weight: 700 !important;
+    color: #7d2e4d !important;
+    margin: 0 0 2rem 0 !important;
+    line-height: 1.3 !important;
+}
+
+.event-tickets-contact p {
+    font-size: clamp(1.3rem, 4vw, 2rem) !important;
+    line-height: 1.8 !important;
+    color: #3d1f2b !important;
+    margin: 1rem 0 !important;
+}
+
+.event-tickets-contact a {
+    color: #7d2e4d !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid #d4af37 !important;
+    transition: all 0.3s ease !important;
+}
+
+.event-tickets-contact a:hover {
+    color: #9b3d5f !important;
+    border-bottom-color: #9b3d5f !important;
+}
+
+/* ===================================================================
+   CTA BUTTON
+   =================================================================== */
+
+.event-tickets-cta {
+    text-align: center !important;
+    padding: 3rem 2rem !important;
+    margin: 4rem 1rem !important;
+}
+
+.event-tickets-cta-button {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%) !important;
+    color: #3d1f2b !important;
+    padding: 1.5rem 3rem !important;
+    border-radius: 60px !important;
+    font-size: clamp(1.2rem, 3.5vw, 1.95rem) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    margin: 1.5rem 0 !important;
+    box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4) !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    border: 3px solid #7d2e4d !important;
+    line-height: 1.4 !important;
+}
+
+.event-tickets-cta-button:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 35px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #f4e4c1 0%, #d4af37 100%) !important;
+    text-decoration: none !important;
+}
+
+/* ===================================================================
+   RESPONSIVE DESIGN
+   =================================================================== */
+
+@media (max-width: 768px) {
+    .event-tickets-content > h1,
+    .event-tickets-content h1:first-child,
+    .event-tickets-hero h1 {
+        font-size: 2.5rem !important;
+        padding: 2.5rem 1.5rem 1rem !important;
+    }
+
+    .event-tickets-hero h2 {
+        font-size: 1.6rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .event-tickets-section {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+    }
+
+    .event-tickets-intro {
+        padding: 2rem 1.5rem !important;
+        margin: 1.5rem 1rem !important;
+        font-size: 1.5rem !important;
+    }
+
+    .event-tickets-message {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .event-tickets-contact {
+        padding: 2rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .event-tickets-list li {
+        margin: 1.5rem 1rem !important;
+        padding: 1.25rem 1.5rem !important;
+        font-size: 1.15rem !important;
+    }
+
+    .event-tickets-cta-button {
+        padding: 1.25rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ===================================================================
+   OVERRIDE CHABAD ONE SPECIFICITY
+   =================================================================== */
+
+#BodyContainer .event-tickets-content h1,
+#BodyContainer .event-tickets-content h2,
+#BodyContainer .event-tickets-content h3,
+#BodyContainer .event-tickets-content p,
+#BodyContainer .event-tickets-content a {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+#BodyContainer .article-header,
+.article-header {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+#BodyContainer .article-header__title,
+.article-header__title {
+    display: none !important;
+}
+</style>
+
+<!--
+====================================================================
+CONTENT SECTION - EDIT USING VISUAL EDITOR
+====================================================================
+You can edit the content below using Chabad One's visual editor.
+The styling will automatically apply to create a beautiful page.
+====================================================================
+-->
+
+<div class="event-tickets-content">
+
+<!-- HERO SECTION - Warm Burgundy Background -->
+<div class="event-tickets-hero">
+    <h1>Event Tickets</h1>
+    <h2>Join Our Community Celebrations</h2>
+</div>
+
+<!-- INTRODUCTION -->
+<div class="event-tickets-intro">
+    <p>Throughout the year, we host vibrant events for our community of all ages!</p>
+</div>
+
+<!-- MAIN MESSAGE -->
+<div class="event-tickets-section">
+    <h2>Year-Round Community Events</h2>
+
+    <p>The Jewish Russian Community Centre hosts various events for members of our community of all ages, including cooking demos, community Shabbat dinners, annual Purim parties, community Passover seders, and a variety of concerts and seminars.</p>
+
+    <p>If you would like to attend these events but may not have the financial means to buy you or your family members tickets, we may be able to help you!</p>
+</div>
+
+<!-- EVENT EXAMPLES LIST -->
+<ul class="event-tickets-list">
+    <li><strong>Cooking Demonstrations</strong> – Learn new recipes and culinary techniques</li>
+    <li><strong>Community Shabbat Dinners</strong> – Share a warm Friday night meal together</li>
+    <li><strong>Purim Parties</strong> – Annual celebration with costumes, food, and joy</li>
+    <li><strong>Passover Seders</strong> – Community seders welcoming all families</li>
+    <li><strong>Concerts & Seminars</strong> – Cultural enrichment and learning opportunities</li>
+</ul>
+
+<!-- FEATURED MESSAGE -->
+<div class="event-tickets-message">
+    <h2>Community is For Everyone</h2>
+    <p>Don't let cost be a barrier to connection. Our events bring people together, create memories, and strengthen bonds. You belong here!</p>
+</div>
+
+<!-- CONTACT INFORMATION -->
+<div class="event-tickets-contact">
+    <h3>How to Request Tickets</h3>
+
+    <p>Please contact us to check whether you are eligible for receiving tickets to our events at a reduced price or for free.</p>
+
+    <p><strong>Phone:</strong> 416-222-7105 ext. 999</p>
+
+    <p><strong>Email:</strong> <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm">Fill out this form</a></p>
+</div>
+
+<!-- CTA SECTION -->
+<div class="event-tickets-cta">
+    <a href="https://www.jrcc.org/templates/articlecco_cdo/aid/4924762/jewish/Get-Help.htm" class="event-tickets-cta-button">Request Event Tickets</a>
+</div>
+
+</div>
+
+<!-- Force remove background image (overrides Chabad One inline styles) -->
+<style type="text/css">
+/* Additional overrides to ensure cream background */
+body,
+body.cco_body,
+#BodyContainer,
+#co_content_container,
+.clearfix,
+.body_wrapper,
+#content,
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper.g960,
+div[class*="master-content"],
+div[class*="wrapper"],
+div[class*="content"] {
+    background-image: none !important;
+    background: #faf8f5 !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    min-height: 0 !important;
+}
+</style>

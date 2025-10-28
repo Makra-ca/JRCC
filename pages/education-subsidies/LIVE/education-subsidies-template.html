@@ -214,14 +214,13 @@ a.synopsis_icon.small_right_margin {
     text-decoration: none !important;
 }
 
-/* Style the actual CMS icon images - Fill container proportionally */
+/* Style the actual CMS icon images - Fill container completely */
 .article_index .item img.synopsis_icon,
 img.synopsis_icon {
-    width: auto !important;
+    width: 100% !important;
     height: 100% !important;
-    max-width: 100% !important;
-    max-height: 140px !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
+    object-position: center !important;
     margin: 0 !important;
     border-radius: 0 !important;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15)) !important;
@@ -415,11 +414,6 @@ div.article_index div.column {
     .article_index .item .synopsis_icon.float_left {
         height: 160px !important;
         padding: 1.5rem !important;
-    }
-
-    .article_index .item img.synopsis_icon,
-    img.synopsis_icon {
-        max-height: 120px !important;
     }
 
     .article_index .item:hover img.synopsis_icon {
