@@ -83,6 +83,13 @@ The CMS strips or breaks these animation types:
 ### Key Principle
 **Keep animations simple and separated from content areas that need to be editable in the CMS text editor.**
 
+## CSS Specificity Issue ⚠️
+**CRITICAL**: Inline styles in HTML content override CSS classes, even with `!important`.
+
+When Chabad One's visual editor adds inline styles like `<span style="font-size:26px;">`, these will override your CSS class definitions.
+
+**Solution**: Either remove inline style wrappers from the HTML content, or edit the inline style values directly to match your desired size. CSS classes alone won't override inline styles.
+
 ## Git Workflow
 **IMPORTANT**: Do NOT use `git commit` or `git push` unless explicitly requested by the user.
 - The user will handle all git commits and pushes themselves
