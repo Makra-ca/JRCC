@@ -28,8 +28,6 @@
                 var sidebar = allSidebars[i];
                 var linkCount = sidebar.querySelectorAll('a').length;
 
-                console.log('JRCC Desktop Sidebar: Checking sidebar', i, ':', sidebar.className, '- Links:', linkCount);
-
                 // Only consider sidebars with links
                 if (linkCount > maxLinks) {
                     maxLinks = linkCount;
@@ -39,13 +37,11 @@
 
             // If no sidebar with links found, wait and retry
             if (!originalSidebar || maxLinks === 0) {
-                console.log('JRCC Desktop Sidebar: No sidebar with navigation links found, waiting...');
                 setTimeout(redesignDesktopSidebar, 500);
                 return;
             }
 
             desktopInitialized = true;
-            console.log('JRCC Desktop Sidebar: Redesigning sidebar with', maxLinks, 'links:', originalSidebar.className);
 
             // Force original sidebar to be hidden and positioned
             originalSidebar.style.cssText = 'position:fixed!important;right:-300px!important;top:50%!important;transform:translateY(-50%)!important;width:280px!important;max-width:280px!important;background:rgba(255,255,255,0.98)!important;backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important;border-radius:16px 0 0 16px!important;box-shadow:-8px 0 32px rgba(0,0,0,0.15)!important;padding:2rem 1.5rem!important;max-height:85vh!important;overflow-y:auto!important;transition:right 0.4s cubic-bezier(0.25,0.46,0.45,0.94)!important;z-index:999!important;';
@@ -83,7 +79,6 @@
                 if (!isExpanded) {
                     isExpanded = true;
                     originalSidebar.style.right = '40px';
-                    console.log('JRCC Desktop Sidebar: Expanded');
                 }
             });
 
@@ -111,7 +106,6 @@
                             originalSidebar.style.right = '-300px';
                             tab.style.background = 'rgba(255,255,255,0.95)';
                             tab.style.color = '#1e3a8a';
-                            console.log('JRCC Desktop Sidebar: Collapsed');
                         }
                     }, 500);
                 }
@@ -122,14 +116,11 @@
                 if (e.target.tagName === 'A' || e.target.closest('a')) {
                     isClickingLink = true;
                     clearTimeout(collapseTimeout);
-                    console.log('JRCC Desktop Sidebar: Link click detected, preventing collapse');
                     setTimeout(function() {
                         isClickingLink = false;
                     }, 1000);
                 }
             });
-
-            console.log('JRCC Desktop Sidebar: Redesign complete!');
         }
 
         redesignDesktopSidebar();
@@ -153,18 +144,14 @@
         // Find navigation elements (NOT the search form container)
         var navElement = document.querySelector('.co_local_menu, .sidebar-local-navigation');
         if (!navElement) {
-            console.log('JRCC Mobile Sidebar: Navigation element not found yet...');
             return;
         }
 
         // Check if navigation has links
         var linkCount = navElement.querySelectorAll('a').length;
         if (linkCount === 0) {
-            console.log('JRCC Mobile Sidebar: Navigation has no links yet, waiting...');
             return;
         }
-
-        console.log('JRCC Mobile Sidebar: Found navigation with', linkCount, 'links:', navElement.className);
 
         initialized = true;
 
@@ -209,11 +196,8 @@
             // Find the ads/promotional container - this is .ads.g260, NOT .g260.cco_search_header
             var adsContainer = document.querySelector('.ads.g260');
             if (!adsContainer) {
-                console.log('JRCC Mobile Sidebar: Ads container (.ads.g260) not found');
                 return;
             }
-
-            console.log('JRCC Mobile Sidebar: Found ads container, searching for promotional widgets');
 
             // Find all widget_content divs that contain promotional links
             var widgetContents = adsContainer.querySelectorAll('.widget_content');
@@ -239,7 +223,6 @@
                     }
 
                     if (isPromo) {
-                        console.log('JRCC Mobile Sidebar: Found promotional widget:', linkText);
                         promoWidgets.push(widget);
                         break; // Only add widget once
                     }
@@ -252,17 +235,14 @@
             var quickLinksList = [];
 
             if (contactLink) {
-                console.log('JRCC Mobile Sidebar: Found Contact link');
                 quickLinksList.push(contactLink);
             }
             if (donateLink) {
-                console.log('JRCC Mobile Sidebar: Found Donate link');
                 quickLinksList.push(donateLink);
             }
 
             // Add QUICK LINKS section if we have any
             if (quickLinksList.length > 0 || promoWidgets.length > 0) {
-                console.log('JRCC Mobile Sidebar: Adding', quickLinksList.length, 'quick links and', promoWidgets.length, 'promo widgets');
 
                 // Add "QUICK LINKS" header
                 var quickLinksHeader = document.createElement('div');
@@ -292,8 +272,6 @@
 
                     contentWrapper.appendChild(widgetClone);
                 }
-            } else {
-                console.log('JRCC Mobile Sidebar: No quick links or promotional widgets found');
             }
         }, 1000); // Wait 1 second for widgets to load
 
@@ -476,7 +454,6 @@
             backdrop.style.opacity = '1';
             backdrop.style.visibility = 'visible';
             backdrop.style.pointerEvents = 'auto';
-            console.log('JRCC Mobile Sidebar: Opened');
         }
 
         function close() {
@@ -485,10 +462,7 @@
             backdrop.style.opacity = '0';
             backdrop.style.visibility = 'hidden';
             backdrop.style.pointerEvents = 'none';
-            console.log('JRCC Mobile Sidebar: Closed');
         }
-
-        console.log('JRCC Mobile Sidebar: Initialization complete!');
     }
 
     // Try creating the sidebar multiple times with increasing delays
