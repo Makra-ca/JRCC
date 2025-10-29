@@ -1,3 +1,6 @@
 The page @financial assistance has a unique background which takes up whle page
 
 The page publications has a carousel
+
+Fixed title clipping on larger screens by increasing the wrapper's top padding from 0.5rem to 8rem (128px on desktop, 7rem on tablet, 2.5rem on mobile), preventing the large 4.5rem h1 from being cut off at the top of the viewport. Hid the CMS-generated duplicate title on all screen sizes by adding CSS targeting header.article-header with aggressive display/visibility properties (display: none, visibility: hidden, height: 0, etc.). Added line-height: 1.2 and overflow: visible to the h1 to ensure proper text rendering without clipping.
+
