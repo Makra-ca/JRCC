@@ -495,67 +495,36 @@
 <!-- ========================================
      PAGE STYLING: GMACH DONATION FORM
      Direct inline style application (like sidebar approach)
-     DEBUG VERSION - Will show alerts/console logs
      ======================================== -->
 <script>
 //<![CDATA[
 (function() {
     var initialized = false;
-    var attemptCount = 0;
 
     function styleGmachDonationForm() {
-        attemptCount++;
-        console.log('GMACH DEBUG: Attempt #' + attemptCount);
-
         if (initialized) {
-            console.log('GMACH DEBUG: Already initialized, skipping');
             return;
-        }
-
-        // Debug: Log all forms on page
-        var allForms = document.querySelectorAll('form');
-        console.log('GMACH DEBUG: Found ' + allForms.length + ' forms on page');
-        for (var i = 0; i < allForms.length; i++) {
-            console.log('GMACH DEBUG: Form ' + i + ' name=' + allForms[i].getAttribute('name') + ', id=' + allForms[i].getAttribute('id'));
         }
 
         // Find the form - try by id first, then by name
         var form = document.querySelector('form#form1') || document.querySelector('form[name="form_3767140"]');
         if (!form) {
-            console.log('GMACH DEBUG: Form not found yet, will retry...');
             return; // Form not found, will retry
         }
 
-        console.log('GMACH DEBUG: Form FOUND! Starting styling...');
         initialized = true;
 
-        // Add visual debug indicator at top of page
-        var debugDiv = document.createElement('div');
-        debugDiv.innerHTML = '✓ GMACH STYLING ACTIVE (attempt #' + attemptCount + ')';
-        debugDiv.style.cssText = 'position:fixed!important;top:0!important;left:0!important;right:0!important;background:#4ade80!important;color:#000!important;padding:10px!important;text-align:center!important;font-weight:bold!important;z-index:999999!important;font-size:14px!important;';
-        document.body.insertBefore(debugDiv, document.body.firstChild);
-
-        // Remove debug indicator after 5 seconds
-        setTimeout(function() {
-            if (debugDiv.parentNode) {
-                debugDiv.parentNode.removeChild(debugDiv);
-            }
-        }, 5000);
-
         // Apply page background (BLACK gradient for contrast)
-        console.log('GMACH DEBUG: Applying body background...');
         document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)!important;';
 
         // Hide breadcrumbs
         var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
-        console.log('GMACH DEBUG: Found ' + breadcrumbs.length + ' breadcrumb elements');
         for (var i = 0; i < breadcrumbs.length; i++) {
             breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
         }
 
         // Hide banner images/decorators - but NOT the header (title is inside it)
         var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
-        console.log('GMACH DEBUG: Found ' + banners.length + ' banner elements to hide');
         for (var i = 0; i < banners.length; i++) {
             banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
         }
@@ -563,7 +532,6 @@
         // Remove background from header but keep it visible (title is inside)
         var articleHeader = document.querySelector('header.article-header');
         if (articleHeader) {
-            console.log('GMACH DEBUG: Found article-header, removing background and making full-width...');
             articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
         }
 
@@ -581,7 +549,6 @@
         // Specifically target the green decorator wrapper - but only hide background, not content
         var decoratorWrapper = document.querySelector('div.master-content-wrapper.g960');
         if (decoratorWrapper) {
-            console.log('GMACH DEBUG: Found master-content-wrapper decorator, removing background...');
             decoratorWrapper.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
         }
 
@@ -591,22 +558,7 @@
             masterWrappers[i].style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
         }
 
-        // ENHANCED TITLE DEBUGGING - Find and style the page title
-        console.log('GMACH DEBUG: ===== TITLE DEBUGGING =====');
-
-        // Debug: Find ALL h1 and h2 elements
-        var allH1 = document.querySelectorAll('h1');
-        var allH2 = document.querySelectorAll('h2');
-        console.log('GMACH DEBUG: Found ' + allH1.length + ' h1 elements and ' + allH2.length + ' h2 elements');
-
-        for (var i = 0; i < allH1.length; i++) {
-            console.log('GMACH DEBUG: h1[' + i + '] text="' + allH1[i].textContent.trim() + '", class="' + allH1[i].className + '"');
-        }
-        for (var i = 0; i < allH2.length; i++) {
-            console.log('GMACH DEBUG: h2[' + i + '] text="' + allH2[i].textContent.trim() + '", class="' + allH2[i].className + '"');
-        }
-
-        // Try multiple strategies to find the title
+        // Find and style the page title
         var pageTitle = null;
 
         // Strategy 1: Direct h1 search
@@ -615,7 +567,6 @@
             if (h1Elements[i].textContent.toLowerCase().indexOf('gmach') !== -1 ||
                 h1Elements[i].textContent.toLowerCase().indexOf('donation') !== -1) {
                 pageTitle = h1Elements[i];
-                console.log('GMACH DEBUG: Found title via Strategy 1 (h1 with gmach/donation text)');
                 break;
             }
         }
@@ -623,13 +574,11 @@
         // Strategy 2: Search within master-content-wrapper
         if (!pageTitle) {
             pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, div.master-content-wrapper h1');
-            if (pageTitle) console.log('GMACH DEBUG: Found title via Strategy 2 (inside master-content-wrapper)');
         }
 
         // Strategy 3: Any h1 on page
         if (!pageTitle) {
             pageTitle = document.querySelector('h1');
-            if (pageTitle) console.log('GMACH DEBUG: Found title via Strategy 3 (first h1)');
         }
 
         // Strategy 4: Search for any element with "Gmach Donation Form" text
@@ -640,46 +589,35 @@
                     allElements[i].childNodes[0].nodeType === 3 &&
                     allElements[i].textContent.trim().toLowerCase() === 'gmach donation form') {
                     pageTitle = allElements[i];
-                    console.log('GMACH DEBUG: Found title via Strategy 4 (text search)');
                     break;
                 }
             }
         }
 
         if (pageTitle) {
-            console.log('GMACH DEBUG: ✓ Found page title! Applying styles...');
-            console.log('GMACH DEBUG: Title tag=' + pageTitle.tagName + ', text="' + pageTitle.textContent.trim() + '"');
             pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#fbbf24!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:3rem!important;padding:2.5rem!important;background:rgba(0,0,0,0.5)!important;border:2px solid rgba(251,191,36,0.3)!important;border-radius:12px!important;text-shadow:2px 2px 4px rgba(0,0,0,0.5)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
-        } else {
-            console.log('GMACH DEBUG: ✗ Could not find page title with any strategy!');
         }
-        console.log('GMACH DEBUG: ===== END TITLE DEBUGGING =====');
 
         // Hide duplicate form title inside the white form box
         var formTitles = form.querySelectorAll('p[align="center"], [style*="text-align: center"], [style*="text-align:center"]');
-        console.log('GMACH DEBUG: Searching for duplicate titles in form...');
         for (var i = 0; i < formTitles.length; i++) {
             var text = formTitles[i].textContent.trim().toLowerCase();
             if (text.indexOf('gmach') !== -1 && text.indexOf('donation') !== -1) {
-                console.log('GMACH DEBUG: Found duplicate title in form, hiding it...');
                 formTitles[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
             }
         }
 
         // Style the form container - WIDER with ENHANCED shadow for dark background
-        console.log('GMACH DEBUG: Styling form container...');
         form.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
 
         // Style form labels - MUCH BIGGER text (1.5rem = 24px)
         var labels = form.querySelectorAll('label, .form-label');
-        console.log('GMACH DEBUG: Found ' + labels.length + ' label elements');
         for (var i = 0; i < labels.length; i++) {
             labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e5a8e!important;margin-bottom:0.75rem!important;display:block!important;';
         }
 
         // Style ALL text-like elements in form (since labels might not be <label> tags)
         var allFormElements = form.querySelectorAll('*');
-        console.log('GMACH DEBUG: Styling all text elements in form...');
         for (var i = 0; i < allFormElements.length; i++) {
             var el = allFormElements[i];
             var tagName = el.tagName.toLowerCase();
@@ -709,7 +647,6 @@
 
         // Style all form inputs - BIGGER text (1.35rem = ~21.6px)
         var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
-        console.log('GMACH DEBUG: Found ' + inputs.length + ' input elements');
         for (var i = 0; i < inputs.length; i++) {
             inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
 
@@ -727,14 +664,12 @@
 
         // Style select dropdowns with custom arrow - BIGGER text (1.35rem)
         var selects = form.querySelectorAll('select');
-        console.log('GMACH DEBUG: Found ' + selects.length + ' select elements');
         for (var i = 0; i < selects.length; i++) {
             selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%231e5a8e\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;padding-right:3.5rem!important;';
         }
 
         // Style headings in form - EXTRA LARGE (3rem = 48px)
         var headings = form.querySelectorAll('h2, h3, h4, legend, b, strong, u');
-        console.log('GMACH DEBUG: Found ' + headings.length + ' heading elements');
         for (var i = 0; i < headings.length; i++) {
             // Check if this is a section header by text content
             var text = headings[i].textContent.trim().toLowerCase();
@@ -749,12 +684,6 @@
 
         // Style submit button - try multiple selectors - BIGGER (1.625rem)
         var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button, [id*="submit"] input[type="submit"], [class*="submit"] input, [class*="submit"] button');
-        console.log('GMACH DEBUG: Found ' + submitButtons.length + ' submit button elements');
-
-        // Debug: Log what submit buttons look like
-        for (var i = 0; i < submitButtons.length; i++) {
-            console.log('GMACH DEBUG: Submit button ' + i + ' tagName=' + submitButtons[i].tagName + ', type=' + submitButtons[i].type + ', id=' + submitButtons[i].id);
-        }
 
         for (var i = 0; i < submitButtons.length; i++) {
             submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin-top:2rem!important;margin-right:1rem!important;display:inline-block!important;';
@@ -774,10 +703,8 @@
 
         // Style RESET button - GRAY gradient theme
         var resetButtons = form.querySelectorAll('button[type="reset"], input[type="reset"], [class*="reset"] button, [class*="reset"] input');
-        console.log('GMACH DEBUG: Found ' + resetButtons.length + ' reset button elements');
 
         for (var i = 0; i < resetButtons.length; i++) {
-            console.log('GMACH DEBUG: Reset button ' + i + ' tagName=' + resetButtons[i].tagName + ', type=' + resetButtons[i].type);
             resetButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6b7280 0%, #4b5563 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(75,85,99,0.2)!important;min-width:240px!important;margin-top:2rem!important;display:inline-block!important;';
 
             // Add hover effects for reset button
@@ -795,7 +722,6 @@
 
         // Mobile responsive adjustments
         if (window.innerWidth <= 768) {
-            console.log('GMACH DEBUG: Applying mobile adjustments...');
             form.style.padding = '2.5rem 1.5rem';
             form.style.margin = '2rem 1rem';
             form.style.maxWidth = '95%';
@@ -806,7 +732,66 @@
             }
         }
 
-        console.log('GMACH DEBUG: ✓ ALL STYLING COMPLETE!');
+        // Style "More in this section" widget
+        var moreSection = document.querySelector('.below-article, [class*="below-article"]');
+        if (moreSection) {
+
+            // Style the container
+            moreSection.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:3rem!important;background:rgba(255,255,255,0.95)!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(0,0,0,0.3)!important;text-align:center!important;';
+
+            // Style the heading
+            var moreHeading = moreSection.querySelector('h2, .below-article__title');
+            if (moreHeading) {
+                moreHeading.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2.5rem!important;font-weight:700!important;color:#1e5a8e!important;margin:0 0 2rem 0!important;text-align:center!important;';
+            }
+
+            // Style link container if it exists
+            var linkContainer = moreSection.querySelector('ul, .small-links');
+            if (linkContainer) {
+                linkContainer.style.cssText = 'display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:1.5rem!important;list-style:none!important;padding:0!important;margin:0!important;';
+            }
+
+            // Style each link item
+            var linkItems = moreSection.querySelectorAll('a, .link_item, li');
+            for (var i = 0; i < linkItems.length; i++) {
+                var item = linkItems[i];
+
+                if (item.tagName.toLowerCase() === 'a') {
+                    item.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                    // Add hover effects
+                    item.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-4px)';
+                        this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                        this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                    });
+                    item.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.background = '#ffffff';
+                        this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    });
+                } else if (item.tagName.toLowerCase() === 'li') {
+                    item.style.cssText = 'list-style:none!important;margin:0!important;';
+
+                    // Style the link inside the li
+                    var link = item.querySelector('a');
+                    if (link) {
+                        link.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                        link.addEventListener('mouseenter', function() {
+                            this.style.transform = 'translateY(-4px)';
+                            this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                            this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                        });
+                        link.addEventListener('mouseleave', function() {
+                            this.style.transform = 'translateY(0)';
+                            this.style.background = '#ffffff';
+                            this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                        });
+                    }
+                }
+            }
+        }
     }
 
     // Try multiple times with increasing delays (like sidebar)
@@ -827,6 +812,367 @@
     // Watch for dynamic content with MutationObserver
     var observer = new MutationObserver(function() {
         if (!initialized) styleGmachDonationForm();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+})();
+//]]>
+</script>
+
+<!-- ========================================
+     PAGE STYLING: HEALTHY AT HOME REGISTRATION
+     Direct inline style application (same approach as Gmach form)
+     URL Pattern: /aid/6991302/ (Healthy At Home Registration page)
+     ======================================== -->
+<script>
+//<![CDATA[
+(function() {
+    var initialized = false;
+
+    function styleHealthyAtHomeForm() {
+        if (initialized) {
+            return;
+        }
+
+        // Check if we're on the Healthy At Home Registration page by URL
+        var isHealthyAtHomePage = window.location.href.indexOf('/aid/6991302/') !== -1 ||
+                                   window.location.href.indexOf('Healthy-At-Home-Registration') !== -1;
+
+        if (!isHealthyAtHomePage) {
+            return; // Not the right page
+        }
+
+        // Find the form - should be form_6991302 based on article ID
+        var form = document.querySelector('form[name="form_6991302"]') ||
+                   document.querySelector('form[id="6991302"]') ||
+                   document.querySelector('form.userform-form');
+
+        if (!form) {
+            return; // Form not found, will retry
+        }
+
+        initialized = true;
+
+        // ========================================
+        // FILE: custom-footer-code.html
+        // SECTION: Healthy At Home Registration Page Styling
+        // ========================================
+
+        // Apply page background (LIGHT gradient - white to lavender to match purple banner)
+        document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
+
+        // Hide breadcrumbs
+        var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
+        for (var i = 0; i < breadcrumbs.length; i++) {
+            breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
+        }
+
+        // Hide banner images/decorators - but NOT the header (title is inside it)
+        var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
+        for (var i = 0; i < banners.length; i++) {
+            banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+        }
+
+        // Remove background from header but keep it visible (title is inside)
+        var articleHeader = document.querySelector('header.article-header');
+        if (articleHeader) {
+            articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
+        }
+
+        // Also hide the decorator/background image specifically
+        var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"]');
+        for (var i = 0; i < headerImages.length; i++) {
+            var element = headerImages[i];
+            if (element.tagName === 'IMG') {
+                element.style.cssText = 'display:none!important;';
+            } else {
+                element.style.backgroundImage = 'none!important;';
+            }
+        }
+
+        // Specifically target the decorator wrapper - but only hide background, not content
+        var decoratorWrapper = document.querySelector('div.master-content-wrapper.g960');
+        if (decoratorWrapper) {
+            decoratorWrapper.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
+        }
+
+        // Also try to remove background from any parent wrapper that might contain decorators
+        var masterWrappers = document.querySelectorAll('.master-content-wrapper, [class*="master-content"]');
+        for (var i = 0; i < masterWrappers.length; i++) {
+            masterWrappers[i].style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
+        }
+
+        // Find and style the page title
+        var pageTitle = null;
+
+        // Strategy 1: Direct h1 search
+        var h1Elements = document.querySelectorAll('h1');
+        for (var i = 0; i < h1Elements.length; i++) {
+            if (h1Elements[i].textContent.toLowerCase().indexOf('healthy') !== -1 ||
+                h1Elements[i].textContent.toLowerCase().indexOf('registration') !== -1) {
+                pageTitle = h1Elements[i];
+                break;
+            }
+        }
+
+        // Strategy 2: Search within master-content-wrapper
+        if (!pageTitle) {
+            pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, div.master-content-wrapper h1');
+        }
+
+        // Strategy 3: Any h1 on page
+        if (!pageTitle) {
+            pageTitle = document.querySelector('h1');
+        }
+
+        // Style the main page title - PURPLE theme (no dark box background)
+        // Reduced margin-bottom from 3rem to 1.5rem to close gap
+        if (pageTitle) {
+            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#7c3aed!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:1.5rem!important;padding:2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(124,58,237,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+        }
+
+        // Hide the secondary heading "Healthy at Home - Seniors Event Registration"
+        // and remove all its spacing
+        var secondaryHeadings = document.querySelectorAll('h1, h2, h3');
+        for (var i = 0; i < secondaryHeadings.length; i++) {
+            var headingText = secondaryHeadings[i].textContent.trim().toLowerCase();
+            if (headingText.indexOf('seniors event') !== -1 ||
+                (headingText.indexOf('healthy') !== -1 && headingText.indexOf('event') !== -1)) {
+                secondaryHeadings[i].style.cssText = 'display:none!important;margin:0!important;padding:0!important;height:0!important;visibility:hidden!important;';
+            }
+        }
+
+        // Remove bottom padding from the container that wraps the title
+        // This was creating a 50px gap between title and form
+        // Using setProperty with 'important' flag to override CMS styles
+        var bodyContainer = document.querySelector('#co_body_container, .g700, div.g700');
+        if (bodyContainer) {
+            bodyContainer.style.setProperty('padding-bottom', '0', 'important');
+        }
+
+        // Style the form container - LIGHTER shadow for light background
+        // Reduced margin-top from 3rem to 1rem to close gap
+        form.style.cssText = 'max-width:1100px!important;margin:1rem auto 3rem auto!important;padding:4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
+
+        // Style form labels - MUCH BIGGER text (1.5rem = 24px)
+        var labels = form.querySelectorAll('label, .form-label');
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e5a8e!important;margin-bottom:0.75rem!important;display:block!important;';
+        }
+
+        // Style ALL text-like elements in form (since labels might not be <label> tags)
+        var allFormElements = form.querySelectorAll('*');
+        for (var i = 0; i < allFormElements.length; i++) {
+            var el = allFormElements[i];
+            var tagName = el.tagName.toLowerCase();
+
+            // Skip inputs, selects, buttons - we style those separately
+            if (tagName === 'input' || tagName === 'select' || tagName === 'button' || tagName === 'textarea') {
+                continue;
+            }
+
+            // Get direct text content (not from children)
+            var hasDirectText = false;
+            for (var j = 0; j < el.childNodes.length; j++) {
+                if (el.childNodes[j].nodeType === 3 && el.childNodes[j].textContent.trim().length > 0) {
+                    hasDirectText = true;
+                    break;
+                }
+            }
+
+            // If element has direct text, make it bigger
+            if (hasDirectText) {
+                var currentSize = window.getComputedStyle(el).fontSize;
+                el.style.fontSize = '1.5rem';
+                el.style.fontFamily = 'Urbanist, sans-serif';
+                el.style.lineHeight = '1.6';
+            }
+        }
+
+        // Style all form inputs - BIGGER text (1.35rem = ~21.6px)
+        var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+
+            // Add focus event listeners
+            inputs[i].addEventListener('focus', function() {
+                this.style.borderColor = '#2a75b8';
+                this.style.boxShadow = '0 0 0 3px rgba(42,117,184,0.1)';
+                this.style.outline = 'none';
+            });
+            inputs[i].addEventListener('blur', function() {
+                this.style.borderColor = '#d1d9e6';
+                this.style.boxShadow = 'none';
+            });
+        }
+
+        // Style select dropdowns with custom arrow - BIGGER text (1.35rem)
+        // NOTE: padding removed because it causes selected text to become invisible
+        // This is a known browser/CMS issue with custom padding on select elements
+        var selects = form.querySelectorAll('select');
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%231e5a8e\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;';
+        }
+
+        // Style headings in form - EXTRA LARGE (3rem = 48px)
+        var headings = form.querySelectorAll('h2, h3, h4, legend, b, strong, u');
+        for (var i = 0; i < headings.length; i++) {
+            // Check if this is a section header by text content
+            var text = headings[i].textContent.trim().toLowerCase();
+            if (text.length > 0 && (text.indexOf(':') !== -1 || text.indexOf('information') !== -1 || text.indexOf('location') !== -1 || text.indexOf('event') !== -1)) {
+                headings[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2rem!important;font-weight:700!important;color:#8b0000!important;margin:2rem 0 1rem 0!important;padding-bottom:0.5rem!important;border-bottom:2px solid #e8f4f8!important;display:block!important;';
+            } else {
+                headings[i].style.fontSize = '1.5rem';
+                headings[i].style.fontWeight = '600';
+                headings[i].style.fontFamily = 'Urbanist, sans-serif';
+            }
+        }
+
+        // Style submit button - try multiple selectors - BIGGER (1.625rem)
+        var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button, [id*="submit"] input[type="submit"], [class*="submit"] input, [class*="submit"] button');
+
+        for (var i = 0; i < submitButtons.length; i++) {
+            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin-top:2rem!important;margin-right:1rem!important;display:inline-block!important;';
+
+            // Add hover effects
+            submitButtons[i].addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%)';
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.3)';
+            });
+            submitButtons[i].addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)';
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 12px rgba(30,90,142,0.2)';
+            });
+        }
+
+        // Style RESET button - GRAY gradient theme
+        var resetButtons = form.querySelectorAll('button[type="reset"], input[type="reset"], [class*="reset"] button, [class*="reset"] input');
+
+        for (var i = 0; i < resetButtons.length; i++) {
+            resetButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6b7280 0%, #4b5563 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(75,85,99,0.2)!important;min-width:240px!important;margin-top:2rem!important;display:inline-block!important;';
+
+            // Add hover effects for reset button
+            resetButtons[i].addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #4b5563 0%, #374151 100%)';
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(75,85,99,0.3)';
+            });
+            resetButtons[i].addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 12px rgba(75,85,99,0.2)';
+            });
+        }
+
+        // Mobile responsive adjustments
+        if (window.innerWidth <= 768) {
+            form.style.padding = '2.5rem 1.5rem';
+            form.style.margin = '2rem 1rem';
+            form.style.maxWidth = '95%';
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.width = '100%';
+                submitButtons[i].style.padding = '1.25rem 2rem';
+            }
+        }
+
+        // Style "More in this section" widget
+        var moreSection = document.querySelector('.below-article, [class*="below-article"]');
+        if (moreSection) {
+
+            // Style the container
+            moreSection.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:3rem!important;background:rgba(255,255,255,0.95)!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(0,0,0,0.3)!important;text-align:center!important;';
+
+            // Style the heading
+            var moreHeading = moreSection.querySelector('h2, .below-article__title');
+            if (moreHeading) {
+                moreHeading.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2.5rem!important;font-weight:700!important;color:#1e5a8e!important;margin:0 0 2rem 0!important;text-align:center!important;';
+            }
+
+            // Style link container if it exists
+            var linkContainer = moreSection.querySelector('ul, .small-links');
+            if (linkContainer) {
+                linkContainer.style.cssText = 'display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:1.5rem!important;list-style:none!important;padding:0!important;margin:0!important;';
+            }
+
+            // Style each link item
+            var linkItems = moreSection.querySelectorAll('a, .link_item, li');
+            for (var i = 0; i < linkItems.length; i++) {
+                var item = linkItems[i];
+
+                if (item.tagName.toLowerCase() === 'a') {
+                    item.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                    // Add hover effects
+                    item.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-4px)';
+                        this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                        this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                    });
+                    item.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.background = '#ffffff';
+                        this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    });
+                } else if (item.tagName.toLowerCase() === 'li') {
+                    item.style.cssText = 'list-style:none!important;margin:0!important;';
+
+                    // Style the link inside the li
+                    var link = item.querySelector('a');
+                    if (link) {
+                        link.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                        link.addEventListener('mouseenter', function() {
+                            this.style.transform = 'translateY(-4px)';
+                            this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                            this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                        });
+                        link.addEventListener('mouseleave', function() {
+                            this.style.transform = 'translateY(0)';
+                            this.style.background = '#ffffff';
+                            this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                        });
+                    }
+                }
+            }
+        }
+
+        // Style security text (.center_small) - make visible on light background
+        // This fixes the brown "This page uses TLS encryption..." text
+        var securityText = document.querySelectorAll('.center_small, .center.small, form .center_small');
+        for (var i = 0; i < securityText.length; i++) {
+            securityText[i].style.cssText = 'color:#6b7280!important;font-size:0.95rem!important;line-height:1.6!important;font-family:Urbanist,sans-serif!important;text-align:center!important;margin-top:1rem!important;';
+        }
+
+        // Also update "More in this section" widget shadow for light background
+        if (moreSection) {
+            moreSection.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)!important';
+        }
+    }
+
+    // Try multiple times with increasing delays (like sidebar)
+    styleHealthyAtHomeForm();
+    setTimeout(styleHealthyAtHomeForm, 500);
+    setTimeout(styleHealthyAtHomeForm, 1000);
+    setTimeout(styleHealthyAtHomeForm, 1500);
+    setTimeout(styleHealthyAtHomeForm, 2000);
+
+    // Try on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleHealthyAtHomeForm);
+    }
+
+    // Try on window load
+    window.addEventListener('load', styleHealthyAtHomeForm);
+
+    // Watch for dynamic content with MutationObserver
+    var observer = new MutationObserver(function() {
+        if (!initialized) styleHealthyAtHomeForm();
     });
 
     observer.observe(document.documentElement, {

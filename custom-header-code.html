@@ -481,6 +481,103 @@ form[name='form_3767140'] input[type="reset"]:hover {
 
 /* End Gmach Donation Form Styling */
 
+/* ====================================================================
+   "MORE IN THIS SECTION" WIDGET STYLING
+   Styles the related links section at the bottom of the page
+   Theme: Soft Blue with card-based design
+   ==================================================================== */
+
+/* Widget container */
+body.gmach-donation-form-page .below-article,
+body.gmach-donation-form-page [class*="below-article"] {
+    max-width: 1100px !important;
+    margin: 3rem auto !important;
+    padding: 3rem !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    text-align: center !important;
+}
+
+/* Widget heading */
+body.gmach-donation-form-page .below-article h2,
+body.gmach-donation-form-page .below-article__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    margin: 0 0 2rem 0 !important;
+    text-align: center !important;
+}
+
+/* Link container - grid layout */
+body.gmach-donation-form-page .below-article ul,
+body.gmach-donation-form-page .below-article .small-links {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 1.5rem !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Link items */
+body.gmach-donation-form-page .below-article li {
+    list-style: none !important;
+    margin: 0 !important;
+}
+
+/* Link card styling */
+body.gmach-donation-form-page .below-article a,
+body.gmach-donation-form-page .below-article li a {
+    display: block !important;
+    background: #ffffff !important;
+    border: 2px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #1e5a8e !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Link hover effect */
+body.gmach-donation-form-page .below-article a:hover,
+body.gmach-donation-form-page .below-article li a:hover {
+    transform: translateY(-4px) !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.2) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    body.gmach-donation-form-page .below-article ul,
+    body.gmach-donation-form-page .below-article .small-links {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.gmach-donation-form-page .below-article {
+        padding: 2rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    body.gmach-donation-form-page .below-article h2,
+    body.gmach-donation-form-page .below-article__title {
+        font-size: 2rem !important;
+    }
+
+    body.gmach-donation-form-page .below-article a,
+    body.gmach-donation-form-page .below-article li a {
+        font-size: 1.25rem !important;
+        padding: 1.25rem !important;
+    }
+}
+
+/* End "More in this section" Widget Styling */
+
 </style>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
