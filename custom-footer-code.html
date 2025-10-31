@@ -928,10 +928,37 @@
             pageTitle = document.querySelector('h1');
         }
 
-        // Style the main page title - PURPLE theme (no dark box background)
-        // Reduced margin-bottom from 3rem to 1.5rem to close gap
+        // Style the main page title - BLACK color (no dark box background)
+        // Removed margin-bottom and padding-bottom to eliminate gap with form
         if (pageTitle) {
-            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#7c3aed!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:1.5rem!important;padding:2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(124,58,237,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+
+            // Typewriter animation effect for the title
+            var originalText = pageTitle.textContent;
+            var charIndex = 0;
+
+            // Clear the text and add cursor
+            pageTitle.textContent = '';
+            pageTitle.style.borderRight = '3px solid #000';
+            pageTitle.style.paddingRight = '5px';
+
+            // Typewriter function
+            function typeWriter() {
+                if (charIndex < originalText.length) {
+                    pageTitle.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 80); // 80ms per character
+                } else {
+                    // Remove cursor after typing completes
+                    setTimeout(function() {
+                        pageTitle.style.borderRight = 'none';
+                        pageTitle.style.paddingRight = '2rem';
+                    }, 500);
+                }
+            }
+
+            // Start typing animation
+            typeWriter();
         }
 
         // Hide the secondary heading "Healthy at Home - Seniors Event Registration"
@@ -954,8 +981,8 @@
         }
 
         // Style the form container - LIGHTER shadow for light background
-        // Reduced margin-top from 3rem to 1rem to close gap
-        form.style.cssText = 'max-width:1100px!important;margin:1rem auto 3rem auto!important;padding:4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
+        // Removed margin-top and padding-top to eliminate gap with title
+        form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
 
         // Style form labels - MUCH BIGGER text (1.5rem = 24px)
         var labels = form.querySelectorAll('label, .form-label');
@@ -1031,11 +1058,11 @@
             }
         }
 
-        // Style submit button - try multiple selectors - BIGGER (1.625rem)
+        // Style submit button - try multiple selectors - BIGGER (1.625rem) - CENTERED
         var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button, [id*="submit"] input[type="submit"], [class*="submit"] input, [class*="submit"] button');
 
         for (var i = 0; i < submitButtons.length; i++) {
-            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin-top:2rem!important;margin-right:1rem!important;display:inline-block!important;';
+            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
 
             // Add hover effects
             submitButtons[i].addEventListener('mouseenter', function() {
@@ -1147,6 +1174,53 @@
         var securityText = document.querySelectorAll('.center_small, .center.small, form .center_small');
         for (var i = 0; i < securityText.length; i++) {
             securityText[i].style.cssText = 'color:#6b7280!important;font-size:0.95rem!important;line-height:1.6!important;font-family:Urbanist,sans-serif!important;text-align:center!important;margin-top:1rem!important;';
+        }
+
+        // ========================================
+        // ANIMATIONS - Fade-in effects for form elements
+        // ========================================
+
+        // Animate form labels - fade in from left with stagger
+        var labels = form.querySelectorAll('label');
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.opacity = '0';
+            labels[i].style.transform = 'translateX(-20px)';
+            labels[i].style.transition = 'all 0.6s ease';
+
+            (function(label, index) {
+                setTimeout(function() {
+                    label.style.opacity = '1';
+                    label.style.transform = 'translateX(0)';
+                }, 300 + (index * 50));
+            })(labels[i], i);
+        }
+
+        // Animate image - strong bounce effect with rotation
+        var formImage = document.querySelector('img[src*="13391475"]') ||
+                        document.querySelector('form[name="form_6991302"] img') ||
+                        document.querySelector('.img_form_image img') ||
+                        document.querySelector('img[src*="media/images"]');
+
+        if (formImage) {
+            formImage.style.opacity = '0';
+            formImage.style.transform = 'scale(0.5) rotate(-5deg)';
+            formImage.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+            setTimeout(function() {
+                formImage.style.opacity = '1';
+                formImage.style.transform = 'scale(1) rotate(0deg)';
+            }, 300);
+        }
+
+        // Animate submit button - strong continuous pulse
+        if (submitButtons.length > 0) {
+            var pulseStyle = document.createElement('style');
+            pulseStyle.innerHTML = '@keyframes strongPulse { 0%, 100% { transform: scale(1) !important; box-shadow: 0 4px 12px rgba(30,90,142,0.3) !important; } 50% { transform: scale(1.08) !important; box-shadow: 0 10px 30px rgba(30,90,142,0.6) !important; } }';
+            document.head.appendChild(pulseStyle);
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.animation = 'strongPulse 1.5s ease-in-out infinite';
+            }
         }
 
         // Also update "More in this section" widget shadow for light background
