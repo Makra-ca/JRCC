@@ -1256,3 +1256,275 @@
 })();
 //]]>
 </script>
+
+
+<!-- ========================================
+     PAGE STYLING: SENIORS NIGHT OUT
+     Direct inline style application (same approach as other forms)
+     URL Pattern: /aid/6750519/ (Seniors Night Out page)
+     Theme: Festival Gold & Warm Purple (matching Chanukah Concert poster)
+     ======================================== -->
+<script>
+//<![CDATA[
+(function() {
+    var initialized = false;
+
+    function styleSeniorsNightOutForm() {
+        if (initialized) {
+            return;
+        }
+
+        // Check if we're on the Seniors Night Out page by URL
+        var isSeniorsNightOutPage = window.location.href.indexOf('/aid/6750519/') !== -1 ||
+                                     window.location.href.indexOf('Seniors-Night-Out') !== -1;
+
+        if (!isSeniorsNightOutPage) {
+            return;
+        }
+
+        // Find the form - should be form_6750519 based on article ID
+        var form = document.querySelector('form[name="form_6750519"]') ||
+                   document.querySelector('form[id="6750519"]') ||
+                   document.querySelector('form.userform-form');
+
+        if (!form) {
+            return;
+        }
+
+        // Mark as initialized
+        initialized = true;
+
+        // SECTION: Seniors Night Out Page Styling
+
+        // Apply page background - Festival theme (light gradient)
+        document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%)!important;';
+
+        // Hide breadcrumbs
+        var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
+        for (var i = 0; i < breadcrumbs.length; i++) {
+            breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
+        }
+
+        // Hide banner images/decorators but NOT header
+        var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
+        for (var i = 0; i < banners.length; i++) {
+            banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+        }
+
+        // Remove background from article header but keep visible (title is inside)
+        var articleHeader = document.querySelector('header.article-header');
+        if (articleHeader) {
+            articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
+        }
+
+        // Remove background from decorator wrapper but keep content visible
+        var contentWrapper = document.querySelector('.master-content-wrapper, .master-content-wrapper.g960, div.master-content-wrapper, [class*="master-content"]');
+        if (contentWrapper) {
+            contentWrapper.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;';
+        }
+
+        // Find the page title (H1)
+        var pageTitle = document.querySelector('h1.article-header__title, h1.js-article-title, h1');
+
+        // If not found, try other selectors
+        if (!pageTitle || pageTitle.textContent.trim().toLowerCase().indexOf('seniors night') === -1) {
+            var allH1 = document.querySelectorAll('h1');
+            for (var i = 0; i < allH1.length; i++) {
+                if (allH1[i].textContent.toLowerCase().indexOf('seniors') !== -1 ||
+                    allH1[i].textContent.toLowerCase().indexOf('night') !== -1) {
+                    pageTitle = allH1[i];
+                    break;
+                }
+            }
+        }
+
+        if (!pageTitle) {
+            pageTitle = document.querySelector('h1');
+        }
+
+        // Style the main page title - BLACK with typewriter animation
+        if (pageTitle) {
+            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+
+            // Typewriter animation effect for the title
+            var originalText = pageTitle.textContent;
+            var charIndex = 0;
+
+            // Clear the text and add cursor
+            pageTitle.textContent = '';
+            pageTitle.style.borderRight = '3px solid #000';
+            pageTitle.style.paddingRight = '5px';
+
+            // Typewriter function
+            function typeWriter() {
+                if (charIndex < originalText.length) {
+                    pageTitle.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 80);
+                } else {
+                    setTimeout(function() {
+                        pageTitle.style.borderRight = 'none';
+                        pageTitle.style.paddingRight = '2rem';
+                    }, 500);
+                }
+            }
+
+            typeWriter();
+        }
+
+        // Remove bottom padding from container
+        var bodyContainer = document.querySelector('#co_body_container, .g700, div.g700');
+        if (bodyContainer) {
+            bodyContainer.style.setProperty('padding-bottom', '0', 'important');
+        }
+
+        // Style the form container - Festival theme
+        form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(107,63,160,0.15), 0 0 0 1px rgba(107,63,160,0.1)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
+
+        // Style form labels - LARGE text
+        var labels = form.querySelectorAll('label, .form-label');
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#6B3FA0!important;margin-bottom:0.75rem!important;display:block!important;';
+        }
+
+        // Style all form inputs - rounded corners, purple theme
+        var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+
+            inputs[i].addEventListener('focus', function() {
+                this.style.borderColor = '#6B3FA0';
+                this.style.boxShadow = '0 0 0 3px rgba(107,63,160,0.1)';
+                this.style.outline = 'none';
+            });
+            inputs[i].addEventListener('blur', function() {
+                this.style.borderColor = '#d1c4e9';
+                this.style.boxShadow = 'none';
+            });
+        }
+
+        // Style select dropdowns - NO padding to avoid invisible text
+        var selects = form.querySelectorAll('select');
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%236B3FA0\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;';
+        }
+
+        // Style headings in form
+        var headings = form.querySelectorAll('h2, h3, h4, legend, b, strong');
+        for (var i = 0; i < headings.length; i++) {
+            headings[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2rem!important;font-weight:700!important;color:#6B3FA0!important;margin:2rem 0 1rem 0!important;padding-bottom:0.5rem!important;border-bottom:2px solid #f3e5f5!important;display:block!important;';
+        }
+
+        // Style submit button - FESTIVAL GOLD & PURPLE gradient, CENTERED
+        var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button, [class*="submit"] input, [class*="submit"] button');
+
+        for (var i = 0; i < submitButtons.length; i++) {
+            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6B3FA0 0%, #F4C430 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(107,63,160,0.3)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
+
+            submitButtons[i].addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #4a2870 0%, #d4a728 100%)';
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(107,63,160,0.4)';
+            });
+            submitButtons[i].addEventListener('mouseleave', function() {
+                this.style.background = 'linear-gradient(135deg, #6B3FA0 0%, #F4C430 100%)';
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 4px 12px rgba(107,63,160,0.3)';
+            });
+        }
+
+        // Mobile responsive
+        if (window.innerWidth <= 768) {
+            form.style.padding = '2.5rem 1.5rem';
+            form.style.margin = '2rem 1rem';
+            form.style.maxWidth = '95%';
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.width = '100%';
+                submitButtons[i].style.padding = '1.25rem 2rem';
+            }
+        }
+
+        // ========================================
+        // ANIMATIONS
+        // ========================================
+
+        // Animate form labels - fade in from left with stagger
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.opacity = '0';
+            labels[i].style.transform = 'translateX(-20px)';
+            labels[i].style.transition = 'all 0.6s ease';
+
+            (function(label, index) {
+                setTimeout(function() {
+                    label.style.opacity = '1';
+                    label.style.transform = 'translateX(0)';
+                }, 300 + (index * 50));
+            })(labels[i], i);
+        }
+
+        // Style and animate Chanukah Concert poster image
+        var formImage = document.querySelector('form[name="form_6750519"] img') ||
+                        document.querySelector('img[src*="media/images"]') ||
+                        form.querySelector('img');
+
+        if (formImage) {
+            // Center the image and add beautiful festival border styling
+            var imageContainer = formImage.parentElement;
+            if (imageContainer) {
+                imageContainer.style.cssText = 'text-align:center!important;display:block!important;margin:0 auto 2rem auto!important;max-width:600px!important;';
+            }
+
+            // Style the image with festival gold border and shadow
+            formImage.style.cssText = 'display:block!important;margin:0 auto!important;max-width:100%!important;height:auto!important;border:8px solid transparent!important;border-image:linear-gradient(135deg, #6B3FA0 0%, #F4C430 50%, #6B3FA0 100%) 1!important;border-radius:20px!important;box-shadow:0 10px 40px rgba(107,63,160,0.3), 0 0 0 1px rgba(244,196,48,0.2)!important;';
+
+            // Add animation - bounce effect
+            formImage.style.opacity = '0';
+            formImage.style.transform = 'scale(0.5) rotate(-5deg)';
+            formImage.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+            setTimeout(function() {
+                formImage.style.opacity = '1';
+                formImage.style.transform = 'scale(1) rotate(0deg)';
+            }, 500);
+        }
+
+        // Animate submit button - festival pulse
+        if (submitButtons.length > 0) {
+            var pulseStyle = document.createElement('style');
+            pulseStyle.innerHTML = '@keyframes festivalPulse { 0%, 100% { transform: scale(1) !important; box-shadow: 0 4px 12px rgba(107,63,160,0.3) !important; } 50% { transform: scale(1.08) !important; box-shadow: 0 10px 30px rgba(244,196,48,0.6) !important; } }';
+            document.head.appendChild(pulseStyle);
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.animation = 'festivalPulse 1.5s ease-in-out infinite';
+            }
+        }
+    }
+
+    // Try multiple times with increasing delays
+    styleSeniorsNightOutForm();
+    setTimeout(styleSeniorsNightOutForm, 500);
+    setTimeout(styleSeniorsNightOutForm, 1000);
+    setTimeout(styleSeniorsNightOutForm, 1500);
+    setTimeout(styleSeniorsNightOutForm, 2000);
+
+    // Try on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleSeniorsNightOutForm);
+    }
+
+    // Try on window load
+    window.addEventListener('load', styleSeniorsNightOutForm);
+
+    // Watch for dynamic content
+    var observer = new MutationObserver(function() {
+        if (!initialized) styleSeniorsNightOutForm();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+})();
+//]]>
+</script>
