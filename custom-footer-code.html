@@ -1527,5 +1527,346 @@
         subtree: true
     });
 })();
+
+    // ========================================
+    // YESHIVA SCHOLARSHIP FORM STYLING
+    // Article ID: 889639
+    // Form: form_3767140
+    // Theme: Scholarly Navy & Gold (Torah Learning)
+    // Colors: #1e3a8a (navy), #f59e0b (gold)
+    // ========================================
+
+    var yeshivaScholarshipStylesApplied = false; // Prevent multiple executions
+
+    function styleYeshivaScholarshipForm() {
+        // Prevent multiple executions
+        if (yeshivaScholarshipStylesApplied) return;
+
+        // Detect if we're on the Yeshiva Scholarship page
+        var isYeshivaScholarshipPage = window.location.href.indexOf('/aid/889639/') !== -1 ||
+                                        window.location.href.indexOf('Yeshiva-Scolarship-Form') !== -1 ||
+                                        window.location.href.indexOf('Yeshiva-Scholarship-Form') !== -1;
+
+        if (!isYeshivaScholarshipPage) return;
+
+        // Try multiple times with delays to catch CMS loading
+        function applyStyles() {
+            // Double-check flag to prevent re-execution
+            if (yeshivaScholarshipStylesApplied) return true;
+
+            // Find the form using multiple selectors
+            // Note: Chabad One CMS renames forms to form1, form2, etc.
+            var form = document.querySelector('form#form1') ||
+                       document.querySelector('form[name="form_3767140"]') ||
+                       document.querySelector('form[id*="3767140"]');
+
+            if (!form) return false;
+
+            // Check if already styled
+            if (form.hasAttribute('data-yeshiva-form-styled')) return true;
+
+            // Mark as styled immediately to prevent re-execution
+            form.setAttribute('data-yeshiva-form-styled', 'true');
+            yeshivaScholarshipStylesApplied = true;
+
+            // ========================================
+            // PAGE BACKGROUND - Soft blue/white gradient
+            // ========================================
+            document.body.style.cssText = 'background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)!important;';
+
+            // ========================================
+            // HIDE BREADCRUMBS
+            // ========================================
+            var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
+            for (var i = 0; i < breadcrumbs.length; i++) {
+                breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
+            }
+
+            // ========================================
+            // HIDE BANNER IMAGES/DECORATORS (but NOT header)
+            // ========================================
+            var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
+            for (var i = 0; i < banners.length; i++) {
+                banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+            }
+
+            // Remove background from article header but keep visible (title is inside)
+            var articleHeaders = document.querySelectorAll('header.article-header, .article-header, .master-content-wrapper, [class*="master-content"]');
+            for (var i = 0; i < articleHeaders.length; i++) {
+                articleHeaders[i].style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;';
+            }
+
+            // ========================================
+            // PAGE TITLE STYLING - Navy with gold accents, centered
+            // ANIMATION: Professional fade in
+            // ========================================
+            // Try multiple title selectors
+            var pageTitle = document.querySelector('h1') ||
+                           document.querySelector('.master-content-wrapper h1') ||
+                           document.querySelector('.master-content-wrapper h2') ||
+                           document.querySelector('h2.page-title') ||
+                           document.querySelector('.article-header__title') ||
+                           document.querySelector('.sCHeading_1');
+
+            if (pageTitle) {
+                // Store original text for typewriter effect
+                var originalText = pageTitle.textContent.trim();
+
+                // If title is empty, try to get from page metadata or use default
+                if (!originalText || originalText.length === 0) {
+                    originalText = document.title.replace(' - JRCC.org', '').trim();
+                }
+
+                // Only style and animate if we have text
+                if (originalText && originalText.length > 0) {
+                    // Set text first
+                    pageTitle.textContent = originalText;
+
+                    // Style the title - NAVY text on light background with GOLD border
+                    pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#1e3a8a!important;text-align:center!important;margin:0 auto 3rem auto!important;padding:2.5rem!important;background:rgba(255,255,255,0.9)!important;border:3px solid #f59e0b!important;border-radius:12px!important;text-shadow:1px 1px 2px rgba(0,0,0,0.1)!important;display:inline-block!important;max-width:1100px!important;width:90%!important;position:relative!important;visibility:visible!important;opacity:0!important;transition:opacity 0.4s ease-out!important;';
+
+                    // Center the title container
+                    if (pageTitle.parentElement) {
+                        pageTitle.parentElement.style.cssText = 'text-align:center!important;';
+                    }
+
+                    // Simple fade in only (no transform to avoid pulsing)
+                    setTimeout(function() {
+                        pageTitle.style.opacity = '1';
+                    }, 100);
+                }
+            }
+
+            // Hide duplicate form title inside white form box
+            var formTitles = form.querySelectorAll('p[align="center"], p[style*="text-align"]');
+            for (var i = 0; i < formTitles.length; i++) {
+                var titleText = formTitles[i].textContent.toLowerCase();
+                if (titleText.indexOf('yeshiva') !== -1 || titleText.indexOf('scholarship') !== -1) {
+                    formTitles[i].style.cssText = 'display:none!important;';
+                }
+            }
+
+            // ========================================
+            // FORM CONTAINER - White with navy shadow
+            // ANIMATION: Subtle fade in
+            // ========================================
+            form.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(30,58,138,0.3),0 0 0 2px rgba(245,158,11,0.2)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;opacity:0!important;transition:opacity 0.6s ease-out!important;';
+
+            // Animate form container in
+            setTimeout(function() {
+                form.style.opacity = '1';
+            }, 400);
+
+            // ========================================
+            // FORM TEXT ELEMENTS - ALL TEXT in form
+            // ========================================
+            // Find ALL text elements in the form for typewriter effect
+            var allTextElements = form.querySelectorAll('p, font, span, div, b, strong, u, i, em');
+            var textElements = [];
+
+            for (var i = 0; i < allTextElements.length; i++) {
+                var elem = allTextElements[i];
+                var text = elem.textContent.trim();
+
+                // Only include elements with direct text content (no nested elements with lots of content)
+                // Skip if it's just whitespace or too nested
+                if (text.length > 0 && text.length < 500) {
+                    // Check if this element has only text or simple children
+                    var hasComplexChildren = false;
+                    for (var j = 0; j < elem.children.length; j++) {
+                        if (elem.children[j].tagName !== 'BR' && elem.children[j].tagName !== 'SPAN') {
+                            hasComplexChildren = true;
+                            break;
+                        }
+                    }
+
+                    if (!hasComplexChildren) {
+                        textElements.push(elem);
+                    }
+                }
+            }
+
+            // Style ALL text elements
+            for (var i = 0; i < textElements.length; i++) {
+                var elem = textElements[i];
+
+                // Style based on element type
+                if (elem.textContent.indexOf(':') > -1 && elem.textContent.length < 100) {
+                    // Label-like text (with colon) - navy blue, larger
+                    elem.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e3a8a!important;margin-bottom:0.75rem!important;display:block!important;';
+                } else {
+                    // Regular text - navy blue, standard size
+                    elem.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:400!important;color:#1e3a8a!important;line-height:1.6!important;';
+                }
+            }
+
+            // Use textElements as our labels array for animations
+            var labels = textElements;
+
+            // ========================================
+            // FORM INPUTS - Rounded with navy borders
+            // ANIMATION: Fade in synchronized with labels
+            // ========================================
+            var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #cbd5e1!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:opacity 0.3s ease-out!important;box-sizing:border-box!important;width:100%!important;opacity:0!important;';
+
+                // Fade in with subtle stagger
+                (function(input, index) {
+                    var inputDelay = 550 + (index * 40); // Sync with text fade timing
+                    setTimeout(function() {
+                        input.style.opacity = '1';
+                    }, inputDelay);
+                })(inputs[i], i);
+
+                // Focus state - only add if not already added
+                if (!inputs[i].hasAttribute('data-yeshiva-styled')) {
+                    inputs[i].setAttribute('data-yeshiva-styled', 'true');
+                    inputs[i].addEventListener('focus', function() {
+                        this.style.borderColor = '#1e3a8a';
+                        this.style.boxShadow = '0 0 0 3px rgba(30,58,138,0.1)';
+                    });
+                    inputs[i].addEventListener('blur', function() {
+                        this.style.borderColor = '#cbd5e1';
+                        this.style.boxShadow = 'none';
+                    });
+                }
+            }
+
+            // Style select dropdowns with navy arrow
+            var selects = form.querySelectorAll('select');
+            for (var i = 0; i < selects.length; i++) {
+                selects[i].style.cssText += 'cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%231e3a8a\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;padding-right:3.5rem!important;';
+            }
+
+            // ========================================
+            // SECTION HEADINGS - Gold color
+            // ========================================
+            var headings = form.querySelectorAll('h2, h3, h4, legend, b, strong, u');
+            for (var i = 0; i < headings.length; i++) {
+                headings[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2rem!important;font-weight:700!important;color:#d97706!important;margin:2rem 0 1rem 0!important;padding-bottom:0.5rem!important;border-bottom:2px solid #fef3c7!important;display:block!important;';
+            }
+
+            // ========================================
+            // SUBMIT BUTTON - Navy to Gold gradient
+            // ========================================
+            var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], [id*="submit"] input[type="submit"]');
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e3a8a 0%, #f59e0b 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,58,138,0.3)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
+
+                // Hover effect - only add if not already added
+                if (!submitButtons[i].hasAttribute('data-yeshiva-styled')) {
+                    submitButtons[i].setAttribute('data-yeshiva-styled', 'true');
+                    submitButtons[i].addEventListener('mouseenter', function() {
+                        this.style.background = 'linear-gradient(135deg, #1e40af 0%, #d97706 100%)';
+                        this.style.transform = 'translateY(-2px)';
+                        this.style.boxShadow = '0 6px 20px rgba(30,58,138,0.4)';
+                    });
+                    submitButtons[i].addEventListener('mouseleave', function() {
+                        this.style.background = 'linear-gradient(135deg, #1e3a8a 0%, #f59e0b 100%)';
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = '0 4px 12px rgba(30,58,138,0.3)';
+                    });
+                }
+            }
+
+            // ========================================
+            // RESET BUTTON - Gray gradient
+            // ========================================
+            var resetButtons = form.querySelectorAll('button[type="reset"], input[type="reset"]');
+            for (var i = 0; i < resetButtons.length; i++) {
+                resetButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6b7280 0%, #4b5563 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(75,85,99,0.2)!important;min-width:240px!important;margin:2rem 1rem!important;display:inline-block!important;';
+            }
+
+            // ========================================
+            // ANIMATIONS
+            // ========================================
+
+            // Simple fade-in effect for all text elements
+            for (var i = 0; i < labels.length; i++) {
+                labels[i].style.opacity = '0';
+                labels[i].style.transition = 'opacity 0.5s ease-out';
+
+                (function(label, index) {
+                    setTimeout(function() {
+                        label.style.opacity = '1';
+                    }, 500 + (index * 40)); // Very subtle stagger (40ms between each)
+                })(labels[i], i);
+            }
+
+            // Submit button - appear after text elements fade in
+            var labelCount = labels.length;
+            var submitDelay = 500 + (labelCount * 40) + 400; // After last element + buffer
+
+            for (var i = 0; i < submitButtons.length; i++) {
+                // Start hidden for entrance animation
+                submitButtons[i].style.opacity = '0';
+                submitButtons[i].style.transition = 'opacity 0.6s ease-out';
+
+                (function(button) {
+                    setTimeout(function() {
+                        button.style.opacity = '1';
+                    }, submitDelay);
+                })(submitButtons[i]);
+            }
+
+            // Stop all observers (flag already set at beginning)
+            if (window.yeshivaObserver) {
+                window.yeshivaObserver.disconnect();
+            }
+
+            return true;
+        }
+
+        // Try applying styles immediately and with delays
+        var attempts = 0;
+        var maxAttempts = 10;
+        var retryIntervals = [];
+
+        function tryApply() {
+            if (yeshivaScholarshipStylesApplied) {
+                // Clear all pending retries
+                retryIntervals.forEach(function(id) { clearTimeout(id); });
+                return;
+            }
+            if (applyStyles()) {
+                // Clear all pending retries
+                retryIntervals.forEach(function(id) { clearTimeout(id); });
+                return;
+            }
+            attempts++;
+            if (attempts < maxAttempts && !yeshivaScholarshipStylesApplied) {
+                retryIntervals.push(setTimeout(tryApply, 500));
+            }
+        }
+
+        // Initial attempts with stored IDs for cleanup
+        retryIntervals.push(setTimeout(tryApply, 500));
+        retryIntervals.push(setTimeout(tryApply, 1000));
+        retryIntervals.push(setTimeout(tryApply, 1500));
+        retryIntervals.push(setTimeout(tryApply, 2000));
+
+        // Watch for dynamic content loading (but stop once successful)
+        if (typeof MutationObserver !== 'undefined' && !window.yeshivaObserver) {
+            window.yeshivaObserver = new MutationObserver(function() {
+                if (!yeshivaScholarshipStylesApplied) {
+                    applyStyles();
+                }
+            });
+            window.yeshivaObserver.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        }
+    }
+
+    // Run on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleYeshivaScholarshipForm);
+    } else {
+        styleYeshivaScholarshipForm();
+    }
 //]]>
 </script>
