@@ -3,14 +3,11 @@
 ONE-TIME SETUP: Paste this template into Chabad One CMS
 ====================================================================
 After pasting this, you can edit content using the visual editor.
-All styling comes from GitHub - no need to touch this code again.
+
+THEME: Deep Navy Blue (#1a365d) with Warm Gold (#d4af37)
+Conveys trust, professionalism, and supportive warmth.
 ====================================================================
 -->
-
-<!-- Load styling from GitHub (auto-updates when design changes) -->
-<style>
-@import url('https://cdn.jsdelivr.net/gh/bestestiscool/JRCC@main/pages/meir-shlomo-gmach/LIVE/gmach-minimal.css');
-</style>
 
 <!--
 ====================================================================
@@ -63,63 +60,67 @@ The CSS will automatically style everything beautifully!
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
-/* Remove background images and add subtle page background */
+/* Apply navy gradient background to body level */
 body,
-body.cco_body,
+body.cco_body {
+    background-image: none !important;
+    background: linear-gradient(135deg, #0f1c2e 0%, #1a365d 50%, #2d4a6f 100%) !important;
+}
+
+/* Make CMS containers transparent to show body background */
 #BodyContainer,
 #co_content_container,
-.clearfix,
 .body_wrapper,
-#content,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
 .master-content-wrapper,
 .master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-div[class*="master-content"],
-div[class*="wrapper"],
-div[class*="content"] {
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
     background-image: none !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
     min-height: 0 !important;
 }
 
-/* Decorative background element */
+/* Decorative background element - radial gradients only */
 .gmach-bg-decorator {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    bottom: 0 !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 30%, #f0f7fb 70%, #e8f4f8 100%) !important;
+    height: 100vh !important;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(212, 175, 55, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 30%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 40% 70%, rgba(212, 175, 55, 0.03) 0%, transparent 40%) !important;
     z-index: 0 !important;
     pointer-events: none !important;
+    animation: bgFloat 20s ease-in-out infinite !important;
 }
 
-.gmach-bg-decorator::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 100px !important;
-    left: -100px !important;
-    width: 400px !important;
-    height: 400px !important;
-    background: radial-gradient(circle, rgba(30, 90, 142, 0.06) 0%, transparent 70%) !important;
-    pointer-events: none !important;
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(0) !important; }
+    50% { transform: translateY(-20px) !important; }
 }
 
-.gmach-bg-decorator::after {
-    content: '' !important;
-    position: absolute !important;
-    top: 300px !important;
-    right: -100px !important;
-    width: 500px !important;
-    height: 500px !important;
-    background: radial-gradient(circle, rgba(42, 117, 184, 0.08) 0%, transparent 70%) !important;
-    pointer-events: none !important;
-}
-
+/* Content wrapper - positioning only, no background */
 .gmach-content {
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 5rem 3rem !important;
     position: relative !important;
+    z-index: 1 !important;
 }
 
 /* Banner */
@@ -142,40 +143,42 @@ div[class*="content"] {
 .gmach-text {
     max-width: 1000px !important;
     margin: 0 auto 5rem auto !important;
-    padding: 0 3rem !important;
+    padding: 4rem !important;
     position: relative !important;
     z-index: 1 !important;
+    background: rgba(15, 28, 46, 0.75) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
 }
 
 .gmach-text .gmach-intro {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 2.5rem !important;
     line-height: 1.9 !important;
-    color: #1e5a8e !important;
+    color: #f4d03f !important;
     font-weight: 500 !important;
     margin: 0 0 3rem 0 !important;
-    padding: 3rem !important;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e8f4f8 100%) !important;
-    border-left: 4px solid #2a75b8 !important;
-    border-radius: 8px !important;
+    padding: 0 !important;
+    text-shadow: 0 2px 8px rgba(244, 208, 63, 0.3) !important;
 }
 
 .gmach-text p {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.75rem !important;
     line-height: 2 !important;
-    color: #2a2a2a !important;
+    color: #e8e8e8 !important;
     margin: 0 0 2.5rem 0 !important;
 }
 
 .gmach-text strong {
-    color: #1e5a8e !important;
+    color: #f4d03f !important;
     font-weight: 700 !important;
 }
 
 .gmach-text em {
     font-style: italic !important;
-    color: #2a75b8 !important;
+    color: #d4af37 !important;
     font-weight: 500 !important;
 }
 
@@ -207,28 +210,28 @@ div[class*="content"] {
 }
 
 .gmach-button-primary {
-    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    color: #1a365d !important;
     border: 2px solid transparent !important;
 }
 
 .gmach-button-primary:hover {
-    background: linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
 }
 
 .gmach-button-secondary {
-    background: #ffffff !important;
-    color: #1e5a8e !important;
-    border: 2px solid #1e5a8e !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #1a365d !important;
+    border: 2px solid #d4af37 !important;
 }
 
 .gmach-button-secondary:hover {
-    background: #1e5a8e !important;
-    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    color: #1a365d !important;
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
 }
 
 /* Hide old Chabad One buttons - but NOT our new styled buttons */
