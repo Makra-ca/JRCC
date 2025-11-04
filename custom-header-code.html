@@ -578,6 +578,301 @@ body.gmach-donation-form-page .below-article li a:hover {
 
 /* End "More in this section" Widget Styling */
 
+/* ====================================================================
+   PAGE-SPECIFIC STYLING: VOLUNTEER FORM
+   URL: /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm
+   Target: form elements on this page
+   Theme: Warm Crimson Red (matching Community Connections)
+   Colors: #c93545 (crimson), #f4d03f (gold), red gradient background
+   Note: JavaScript in custom-footer-code.html handles page detection and animations
+   ==================================================================== */
+
+/* Page-level styling - RED GRADIENT background */
+body.volunteer-form-page {
+    background: linear-gradient(135deg, #2a0e14 0%, #5c1f2e 50%, #8b2e3f 100%) !important;
+}
+
+/* Hide breadcrumbs on Volunteer Form page */
+body.volunteer-form-page .breadcrumbs,
+body.volunteer-form-page .breadcrumb,
+body.volunteer-form-page [class*="breadcrumb"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide banner images/decorators on Volunteer Form page - but NOT header */
+body.volunteer-form-page .banner_image,
+body.volunteer-form-page .page_banner,
+body.volunteer-form-page .article_banner,
+body.volunteer-form-page [class*="banner"] img,
+body.volunteer-form-page .article_banner_wrapper,
+body.volunteer-form-page .page_header_image {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Remove background from article header but keep visible (title is inside) - FULL WIDTH */
+body.volunteer-form-page header.article-header {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* Remove background from decorator wrapper but keep content visible */
+body.volunteer-form-page .master-content-wrapper,
+body.volunteer-form-page .master-content-wrapper.g960,
+body.volunteer-form-page div.master-content-wrapper,
+body.volunteer-form-page [class*="master-content"] {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 2rem 0 !important;
+}
+
+/* Style the page title on Volunteer Form page - WHITE with GOLD shadow - NO BOX - CENTERED */
+body.volunteer-form-page h1,
+body.volunteer-form-page h2.page-title,
+body.volunteer-form-page .master-content-wrapper h1,
+body.volunteer-form-page .master-content-wrapper h2,
+body.volunteer-form-page .sCHeading_1,
+body.volunteer-form-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 2rem 2rem 0 2rem !important;
+    background: transparent !important;
+    border: none !important;
+    text-shadow: 0 4px 20px rgba(244, 208, 63, 0.6) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    max-width: 1100px !important;
+    width: 90% !important;
+    letter-spacing: -1px !important;
+}
+
+/* Typewriter animation container - JavaScript will handle the animation */
+body.volunteer-form-page h1.typewriter-ready,
+body.volunteer-form-page .article-header__title.typewriter-ready {
+    position: relative !important;
+}
+
+/* Hide duplicate form title inside white form box */
+body.volunteer-form-page form p[align="center"],
+body.volunteer-form-page form p[style*="text-align: center"],
+body.volunteer-form-page form p[style*="text-align:center"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Main form container styling - WIDER with ENHANCED shadow for dark bg */
+body.volunteer-form-page form,
+body.volunteer-form-page form[id*="form"],
+body.volunteer-form-page form[name*="form_"] {
+    max-width: 1100px !important;
+    margin: 0 auto 3rem auto !important;
+    padding: 0 4rem 4rem 4rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15) !important;
+    font-family: 'Urbanist', sans-serif !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* Form labels - EXTRA LARGE (1.75rem = 28px) */
+body.volunteer-form-page form label,
+body.volunteer-form-page form .form-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 600 !important;
+    color: #c93545 !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+}
+
+/* ALL text elements in form - make bigger (1.5rem = 24px) */
+body.volunteer-form-page form * {
+    font-size: 1.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    line-height: 1.6 !important;
+}
+
+/* Reset input/select/button sizes (styled separately below) */
+body.volunteer-form-page form input,
+body.volunteer-form-page form select,
+body.volunteer-form-page form button,
+body.volunteer-form-page form textarea {
+    font-size: 1.35rem !important;
+}
+
+/* Form inputs - rounded corners - BIGGER (1.35rem = ~21.6px) */
+body.volunteer-form-page form input[type="text"],
+body.volunteer-form-page form input[type="email"],
+body.volunteer-form-page form input[type="tel"],
+body.volunteer-form-page form input[type="number"],
+body.volunteer-form-page form textarea,
+body.volunteer-form-page form select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.35rem !important;
+    padding: 1.25rem 2rem !important;
+    border: 2px solid #d1d9e6 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #2a2a2a !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+/* Input focus state */
+body.volunteer-form-page form input:focus,
+body.volunteer-form-page form textarea:focus,
+body.volunteer-form-page form select:focus {
+    outline: none !important;
+    border-color: #c93545 !important;
+    box-shadow: 0 0 0 3px rgba(201, 53, 69, 0.1) !important;
+}
+
+/* Select dropdown arrow - BIGGER (1.35rem) */
+body.volunteer-form-page form select {
+    cursor: pointer !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c93545' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 2rem center !important;
+    padding-right: 3.5rem !important;
+}
+
+/* Form section headings - LARGE section headers (2rem = 32px) */
+body.volunteer-form-page form h2,
+body.volunteer-form-page form h3,
+body.volunteer-form-page form h4,
+body.volunteer-form-page form legend,
+body.volunteer-form-page form b,
+body.volunteer-form-page form strong,
+body.volunteer-form-page form u {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #8b0000 !important;
+    margin: 2rem 0 1rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid #f8e8ea !important;
+    display: block !important;
+}
+
+/* Submit button - styled - CRIMSON & GOLD gradient (1.625rem = 26px) */
+body.volunteer-form-page form button[type="submit"],
+body.volunteer-form-page form input[type="submit"],
+body.volunteer-form-page form .form-submit button,
+body.volunteer-form-page form [id*="submit"] input[type="submit"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #c93545 0%, #f4d03f 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(201, 53, 69, 0.3) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    margin-right: 1rem !important;
+    display: inline-block !important;
+}
+
+body.volunteer-form-page form button[type="submit"]:hover,
+body.volunteer-form-page form input[type="submit"]:hover {
+    background: linear-gradient(135deg, #a82c3a 0%, #d4af37 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(201, 53, 69, 0.4) !important;
+}
+
+/* Reset button - GRAY gradient theme */
+body.volunteer-form-page form button[type="reset"],
+body.volunteer-form-page form input[type="reset"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(75, 85, 99, 0.2) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    display: inline-block !important;
+}
+
+body.volunteer-form-page form button[type="reset"]:hover,
+body.volunteer-form-page form input[type="reset"]:hover {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3) !important;
+}
+
+/* Security text - make visible on dark background */
+body.volunteer-form-page .center_small,
+body.volunteer-form-page .center.small,
+body.volunteer-form-page form .center_small,
+body.volunteer-form-page form small {
+    color: #e5e7eb !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+    opacity: 0.9 !important;
+}
+
+/* Mobile responsive for Volunteer Form */
+@media (max-width: 768px) {
+    body.volunteer-form-page form {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+        max-width: 95% !important;
+    }
+
+    body.volunteer-form-page h1,
+    body.volunteer-form-page .article-header__title {
+        font-size: 2.5rem !important;
+        padding: 0 !important;
+    }
+
+    body.volunteer-form-page form button[type="submit"],
+    body.volunteer-form-page form input[type="submit"],
+    body.volunteer-form-page form button[type="reset"],
+    body.volunteer-form-page form input[type="reset"] {
+        width: 100% !important;
+        padding: 1.5rem 2rem !important;
+        margin-right: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* End Volunteer Form Styling */
+
 </style>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
