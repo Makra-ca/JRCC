@@ -1,0 +1,445 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template provides modern styling for the Kehilla Residential Programme page.
+All styles are inline for maximum compatibility with Chabad One CMS.
+
+THEME: Black background with white text and golden accents
+Professional housing assistance theme
+====================================================================
+-->
+
+<div class="kehilla-content">
+
+<h1>Kehilla Residential Programme</h1>
+
+<!-- Kehilla Logo -->
+<div class="logo-container">
+  <img alt="Kehilla Logo" src="/media/images/431/Cfek4313182.jpg" class="kehilla-logo" />
+</div>
+
+<!-- Hero questions -->
+<div class="hero-questions">
+  <div class="question-card">
+    <h2>Do you have questions regarding subsidized housing?</h2>
+  </div>
+  <div class="question-card">
+    <h2>Do you want to know how to apply?</h2>
+  </div>
+</div>
+
+<!-- Service Information -->
+<div class="info-card">
+  <div class="info-body">
+    <h2>Service Availability</h2>
+    <p class="lead-text">Information regarding subsidized housing is available at the JRCC offices at <strong>5987 Bathurst Street</strong>.</p>
+
+    <div class="schedule-box">
+      <div class="schedule-details">
+        <p><strong>Thursday, July 8th</strong></p>
+        <p>10:00 AM - 1:00 PM</p>
+      </div>
+    </div>
+
+    <p class="service-description">You can ask any housing related questions directly to an experienced subsidized housing professional from the Kehilla Residential Programme.</p>
+  </div>
+</div>
+
+<!-- Important Notice -->
+<div class="notice-box">
+  <div class="notice-header">
+    <h3>Important Notice</h3>
+  </div>
+  <p>Please note that we do not have special access to subsidized housing, nor can we circumvent the waiting lists or process.</p>
+</div>
+
+<!-- Contact CTA -->
+<div class="contact-cta-section">
+  <h2>Get Started Today</h2>
+  <p class="cta-subtitle">To make an appointment or for more information:</p>
+
+  <div class="contact-grid">
+    <a href="tel:4162227105" class="contact-card">
+      <div class="contact-icon">
+        <span style="font-size: 32px; line-height: 1; color: #ffffff; font-weight: 300;">☎</span>
+      </div>
+      <div class="contact-info">
+        <div class="contact-label">Call Us</div>
+        <div class="contact-value">416-222-7105</div>
+      </div>
+    </a>
+
+    <a href="mailto:jrcc@jrcc.org" class="contact-card">
+      <div class="contact-icon">
+        <span style="font-size: 32px; line-height: 1; color: #ffffff; font-weight: 300;">✉</span>
+      </div>
+      <div class="contact-info">
+        <div class="contact-label">Email Us</div>
+        <div class="contact-value">jrcc@jrcc.org</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+</div>
+
+<!-- Inline styles for immediate effect -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing - but preserve sidebar */
+body,
+body.cco_body {
+    background-image: none !important;
+    background: #FFFFFF !important;
+}
+
+/* Base overflow and spacing fixes for main containers */
+#BodyContainer,
+#co_content_container,
+.body_wrapper,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Hide breadcrumbs */
+.breadcrumbs,
+.breadcrumb,
+nav[class*="breadcrumb"],
+div[class*="breadcrumb"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Content wrapper */
+.kehilla-content {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 0.5rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.kehilla-content > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4.5rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    text-align: center !important;
+    margin: 0 0 2rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Logo container */
+.logo-container {
+    text-align: center !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.kehilla-logo {
+    max-width: 200px !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4) !important;
+    border: 3px solid rgba(212, 175, 55, 0.6) !important;
+}
+
+/* Hero questions section */
+.hero-questions {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 2rem !important;
+    margin: 3rem 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.question-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.05) 100%) !important;
+    border-radius: 20px !important;
+    padding: 2.5rem 2rem !important;
+    text-align: center !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.question-card:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.25) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
+.question-card h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* Main info card */
+.info-card {
+    background: rgba(212, 175, 55, 0.05) !important;
+    border-radius: 24px !important;
+    padding: 3rem !important;
+    margin: 3rem 0 !important;
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.2) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+.info-body h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3) !important;
+}
+
+.lead-text {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 500 !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    text-align: center !important;
+    margin-bottom: 2rem !important;
+}
+
+/* Schedule box */
+.schedule-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(212, 175, 55, 0.08) 100%) !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    margin: 2rem 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+.schedule-details {
+    flex: 1 !important;
+    text-align: center !important;
+}
+
+.schedule-details p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    line-height: 1.6 !important;
+    color: #d4af37 !important;
+    margin: 0.25rem 0 !important;
+}
+
+.service-description {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.375rem !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    text-align: center !important;
+    margin: 2rem 0 0 0 !important;
+}
+
+/* Notice box */
+.notice-box {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.10) 0%, rgba(212, 175, 55, 0.05) 100%) !important;
+    border-radius: 16px !important;
+    padding: 2.5rem !important;
+    margin: 3rem 0 !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    border-left: 5px solid #d4af37 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15) !important;
+}
+
+.notice-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+    justify-content: center !important;
+}
+
+.notice-box h3 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3) !important;
+}
+
+.notice-box p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.375rem !important;
+    line-height: 1.8 !important;
+    color: #333333 !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+
+/* Contact CTA section */
+.contact-cta-section {
+    position: relative !important;
+    z-index: 2 !important;
+    margin-top: 4rem !important;
+    padding: 3rem !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.10) 0%, rgba(212, 175, 55, 0.05) 100%) !important;
+    border-radius: 24px !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15) !important;
+}
+
+.contact-cta-section h2 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3rem !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    text-align: center !important;
+    margin: 0 0 1rem 0 !important;
+    text-shadow: 0 4px 20px rgba(212, 175, 55, 0.3) !important;
+}
+
+.cta-subtitle {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.375rem !important;
+    text-align: center !important;
+    color: #333333 !important;
+    margin-bottom: 2.5rem !important;
+}
+
+.contact-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+}
+
+.contact-card {
+    background: #FFFFFF !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    text-decoration: none !important;
+    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+}
+
+.contact-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 48px rgba(212, 175, 55, 0.25) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
+.contact-icon {
+    flex-shrink: 0 !important;
+    width: 64px !important;
+    height: 64px !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.contact-info {
+    flex: 1 !important;
+}
+
+.contact-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #666666 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+.contact-value {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.375rem !important;
+    font-weight: 600 !important;
+    color: #d4af37 !important;
+}
+
+/* Sidebar spacing fix */
+#sidebar-local-navigation,
+.sidebar-local-navigation,
+aside[class*="sidebar"],
+.co_local_menu {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .kehilla-content {
+        padding: 0.25rem 1rem 2rem 1rem !important;
+    }
+
+    .kehilla-content > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1.5rem 0 !important;
+    }
+
+    .hero-questions {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    .info-card {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .schedule-box {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .contact-card {
+        padding: 1.5rem !important;
+    }
+}
+</style>
