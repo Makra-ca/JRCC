@@ -1011,4 +1011,186 @@ div[class*="search_header"],
     }
 }
 
+/* ======================================== */
+/* SENIORS NIGHT OUT FORM - Article ID: 6750519 */
+/* ======================================== */
+
+.seniors-night-out-form-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Style the main form */
+.seniors-night-out-form-page form#6750519,
+.seniors-night-out-form-page form[name="form_6750519"],
+.seniors-night-out-form-page form.userform-form {
+    max-width: 700px !important;
+    margin: 40px auto !important;
+    background: white !important;
+    padding: 40px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3) !important;
+}
+
+.seniors-night-out-form-page h1,
+.seniors-night-out-form-page h2 {
+    color: #764ba2 !important;
+    text-align: center !important;
+    margin-bottom: 30px !important;
+    font-size: 2.5em !important;
+}
+
+.seniors-night-out-form-page label {
+    color: #333 !important;
+    font-weight: 600 !important;
+    display: block !important;
+    margin-bottom: 8px !important;
+    font-size: 16px !important;
+}
+
+.seniors-night-out-form-page input[type="text"],
+.seniors-night-out-form-page input[type="email"],
+.seniors-night-out-form-page input[type="tel"],
+.seniors-night-out-form-page input[type="number"],
+.seniors-night-out-form-page select,
+.seniors-night-out-form-page textarea {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    font-size: 16px !important;
+    transition: border-color 0.3s !important;
+    background: white !important;
+}
+
+.seniors-night-out-form-page input:focus,
+.seniors-night-out-form-page select:focus,
+.seniors-night-out-form-page textarea:focus,
+.seniors-night-out-form-page .focused {
+    border-color: #764ba2 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1) !important;
+}
+
+.seniors-night-out-form-page input[type="submit"],
+.seniors-night-out-form-page button[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    padding: 15px 40px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    display: block !important;
+    margin: 30px auto 0 !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+    width: auto !important;
+}
+
+.seniors-night-out-form-page input[type="submit"]:hover,
+.seniors-night-out-form-page button[type="submit"]:hover,
+.seniors-night-out-form-page .hovered {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4) !important;
+}
+
+/* Hide search and print forms from styling */
+.seniors-night-out-form-page form#MainSearchForm,
+.seniors-night-out-form-page form[name="print-form"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* ======================================== */
+/* YESHIVA SCHOLARSHIP FORM - Article ID: 5537074 */
+/* ======================================== */
+
+.yeshiva-scholarship-page {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    min-height: 100vh !important;
+    padding: 20px !important;
+}
+
+.yeshiva-scholarship-page form[method="post"],
+.yeshiva-scholarship-page form[id="5537074"],
+.yeshiva-scholarship-page form[name="form_5537074"] {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    background: white !important;
+    padding: 50px !important;
+    border-radius: 25px !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2) !important;
+}
+
+.yeshiva-scholarship-page h1,
+.yeshiva-scholarship-page h2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    font-size: 2.5em !important;
+    margin-bottom: 30px !important;
+}
+
+.yeshiva-scholarship-page label {
+    color: #444 !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+.yeshiva-scholarship-page input[type="text"],
+.yeshiva-scholarship-page input[type="email"],
+.yeshiva-scholarship-page input[type="tel"],
+.yeshiva-scholarship-page input[type="number"],
+.yeshiva-scholarship-page select,
+.yeshiva-scholarship-page textarea {
+    width: 100% !important;
+    padding: 15px !important;
+    border: 2px solid #f0f0f0 !important;
+    border-radius: 12px !important;
+    margin-bottom: 25px !important;
+    font-size: 16px !important;
+    transition: all 0.3s !important;
+}
+
+.yeshiva-scholarship-page input:focus,
+.yeshiva-scholarship-page select:focus,
+.yeshiva-scholarship-page textarea:focus,
+.yeshiva-scholarship-page .focused {
+    border-color: #f5576c !important;
+    box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1) !important;
+    outline: none !important;
+}
+
+.yeshiva-scholarship-page input[type="submit"],
+.yeshiva-scholarship-page button[type="submit"] {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    padding: 18px 50px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    cursor: pointer !important;
+    display: block !important;
+    margin: 40px auto 0 !important;
+    transform: scale(1) !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+    width: auto !important;
+}
+
+.yeshiva-scholarship-page input[type="submit"]:hover,
+.yeshiva-scholarship-page button[type="submit"]:hover,
+.yeshiva-scholarship-page .hovered {
+    transform: scale(1.05) !important;
+    box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4) !important;
+}
+
 /* END OF JRCC CUSTOM STYLES */
