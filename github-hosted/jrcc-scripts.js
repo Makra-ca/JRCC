@@ -937,6 +937,9 @@
 
         initialized = true;
 
+        // Add body class for CSS styling
+        document.body.className = (document.body.className || '') + ' gmach-donation-form-page';
+
         // Apply page background (BLACK gradient for contrast)
         document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)!important;';
 
@@ -1120,6 +1123,9 @@
 
         initialized = true;
 
+        // Add body class for CSS styling (Note: no specific CSS rules for this page yet)
+        document.body.className = (document.body.className || '') + ' healthy-at-home-form-page';
+
         // Apply page background (LIGHT gradient)
         document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
 
@@ -1269,6 +1275,9 @@
         if (!form) return;
 
         initialized = true;
+
+        // Add body class for CSS styling (Note: no specific CSS rules for this page yet)
+        document.body.className = (document.body.className || '') + ' seniors-night-out-form-page';
 
         // Apply page background - Festival theme (light gradient)
         document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%)!important;';
