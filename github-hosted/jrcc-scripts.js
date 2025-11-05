@@ -937,138 +937,44 @@
 
         initialized = true;
 
-        // Add body class for CSS styling
+        // Add body class for CSS styling - this is the MOST IMPORTANT part
+        // The external CSS will handle all the visual styling based on this class
         document.body.className = (document.body.className || '') + ' gmach-donation-form-page';
 
-        // Apply page background (BLACK gradient for contrast)
-        document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)!important;';
+        console.log('JRCC: Gmach form styled - body class added');
 
-        // Hide breadcrumbs
-        var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
-        for (var i = 0; i < breadcrumbs.length; i++) {
-            breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
-        }
-
-        // Hide banner images/decorators - but NOT the header (title is inside it)
-        var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
-        for (var i = 0; i < banners.length; i++) {
-            banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
-        }
-
-        // Remove background from header but keep it visible (title is inside)
-        var articleHeader = document.querySelector('header.article-header');
-        if (articleHeader) {
-            articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
-        }
-
-        // Also hide the decorator/background image specifically
-        var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"]');
-        for (var i = 0; i < headerImages.length; i++) {
-            var element = headerImages[i];
-            if (element.tagName === 'IMG') {
-                element.style.cssText = 'display:none!important;';
-            } else {
-                element.style.backgroundImage = 'none!important';
-            }
-        }
-
-        // Find and style the page title
-        var pageTitle = null;
-        var h1Elements = document.querySelectorAll('h1');
-        for (var i = 0; i < h1Elements.length; i++) {
-            if (h1Elements[i].textContent.toLowerCase().indexOf('gmach') !== -1 ||
-                h1Elements[i].textContent.toLowerCase().indexOf('donation') !== -1) {
-                pageTitle = h1Elements[i];
-                break;
-            }
-        }
-
-        if (!pageTitle) {
-            pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, h1');
-        }
-
-        if (pageTitle) {
-            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#fbbf24!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:3rem!important;padding:2.5rem!important;background:rgba(0,0,0,0.5)!important;border:2px solid rgba(251,191,36,0.3)!important;border-radius:12px!important;text-shadow:2px 2px 4px rgba(0,0,0,0.5)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
-        }
-
-        // Style the form container
-        form.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
-
-        // Style form labels
-        var labels = form.querySelectorAll('label, .form-label');
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e5a8e!important;margin-bottom:0.75rem!important;display:block!important;';
-        }
-
-        // Style ALL text-like elements in form
-        var allFormElements = form.querySelectorAll('*');
-        for (var i = 0; i < allFormElements.length; i++) {
-            var el = allFormElements[i];
-            var tagName = el.tagName.toLowerCase();
-
-            if (tagName === 'input' || tagName === 'select' || tagName === 'button' || tagName === 'textarea') {
-                continue;
-            }
-
-            var hasDirectText = false;
-            for (var j = 0; j < el.childNodes.length; j++) {
-                if (el.childNodes[j].nodeType === 3 && el.childNodes[j].textContent.trim().length > 0) {
-                    hasDirectText = true;
-                    break;
-                }
-            }
-
-            if (hasDirectText) {
-                el.style.fontSize = '1.5rem';
-                el.style.fontFamily = 'Urbanist, sans-serif';
-                el.style.lineHeight = '1.6';
-            }
-        }
-
-        // Style all form inputs
+        // Only add JavaScript interactions (not visual styles)
+        // Add focus/blur event listeners for form inputs
         var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+            // Remove any inline styles that might exist
+            inputs[i].removeAttribute('style');
 
-            // Add focus event listeners
             inputs[i].addEventListener('focus', function() {
-                this.style.borderColor = '#2a75b8';
-                this.style.boxShadow = '0 0 0 3px rgba(42,117,184,0.1)';
-                this.style.outline = 'none';
+                this.classList.add('focused');
             });
             inputs[i].addEventListener('blur', function() {
-                this.style.borderColor = '#d1d9e6';
-                this.style.boxShadow = 'none';
+                this.classList.remove('focused');
             });
         }
 
-        // Style submit and reset buttons
+        // Add hover effects for buttons via classes
         var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button');
         for (var i = 0; i < submitButtons.length; i++) {
-            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin-top:2rem!important;margin-right:1rem!important;display:inline-block!important;';
+            // Remove any inline styles
+            submitButtons[i].removeAttribute('style');
 
             submitButtons[i].addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%)';
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.3)';
+                this.classList.add('hovered');
             });
             submitButtons[i].addEventListener('mouseleave', function() {
-                this.style.background = 'linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)';
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 4px 12px rgba(30,90,142,0.2)';
+                this.classList.remove('hovered');
             });
         }
 
-        // Mobile responsive adjustments
+        // Mobile responsive check - add class instead of inline styles
         if (window.innerWidth <= 768) {
-            form.style.padding = '2.5rem 1.5rem';
-            form.style.margin = '2rem 1rem';
-            form.style.maxWidth = '95%';
-
-            for (var i = 0; i < submitButtons.length; i++) {
-                submitButtons[i].style.width = '100%';
-                submitButtons[i].style.padding = '1.25rem 2rem';
-            }
+            document.body.classList.add('mobile-view');
         }
     }
 
@@ -1123,108 +1029,23 @@
 
         initialized = true;
 
-        // Add body class for CSS styling (Note: no specific CSS rules for this page yet)
+        // Add body class for CSS styling - let CSS handle all visual styling
         document.body.className = (document.body.className || '') + ' healthy-at-home-form-page';
 
-        // Apply page background (LIGHT gradient)
-        document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
+        console.log('JRCC: Healthy At Home form styled - body class added');
 
-        // Hide breadcrumbs and banners
-        var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
-        for (var i = 0; i < breadcrumbs.length; i++) {
-            breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
-        }
-
-        var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img');
-        for (var i = 0; i < banners.length; i++) {
-            banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
-        }
-
-        // Find and style the page title
-        var pageTitle = null;
-        var h1Elements = document.querySelectorAll('h1');
-        for (var i = 0; i < h1Elements.length; i++) {
-            if (h1Elements[i].textContent.toLowerCase().indexOf('healthy') !== -1 ||
-                h1Elements[i].textContent.toLowerCase().indexOf('registration') !== -1) {
-                pageTitle = h1Elements[i];
-                break;
-            }
-        }
-
-        if (!pageTitle) {
-            pageTitle = document.querySelector('h1');
-        }
-
-        if (pageTitle) {
-            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
-
-            // Typewriter animation effect
-            var originalText = pageTitle.textContent;
-            var charIndex = 0;
-
-            pageTitle.textContent = '';
-            pageTitle.style.borderRight = '3px solid #000';
-            pageTitle.style.paddingRight = '5px';
-
-            function typeWriter() {
-                if (charIndex < originalText.length) {
-                    pageTitle.textContent += originalText.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 80);
-                } else {
-                    setTimeout(function() {
-                        pageTitle.style.borderRight = 'none';
-                        pageTitle.style.paddingRight = '2rem';
-                    }, 500);
-                }
-            }
-
-            typeWriter();
-        }
-
-        // Style the form container
-        form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
-
-        // Style form elements
-        var labels = form.querySelectorAll('label, .form-label');
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e5a8e!important;margin-bottom:0.75rem!important;display:block!important;';
-        }
-
+        // Add JavaScript interactions only (no visual styles)
         var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+            // Remove any inline styles
+            inputs[i].removeAttribute('style');
 
             inputs[i].addEventListener('focus', function() {
-                this.style.borderColor = '#2a75b8';
-                this.style.boxShadow = '0 0 0 3px rgba(42,117,184,0.1)';
-                this.style.outline = 'none';
+                this.classList.add('focused');
             });
             inputs[i].addEventListener('blur', function() {
-                this.style.borderColor = '#d1d9e6';
-                this.style.boxShadow = 'none';
+                this.classList.remove('focused');
             });
-        }
-
-        // Style submit button
-        var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
-        for (var i = 0; i < submitButtons.length; i++) {
-            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
-        }
-
-        // Animate form labels
-        var labels = form.querySelectorAll('label');
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.opacity = '0';
-            labels[i].style.transform = 'translateX(-20px)';
-            labels[i].style.transition = 'all 0.6s ease';
-
-            (function(label, index) {
-                setTimeout(function() {
-                    label.style.opacity = '1';
-                    label.style.transform = 'translateX(0)';
-                }, 300 + (index * 50));
-            })(labels[i], i);
         }
     }
 
@@ -1276,118 +1097,36 @@
 
         initialized = true;
 
-        // Add body class for CSS styling (Note: no specific CSS rules for this page yet)
+        // Add body class for CSS styling - let CSS handle all visual styling
         document.body.className = (document.body.className || '') + ' seniors-night-out-form-page';
 
-        // Apply page background - Festival theme (light gradient)
-        document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%)!important;';
+        console.log('JRCC: Seniors Night Out form styled - body class added');
 
-        // Hide breadcrumbs
-        var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
-        for (var i = 0; i < breadcrumbs.length; i++) {
-            breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
-        }
-
-        // Hide banner images/decorators
-        var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img');
-        for (var i = 0; i < banners.length; i++) {
-            banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
-        }
-
-        // Find the page title
-        var pageTitle = document.querySelector('h1');
-        if (pageTitle) {
-            pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
-
-            // Typewriter animation
-            var originalText = pageTitle.textContent;
-            var charIndex = 0;
-
-            pageTitle.textContent = '';
-            pageTitle.style.borderRight = '3px solid #000';
-            pageTitle.style.paddingRight = '5px';
-
-            function typeWriter() {
-                if (charIndex < originalText.length) {
-                    pageTitle.textContent += originalText.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeWriter, 80);
-                } else {
-                    setTimeout(function() {
-                        pageTitle.style.borderRight = 'none';
-                        pageTitle.style.paddingRight = '2rem';
-                    }, 500);
-                }
-            }
-
-            typeWriter();
-        }
-
-        // Style the form container - Festival theme
-        form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(107,63,160,0.15), 0 0 0 1px rgba(107,63,160,0.1)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
-
-        // Style form labels - LARGE text
-        var labels = form.querySelectorAll('label, .form-label');
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#6B3FA0!important;margin-bottom:0.75rem!important;display:block!important;';
-        }
-
-        // Style all form inputs - purple theme
+        // Add JavaScript interactions only (no visual styles)
         var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+            // Remove any inline styles
+            inputs[i].removeAttribute('style');
 
             inputs[i].addEventListener('focus', function() {
-                this.style.borderColor = '#6B3FA0';
-                this.style.boxShadow = '0 0 0 3px rgba(107,63,160,0.1)';
-                this.style.outline = 'none';
+                this.classList.add('focused');
             });
             inputs[i].addEventListener('blur', function() {
-                this.style.borderColor = '#d1c4e9';
-                this.style.boxShadow = 'none';
+                this.classList.remove('focused');
             });
         }
 
-        // Style submit button - FESTIVAL GOLD & PURPLE gradient, CENTERED
         var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
         for (var i = 0; i < submitButtons.length; i++) {
-            submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6B3FA0 0%, #F4C430 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(107,63,160,0.3)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
+            // Remove any inline styles
+            submitButtons[i].removeAttribute('style');
 
             submitButtons[i].addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, #4a2870 0%, #d4a728 100%)';
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 6px 20px rgba(107,63,160,0.4)';
+                this.classList.add('hovered');
             });
             submitButtons[i].addEventListener('mouseleave', function() {
-                this.style.background = 'linear-gradient(135deg, #6B3FA0 0%, #F4C430 100%)';
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 4px 12px rgba(107,63,160,0.3)';
+                this.classList.remove('hovered');
             });
-        }
-
-        // Animate form labels
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.opacity = '0';
-            labels[i].style.transform = 'translateX(-20px)';
-            labels[i].style.transition = 'all 0.6s ease';
-
-            (function(label, index) {
-                setTimeout(function() {
-                    label.style.opacity = '1';
-                    label.style.transform = 'translateX(0)';
-                }, 2200 + (index * 50));
-            })(labels[i], i);
-        }
-
-        // Animate submit button - festival pulse
-        if (submitButtons.length > 0) {
-            var pulseStyle = document.createElement('style');
-            pulseStyle.innerHTML = '@keyframes festivalPulse { 0%, 100% { transform: scale(1) !important; box-shadow: 0 4px 12px rgba(107,63,160,0.3) !important; } 50% { transform: scale(1.08) !important; box-shadow: 0 10px 30px rgba(244,196,48,0.6) !important; } }';
-            document.head.appendChild(pulseStyle);
-
-            for (var i = 0; i < submitButtons.length; i++) {
-                submitButtons[i].style.animation = 'festivalPulse 1.5s ease-in-out infinite';
-            }
         }
     }
 
