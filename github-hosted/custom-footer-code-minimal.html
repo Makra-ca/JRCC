@@ -1,0 +1,27 @@
+<!-- JRCC Custom Footer - GitHub Hosted Version -->
+<!-- This minimal loader replaces the large inline JavaScript file -->
+
+<!-- External JavaScript from GitHub -->
+<!-- IMPORTANT: Replace YOUR-USERNAME with your GitHub username -->
+<!-- IMPORTANT: Replace YOUR-REPO with your repository name -->
+<script src="https://raw.githubusercontent.com/YOUR-USERNAME/YOUR-REPO/main/jrcc-scripts.js"></script>
+
+<!-- Alternative CDN option using jsDelivr (faster and more reliable) -->
+<!-- <script src="https://cdn.jsdelivr.net/gh/YOUR-USERNAME/YOUR-REPO@main/jrcc-scripts.js"></script> -->
+
+<!-- Backup: If GitHub is down, load from alternative source -->
+<script>
+// Check if the script loaded successfully
+window.addEventListener('load', function() {
+    // You can add a simple check here if needed
+    console.log('JRCC custom scripts loaded');
+});
+
+// Optional: Error handling if script fails to load
+window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'SCRIPT' && e.target.src.includes('jrcc-scripts')) {
+        console.error('Failed to load JRCC scripts from GitHub. Please check the URL.');
+        // You could load a backup script here if needed
+    }
+}, true);
+</script>
