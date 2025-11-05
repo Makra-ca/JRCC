@@ -2039,3 +2039,187 @@
 })();
 //]]>
 </script>
+
+<!-- ========================================
+     PAGE STYLING: KOSHER FOOD BANK PAGES
+     Multiple pages with Black/White/Gold theme
+     Main: Article ID 6819985
+     About Us: Article ID 6820886
+     Get Help & Projects pages
+     ======================================== -->
+<script>
+//<![CDATA[
+(function() {
+    var initialized = false;
+
+    function styleKosherFoodBankPages() {
+        if (initialized) return;
+
+        // CHECK: Are we on any Kosher Food Bank page?
+        var isKosherFoodBankPage =
+            window.location.href.indexOf('6819985') !== -1 || // Main page
+            window.location.href.indexOf('6820886') !== -1 || // About Us
+            window.location.href.toLowerCase().indexOf('kosher-food-bank') !== -1 ||
+            window.location.href.toLowerCase().indexOf('get-help') !== -1 ||
+            window.location.href.toLowerCase().indexOf('projects') !== -1;
+
+        if (!isKosherFoodBankPage) return;
+
+        initialized = true;
+
+        // Mark page for CSS targeting
+        document.body.classList.add('kosher-food-bank-page');
+
+        // ========================================
+        // NAVIGATION ENHANCEMENTS
+        // ========================================
+
+        // Create mobile menu toggle button
+        function createMobileMenuToggle() {
+            // Check if button already exists
+            if (document.querySelector('.mobile-menu-toggle')) return;
+
+            var navigation = document.querySelector('#navigation');
+            if (!navigation) return;
+
+            var toggleButton = document.createElement('button');
+            toggleButton.className = 'mobile-menu-toggle';
+            toggleButton.textContent = 'MENU';
+            toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+            // Add click handler
+            toggleButton.addEventListener('click', function() {
+                var menuContent = document.querySelector('.chabad_menu_content');
+                if (menuContent) {
+                    menuContent.classList.toggle('menu-open');
+                    toggleButton.textContent = menuContent.classList.contains('menu-open') ? 'CLOSE' : 'MENU';
+                }
+            });
+
+            // Insert button as first child of navigation
+            navigation.insertBefore(toggleButton, navigation.firstChild);
+        }
+
+        // Ensure navigation links are BLACK (not white/invisible)
+        function ensureNavColors() {
+            var links = document.querySelectorAll('#navigation a, #menu a');
+            links.forEach(function(link) {
+                // Remove webkit text fill color that might make text invisible
+                link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+                link.style.removeProperty('fill');
+
+                // Ensure link is visible
+                if (!link.classList.contains('selected')) {
+                    link.style.setProperty('color', '#000000', 'important');
+                }
+            });
+        }
+
+        // ========================================
+        // DONATE BUTTON ENHANCEMENT
+        // ========================================
+
+        function enhanceDonateButton() {
+            // Find donate links and add pulsing effect
+            var donateLinks = document.querySelectorAll('a[href*="donate"], a[href*="Donate"]');
+
+            donateLinks.forEach(function(link) {
+                // Check if it's a main donate button (not in navigation)
+                if (!link.closest('#navigation') && !link.closest('#menu')) {
+                    link.classList.add('donate-link-pulse');
+                }
+            });
+
+            // Special handling for donate card if it exists
+            var promoCards = document.querySelectorAll('.sPromo-wrap');
+            var donateCard = null;
+
+            promoCards.forEach(function(card) {
+                var caption = card.querySelector('.caption');
+                if (caption && caption.textContent.toUpperCase().includes('DONATE')) {
+                    donateCard = card;
+                }
+            });
+
+            if (donateCard) {
+                // Find or create donate link
+                var existingLink = donateCard.querySelector('a[href*="donate"]');
+                if (!existingLink) {
+                    // Look for donate URL in nearby cards
+                    var nextCard = donateCard.nextElementSibling;
+                    if (nextCard && nextCard.classList.contains('sPromo-wrap')) {
+                        var nextLink = nextCard.querySelector('a[href*="donate"]');
+                        if (nextLink) {
+                            // Create pulsing donate button
+                            var pulsingLink = document.createElement('a');
+                            pulsingLink.href = nextLink.href;
+                            pulsingLink.className = 'donate-link-pulse';
+                            pulsingLink.textContent = 'DONATE NOW';
+                            pulsingLink.setAttribute('target', '_blank');
+                            donateCard.appendChild(pulsingLink);
+
+                            // Hide the duplicate card
+                            nextCard.style.display = 'none';
+                        }
+                    }
+                }
+            }
+        }
+
+        // ========================================
+        // CARD HEIGHT FIXES
+        // ========================================
+
+        function fixCardHeights() {
+            var cards = document.querySelectorAll('.sPromo-wrap');
+            cards.forEach(function(card) {
+                // Remove inline height constraints
+                card.style.removeProperty('height');
+                card.style.removeProperty('max-height');
+                card.style.removeProperty('min-height');
+                card.style.overflow = 'visible';
+            });
+        }
+
+        // ========================================
+        // RUN ALL ENHANCEMENTS
+        // ========================================
+
+        createMobileMenuToggle();
+        ensureNavColors();
+        enhanceDonateButton();
+        fixCardHeights();
+
+        // Re-apply color fixes periodically (to fight CMS overrides)
+        // But not as aggressively as the original (was every 100ms)
+        setInterval(ensureNavColors, 1000);
+    }
+
+    // Try multiple times to catch CMS loading
+    styleKosherFoodBankPages();
+    setTimeout(styleKosherFoodBankPages, 500);
+    setTimeout(styleKosherFoodBankPages, 1000);
+    setTimeout(styleKosherFoodBankPages, 2000);
+
+    // Also run on DOM ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', styleKosherFoodBankPages);
+    } else {
+        styleKosherFoodBankPages();
+    }
+
+    // Watch for dynamic content loading
+    if (typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(function() {
+            if (!initialized) {
+                styleKosherFoodBankPages();
+            }
+        });
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+})();
+//]]>
+</script>
