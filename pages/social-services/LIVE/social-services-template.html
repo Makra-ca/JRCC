@@ -1,0 +1,696 @@
+<!--
+====================================================================
+ONE-TIME SETUP: Paste this template into Chabad One CMS
+====================================================================
+This template provides modern styling for the Social Services page.
+It automatically styles CMS-generated navigation buttons/links.
+All styles are inline for maximum compatibility with Chabad One CMS.
+
+THEME: Soft Teal (#1ca9b8) with Warm Coral (#ff8566)
+Conveys care, compassion, and community support for social services.
+====================================================================
+-->
+
+<div class="social-services-wrapper">
+
+<h1>Social Services</h1>
+
+<div class="intro-text">
+  <p>Providing compassionate support and resources to strengthen our community. Discover programs designed to help individuals and families thrive.</p>
+</div>
+
+<!-- The CMS will inject navigation items here automatically -->
+<!-- This template will style them as modern cards -->
+
+</div>
+
+<!-- Inline styles for immediate effect -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
+
+/* Remove default background images and spacing - but preserve sidebar */
+body,
+body.cco_body {
+    background-image: none !important;
+    background: linear-gradient(135deg, #0d4d56 0%, #1ca9b8 50%, #2dc4d4 100%) !important;
+}
+
+/* Base overflow and spacing fixes for main containers */
+#BodyContainer,
+#co_content_container,
+.body_wrapper,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+}
+
+/* Main wrapper */
+.social-services-wrapper {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 8rem 3rem 4rem 3rem !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Main page title */
+.social-services-wrapper > h1 {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4.5rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+    letter-spacing: -1px !important;
+    text-shadow: 0 4px 20px rgba(255, 133, 102, 0.4) !important;
+    line-height: 1.2 !important;
+    overflow: visible !important;
+}
+
+/* Intro text */
+.intro-text {
+    text-align: center !important;
+    margin-bottom: 3rem !important;
+}
+
+.intro-text p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.375rem !important;
+    line-height: 1.7 !important;
+    color: #f0f9fb !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
+}
+
+/* ========================================
+   CMS-GENERATED NAVIGATION STYLING - CAROUSEL
+   These styles target the auto-generated navigation items
+   ======================================== */
+
+/* Carousel wrapper for overflow control */
+.article_index_container,
+div.article_index_container {
+    background: transparent !important;
+    padding: 2rem 0 !important;
+    margin: 2rem 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    width: 100% !important;
+}
+
+/* Style the article index as a scrolling carousel */
+.article_index.co_index,
+div.article_index.co_index {
+    display: flex !important;
+    gap: 3rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    animation: carousel-scroll 40s linear infinite !important;
+    width: max-content !important;
+}
+
+/* Pause animation on hover */
+.article_index.co_index:hover,
+div.article_index.co_index:hover {
+    animation-play-state: paused !important;
+}
+
+/* Carousel scroll animation */
+@keyframes carousel-scroll {
+    0% {
+        transform: translateX(0) !important;
+    }
+    100% {
+        transform: translateX(-50%) !important;
+    }
+}
+
+/* Hide CMS-generated page title ONLY (not our custom one) */
+header.article-header {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    opacity: 0 !important;
+}
+
+/* Hide the original "font-size:0" styling */
+#co_content_container > article > div.article_index_container > div.article_index.co_index.with_icons.clearfix > div > div > div > div.inner > div.title > a {
+    font-size: inherit !important;
+}
+
+/* Each navigation item/card - Carousel cards with fixed width */
+.article_index .item,
+.article_index .row .item,
+div.article_index div.item {
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 133, 102, 0.15) !important;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    text-align: center !important;
+    min-height: 320px !important;
+    min-width: 450px !important;
+    max-width: 450px !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    cursor: pointer !important;
+}
+
+.article_index .item::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #ff8566 0%, #ffad99 50%, #ff8566 100%) !important;
+    transform: scaleX(0) !important;
+    transform-origin: left !important;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.article_index .item:hover::before {
+    transform: scaleX(1) !important;
+}
+
+.article_index .item:hover {
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.4),
+        0 8px 20px rgba(0, 0, 0, 0.25),
+        0 0 0 2px rgba(255, 133, 102, 0.35) !important;
+}
+
+/* Icon section - Fixed height container for predictable sizing */
+.article_index .item div.synopsis_icon,
+.article_index .item .synopsis_icon.float_left {
+    float: none !important;
+    width: 100% !important;
+    height: 180px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 50%, #fff5f3 100%) !important;
+    border-radius: 0 !important;
+    padding: 2rem !important;
+    box-shadow: none !important;
+    position: relative !important;
+}
+
+/* Style the icon link - fills container */
+.article_index .item a.synopsis_icon,
+a.synopsis_icon.small_right_margin {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    background: transparent !important;
+    text-decoration: none !important;
+}
+
+/* Style the actual CMS icon images - Fill container completely */
+.article_index .item img.synopsis_icon,
+img.synopsis_icon {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    filter: drop-shadow(0 4px 12px rgba(28, 169, 184, 0.3)) !important;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: scale(1) !important;
+}
+
+.article_index .item:hover img.synopsis_icon {
+    transform: scale(1.08) !important;
+    filter: drop-shadow(0 6px 16px rgba(255, 133, 102, 0.5)) !important;
+}
+
+/* Content section wrapper */
+.article_index .item .inner,
+div.article_index div.inner {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 2rem 2rem 2.5rem 2rem !important;
+    background: #ffffff !important;
+}
+
+/* Title styling - Bold and prominent */
+.article_index .item .title,
+.article_index .item div.title {
+    margin: 0 0 1rem 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.article_index .item .title a,
+.article_index .item div.title a {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.875rem !important;
+    font-weight: 800 !important;
+    color: #0d4d56 !important;
+    text-decoration: none !important;
+    display: block !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    letter-spacing: -0.5px !important;
+    background: transparent !important;
+}
+
+/* Make the entire card clickable by stretching the link */
+.article_index .item .title a::after {
+    content: '' !important;
+    position: absolute !important;
+    top: calc(-180px - 2rem) !important; /* Cover icon section (180px) + inner top padding (2rem) */
+    left: -2rem !important; /* Cover inner left padding */
+    right: -2rem !important; /* Cover inner right padding */
+    bottom: -10rem !important; /* Cover synopsis text + bottom padding */
+    z-index: 1 !important;
+}
+
+.article_index .item:hover .title a {
+    color: #ff8566 !important;
+    transform: scale(1.05) !important;
+}
+
+/* Synopsis/description text - Subtle and clean */
+.article_index .item .synopsis,
+.article_index .item div.synopsis {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
+    color: #555555 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+}
+
+/* Subtitle if present */
+.article_index .item .subtitle,
+.article_index .item div.subtitle {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: #999999 !important;
+    margin: 0 0 0.5rem 0 !important;
+}
+
+/* Remove any row/column layouts from CMS */
+.article_index .row,
+div.article_index div.row {
+    display: contents !important;
+}
+
+.article_index .col,
+.article_index .column,
+div.article_index div.col,
+div.article_index div.column {
+    display: contents !important;
+}
+
+/* Item contents wrapper */
+.article_index .item .item_contents,
+.article_index .item div.item_contents {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+/* Search form styling */
+.co_search_form {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.co_search_form form {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.co_global_input_container input[type="text"],
+.co_global_input_container input {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.95rem !important;
+    padding: 0.75rem 1rem !important;
+    border: 2px solid rgba(28, 169, 184, 0.3) !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+}
+
+.co_global_input_container input:focus {
+    outline: none !important;
+    border-color: #1ca9b8 !important;
+    background: #ffffff !important;
+}
+
+.co_global_submit button,
+.co_global_submit .button {
+    background: linear-gradient(135deg, #ff8566 0%, #ffad99 100%) !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0.75rem 1.25rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+}
+
+.co_global_submit button:hover {
+    background: linear-gradient(135deg, #ffad99 0%, #ff8566 100%) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    #BodyContainer,
+    #co_content_container,
+    .body_wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .social-services-wrapper {
+        padding: 2.5rem 1rem 2rem 1rem !important;
+    }
+
+    .social-services-wrapper > h1 {
+        font-size: 2.5rem !important;
+        margin: 0 0 1rem 0 !important;
+    }
+
+    .intro-text p {
+        font-size: 1.125rem !important;
+    }
+
+    .article_index.co_index,
+    div.article_index.co_index {
+        gap: 2rem !important;
+    }
+
+    .article_index .item,
+    .article_index .row .item,
+    div.article_index div.item {
+        min-height: 280px !important;
+        min-width: 340px !important;
+        max-width: 340px !important;
+        border-radius: 20px !important;
+    }
+
+    .article_index .item div.synopsis_icon,
+    .article_index .item .synopsis_icon.float_left {
+        height: 160px !important;
+        padding: 1.5rem !important;
+    }
+
+    .article_index .item .inner {
+        padding: 1.5rem 1.5rem 2rem 1.5rem !important;
+    }
+
+    .article_index .item .title a,
+    .article_index .item div.title a {
+        font-size: 1.625rem !important;
+    }
+
+    .article_index .item .synopsis,
+    .article_index .item div.synopsis {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* Responsive adjustments for smaller phones */
+@media (max-width: 480px) {
+    .social-services-wrapper > h1 {
+        font-size: 2rem !important;
+    }
+
+    .intro-text p {
+        font-size: 1rem !important;
+    }
+}
+
+/* Responsive adjustments for larger phones and tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+    .social-services-wrapper > h1 {
+        font-size: 2.5rem !important;
+    }
+}
+
+/* Tablet responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .social-services-wrapper {
+        padding: 7rem 2rem 3rem 2rem !important;
+    }
+
+    .social-services-wrapper > h1 {
+        font-size: 3.5rem !important;
+    }
+
+    .article_index .item,
+    .article_index .row .item,
+    div.article_index div.item {
+        min-width: 400px !important;
+        max-width: 400px !important;
+    }
+}
+
+/* ========================================
+   CAROUSEL NAVIGATION ARROWS
+   ======================================== */
+
+.carousel-nav {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border: 2px solid #ff8566 !important;
+    border-radius: 50% !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+.carousel-nav:hover {
+    background: linear-gradient(135deg, #ff8566 0%, #ffad99 100%) !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    box-shadow: 0 6px 20px rgba(255, 133, 102, 0.4) !important;
+}
+
+.carousel-nav:hover::before {
+    color: #ffffff !important;
+}
+
+.carousel-nav.prev {
+    left: 20px !important;
+}
+
+.carousel-nav.next {
+    right: 20px !important;
+}
+
+.carousel-nav::before {
+    content: '' !important;
+    border: solid #ff8566 !important;
+    border-width: 0 4px 4px 0 !important;
+    display: inline-block !important;
+    padding: 8px !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.carousel-nav.prev::before {
+    transform: rotate(135deg) !important;
+    margin-left: 5px !important;
+}
+
+.carousel-nav.next::before {
+    transform: rotate(-45deg) !important;
+    margin-right: 5px !important;
+}
+
+.carousel-nav:hover::before {
+    border-color: #ffffff !important;
+}
+
+@media (max-width: 768px) {
+    .carousel-nav {
+        width: 50px !important;
+        height: 50px !important;
+    }
+
+    .carousel-nav.prev {
+        left: 10px !important;
+    }
+
+    .carousel-nav.next {
+        right: 10px !important;
+    }
+
+    .carousel-nav::before {
+        padding: 6px !important;
+        border-width: 0 3px 3px 0 !important;
+    }
+}
+</style>
+
+<!-- Carousel JavaScript for navigation -->
+<script>
+//<![CDATA[
+(function() {
+    let currentScroll = 0;
+    const gap = 48; // gap between cards in pixels
+
+    // Function to get current card width based on screen size
+    function getCardWidth() {
+        var screenWidth = window.innerWidth;
+        if (screenWidth <= 768) {
+            return 340 + gap; // Mobile: 340px card + 48px gap
+        } else if (screenWidth <= 1024) {
+            return 400 + gap; // Tablet: 400px card + 48px gap
+        } else {
+            return 450 + gap; // Desktop: 450px card + 48px gap
+        }
+    }
+
+    // Wait for DOM to load
+    function initCarousel() {
+        const coIndex = document.querySelector('.co_index, .article_index_container .article_index');
+
+        if (!coIndex || coIndex.children.length === 0) {
+            // Retry after a short delay if articles haven't loaded yet
+            setTimeout(initCarousel, 500);
+            return;
+        }
+
+        // Duplicate all items for seamless loop
+        const items = Array.from(coIndex.children);
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            coIndex.appendChild(clone);
+        });
+
+        // Find the carousel wrapper (article_index_container)
+        const carouselWrapper = coIndex.closest('.article_index_container');
+        if (!carouselWrapper) return;
+
+        // Create navigation buttons
+        const prevButton = document.createElement('div');
+        prevButton.className = 'carousel-nav prev';
+        prevButton.setAttribute('aria-label', 'Previous');
+
+        const nextButton = document.createElement('div');
+        nextButton.className = 'carousel-nav next';
+        nextButton.setAttribute('aria-label', 'Next');
+
+        carouselWrapper.appendChild(prevButton);
+        carouselWrapper.appendChild(nextButton);
+
+        // Manual scroll function
+        function scrollCarousel(direction) {
+            var cardWidth = getCardWidth(); // Get current card width dynamically
+            const scrollAmount = cardWidth * direction;
+            currentScroll += scrollAmount;
+
+            // Smooth scroll
+            coIndex.style.transition = 'transform 0.5s ease';
+            coIndex.style.transform = 'translateX(' + (-currentScroll) + 'px)';
+
+            // Reset position for infinite loop
+            const halfWidth = coIndex.scrollWidth / 2;
+            setTimeout(function() {
+                if (currentScroll >= halfWidth) {
+                    coIndex.style.transition = 'none';
+                    currentScroll = 0;
+                    coIndex.style.transform = 'translateX(0)';
+                } else if (currentScroll < 0) {
+                    coIndex.style.transition = 'none';
+                    currentScroll = halfWidth - cardWidth;
+                    coIndex.style.transform = 'translateX(' + (-currentScroll) + 'px)';
+                }
+            }, 500);
+        }
+
+        // Button click handlers
+        prevButton.addEventListener('click', function() {
+            scrollCarousel(-1);
+        });
+        nextButton.addEventListener('click', function() {
+            scrollCarousel(1);
+        });
+
+        // Pause animation on hover
+        carouselWrapper.addEventListener('mouseenter', function() {
+            coIndex.style.animationPlayState = 'paused';
+        });
+
+        carouselWrapper.addEventListener('mouseleave', function() {
+            coIndex.style.animationPlayState = 'running';
+        });
+
+        // Reset scroll position on window resize
+        window.addEventListener('resize', function() {
+            currentScroll = 0;
+            coIndex.style.transition = 'none';
+            coIndex.style.transform = 'translateX(0)';
+        });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCarousel);
+    } else {
+        initCarousel();
+    }
+})();
+//]]>
+</script>
