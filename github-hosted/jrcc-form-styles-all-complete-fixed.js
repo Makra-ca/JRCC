@@ -210,20 +210,22 @@ function styleGmachDonationForm() {
 function styleHealthyAtHomeForm() {
     if (healthyAtHomeInitialized) return;
 
-    // Check if we're on the Healthy At Home page
+    // Check if we're on the Healthy At Home Registration page by URL
     var isHealthyAtHomePage = window.location.href.indexOf('/aid/6991302/') !== -1 ||
                               window.location.href.indexOf('Healthy-At-Home-Registration') !== -1;
-    if (!isHealthyAtHomePage) return;
 
+    if (!isHealthyAtHomePage) return; // Not the right page
+
+    // Find the form - should be form_6991302 based on article ID
     var form = document.querySelector('form[name="form_6991302"]') ||
                document.querySelector('form[id="6991302"]') ||
-               document.querySelector('form.userform-form') ||
-               document.querySelector('form');
-    if (!form) return;
+               document.querySelector('form.userform-form');
+
+    if (!form) return; // Form not found, will retry
 
     healthyAtHomeInitialized = true;
 
-    // Apply page background (light gradient - white to lavender)
+    // Apply page background (LIGHT gradient - white to lavender to match purple banner)
     document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
 
     // Hide breadcrumbs
@@ -232,35 +234,133 @@ function styleHealthyAtHomeForm() {
         breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
     }
 
-    // Hide banner images/decorators
+    // Hide banner images/decorators - but NOT the header (title is inside it)
     var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
     for (var i = 0; i < banners.length; i++) {
         banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
     }
 
-    // Style page title with typewriter effect
-    var pageTitle = document.querySelector('h1, .article-header__title, .master-content-wrapper h1');
-    if (pageTitle) {
-        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.5rem!important;font-weight:800!important;color:#7c3aed!important;text-align:center!important;margin:2rem auto!important;padding:2rem!important;text-shadow:2px 2px 4px rgba(124,58,237,0.2)!important;';
-        addTypewriterEffect(pageTitle);
+    // Remove background from header but keep it visible (title is inside)
+    var articleHeader = document.querySelector('header.article-header');
+    if (articleHeader) {
+        articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
     }
 
-    // Style the form container
-    form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(124,58,237,0.12), 0 0 0 1px rgba(124,58,237,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
+    // Also hide the decorator/background image specifically
+    var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"]');
+    for (var i = 0; i < headerImages.length; i++) {
+        var element = headerImages[i];
+        if (element.tagName === 'IMG') {
+            element.style.cssText = 'display:none!important;';
+        } else {
+            element.style.backgroundImage = 'none!important;';
+        }
+    }
 
-    // Style form labels - NO ANIMATION
+    // Specifically target the decorator wrapper - but only hide background, not content
+    var decoratorWrapper = document.querySelector('div.master-content-wrapper.g960');
+    if (decoratorWrapper) {
+        decoratorWrapper.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
+    }
+
+    // Also try to remove background from any parent wrapper that might contain decorators
+    var masterWrappers = document.querySelectorAll('.master-content-wrapper, [class*="master-content"]');
+    for (var i = 0; i < masterWrappers.length; i++) {
+        masterWrappers[i].style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
+    }
+
+    // Find and style the page title
+    var pageTitle = null;
+
+    // Strategy 1: Direct h1 search
+    var h1Elements = document.querySelectorAll('h1');
+    for (var i = 0; i < h1Elements.length; i++) {
+        if (h1Elements[i].textContent.toLowerCase().indexOf('healthy') !== -1 ||
+            h1Elements[i].textContent.toLowerCase().indexOf('registration') !== -1) {
+            pageTitle = h1Elements[i];
+            break;
+        }
+    }
+
+    // Strategy 2: Search within master-content-wrapper
+    if (!pageTitle) {
+        pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, div.master-content-wrapper h1');
+    }
+
+    // Strategy 3: Any h1 on page
+    if (!pageTitle) {
+        pageTitle = document.querySelector('h1');
+    }
+
+    // Style the main page title - BLACK color (no dark box background)
+    if (pageTitle) {
+        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+
+        // Typewriter animation effect for the title (custom implementation)
+        var originalText = pageTitle.textContent;
+        var charIndex = 0;
+
+        // Clear the text and add cursor
+        pageTitle.textContent = '';
+        pageTitle.style.borderRight = '3px solid #000';
+        pageTitle.style.paddingRight = '5px';
+
+        // Typewriter function
+        function typeWriter() {
+            if (charIndex < originalText.length) {
+                pageTitle.textContent += originalText.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 80); // 80ms per character
+            } else {
+                // Remove cursor after typing completes
+                setTimeout(function() {
+                    pageTitle.style.borderRight = 'none';
+                    pageTitle.style.paddingRight = '2rem';
+                }, 500);
+            }
+        }
+
+        // Start typing animation
+        setTimeout(typeWriter, 300);
+    }
+
+    // Hide the secondary heading "Healthy at Home - Seniors Event Registration"
+    var secondaryHeadings = document.querySelectorAll('h1, h2, h3');
+    for (var i = 0; i < secondaryHeadings.length; i++) {
+        var headingText = secondaryHeadings[i].textContent.trim().toLowerCase();
+        if (headingText.indexOf('seniors event') !== -1 ||
+            (headingText.indexOf('healthy') !== -1 && headingText.indexOf('event') !== -1)) {
+            secondaryHeadings[i].style.cssText = 'display:none!important;margin:0!important;padding:0!important;height:0!important;visibility:hidden!important;';
+        }
+    }
+
+    // Remove bottom padding from the container that wraps the title
+    var bodyContainer = document.querySelector('#co_body_container, .g700, div.g700');
+    if (bodyContainer) {
+        bodyContainer.style.setProperty('padding-bottom', '0', 'important');
+    }
+
+    // Style the form container - LIGHTER shadow for light background
+    form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.05)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
+
+    // Style form labels - MUCH BIGGER text (1.75rem)
     var labels = form.querySelectorAll('label, .form-label');
     for (var i = 0; i < labels.length; i++) {
-        labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#7c3aed!important;margin-bottom:0.75rem!important;display:block!important;opacity:1!important;transform:none!important;';
+        labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#1e5a8e!important;margin-bottom:0.75rem!important;display:block!important;';
     }
 
-    // Style ALL text elements
+    // Style ALL text-like elements in form
     var allFormElements = form.querySelectorAll('*');
     for (var i = 0; i < allFormElements.length; i++) {
         var el = allFormElements[i];
         var tagName = el.tagName.toLowerCase();
-        if (tagName === 'input' || tagName === 'select' || tagName === 'button' || tagName === 'textarea') continue;
 
+        // Skip inputs, selects, buttons - we style those separately
+        if (tagName === 'input' || tagName === 'select' || tagName === 'button' || tagName === 'textarea') {
+            continue;
+        }
+
+        // Get direct text content (not from children)
         var hasDirectText = false;
         for (var j = 0; j < el.childNodes.length; j++) {
             if (el.childNodes[j].nodeType === 3 && el.childNodes[j].textContent.trim().length > 0) {
@@ -268,6 +368,8 @@ function styleHealthyAtHomeForm() {
                 break;
             }
         }
+
+        // If element has direct text, make it bigger
         if (hasDirectText) {
             el.style.fontSize = '1.5rem';
             el.style.fontFamily = 'Urbanist, sans-serif';
@@ -275,37 +377,204 @@ function styleHealthyAtHomeForm() {
         }
     }
 
-    // Style inputs
+    // Style all form inputs - BIGGER text (1.35rem)
     var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
     for (var i = 0; i < inputs.length; i++) {
-        inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #e9d5ff!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+        inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
 
+        // Add focus event listeners
         inputs[i].addEventListener('focus', function() {
-            this.style.borderColor = '#7c3aed';
-            this.style.boxShadow = '0 0 0 3px rgba(124,58,237,0.1)';
+            this.style.borderColor = '#2a75b8';
+            this.style.boxShadow = '0 0 0 3px rgba(42,117,184,0.1)';
             this.style.outline = 'none';
         });
         inputs[i].addEventListener('blur', function() {
-            this.style.borderColor = '#e9d5ff';
+            this.style.borderColor = '#d1d9e6';
             this.style.boxShadow = 'none';
         });
     }
 
-    // Style submit button - Purple/Pink gradient
-    var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
-    for (var i = 0; i < submitButtons.length; i++) {
-        submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(124,58,237,0.3)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
+    // Style select dropdowns with custom arrow
+    var selects = form.querySelectorAll('select');
+    for (var i = 0; i < selects.length; i++) {
+        selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%231e5a8e\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;';
+    }
 
+    // Style headings in form
+    var headings = form.querySelectorAll('h2, h3, h4, legend, b, strong, u');
+    for (var i = 0; i < headings.length; i++) {
+        var text = headings[i].textContent.trim().toLowerCase();
+        if (text.length > 0 && (text.indexOf(':') !== -1 || text.indexOf('information') !== -1 || text.indexOf('location') !== -1 || text.indexOf('event') !== -1)) {
+            headings[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2rem!important;font-weight:700!important;color:#8b0000!important;margin:2rem 0 1rem 0!important;padding-bottom:0.5rem!important;border-bottom:2px solid #e8f4f8!important;display:block!important;';
+        } else {
+            headings[i].style.fontSize = '1.5rem';
+            headings[i].style.fontWeight = '600';
+            headings[i].style.fontFamily = 'Urbanist, sans-serif';
+        }
+    }
+
+    // Style submit button - BLUE gradient
+    var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"], .form-submit button, [id*="submit"] input[type="submit"], [class*="submit"] input, [class*="submit"] button');
+
+    for (var i = 0; i < submitButtons.length; i++) {
+        submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(30,90,142,0.2)!important;min-width:240px!important;margin:2rem auto!important;display:block!important;';
+
+        // Add hover effects
         submitButtons[i].addEventListener('mouseenter', function() {
-            this.style.background = 'linear-gradient(135deg, #6d28d9 0%, #db2777 100%)';
+            this.style.background = 'linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%)';
             this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 6px 20px rgba(124,58,237,0.4)';
+            this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.3)';
         });
         submitButtons[i].addEventListener('mouseleave', function() {
-            this.style.background = 'linear-gradient(135deg, #7c3aed 0%, #ec4899 100%)';
+            this.style.background = 'linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%)';
             this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 12px rgba(124,58,237,0.3)';
+            this.style.boxShadow = '0 4px 12px rgba(30,90,142,0.2)';
         });
+    }
+
+    // Style RESET button - GRAY gradient theme
+    var resetButtons = form.querySelectorAll('button[type="reset"], input[type="reset"], [class*="reset"] button, [class*="reset"] input');
+
+    for (var i = 0; i < resetButtons.length; i++) {
+        resetButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6b7280 0%, #4b5563 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(75,85,99,0.2)!important;min-width:240px!important;margin-top:2rem!important;display:inline-block!important;';
+
+        // Add hover effects for reset button
+        resetButtons[i].addEventListener('mouseenter', function() {
+            this.style.background = 'linear-gradient(135deg, #4b5563 0%, #374151 100%)';
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 6px 20px rgba(75,85,99,0.3)';
+        });
+        resetButtons[i].addEventListener('mouseleave', function() {
+            this.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 4px 12px rgba(75,85,99,0.2)';
+        });
+    }
+
+    // Mobile responsive adjustments
+    if (window.innerWidth <= 768) {
+        form.style.padding = '2.5rem 1.5rem';
+        form.style.margin = '2rem 1rem';
+        form.style.maxWidth = '95%';
+
+        for (var i = 0; i < submitButtons.length; i++) {
+            submitButtons[i].style.width = '100%';
+            submitButtons[i].style.padding = '1.25rem 2rem';
+        }
+    }
+
+    // Style "More in this section" widget
+    var moreSection = document.querySelector('.below-article, [class*="below-article"]');
+    if (moreSection) {
+
+        // Style the container
+        moreSection.style.cssText = 'max-width:1100px!important;margin:3rem auto!important;padding:3rem!important;background:rgba(255,255,255,0.95)!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(0,0,0,0.08)!important;text-align:center!important;';
+
+        // Style the heading
+        var moreHeading = moreSection.querySelector('h2, .below-article__title');
+        if (moreHeading) {
+            moreHeading.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:2.5rem!important;font-weight:700!important;color:#1e5a8e!important;margin:0 0 2rem 0!important;text-align:center!important;';
+        }
+
+        // Style link container if it exists
+        var linkContainer = moreSection.querySelector('ul, .small-links');
+        if (linkContainer) {
+            linkContainer.style.cssText = 'display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:1.5rem!important;list-style:none!important;padding:0!important;margin:0!important;';
+        }
+
+        // Style each link item
+        var linkItems = moreSection.querySelectorAll('a, .link_item, li');
+        for (var i = 0; i < linkItems.length; i++) {
+            var item = linkItems[i];
+
+            if (item.tagName.toLowerCase() === 'a') {
+                item.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                // Add hover effects
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                    this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                    this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.background = '#ffffff';
+                    this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                });
+            } else if (item.tagName.toLowerCase() === 'li') {
+                item.style.cssText = 'list-style:none!important;margin:0!important;';
+
+                // Style the link inside the li
+                var link = item.querySelector('a');
+                if (link) {
+                    link.style.cssText = 'display:block!important;background:#ffffff!important;border:2px solid #2a75b8!important;border-radius:12px!important;padding:1.5rem!important;font-family:Urbanist,sans-serif!important;font-size:1.5rem!important;font-weight:600!important;color:#1e5a8e!important;text-decoration:none!important;transition:all 0.3s ease!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                    link.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-4px)';
+                        this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                        this.style.boxShadow = '0 6px 20px rgba(30,90,142,0.2)';
+                    });
+                    link.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.background = '#ffffff';
+                        this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    });
+                }
+            }
+        }
+    }
+
+    // Style security text (.center_small)
+    var securityText = document.querySelectorAll('.center_small, .center.small, form .center_small');
+    for (var i = 0; i < securityText.length; i++) {
+        securityText[i].style.cssText = 'color:#6b7280!important;font-size:0.95rem!important;line-height:1.6!important;font-family:Urbanist,sans-serif!important;text-align:center!important;margin-top:1rem!important;';
+    }
+
+    // ========================================
+    // ANIMATIONS - Fade-in effects for form elements
+    // ========================================
+
+    // Animate form labels - fade in from left with stagger
+    var labels = form.querySelectorAll('label');
+    for (var i = 0; i < labels.length; i++) {
+        labels[i].style.opacity = '0';
+        labels[i].style.transform = 'translateX(-20px)';
+        labels[i].style.transition = 'all 0.6s ease';
+
+        (function(label, index) {
+            setTimeout(function() {
+                label.style.opacity = '1';
+                label.style.transform = 'translateX(0)';
+            }, 300 + (index * 50));
+        })(labels[i], i);
+    }
+
+    // Animate image - strong bounce effect with rotation
+    var formImage = document.querySelector('img[src*="13391475"]') ||
+                    document.querySelector('form[name="form_6991302"] img') ||
+                    document.querySelector('.img_form_image img') ||
+                    document.querySelector('img[src*="media/images"]');
+
+    if (formImage) {
+        formImage.style.opacity = '0';
+        formImage.style.transform = 'scale(0.5) rotate(-5deg)';
+        formImage.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+        setTimeout(function() {
+            formImage.style.opacity = '1';
+            formImage.style.transform = 'scale(1) rotate(0deg)';
+        }, 300);
+    }
+
+    // Animate submit button - strong continuous pulse
+    if (submitButtons.length > 0) {
+        var pulseStyle = document.createElement('style');
+        pulseStyle.innerHTML = '@keyframes strongPulse { 0%, 100% { transform: scale(1) !important; box-shadow: 0 4px 12px rgba(30,90,142,0.3) !important; } 50% { transform: scale(1.08) !important; box-shadow: 0 10px 30px rgba(30,90,142,0.6) !important; } }';
+        document.head.appendChild(pulseStyle);
+
+        for (var i = 0; i < submitButtons.length; i++) {
+            submitButtons[i].style.animation = 'strongPulse 1.5s ease-in-out infinite';
+        }
     }
 }
 
