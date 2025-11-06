@@ -544,80 +544,9 @@
 /* ======================================== */
 /* PAGE-SPECIFIC STYLING: VOLUNTEER FORMS */
 /* ======================================== */
-
-(function() {
-    function styleVolunteerForm() {
-        // Check if on volunteer form page
-        // Article IDs: 5094614 (General Volunteer), 6827149 (KFB Volunteer)
-        var isVolunteerPage =
-            window.location.href.indexOf('/aid/5094614/') !== -1 ||
-            window.location.href.indexOf('/aid/6827149/') !== -1 ||
-            window.location.href.indexOf('Volunteer.htm') !== -1 ||
-            window.location.href.indexOf('Volunteer-with-us.htm') !== -1;
-
-        if (!isVolunteerPage) return;
-
-        // Add page-specific class
-        document.body.classList.add('volunteer-form-page');
-
-        // Find and enhance form elements
-        var formContainer = document.querySelector('.form-container, #form-container, .co_content_container form');
-        if (formContainer) {
-            formContainer.classList.add('volunteer-form-container');
-
-            // Enhance form inputs
-            var inputs = formContainer.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea');
-            inputs.forEach(function(input) {
-                input.classList.add('volunteer-form-control');
-                // Add floating label effect
-                if (input.value) {
-                    input.classList.add('has-value');
-                }
-                input.addEventListener('blur', function() {
-                    if (this.value) {
-                        this.classList.add('has-value');
-                    } else {
-                        this.classList.remove('has-value');
-                    }
-                });
-            });
-
-            // Enhance checkboxes
-            var checkboxes = formContainer.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(function(checkbox) {
-                var wrapper = checkbox.closest('label');
-                if (wrapper) {
-                    wrapper.classList.add('volunteer-checkbox-label');
-                }
-            });
-
-            // Enhance submit button
-            var submitBtn = formContainer.querySelector('input[type="submit"], button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.classList.add('volunteer-submit-btn');
-
-                // Add loading state on submit
-                var form = submitBtn.closest('form');
-                if (form) {
-                    form.addEventListener('submit', function() {
-                        submitBtn.classList.add('loading');
-                        submitBtn.value = 'Submitting...';
-                    });
-                }
-            }
-        }
-    }
-
-    // Run styling
-    styleVolunteerForm();
-    setTimeout(styleVolunteerForm, 500);
-    setTimeout(styleVolunteerForm, 1000);
-    setTimeout(styleVolunteerForm, 2000);
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', styleVolunteerForm);
-    }
-})();
+/* NOTE: Comprehensive volunteer form styling with typewriter animations */
+/* is handled in jrcc-form-styles-all-complete-fixed.js */
+/* This avoids duplication and ensures consistent styling */
 
 /* ======================================== */
 /* PAGE-SPECIFIC STYLING: SCHOLARSHIP FORM */

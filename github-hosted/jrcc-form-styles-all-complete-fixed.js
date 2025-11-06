@@ -959,23 +959,132 @@ function styleYeshivaScholarshipForm() {
 //   - /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm (KFB Volunteer)
 // ========================================
 function styleVolunteerForm() {
-    // Prevent double initialization
-    if (volunteerInitialized) return;
-
     // Detect page by article ID or filename
-    // Check for both volunteer pages: General (5094614) and KFB (6827149)
-    var isVolunteerPage = window.location.href.indexOf('/aid/5094614/') !== -1 ||
-                          window.location.href.indexOf('/aid/6827149/') !== -1 ||
-                          window.location.href.indexOf('Volunteer.htm') !== -1 ||
-                          window.location.href.indexOf('Volunteer-with-us.htm') !== -1;
+    var currentUrl = window.location.href.toLowerCase();
+    var isVolunteerPage = currentUrl.indexOf('/aid/5094614/') !== -1 ||
+                          currentUrl.indexOf('/aid/6827149/') !== -1 ||
+                          currentUrl.indexOf('volunteer.htm') !== -1 ||
+                          currentUrl.indexOf('volunteer-with-us.htm') !== -1;
 
     if (!isVolunteerPage) return;
 
-    volunteerInitialized = true;
+    // Check if already initialized
+    if (volunteerInitialized) return;
 
-    // Add body class for CSS targeting
+    // Add page-specific body class
     if (document.body && !document.body.classList.contains('volunteer-form-page')) {
         document.body.classList.add('volunteer-form-page');
+    }
+
+    // Find the page title - try multiple selectors
+    var pageTitle = document.querySelector('h1') ||
+                   document.querySelector('.article-header__title') ||
+                   document.querySelector('.sCHeading_1') ||
+                   document.querySelector('.master-content-wrapper h1') ||
+                   document.querySelector('.master-content-wrapper h2');
+
+    if (!pageTitle) {
+        setTimeout(styleVolunteerForm, 300);
+        return;
+    }
+
+    // Find and check for form before proceeding
+    var form = document.querySelector('form[id*="form"]') ||
+              document.querySelector('form[name*="form_"]') ||
+              document.querySelector('form');
+
+    if (!form) {
+        setTimeout(styleVolunteerForm, 300);
+        return;
+    }
+
+    // Mark as initialized BEFORE starting animations
+    volunteerInitialized = true;
+
+    // ========================================
+    // TYPEWRITER ANIMATION FOR TITLE
+    // Uses JavaScript to animate text character by character
+    // Does NOT use CSS overflow/whitespace that breaks in CMS
+    // ========================================
+    function startTitleTypewriter() {
+        if (pageTitle.classList.contains('typewriter-ready')) {
+            return; // Already animated
+        }
+
+        // Get the original text
+        var originalText = pageTitle.textContent.trim();
+
+        // Clear the element
+        pageTitle.textContent = '';
+        pageTitle.classList.add('typewriter-ready');
+
+        var currentIndex = 0;
+        var typingSpeed = 80; // milliseconds per character
+
+        function typeNextCharacter() {
+            if (currentIndex < originalText.length) {
+                pageTitle.textContent += originalText.charAt(currentIndex);
+                currentIndex++;
+                setTimeout(typeNextCharacter, typingSpeed);
+            }
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeNextCharacter, 500);
+    }
+
+    // Start the title typewriter animation
+    startTitleTypewriter();
+
+    // Remove bottom padding from body container to eliminate gap
+    var bodyContainer = document.querySelector('#co_body_container, .g700, div.g700');
+    if (bodyContainer) {
+        bodyContainer.style.setProperty('padding-bottom', '0', 'important');
+    }
+
+    // Apply inline styles for maximum specificity
+    form.style.setProperty('max-width', '1100px', 'important');
+    form.style.setProperty('margin', '0 auto 3rem auto', 'important');
+    form.style.setProperty('padding', '0 4rem 4rem 4rem', 'important');
+    form.style.setProperty('background', '#ffffff', 'important');
+    form.style.setProperty('border-radius', '16px', 'important');
+    form.style.setProperty('box-shadow', '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15)', 'important');
+    form.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+
+    // ========================================
+    // TYPEWRITER ANIMATION FOR LABELS
+    // Character-by-character animation for each label
+    // ========================================
+    var labels = form.querySelectorAll('label, .form-label');
+    var labelTexts = []; // Store original texts
+
+    // Store original text and clear labels
+    for (var i = 0; i < labels.length; i++) {
+        labelTexts.push(labels[i].textContent.trim());
+        labels[i].textContent = '';
+        labels[i].style.visibility = 'visible';
+    }
+
+    // Typewriter function for a single label
+    function typeLabelText(label, text, startDelay) {
+        var charIndex = 0;
+        var typingSpeed = 50; // milliseconds per character (faster than title)
+
+        function typeNextChar() {
+            if (charIndex < text.length) {
+                label.textContent += text.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeNextChar, typingSpeed);
+            }
+        }
+
+        setTimeout(typeNextChar, startDelay);
+    }
+
+    // Start typewriter animation for all labels simultaneously
+    for (var i = 0; i < labels.length; i++) {
+        var startDelay = 1000; // All labels start together after 1s
+        typeLabelText(labels[i], labelTexts[i], startDelay);
     }
 
     // Create mobile menu toggle button
