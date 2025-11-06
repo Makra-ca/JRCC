@@ -1387,76 +1387,9 @@ function stylePurimMatanotPage() {
         });
     }
 
-    // Hide duplicate "DONATE" text from CMS (but protect our JavaScript buttons)
-    function hideDuplicateDonateText() {
-        var articleBody = document.querySelector('.co_body.article-body.cf');
-        if (!articleBody) return;
-
-        // Find all elements that might contain duplicate "DONATE" text
-        // Note: NOT searching <a> tags since our buttons are links
-        var allElements = articleBody.querySelectorAll('p, h1, h2, h3, h4, h5, strong, b, span, div');
-
-        allElements.forEach(function(element) {
-            var text = element.textContent.trim().toUpperCase();
-
-            // Multiple layers of protection to avoid hiding our JavaScript buttons:
-            // 1. Skip if element has our button class
-            // 2. Skip if element IS a link (<a> tag)
-            // 3. Skip if element CONTAINS a link (wrapper around our button)
-            // 4. Skip if any child has our button class
-            var hasButtonClass = element.classList.contains('purim-donate-button');
-            var isLink = element.tagName === 'A';
-            var containsLink = element.querySelector('a') !== null;
-            var hasButtonChild = element.querySelector('.purim-donate-button') !== null;
-
-            // Only hide if text matches AND none of the protection checks trigger
-            if (!hasButtonClass && !isLink && !containsLink && !hasButtonChild &&
-                (text === 'DONATE' || text === 'DONATE NOW')) {
-                element.style.display = 'none';
-            }
-        });
-    }
-
-    // Add donate buttons around the image
-    function addDonateButtons() {
-        var articleBody = document.querySelector('.co_body.article-body.cf');
-        if (!articleBody) return;
-
-        var img = articleBody.querySelector('img');
-        if (!img) return;
-
-        // Check if buttons already exist
-        if (document.querySelector('.purim-donate-button')) return;
-
-        // Create button above image
-        var buttonAbove = document.createElement('a');
-        buttonAbove.href = 'https://www.jrcc.org/templates/articlecco_cdo/aid/6831198/jewish/Matanot-LaEvyonim.htm';
-        buttonAbove.className = 'purim-donate-button purim-donate-above';
-        buttonAbove.textContent = 'DONATE NOW';
-        buttonAbove.setAttribute('target', '_blank');
-
-        // Create button below image
-        var buttonBelow = document.createElement('a');
-        buttonBelow.href = 'https://www.jrcc.org/templates/articlecco_cdo/aid/6831198/jewish/Matanot-LaEvyonim.htm';
-        buttonBelow.className = 'purim-donate-button purim-donate-below';
-        buttonBelow.textContent = 'DONATE NOW';
-        buttonBelow.setAttribute('target', '_blank');
-
-        // Insert buttons
-        img.parentNode.insertBefore(buttonAbove, img);
-        img.parentNode.insertBefore(buttonBelow, img.nextSibling);
-
-        // Hide any duplicate "DONATE" text after buttons are added
-        hideDuplicateDonateText();
-    }
-
     // Run setup
     createMobileMenuToggle();
     forceNavColors();
-
-    // Add donate buttons with delay to ensure content is loaded
-    // Note: hideDuplicateDonateText() is called inside addDonateButtons()
-    setTimeout(addDonateButtons, 500);
 
     // Re-run after delay
     setTimeout(function() { forceNavColors(true); }, 500);
