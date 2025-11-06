@@ -229,7 +229,7 @@ function styleHealthyAtHomeForm() {
     // Apply page background (LIGHT gradient - white to lavender to match purple banner)
     document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
 
-    // IMPORTANT: Find and protect the page title FIRST before hiding anything
+    // IMPORTANT: Find the page title OR create it if it doesn't exist
     var pageTitle = null;
 
     console.log('JRCC: Searching for Healthy At Home title...');
@@ -267,8 +267,25 @@ function styleHealthyAtHomeForm() {
         }
     }
 
+    // Strategy 4: CREATE the title if it doesn't exist
     if (!pageTitle) {
-        console.error('JRCC: WARNING - Could not find page title!');
+        console.log('JRCC: Title not found - creating new title element');
+        pageTitle = document.createElement('h1');
+        pageTitle.textContent = 'Healthy At Home Registration';
+        pageTitle.setAttribute('data-protect-title', 'true');
+
+        // Find the best place to insert it
+        var insertTarget = form || document.querySelector('.master-content-wrapper') || document.querySelector('#co_body_container') || document.body;
+
+        if (form && form.parentElement) {
+            // Insert before the form
+            form.parentElement.insertBefore(pageTitle, form);
+            console.log('JRCC: Created title before form');
+        } else if (insertTarget) {
+            // Insert at the beginning of the target
+            insertTarget.insertBefore(pageTitle, insertTarget.firstChild);
+            console.log('JRCC: Created title in container');
+        }
     }
 
     // Hide breadcrumbs
@@ -350,38 +367,64 @@ function styleHealthyAtHomeForm() {
     }
 
     // Style the main page title - BLACK color (no dark box background)
-    // (pageTitle was already found and protected earlier)
+    // (pageTitle was already found/created and protected earlier)
     if (pageTitle) {
         console.log('JRCC: Styling title:', pageTitle.textContent);
-        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;position:relative!important;';
 
-        // Typewriter animation effect for the title (custom implementation)
-        var originalText = pageTitle.textContent;
-        console.log('JRCC: Starting typewriter animation for:', originalText);
-        var charIndex = 0;
+        // FIRST: Ensure all parent elements are visible
+        var currentElement = pageTitle;
+        while (currentElement && currentElement !== document.body) {
+            // Force visibility on all ancestors
+            currentElement.style.setProperty('display', 'block', 'important');
+            currentElement.style.setProperty('visibility', 'visible', 'important');
+            currentElement.style.setProperty('opacity', '1', 'important');
+            currentElement.style.setProperty('height', 'auto', 'important');
+            currentElement.style.setProperty('overflow', 'visible', 'important');
 
-        // Clear the text and add cursor
-        pageTitle.textContent = '';
-        pageTitle.style.borderRight = '3px solid #000';
-        pageTitle.style.paddingRight = '5px';
-
-        // Typewriter function
-        function typeWriter() {
-            if (charIndex < originalText.length) {
-                pageTitle.textContent += originalText.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeWriter, 80); // 80ms per character
-            } else {
-                // Remove cursor after typing completes
-                setTimeout(function() {
-                    pageTitle.style.borderRight = 'none';
-                    pageTitle.style.paddingRight = '2rem';
-                }, 500);
+            // Remove any background from parent headers
+            if (currentElement.tagName === 'HEADER' ||
+                (currentElement.className && currentElement.className.toString().indexOf('header') !== -1)) {
+                currentElement.style.setProperty('background', 'transparent', 'important');
+                currentElement.style.setProperty('background-image', 'none', 'important');
             }
+
+            currentElement = currentElement.parentElement;
         }
 
-        // Start typing animation
-        setTimeout(typeWriter, 300);
+        // NOW style the title itself
+        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:2rem!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:9999!important;position:relative!important;height:auto!important;overflow:visible!important;';
+
+        // Store the original text before clearing for animation
+        var originalText = pageTitle.textContent;
+        console.log('JRCC: Starting typewriter animation for:', originalText);
+
+        // Only do typewriter animation if we have text
+        if (originalText && originalText.trim()) {
+            var charIndex = 0;
+
+            // Clear the text and add cursor
+            pageTitle.textContent = '';
+            pageTitle.style.borderRight = '3px solid #000';
+            pageTitle.style.paddingRight = '5px';
+
+            // Typewriter function
+            function typeWriter() {
+                if (charIndex < originalText.length) {
+                    pageTitle.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 80); // 80ms per character
+                } else {
+                    // Remove cursor after typing completes
+                    setTimeout(function() {
+                        pageTitle.style.borderRight = 'none';
+                        pageTitle.style.paddingRight = '2rem';
+                    }, 500);
+                }
+            }
+
+            // Start typing animation
+            setTimeout(typeWriter, 300);
+        }
 
         // ENSURE the title and its parent are visible
         // Make sure the title's parent container is also visible
