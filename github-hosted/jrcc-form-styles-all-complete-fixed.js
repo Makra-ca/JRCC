@@ -1387,9 +1387,42 @@ function stylePurimMatanotPage() {
         });
     }
 
+    // Add donate buttons around the image
+    function addDonateButtons() {
+        var articleBody = document.querySelector('.co_body.article-body.cf');
+        if (!articleBody) return;
+
+        var img = articleBody.querySelector('img');
+        if (!img) return;
+
+        // Check if buttons already exist
+        if (document.querySelector('.purim-donate-button')) return;
+
+        // Create button above image
+        var buttonAbove = document.createElement('a');
+        buttonAbove.href = 'https://www.jrcc.org/templates/articlecco_cdo/aid/6831198/jewish/Matanot-LaEvyonim.htm';
+        buttonAbove.className = 'purim-donate-button purim-donate-above';
+        buttonAbove.textContent = 'DONATE NOW';
+        buttonAbove.setAttribute('target', '_blank');
+
+        // Create button below image
+        var buttonBelow = document.createElement('a');
+        buttonBelow.href = 'https://www.jrcc.org/templates/articlecco_cdo/aid/6831198/jewish/Matanot-LaEvyonim.htm';
+        buttonBelow.className = 'purim-donate-button purim-donate-below';
+        buttonBelow.textContent = 'DONATE NOW';
+        buttonBelow.setAttribute('target', '_blank');
+
+        // Insert buttons
+        img.parentNode.insertBefore(buttonAbove, img);
+        img.parentNode.insertBefore(buttonBelow, img.nextSibling);
+    }
+
     // Run setup
     createMobileMenuToggle();
     forceNavColors();
+
+    // Add donate buttons with delay to ensure content is loaded
+    setTimeout(addDonateButtons, 500);
 
     // Re-run after delay
     setTimeout(function() { forceNavColors(true); }, 500);

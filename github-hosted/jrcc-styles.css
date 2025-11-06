@@ -4086,13 +4086,50 @@ body.purim-matanot-page {
     border-bottom-color: #d4af37 !important;
 }
 
-/* Images in article - floating effect */
+/* Donate buttons */
+.purim-matanot-page .purim-donate-button {
+    display: block !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 2rem auto !important;
+    padding: 1.5rem 3rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border: 3px solid #000000 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+}
+
+.purim-matanot-page .purim-donate-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
+    border-color: #d4af37 !important;
+}
+
+.purim-matanot-page .purim-donate-above {
+    margin-bottom: 2rem !important;
+}
+
+.purim-matanot-page .purim-donate-below {
+    margin-top: 2rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* Images in article - centered between buttons */
 .purim-matanot-page .co_body.article-body.cf img {
     max-width: 100% !important;
     height: auto !important;
     border-radius: 12px !important;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
-    margin: 2rem auto !important;
+    margin: 0 auto !important;
     display: block !important;
     transition: all 0.3s ease !important;
 }
@@ -4159,6 +4196,12 @@ body.purim-matanot-page {
 
     .purim-matanot-page .co_body.article-body.cf h3 {
         font-size: 1.7rem !important;
+    }
+
+    .purim-matanot-page .purim-donate-button {
+        font-size: 1.5rem !important;
+        padding: 1.25rem 2rem !important;
+        max-width: 100% !important;
     }
 }
 
