@@ -2774,7 +2774,7 @@ body.donate-kfb-page .chabad_header .headerTitle a {
     z-index: 2 !important;
     font-family: 'Urbanist', sans-serif !important;
     font-size: 5.5rem !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     color: #ffffff !important;
     -webkit-text-stroke: 2px #d4af37 !important;
     text-stroke: 2px #d4af37 !important;
@@ -3805,7 +3805,7 @@ body.matanot-page {
     z-index: 2 !important;
     font-family: 'Urbanist', sans-serif !important;
     font-size: 7rem !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     color: #ffffff !important;
     -webkit-text-stroke: 3px #d4af37 !important;
     text-stroke: 3px #d4af37 !important;
@@ -3936,7 +3936,7 @@ body.matanot-page {
     .kosher-food-bank-page .chabad_header .headerTitle,
     .kosher-food-bank-page .chabad_header .headerTitle a {
         font-size: 7rem !important;
-        font-weight: 700 !important;
+        font-weight: 400 !important;
         -webkit-text-stroke: 2px #d4af37 !important;
         padding-bottom: 2rem !important;
     }
@@ -4003,7 +4003,7 @@ body.matanot-page {
     z-index: 2 !important;
     font-family: 'Urbanist', sans-serif !important;
     font-size: 5.5rem !important;
-    font-weight: 800 !important;
+    font-weight: 400 !important;
     color: #ffffff !important;
     -webkit-text-stroke: 3px #d4af37 !important;
     text-stroke: 3px #d4af37 !important;
@@ -4144,7 +4144,7 @@ body.matanot-page {
     .get-help-page .chabad_header .headerTitle,
     .get-help-page .chabad_header .headerTitle a {
         font-size: 5rem !important;
-        font-weight: 700 !important;
+        font-weight: 400 !important;
         -webkit-text-stroke: 2px #d4af37 !important;
     }
 

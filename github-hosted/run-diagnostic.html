@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JRCC Form Diagnostic Tool</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e5a8e;
+            border-bottom: 2px solid #1e5a8e;
+            padding-bottom: 10px;
+        }
+        .instruction {
+            background: #e3f2fd;
+            padding: 15px;
+            border-left: 4px solid #1e5a8e;
+            margin: 20px 0;
+        }
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        button {
+            background: #1e5a8e;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #2a75b8;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 JRCC Form Page Diagnostic Tool</h1>
+
+        <div class="instruction">
+            <h2>How to Use This Tool:</h2>
+            <ol>
+                <li>Open your problematic form page (Healthy At Home Registration or Seniors Night Out)</li>
+                <li>Open the browser console (F12 or right-click → Inspect → Console)</li>
+                <li>Copy the diagnostic script below</li>
+                <li>Paste it into the console and press Enter</li>
+                <li>Review the diagnostic output</li>
+            </ol>
+        </div>
+
+        <h2>Diagnostic Script:</h2>
+        <button onclick="copyDiagnostic()">📋 Copy Diagnostic Script</button>
+        <button onclick="copyQuickFix()">🔧 Copy Quick Fix Script</button>
+
+        <pre id="diagnostic-code">
+// Load and run the diagnostic script
+var script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/gh/Makra-ca/JRCC@main/github-hosted/diagnostic-script.js?v=' + Date.now();
+script.onload = function() {
+    console.log('Diagnostic script loaded and running...');
+};
+document.head.appendChild(script);
+        </pre>
+
+        <div class="warning">
+            <h3>⚠️ Quick Fix Script</h3>
+            <p>If the diagnostic reveals issues, you can try this quick fix:</p>
+        </div>
+
+        <pre id="quickfix-code">
+// QUICK FIX for dropdown and banner issues
+console.log('Applying quick fixes...');
+
+// Fix 1: Remove padding from ALL select elements (fixes invisible text)
+document.querySelectorAll('select').forEach(function(select) {
+    select.style.padding = '0';
+    select.style.paddingTop = '0';
+    select.style.paddingBottom = '0';
+    select.style.paddingLeft = '0';
+    select.style.paddingRight = '0';
+});
+console.log('✓ Fixed select dropdown padding');
+
+// Fix 2: Hide ALL article headers and banners
+document.querySelectorAll('.article-header, header.article-header, .banner_image, .page_banner').forEach(function(el) {
+    el.style.display = 'none';
+    el.style.visibility = 'hidden';
+});
+console.log('✓ Hidden all banner/header backgrounds');
+
+// Fix 3: Hide duplicate titles
+var titleFound = false;
+document.querySelectorAll('h1').forEach(function(h1) {
+    var text = h1.textContent.toLowerCase();
+    if (text.indexOf('healthy at home') !== -1 || text.indexOf('seniors night out') !== -1) {
+        if (titleFound) {
+            h1.style.display = 'none';
+            console.log('✓ Hidden duplicate title:', h1.textContent);
+        } else {
+            titleFound = true;
+        }
+    }
+});
+
+console.log('Quick fixes applied!');
+        </pre>
+
+        <div class="success">
+            <h3>✅ Expected Results After Fix:</h3>
+            <ul>
+                <li>Dropdown selected text should be visible</li>
+                <li>No patterned background/decorator should show</li>
+                <li>Only one page title should be visible</li>
+            </ul>
+        </div>
+
+        <h2>Common Issues Found:</h2>
+        <ul>
+            <li><strong>Dropdown Text Invisible:</strong> Caused by padding on select elements (padding > 10px)</li>
+            <li><strong>Banner Background Visible:</strong> article-header element not fully hidden</li>
+            <li><strong>Duplicate Titles:</strong> Multiple h1 elements with similar text both visible</li>
+        </ul>
+    </div>
+
+    <script>
+    function copyDiagnostic() {
+        var code = document.getElementById('diagnostic-code').textContent;
+        navigator.clipboard.writeText(code);
+        alert('Diagnostic script copied to clipboard!');
+    }
+
+    function copyQuickFix() {
+        var code = document.getElementById('quickfix-code').textContent;
+        navigator.clipboard.writeText(code);
+        alert('Quick fix script copied to clipboard!');
+    }
+    </script>
+</body>
+</html>
