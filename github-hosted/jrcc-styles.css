@@ -2724,7 +2724,7 @@ body.donate-kfb-page .chabad_header {
     align-items: center !important;
     justify-content: center !important;
     overflow: hidden !important;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
     margin: 0 !important;
     padding: 4rem 2rem !important;
 }
@@ -2737,17 +2737,15 @@ body.donate-kfb-page .chabad_header .headerTitle a {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 5.5rem !important;
     font-weight: 800 !important;
-    color: #ffffff !important;
-    -webkit-text-stroke: 3px #d4af37 !important;
-    text-stroke: 3px #d4af37 !important;
+    color: #000000 !important;
+    -webkit-text-stroke: 2px #d4af37 !important;
+    text-stroke: 2px #d4af37 !important;
     paint-order: stroke fill !important;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
     margin: 0 !important;
     padding: 0 !important;
     text-decoration: none !important;
     text-align: center !important;
     line-height: 1.2 !important;
-    animation: gentlePulse 3s ease-in-out infinite !important;
 }
 
 /* Hide header image if present */
@@ -2800,7 +2798,7 @@ body.donate-kfb-page .form-label {
     display: block !important;
 }
 
-/* Form inputs and textareas */
+/* Form inputs and textareas - simple rounded style */
 body.donate-kfb-page input[type="text"],
 body.donate-kfb-page input[type="email"],
 body.donate-kfb-page input[type="tel"],
@@ -2808,13 +2806,13 @@ body.donate-kfb-page input[type="number"],
 body.donate-kfb-page textarea,
 body.donate-kfb-page select {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.5rem !important;
-    padding: 1.25rem 1.5rem !important;
-    border: 2px solid #e0e0e0 !important;
-    border-radius: 12px !important;
+    font-size: 1.1rem !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #ccc !important;
+    border-radius: 8px !important;
     background: #ffffff !important;
-    color: #2a2a2a !important;
-    transition: all 0.3s ease !important;
+    color: #000000 !important;
+    transition: border-color 0.2s ease !important;
     width: 100% !important;
     box-sizing: border-box !important;
 }
@@ -2826,7 +2824,6 @@ body.donate-kfb-page input[type="number"]:focus,
 body.donate-kfb-page textarea:focus,
 body.donate-kfb-page select:focus {
     border-color: #d4af37 !important;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
     outline: none !important;
 }
 
@@ -3229,7 +3226,7 @@ body.matanot-page {
 .matanot-page .chabad_header {
     position: relative !important;
     min-height: 500px !important;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)) !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -3251,21 +3248,19 @@ body.matanot-page {
 .matanot-page .chabad_header .headerTitle a {
     position: relative !important;
     z-index: 2 !important;
-    color: #ffffff !important;
-    font-size: 7rem !important;
+    color: #000000 !important;
+    font-size: 5rem !important;
     font-weight: 900 !important;
     text-align: center !important;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
-    -webkit-text-stroke: 3px #d4af37 !important;
-    text-stroke: 3px #d4af37 !important;
+    -webkit-text-stroke: 2px #d4af37 !important;
+    text-stroke: 2px #d4af37 !important;
     margin: 0 !important;
     padding: 2rem !important;
-    animation: gentlePulse 3s ease-in-out infinite !important;
     text-decoration: none !important;
 }
 
 .matanot-page .chabad_header .headerTitle a:hover {
-    color: #ffffff !important;
+    color: #000000 !important;
 }
 
 /* Form Container */
@@ -3304,7 +3299,7 @@ body.matanot-page {
     margin-top: 1.5rem !important;
 }
 
-/* Form Inputs */
+/* Form Inputs - simple rounded style */
 .matanot-page form input[type="text"],
 .matanot-page form input[type="email"],
 .matanot-page form input[type="tel"],
@@ -3312,11 +3307,11 @@ body.matanot-page {
 .matanot-page form textarea,
 .matanot-page form select {
     width: 100% !important;
-    padding: 1rem !important;
-    border: 2px solid #e0e0e0 !important;
-    border-radius: 10px !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #ccc !important;
+    border-radius: 8px !important;
     font-size: 1rem !important;
-    transition: all 0.3s ease !important;
+    transition: border-color 0.2s ease !important;
     background: #ffffff !important;
     color: #000000 !important;
 }
@@ -3329,7 +3324,6 @@ body.matanot-page {
 .matanot-page form select:focus {
     border-color: #d4af37 !important;
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
 }
 
 .matanot-page form textarea {
