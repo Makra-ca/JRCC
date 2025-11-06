@@ -234,32 +234,56 @@ function styleHealthyAtHomeForm() {
         breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
     }
 
-    // Hide banner images/decorators - but NOT the header (title is inside it)
-    var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image, .decorator, .article-header');
-    for (var i = 0; i < banners.length; i++) {
-        banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+    // AGGRESSIVE: Hide ALL banner/header elements completely
+    var bannersToHide = document.querySelectorAll(
+        '.banner_image, .page_banner, .article_banner, [class*="banner"] img, ' +
+        '.article_banner_wrapper, .page_header_image, .decorator, ' +
+        '.article-header, header.article-header, header[class*="article"], ' +
+        '.article-header *, header.article-header *, header img'
+    );
+    for (var i = 0; i < bannersToHide.length; i++) {
+        bannersToHide[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
     }
 
-    // Remove background from header but keep it visible (title is inside)
-    var articleHeader = document.querySelector('header.article-header');
-    if (articleHeader) {
-        articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
+    // AGGRESSIVE: Clear ALL elements with inline background styles in header area
+    var elementsWithBg = document.querySelectorAll('[style*="background"]');
+    for (var i = 0; i < elementsWithBg.length; i++) {
+        var el = elementsWithBg[i];
+        // Only target elements in the top area of the page (approximate check)
+        try {
+            if (!el.querySelector('form') && !el.closest('form')) { // Don't affect form elements
+                el.style.setProperty('background', 'none', 'important');
+                el.style.setProperty('background-image', 'none', 'important');
+
+                // If it's a header-related element, hide it
+                if (el.className && (el.className.indexOf('header') !== -1 || el.className.indexOf('banner') !== -1)) {
+                    el.style.setProperty('display', 'none', 'important');
+                }
+            }
+        } catch(e) {
+            // Fallback for older browsers without closest()
+            el.style.setProperty('background', 'none', 'important');
+            el.style.setProperty('background-image', 'none', 'important');
+        }
     }
 
-    // Hide ALL elements with background images in the header area
-    var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"], .article-header, header.article-header');
-    for (var i = 0; i < headerImages.length; i++) {
-        var element = headerImages[i];
-        if (element.tagName === 'IMG') {
-            element.style.cssText = 'display:none!important;';
-        } else {
-            // Clear any inline background styles
-            element.style.backgroundImage = 'none!important';
-            element.style.background = 'none!important';
+    // AGGRESSIVE: Target ALL possible header containers
+    var headerContainers = document.querySelectorAll(
+        'header, [class*="header"], [class*="banner"], [class*="decorator"], ' +
+        '#co_body_container > div:first-child'
+    );
+    for (var i = 0; i < headerContainers.length; i++) {
+        var container = headerContainers[i];
+        // Check if it has a background image
+        var computedStyle = window.getComputedStyle(container);
+        if (computedStyle.backgroundImage && computedStyle.backgroundImage !== 'none') {
+            container.style.setProperty('background', 'none', 'important');
+            container.style.setProperty('background-image', 'none', 'important');
+            container.style.setProperty('background-color', 'transparent', 'important');
 
-            // For article-header specifically, hide it completely
-            if (element.className && element.className.indexOf('article-header') !== -1) {
-                element.style.display = 'none!important';
+            // If it's a header element, hide it
+            if (container.tagName === 'HEADER' || (container.className && container.className.indexOf('article-header') !== -1)) {
+                container.style.setProperty('display', 'none', 'important');
             }
         }
     }
