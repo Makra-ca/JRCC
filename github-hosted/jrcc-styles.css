@@ -1255,7 +1255,7 @@ div[class*="search_header"],
 
 /* ========================================
    SHARED NAVIGATION STYLES FOR ALL PAGES
-   (About Us, Purim Matanot, Volunteer Form, FAQ, Kosher Food Bank, Get Help)
+   (About Us, Purim Matanot, Volunteer Form, FAQ, Donate KFB, Kosher Food Bank, Get Help)
    ======================================== */
 
 /* Fixed navigation bar */
@@ -1267,6 +1267,8 @@ div[class*="search_header"],
 .volunteer-form-page div#navigation,
 .faq-page #navigation,
 .faq-page div#navigation,
+.donate-kfb-page #navigation,
+.donate-kfb-page div#navigation,
 .kosher-food-bank-page #navigation,
 .kosher-food-bank-page div#navigation,
 .get-help-page #navigation,
@@ -1298,6 +1300,8 @@ div[class*="search_header"],
 .volunteer-form-page div.chabad_menu_content,
 .faq-page .chabad_menu_content,
 .faq-page div.chabad_menu_content,
+.donate-kfb-page .chabad_menu_content,
+.donate-kfb-page div.chabad_menu_content,
 .kosher-food-bank-page .chabad_menu_content,
 .kosher-food-bank-page div.chabad_menu_content,
 .get-help-page .chabad_menu_content,
@@ -1313,6 +1317,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu,
 .volunteer-form-page ul#menu,
 .faq-page ul#menu,
+.donate-kfb-page ul#menu,
 .kosher-food-bank-page ul#menu,
 .get-help-page ul#menu {
     display: flex !important;
@@ -1334,6 +1339,8 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li,
 .faq-page ul#menu li.item,
 .faq-page ul#menu li,
+.donate-kfb-page ul#menu li.item,
+.donate-kfb-page ul#menu li,
 .kosher-food-bank-page ul#menu li.item,
 .kosher-food-bank-page ul#menu li,
 .get-help-page ul#menu li.item,
@@ -1361,6 +1368,9 @@ div[class*="search_header"],
 .faq-page ul#menu li a.parent,
 .faq-page ul#menu li a,
 .faq-page #navigation a,
+.donate-kfb-page ul#menu li a.parent,
+.donate-kfb-page ul#menu li a,
+.donate-kfb-page #navigation a,
 .kosher-food-bank-page ul#menu li a.parent,
 .kosher-food-bank-page ul#menu li a,
 .kosher-food-bank-page #navigation a,
@@ -1387,6 +1397,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li a:hover,
 .volunteer-form-page ul#menu li a:hover,
 .faq-page ul#menu li a:hover,
+.donate-kfb-page ul#menu li a:hover,
 .kosher-food-bank-page ul#menu li a:hover,
 .get-help-page ul#menu li a:hover {
     color: #d4af37 !important;
@@ -1399,6 +1410,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li a.selected,
 .volunteer-form-page ul#menu li a.selected,
 .faq-page ul#menu li a.selected,
+.donate-kfb-page ul#menu li a.selected,
 .kosher-food-bank-page ul#menu li a.selected,
 .get-help-page ul#menu li a.selected {
     color: #d4af37 !important;
@@ -1410,6 +1422,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li.arrow,
 .volunteer-form-page ul#menu li.arrow,
 .faq-page ul#menu li.arrow,
+.donate-kfb-page ul#menu li.arrow,
 .kosher-food-bank-page ul#menu li.arrow,
 .get-help-page ul#menu li.arrow {
     position: relative !important;
@@ -1419,6 +1432,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li.arrow .sub_menu,
 .volunteer-form-page ul#menu li.arrow .sub_menu,
 .faq-page ul#menu li.arrow .sub_menu,
+.donate-kfb-page ul#menu li.arrow .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu,
 .get-help-page ul#menu li.arrow .sub_menu {
     position: absolute !important;
@@ -1442,6 +1456,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li.arrow:hover .sub_menu,
 .volunteer-form-page ul#menu li.arrow:hover .sub_menu,
 .faq-page ul#menu li.arrow:hover .sub_menu,
+.donate-kfb-page ul#menu li.arrow:hover .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
 .get-help-page ul#menu li.arrow:hover .sub_menu {
     opacity: 1 !important;
@@ -1453,6 +1468,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a,
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a,
 .faq-page ul#menu li.arrow .sub_menu ul li a,
+.donate-kfb-page ul#menu li.arrow .sub_menu ul li a,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
 .get-help-page ul#menu li.arrow .sub_menu ul li a {
     display: block !important;
@@ -1470,6 +1486,7 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a:hover,
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a:hover,
 .faq-page ul#menu li.arrow .sub_menu ul li a:hover,
+.donate-kfb-page ul#menu li.arrow .sub_menu ul li a:hover,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
 .get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
     background: rgba(212, 175, 55, 0.2) !important;
@@ -1483,6 +1500,7 @@ div[class*="search_header"],
 .purim-matanot-page .mobile-menu-toggle,
 .volunteer-form-page .mobile-menu-toggle,
 .faq-page .mobile-menu-toggle,
+.donate-kfb-page .mobile-menu-toggle,
 .kosher-food-bank-page .mobile-menu-toggle,
 .get-help-page .mobile-menu-toggle {
     display: none !important;
@@ -1504,6 +1522,7 @@ div[class*="search_header"],
 .purim-matanot-page .mobile-menu-toggle:hover,
 .volunteer-form-page .mobile-menu-toggle:hover,
 .faq-page .mobile-menu-toggle:hover,
+.donate-kfb-page .mobile-menu-toggle:hover,
 .kosher-food-bank-page .mobile-menu-toggle:hover,
 .get-help-page .mobile-menu-toggle:hover {
     background: #d4af37 !important;
@@ -1516,6 +1535,7 @@ div[class*="search_header"],
     .purim-matanot-page .mobile-menu-toggle,
     .volunteer-form-page .mobile-menu-toggle,
     .faq-page .mobile-menu-toggle,
+    .donate-kfb-page .mobile-menu-toggle,
     .kosher-food-bank-page .mobile-menu-toggle,
     .get-help-page .mobile-menu-toggle {
         display: block !important;
@@ -1529,6 +1549,8 @@ div[class*="search_header"],
     .volunteer-form-page div#navigation,
     .faq-page #navigation,
     .faq-page div#navigation,
+    .donate-kfb-page #navigation,
+    .donate-kfb-page div#navigation,
     .kosher-food-bank-page #navigation,
     .kosher-food-bank-page div#navigation,
     .get-help-page #navigation,
@@ -1549,6 +1571,8 @@ div[class*="search_header"],
     .volunteer-form-page div.chabad_menu_content,
     .faq-page .chabad_menu_content,
     .faq-page div.chabad_menu_content,
+    .donate-kfb-page .chabad_menu_content,
+    .donate-kfb-page div.chabad_menu_content,
     .kosher-food-bank-page .chabad_menu_content,
     .kosher-food-bank-page div.chabad_menu_content,
     .get-help-page .chabad_menu_content,
@@ -1568,6 +1592,8 @@ div[class*="search_header"],
     .volunteer-form-page div.chabad_menu_content.menu-open,
     .faq-page .chabad_menu_content.menu-open,
     .faq-page div.chabad_menu_content.menu-open,
+    .donate-kfb-page .chabad_menu_content.menu-open,
+    .donate-kfb-page div.chabad_menu_content.menu-open,
     .kosher-food-bank-page .chabad_menu_content.menu-open,
     .kosher-food-bank-page div.chabad_menu_content.menu-open,
     .get-help-page .chabad_menu_content.menu-open,
@@ -1581,6 +1607,7 @@ div[class*="search_header"],
     .purim-matanot-page ul#menu,
     .volunteer-form-page ul#menu,
     .faq-page ul#menu,
+    .donate-kfb-page ul#menu,
     .kosher-food-bank-page ul#menu,
     .get-help-page ul#menu {
         gap: 0.25rem !important;
@@ -1602,6 +1629,9 @@ div[class*="search_header"],
     .faq-page ul#menu li a.parent,
     .faq-page ul#menu li a,
     .faq-page #navigation a,
+    .donate-kfb-page ul#menu li a.parent,
+    .donate-kfb-page ul#menu li a,
+    .donate-kfb-page #navigation a,
     .kosher-food-bank-page ul#menu li a.parent,
     .kosher-food-bank-page ul#menu li a,
     .kosher-food-bank-page #navigation a,
@@ -2584,6 +2614,279 @@ div[class*="search_header"],
     .faq-page .co_body.article-body.cf p {
         font-size: 1.3rem !important;
         padding-left: 1.75rem !important;
+    }
+}
+
+/* ====================================================================
+   PAGE: DONATE NOW TO KOSHER FOOD BANK (Form)
+   URL: /templates/articlecco_cdo/aid/6827075/jewish/Donate-Now-To-Kosher-Food-Bank.htm
+   ==================================================================== */
+
+/* Global styles for Donate KFB page */
+body.donate-kfb-page {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 70px !important;
+}
+
+body.donate-kfb-page #BodyContainer {
+    padding-top: 0 !important;
+}
+
+/* Make CMS containers transparent */
+body.donate-kfb-page #BodyContainer,
+body.donate-kfb-page #co_content_container,
+body.donate-kfb-page .body_wrapper,
+body.donate-kfb-page #content,
+body.donate-kfb-page #co_body_container,
+body.donate-kfb-page .master-content-wrapper,
+body.donate-kfb-page div.master-content-wrapper,
+body.donate-kfb-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+body.donate-kfb-page .chabad_header {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 400px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    margin: 0 !important;
+    padding: 4rem 2rem !important;
+}
+
+/* Header title - large, bold, pulsing */
+body.donate-kfb-page .chabad_header .headerTitle,
+body.donate-kfb-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 5.5rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Hide header image if present */
+body.donate-kfb-page .chabad_header img {
+    display: none !important;
+}
+
+/* Message sections styling */
+body.donate-kfb-page .custom_message,
+body.donate-kfb-page .label-message {
+    max-width: 1200px !important;
+    margin: 2rem auto !important;
+    padding: 2.5rem 3rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    border-left: 5px solid #d4af37 !important;
+}
+
+body.donate-kfb-page .custom_message p,
+body.donate-kfb-page .label-message p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 0 !important;
+}
+
+/* Form container - main card */
+body.donate-kfb-page form,
+body.donate-kfb-page .co_body.article-body.cf {
+    max-width: 1200px !important;
+    margin: 3rem auto !important;
+    padding: 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%) !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(212, 175, 55, 0.1) !important;
+    border: 3px solid #d4af37 !important;
+}
+
+/* Form labels */
+body.donate-kfb-page label,
+body.donate-kfb-page .form-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+}
+
+/* Form inputs and textareas */
+body.donate-kfb-page input[type="text"],
+body.donate-kfb-page input[type="email"],
+body.donate-kfb-page input[type="tel"],
+body.donate-kfb-page input[type="number"],
+body.donate-kfb-page textarea,
+body.donate-kfb-page select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    padding: 1.25rem 1.5rem !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #2a2a2a !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.donate-kfb-page input[type="text"]:focus,
+body.donate-kfb-page input[type="email"]:focus,
+body.donate-kfb-page input[type="tel"]:focus,
+body.donate-kfb-page input[type="number"]:focus,
+body.donate-kfb-page textarea:focus,
+body.donate-kfb-page select:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
+    outline: none !important;
+}
+
+/* Radio buttons and checkboxes */
+body.donate-kfb-page input[type="radio"],
+body.donate-kfb-page input[type="checkbox"] {
+    margin-right: 0.75rem !important;
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    cursor: pointer !important;
+}
+
+/* Submit button - gold gradient */
+body.donate-kfb-page input[type="submit"],
+body.donate-kfb-page button[type="submit"],
+body.donate-kfb-page .submit-button {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+    margin-top: 2rem !important;
+    width: auto !important;
+}
+
+body.donate-kfb-page input[type="submit"]:hover,
+body.donate-kfb-page button[type="submit"]:hover,
+body.donate-kfb-page .submit-button:hover {
+    background: linear-gradient(135deg, #c99d2e 0%, #d4af37 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Text content in form */
+body.donate-kfb-page p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 1.5rem 0 !important;
+}
+
+body.donate-kfb-page strong,
+body.donate-kfb-page b {
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+/* Links */
+body.donate-kfb-page a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+}
+
+body.donate-kfb-page a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Responsive design for Donate KFB page */
+@media (max-width: 1024px) {
+    body.donate-kfb-page .chabad_header .headerTitle,
+    body.donate-kfb-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+    }
+
+    body.donate-kfb-page form,
+    body.donate-kfb-page .co_body.article-body.cf {
+        padding: 3rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.donate-kfb-page .chabad_header {
+        min-height: 300px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    body.donate-kfb-page .chabad_header .headerTitle,
+    body.donate-kfb-page .chabad_header .headerTitle a {
+        font-size: 3.5rem !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        text-stroke: 2px #d4af37 !important;
+    }
+
+    body.donate-kfb-page form,
+    body.donate-kfb-page .co_body.article-body.cf {
+        margin: 2rem 1rem !important;
+        padding: 2.5rem 2rem !important;
+        border-radius: 16px !important;
+    }
+
+    body.donate-kfb-page .custom_message,
+    body.donate-kfb-page .label-message {
+        margin: 1.5rem 1rem !important;
+        padding: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body.donate-kfb-page .chabad_header .headerTitle,
+    body.donate-kfb-page .chabad_header .headerTitle a {
+        font-size: 2.5rem !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        text-stroke: 1.5px #d4af37 !important;
+    }
+
+    body.donate-kfb-page form,
+    body.donate-kfb-page .co_body.article-body.cf {
+        padding: 2rem 1.5rem !important;
+    }
+
+    body.donate-kfb-page input[type="submit"],
+    body.donate-kfb-page button[type="submit"],
+    body.donate-kfb-page .submit-button {
+        width: 100% !important;
+        padding: 1.25rem 2rem !important;
+        font-size: 1.6rem !important;
     }
 }
 

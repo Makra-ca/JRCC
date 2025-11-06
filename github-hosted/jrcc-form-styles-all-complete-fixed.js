@@ -1477,15 +1477,96 @@ function styleFAQPage() {
 }
 
 // ========================================
+// PAGE: DONATE NOW TO KOSHER FOOD BANK (Form)
+// URL: /templates/articlecco_cdo/aid/6827075/jewish/Donate-Now-To-Kosher-Food-Bank.htm
+// ========================================
+var donateKFBInitialized = false;
+
+function styleDonateKFBPage() {
+    // Prevent double initialization
+    if (donateKFBInitialized) return;
+
+    // Detect page by article ID or filename
+    var isDonateKFBPage = window.location.href.indexOf('/aid/6827075/') !== -1 ||
+                          window.location.href.indexOf('Donate-Now-To-Kosher-Food-Bank.htm') !== -1;
+
+    if (!isDonateKFBPage) return;
+
+    donateKFBInitialized = true;
+
+    // Add body class for CSS targeting
+    if (document.body && !document.body.classList.contains('donate-kfb-page')) {
+        document.body.classList.add('donate-kfb-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                if (menuContent.classList.contains('menu-open')) {
+                    toggleButton.textContent = 'CLOSE';
+                } else {
+                    toggleButton.textContent = 'MENU';
+                }
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force navigation link colors (fight CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+
+            // CRITICAL: Remove webkit color overrides
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 10 styling functions (5 forms + 5 article pages)
+    // Run all 11 styling functions (6 forms + 5 article pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
     styleYeshivaScholarshipForm();
     styleVolunteerForm();
+    styleDonateKFBPage();
     styleAboutUsPage();
     styleKosherFoodBankPage();
     styleGetHelpPage();
