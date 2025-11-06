@@ -1,5 +1,5 @@
 /* JRCC Form-Specific Inline Styling Functions - FULLY FIXED VERSION */
-/* Includes ALL 5 form styling functions with proper banner hiding and typewriter animation */
+/* Includes ALL 14 styling functions (7 forms + 7 article pages) with proper banner hiding and typewriter animation */
 
 // Global initialization tracking
 var gmachInitialized = false;
@@ -7,6 +7,7 @@ var healthyAtHomeInitialized = false;
 var seniorsInitialized = false;
 var yeshivaInitialized = false;
 var volunteerInitialized = false;
+var volunteerKFBInitialized = false;
 var aboutUsInitialized = false;
 var kosherFoodBankInitialized = false;
 var getHelpInitialized = false;
@@ -953,20 +954,17 @@ function styleYeshivaScholarshipForm() {
 // 5. VOLUNTEER FORM STYLING
 // ========================================
 // ========================================
-// PAGE: VOLUNTEER FORM
-// URLs:
-//   - /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm (General Volunteer)
-//   - /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm (KFB Volunteer)
+// PAGE: VOLUNTEER FORM - GENERAL (with typewriter animations)
+// URL: /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm
 // ========================================
-function styleVolunteerForm() {
-    // Detect page by article ID or filename
+function styleVolunteerFormGeneral() {
+    // Detect ONLY the general volunteer page (5094614)
     var currentUrl = window.location.href.toLowerCase();
-    var isVolunteerPage = currentUrl.indexOf('/aid/5094614/') !== -1 ||
-                          currentUrl.indexOf('/aid/6827149/') !== -1 ||
-                          currentUrl.indexOf('volunteer.htm') !== -1 ||
-                          currentUrl.indexOf('volunteer-with-us.htm') !== -1;
+    var isGeneralVolunteerPage = currentUrl.indexOf('/aid/5094614/') !== -1 ||
+                                 (currentUrl.indexOf('volunteer.htm') !== -1 &&
+                                  currentUrl.indexOf('volunteer-with-us.htm') === -1);
 
-    if (!isVolunteerPage) return;
+    if (!isGeneralVolunteerPage) return;
 
     // Check if already initialized
     if (volunteerInitialized) return;
@@ -984,7 +982,7 @@ function styleVolunteerForm() {
                    document.querySelector('.master-content-wrapper h2');
 
     if (!pageTitle) {
-        setTimeout(styleVolunteerForm, 300);
+        setTimeout(styleVolunteerFormGeneral, 300);
         return;
     }
 
@@ -994,7 +992,7 @@ function styleVolunteerForm() {
               document.querySelector('form');
 
     if (!form) {
-        setTimeout(styleVolunteerForm, 300);
+        setTimeout(styleVolunteerFormGeneral, 300);
         return;
     }
 
@@ -1085,6 +1083,85 @@ function styleVolunteerForm() {
     for (var i = 0; i < labels.length; i++) {
         var startDelay = 1000; // All labels start together after 1s
         typeLabelText(labels[i], labelTexts[i], startDelay);
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                if (menuContent.classList.contains('menu-open')) {
+                    toggleButton.textContent = 'CLOSE';
+                } else {
+                    toggleButton.textContent = 'MENU';
+                }
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force navigation link colors (fight CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+
+            // CRITICAL: Remove webkit color overrides
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
+// PAGE: VOLUNTEER FORM - KFB (standard CSS styling, no typewriter)
+// URL: /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm
+// ========================================
+function styleVolunteerFormKFB() {
+    // Detect ONLY the KFB volunteer page (6827149)
+    var currentUrl = window.location.href.toLowerCase();
+    var isKFBVolunteerPage = currentUrl.indexOf('/aid/6827149/') !== -1 ||
+                             currentUrl.indexOf('volunteer-with-us.htm') !== -1;
+
+    if (!isKFBVolunteerPage) return;
+
+    // Check if already initialized
+    if (volunteerKFBInitialized) return;
+
+    volunteerKFBInitialized = true;
+
+    // Add page-specific body class (CSS will handle styling)
+    if (document.body && !document.body.classList.contains('volunteer-form-page')) {
+        document.body.classList.add('volunteer-form-page');
     }
 
     // Create mobile menu toggle button
@@ -1906,12 +1983,13 @@ function styleMatanotPage() {
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 13 styling functions (7 forms + 6 article pages)
+    // Run all 14 styling functions (7 forms + 7 article pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
     styleYeshivaScholarshipForm();
-    styleVolunteerForm();
+    styleVolunteerFormGeneral();    // General volunteer page with typewriter
+    styleVolunteerFormKFB();         // KFB volunteer page with standard CSS
     styleDonateKFBPage();
     styleMatanotPage();
     styleAboutUsPage();
