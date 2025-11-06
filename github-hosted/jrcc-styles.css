@@ -1480,7 +1480,13 @@ div[class*="search_header"],
 .about-us-page body {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
     background-attachment: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
     padding-top: 70px !important;
+}
+
+.about-us-page #BodyContainer {
+    padding-top: 0 !important;
 }
 
 /* Make CMS containers transparent */
@@ -1502,8 +1508,21 @@ div[class*="search_header"],
 .about-us-page body::after,
 .about-us-page #BodyContainer::before,
 .about-us-page #BodyContainer::after,
+.about-us-page #co_content_container::before,
+.about-us-page #co_content_container::after,
+.about-us-page .body_wrapper::before,
+.about-us-page .body_wrapper::after,
+.about-us-page #content::before,
+.about-us-page #content::after,
+.about-us-page #co_body_container::before,
+.about-us-page #co_body_container::after,
+.about-us-page .master-content-wrapper::before,
+.about-us-page .master-content-wrapper::after,
 .about-us-page .decorative-circles,
-.about-us-page .background-dots {
+.about-us-page .background-dots,
+.about-us-page [class*="dot"],
+.about-us-page [class*="circle"][class*="decorat"],
+.about-us-page [class*="background"][class*="element"] {
     display: none !important;
     content: none !important;
 }
@@ -1654,10 +1673,28 @@ div[class*="search_header"],
     min-width: 200px !important;
 }
 
+/* Image containers (span elements) - make them transparent wrappers */
+.about-us-page .co_body.article-body.cf span {
+    display: inline !important;
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal !important;
+    border: none !important;
+    background: transparent !important;
+}
+
 .about-us-page .co_body.article-body.cf::after {
     content: "" !important;
     display: table !important;
     clear: both !important;
+}
+
+/* Strong/Bold text styling */
+.about-us-page .co_body.article-body.cf strong {
+    font-weight: 700 !important;
+    color: #000000 !important;
 }
 
 /* Links within article */
@@ -1675,6 +1712,27 @@ div[class*="search_header"],
 }
 
 /* Responsive design for About Us */
+@media (max-width: 1024px) {
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+        -webkit-text-stroke: 2.5px #d4af37 !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 3.2rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 4rem 3rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.6rem !important;
+    }
+}
+
 @media (max-width: 768px) {
     .about-us-page .chabad_header {
         min-height: 350px !important;
@@ -1702,6 +1760,67 @@ div[class*="search_header"],
         width: 100% !important;
         max-width: 100% !important;
         display: block !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.5rem !important;
+        line-height: 1.8 !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.6rem !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 2.5rem !important;
+        border-bottom-width: 4px !important;
+        margin-bottom: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-us-page .chabad_header {
+        min-height: 300px !important;
+        padding: 2rem 1rem 6rem 1rem !important;
+    }
+
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 4rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 2.5rem 1.5rem !important;
+        margin: 1.5rem 0.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 2rem !important;
+        border-bottom-width: 3px !important;
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.3rem !important;
+        line-height: 1.7 !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.4rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf img {
+        border-radius: 12px !important;
+        border-width: 2px !important;
+        margin: 1.5rem 0 !important;
     }
 }
 
