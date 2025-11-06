@@ -387,7 +387,8 @@ function styleHealthyAtHomeForm() {
     }
 
     // Style all form inputs - BIGGER text (1.35rem)
-    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+    // NOTE: Exclude select elements here as they need different padding treatment
+    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea');
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
 
@@ -685,7 +686,8 @@ function styleSeniorsNightOutForm() {
     }
 
     // Style inputs
-    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea, select');
+    // NOTE: Exclude select elements here as they need different padding treatment
+    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea');
     for (var i = 0; i < inputs.length; i++) {
         inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
 
