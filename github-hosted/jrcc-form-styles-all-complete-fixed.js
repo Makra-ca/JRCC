@@ -1387,20 +1387,30 @@ function stylePurimMatanotPage() {
         });
     }
 
-    // Hide duplicate "DONATE" text from CMS
+    // Hide duplicate "DONATE" text from CMS (but protect our JavaScript buttons)
     function hideDuplicateDonateText() {
         var articleBody = document.querySelector('.co_body.article-body.cf');
         if (!articleBody) return;
 
         // Find all elements that might contain duplicate "DONATE" text
+        // Note: NOT searching <a> tags since our buttons are links
         var allElements = articleBody.querySelectorAll('p, h1, h2, h3, h4, h5, strong, b, span, div');
 
         allElements.forEach(function(element) {
             var text = element.textContent.trim().toUpperCase();
 
-            // If the element contains ONLY "DONATE" or "DONATE NOW" text, hide it
-            // But skip our donate buttons
-            if (!element.classList.contains('purim-donate-button') &&
+            // Multiple layers of protection to avoid hiding our JavaScript buttons:
+            // 1. Skip if element has our button class
+            // 2. Skip if element IS a link (<a> tag)
+            // 3. Skip if element CONTAINS a link (wrapper around our button)
+            // 4. Skip if any child has our button class
+            var hasButtonClass = element.classList.contains('purim-donate-button');
+            var isLink = element.tagName === 'A';
+            var containsLink = element.querySelector('a') !== null;
+            var hasButtonChild = element.querySelector('.purim-donate-button') !== null;
+
+            // Only hide if text matches AND none of the protection checks trigger
+            if (!hasButtonClass && !isLink && !containsLink && !hasButtonChild &&
                 (text === 'DONATE' || text === 'DONATE NOW')) {
                 element.style.display = 'none';
             }
@@ -1445,15 +1455,8 @@ function stylePurimMatanotPage() {
     forceNavColors();
 
     // Add donate buttons with delay to ensure content is loaded
+    // Note: hideDuplicateDonateText() is called inside addDonateButtons()
     setTimeout(addDonateButtons, 500);
-
-    // Re-run duplicate text hiding after content loads
-    setTimeout(function() {
-        var articleBody = document.querySelector('.co_body.article-body.cf');
-        if (articleBody) {
-            hideDuplicateDonateText();
-        }
-    }, 1000);
 
     // Re-run after delay
     setTimeout(function() { forceNavColors(true); }, 500);
