@@ -546,7 +546,7 @@
 /* ======================================== */
 
 (function() {
-    function styleVolunteerForms() {
+    function styleVolunteerForm() {
         // Check if on volunteer form page
         var isVolunteerPage =
             window.location.href.indexOf('6695166') !== -1 ||
@@ -606,13 +606,13 @@
     }
 
     // Run styling
-    styleVolunteerForms();
-    setTimeout(styleVolunteerForms, 500);
-    setTimeout(styleVolunteerForms, 1000);
-    setTimeout(styleVolunteerForms, 2000);
+    styleVolunteerForm();
+    setTimeout(styleVolunteerForm, 500);
+    setTimeout(styleVolunteerForm, 1000);
+    setTimeout(styleVolunteerForm, 2000);
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', styleVolunteerForms);
+        document.addEventListener('DOMContentLoaded', styleVolunteerForm);
     }
 })();
 
@@ -1438,7 +1438,7 @@
         // Check for Volunteer Form (Article ID: 6695166)
         if (currentURL.indexOf('6695166') !== -1 || currentURL.indexOf('volunteer') !== -1) {
             console.log('JRCC: Volunteer form detected');
-            styleVolunteerForms();
+            styleVolunteerForm();
         }
 
         // Check for Scholarship Form
