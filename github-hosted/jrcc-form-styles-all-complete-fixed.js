@@ -1397,10 +1397,90 @@ function stylePurimMatanotPage() {
 }
 
 // ========================================
+// PAGE: FAQ (Frequently Asked Questions)
+// URL: /templates/articlecco_cdo/aid/6827204/jewish/FAQ.htm
+// ========================================
+var faqInitialized = false;
+
+function styleFAQPage() {
+    // Prevent double initialization
+    if (faqInitialized) return;
+
+    // Detect page by article ID or filename
+    var isFAQPage = window.location.href.indexOf('/aid/6827204/') !== -1 ||
+                    window.location.href.indexOf('FAQ.htm') !== -1;
+
+    if (!isFAQPage) return;
+
+    faqInitialized = true;
+
+    // Add body class for CSS targeting
+    if (document.body && !document.body.classList.contains('faq-page')) {
+        document.body.classList.add('faq-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                if (menuContent.classList.contains('menu-open')) {
+                    toggleButton.textContent = 'CLOSE';
+                } else {
+                    toggleButton.textContent = 'MENU';
+                }
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force navigation link colors (fight CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+
+            // CRITICAL: Remove webkit color overrides
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 9 styling functions (5 forms + 4 article pages)
+    // Run all 10 styling functions (5 forms + 5 article pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
@@ -1410,6 +1490,7 @@ function initializeFormStyles() {
     styleKosherFoodBankPage();
     styleGetHelpPage();
     stylePurimMatanotPage();
+    styleFAQPage();
 }
 
 // Run on various events with multiple retries (like original)

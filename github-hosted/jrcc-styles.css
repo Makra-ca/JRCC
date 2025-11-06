@@ -1255,7 +1255,7 @@ div[class*="search_header"],
 
 /* ========================================
    SHARED NAVIGATION STYLES FOR ALL PAGES
-   (About Us, Purim Matanot, Volunteer Form, Kosher Food Bank, Get Help)
+   (About Us, Purim Matanot, Volunteer Form, FAQ, Kosher Food Bank, Get Help)
    ======================================== */
 
 /* Fixed navigation bar */
@@ -1265,6 +1265,8 @@ div[class*="search_header"],
 .purim-matanot-page div#navigation,
 .volunteer-form-page #navigation,
 .volunteer-form-page div#navigation,
+.faq-page #navigation,
+.faq-page div#navigation,
 .kosher-food-bank-page #navigation,
 .kosher-food-bank-page div#navigation,
 .get-help-page #navigation,
@@ -1294,6 +1296,8 @@ div[class*="search_header"],
 .purim-matanot-page div.chabad_menu_content,
 .volunteer-form-page .chabad_menu_content,
 .volunteer-form-page div.chabad_menu_content,
+.faq-page .chabad_menu_content,
+.faq-page div.chabad_menu_content,
 .kosher-food-bank-page .chabad_menu_content,
 .kosher-food-bank-page div.chabad_menu_content,
 .get-help-page .chabad_menu_content,
@@ -1308,6 +1312,7 @@ div[class*="search_header"],
 .about-us-page ul#menu,
 .purim-matanot-page ul#menu,
 .volunteer-form-page ul#menu,
+.faq-page ul#menu,
 .kosher-food-bank-page ul#menu,
 .get-help-page ul#menu {
     display: flex !important;
@@ -1327,6 +1332,8 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li,
 .volunteer-form-page ul#menu li.item,
 .volunteer-form-page ul#menu li,
+.faq-page ul#menu li.item,
+.faq-page ul#menu li,
 .kosher-food-bank-page ul#menu li.item,
 .kosher-food-bank-page ul#menu li,
 .get-help-page ul#menu li.item,
@@ -1351,6 +1358,9 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li a.parent,
 .volunteer-form-page ul#menu li a,
 .volunteer-form-page #navigation a,
+.faq-page ul#menu li a.parent,
+.faq-page ul#menu li a,
+.faq-page #navigation a,
 .kosher-food-bank-page ul#menu li a.parent,
 .kosher-food-bank-page ul#menu li a,
 .kosher-food-bank-page #navigation a,
@@ -1376,6 +1386,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li a:hover,
 .purim-matanot-page ul#menu li a:hover,
 .volunteer-form-page ul#menu li a:hover,
+.faq-page ul#menu li a:hover,
 .kosher-food-bank-page ul#menu li a:hover,
 .get-help-page ul#menu li a:hover {
     color: #d4af37 !important;
@@ -1387,6 +1398,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li a.selected,
 .purim-matanot-page ul#menu li a.selected,
 .volunteer-form-page ul#menu li a.selected,
+.faq-page ul#menu li a.selected,
 .kosher-food-bank-page ul#menu li a.selected,
 .get-help-page ul#menu li a.selected {
     color: #d4af37 !important;
@@ -1397,6 +1409,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li.arrow,
 .purim-matanot-page ul#menu li.arrow,
 .volunteer-form-page ul#menu li.arrow,
+.faq-page ul#menu li.arrow,
 .kosher-food-bank-page ul#menu li.arrow,
 .get-help-page ul#menu li.arrow {
     position: relative !important;
@@ -1405,6 +1418,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li.arrow .sub_menu,
 .purim-matanot-page ul#menu li.arrow .sub_menu,
 .volunteer-form-page ul#menu li.arrow .sub_menu,
+.faq-page ul#menu li.arrow .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu,
 .get-help-page ul#menu li.arrow .sub_menu {
     position: absolute !important;
@@ -1427,6 +1441,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li.arrow:hover .sub_menu,
 .purim-matanot-page ul#menu li.arrow:hover .sub_menu,
 .volunteer-form-page ul#menu li.arrow:hover .sub_menu,
+.faq-page ul#menu li.arrow:hover .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
 .get-help-page ul#menu li.arrow:hover .sub_menu {
     opacity: 1 !important;
@@ -1437,6 +1452,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li.arrow .sub_menu ul li a,
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a,
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a,
+.faq-page ul#menu li.arrow .sub_menu ul li a,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
 .get-help-page ul#menu li.arrow .sub_menu ul li a {
     display: block !important;
@@ -1453,6 +1469,7 @@ div[class*="search_header"],
 .about-us-page ul#menu li.arrow .sub_menu ul li a:hover,
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a:hover,
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a:hover,
+.faq-page ul#menu li.arrow .sub_menu ul li a:hover,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
 .get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
     background: rgba(212, 175, 55, 0.2) !important;
@@ -1465,6 +1482,7 @@ div[class*="search_header"],
 .about-us-page .mobile-menu-toggle,
 .purim-matanot-page .mobile-menu-toggle,
 .volunteer-form-page .mobile-menu-toggle,
+.faq-page .mobile-menu-toggle,
 .kosher-food-bank-page .mobile-menu-toggle,
 .get-help-page .mobile-menu-toggle {
     display: none !important;
@@ -1485,6 +1503,7 @@ div[class*="search_header"],
 .about-us-page .mobile-menu-toggle:hover,
 .purim-matanot-page .mobile-menu-toggle:hover,
 .volunteer-form-page .mobile-menu-toggle:hover,
+.faq-page .mobile-menu-toggle:hover,
 .kosher-food-bank-page .mobile-menu-toggle:hover,
 .get-help-page .mobile-menu-toggle:hover {
     background: #d4af37 !important;
@@ -1496,6 +1515,7 @@ div[class*="search_header"],
     .about-us-page .mobile-menu-toggle,
     .purim-matanot-page .mobile-menu-toggle,
     .volunteer-form-page .mobile-menu-toggle,
+    .faq-page .mobile-menu-toggle,
     .kosher-food-bank-page .mobile-menu-toggle,
     .get-help-page .mobile-menu-toggle {
         display: block !important;
@@ -1507,6 +1527,8 @@ div[class*="search_header"],
     .purim-matanot-page div#navigation,
     .volunteer-form-page #navigation,
     .volunteer-form-page div#navigation,
+    .faq-page #navigation,
+    .faq-page div#navigation,
     .kosher-food-bank-page #navigation,
     .kosher-food-bank-page div#navigation,
     .get-help-page #navigation,
@@ -1525,6 +1547,8 @@ div[class*="search_header"],
     .purim-matanot-page div.chabad_menu_content,
     .volunteer-form-page .chabad_menu_content,
     .volunteer-form-page div.chabad_menu_content,
+    .faq-page .chabad_menu_content,
+    .faq-page div.chabad_menu_content,
     .kosher-food-bank-page .chabad_menu_content,
     .kosher-food-bank-page div.chabad_menu_content,
     .get-help-page .chabad_menu_content,
@@ -1542,6 +1566,8 @@ div[class*="search_header"],
     .purim-matanot-page div.chabad_menu_content.menu-open,
     .volunteer-form-page .chabad_menu_content.menu-open,
     .volunteer-form-page div.chabad_menu_content.menu-open,
+    .faq-page .chabad_menu_content.menu-open,
+    .faq-page div.chabad_menu_content.menu-open,
     .kosher-food-bank-page .chabad_menu_content.menu-open,
     .kosher-food-bank-page div.chabad_menu_content.menu-open,
     .get-help-page .chabad_menu_content.menu-open,
@@ -1554,6 +1580,7 @@ div[class*="search_header"],
     .about-us-page ul#menu,
     .purim-matanot-page ul#menu,
     .volunteer-form-page ul#menu,
+    .faq-page ul#menu,
     .kosher-food-bank-page ul#menu,
     .get-help-page ul#menu {
         gap: 0.25rem !important;
@@ -1572,6 +1599,9 @@ div[class*="search_header"],
     .volunteer-form-page ul#menu li a.parent,
     .volunteer-form-page ul#menu li a,
     .volunteer-form-page #navigation a,
+    .faq-page ul#menu li a.parent,
+    .faq-page ul#menu li a,
+    .faq-page #navigation a,
     .kosher-food-bank-page ul#menu li a.parent,
     .kosher-food-bank-page ul#menu li a,
     .kosher-food-bank-page #navigation a,
@@ -2278,6 +2308,282 @@ div[class*="search_header"],
         border-radius: 12px !important;
         border-width: 2px !important;
         margin: 1.5rem 0 !important;
+    }
+}
+
+/* ========================================
+   PAGE: FAQ (Frequently Asked Questions)
+   URL: /templates/articlecco_cdo/aid/6827204/jewish/FAQ.htm
+   ======================================== */
+
+/* Global styles for FAQ page */
+.faq-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 70px !important;
+}
+
+.faq-page #BodyContainer {
+    padding-top: 0 !important;
+}
+
+/* Make CMS containers transparent */
+.faq-page #BodyContainer,
+.faq-page #co_content_container,
+.faq-page .body_wrapper,
+.faq-page #content,
+.faq-page #co_body_container,
+.faq-page .master-content-wrapper,
+.faq-page div.master-content-wrapper,
+.faq-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Header section with hero image */
+.faq-page .chabad_header {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 350px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    margin: 0 !important;
+    padding: 3rem 2rem !important;
+}
+
+/* Header title - FAQ style with icon */
+.faq-page .chabad_header .headerTitle,
+.faq-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+.faq-page .chabad_header .headerTitle::before {
+    content: "?" !important;
+    display: inline-block !important;
+    margin-right: 1rem !important;
+    color: #d4af37 !important;
+    -webkit-text-stroke: 2px #ffffff !important;
+    text-stroke: 2px #ffffff !important;
+}
+
+/* Article container - FAQ card style */
+.faq-page .co_body.article-body.cf {
+    max-width: 1200px !important;
+    margin: 3rem auto !important;
+    padding: 4rem !important;
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(212, 175, 55, 0.1) !important;
+    position: relative !important;
+    border: 3px solid #f0f2f5 !important;
+}
+
+/* FAQ Questions - Bold styling with Q: prefix */
+.faq-page .co_body.article-body.cf strong,
+.faq-page .co_body.article-body.cf b {
+    display: block !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+    padding: 1.5rem 2rem !important;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border-left: 5px solid #d4af37 !important;
+    border-radius: 12px !important;
+    position: relative !important;
+    line-height: 1.4 !important;
+}
+
+.faq-page .co_body.article-body.cf strong::before,
+.faq-page .co_body.article-body.cf b::before {
+    content: "Q: " !important;
+    color: #d4af37 !important;
+    font-weight: 800 !important;
+    margin-right: 0.5rem !important;
+}
+
+/* First question - no top margin */
+.faq-page .co_body.article-body.cf strong:first-of-type,
+.faq-page .co_body.article-body.cf b:first-of-type {
+    margin-top: 0 !important;
+}
+
+/* FAQ Answers - Paragraph styling */
+.faq-page .co_body.article-body.cf p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 0 0 2rem 0 !important;
+    padding-left: 3rem !important;
+    position: relative !important;
+}
+
+.faq-page .co_body.article-body.cf p::before {
+    content: "A:" !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    font-weight: 700 !important;
+    color: #d4af37 !important;
+    font-size: 1.8rem !important;
+}
+
+/* Remove A: prefix if paragraph is empty or very short */
+.faq-page .co_body.article-body.cf p:empty::before {
+    content: none !important;
+}
+
+/* Lists in FAQ */
+.faq-page .co_body.article-body.cf ul,
+.faq-page .co_body.article-body.cf ol {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 1.5rem 0 2rem 3rem !important;
+    padding-left: 2rem !important;
+}
+
+.faq-page .co_body.article-body.cf li {
+    margin-bottom: 0.75rem !important;
+}
+
+/* Links in FAQ */
+.faq-page .co_body.article-body.cf a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+    font-weight: 600 !important;
+}
+
+.faq-page .co_body.article-body.cf a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Images in FAQ */
+.faq-page .co_body.article-body.cf img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    margin: 2rem 0 !important;
+}
+
+/* Responsive design for FAQ page */
+@media (max-width: 1024px) {
+    .faq-page .chabad_header .headerTitle,
+    .faq-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        text-stroke: 2px #d4af37 !important;
+    }
+
+    .faq-page .co_body.article-body.cf {
+        padding: 3rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf strong,
+    .faq-page .co_body.article-body.cf b {
+        font-size: 1.8rem !important;
+        padding: 1.25rem 1.5rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf p {
+        font-size: 1.5rem !important;
+        padding-left: 2.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .faq-page .chabad_header {
+        min-height: 250px !important;
+        padding: 2rem 1.5rem !important;
+    }
+
+    .faq-page .chabad_header .headerTitle,
+    .faq-page .chabad_header .headerTitle a {
+        font-size: 3.5rem !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        text-stroke: 2px #d4af37 !important;
+    }
+
+    .faq-page .co_body.article-body.cf {
+        margin: 2rem 1rem !important;
+        padding: 2.5rem 2rem !important;
+        border-radius: 16px !important;
+    }
+
+    .faq-page .co_body.article-body.cf strong,
+    .faq-page .co_body.article-body.cf b {
+        font-size: 1.6rem !important;
+        padding: 1rem 1.25rem !important;
+        margin-top: 2rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf p {
+        font-size: 1.4rem !important;
+        padding-left: 2rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf p::before {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-page .chabad_header .headerTitle,
+    .faq-page .chabad_header .headerTitle a {
+        font-size: 2.5rem !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        text-stroke: 1.5px #d4af37 !important;
+    }
+
+    .faq-page .chabad_header .headerTitle::before {
+        margin-right: 0.5rem !important;
+        font-size: 2.5rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf {
+        padding: 2rem 1.5rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf strong,
+    .faq-page .co_body.article-body.cf b {
+        font-size: 1.4rem !important;
+        padding: 0.875rem 1rem !important;
+        margin-top: 1.5rem !important;
+    }
+
+    .faq-page .co_body.article-body.cf p {
+        font-size: 1.3rem !important;
+        padding-left: 1.75rem !important;
     }
 }
 
