@@ -952,130 +952,82 @@ function styleYeshivaScholarshipForm() {
 // ========================================
 // 5. VOLUNTEER FORM STYLING
 // ========================================
+// ========================================
+// PAGE: VOLUNTEER FORM
+// URL: /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm
+// ========================================
 function styleVolunteerForm() {
+    // Prevent double initialization
     if (volunteerInitialized) return;
 
-    // Check if we're on the Volunteer Form page
-    var currentUrl = window.location.href.toLowerCase();
-    if (currentUrl.indexOf('5094614') === -1 && currentUrl.indexOf('volunteer') === -1) return;
+    // Detect page by article ID or filename
+    var isVolunteerPage = window.location.href.indexOf('/aid/6827149/') !== -1 ||
+                          window.location.href.indexOf('Volunteer-with-us.htm') !== -1;
 
-    var form = document.querySelector('form[id*="form"]') ||
-               document.querySelector('form[name*="form_"]') ||
-               document.querySelector('form');
-    if (!form) return;
+    if (!isVolunteerPage) return;
 
     volunteerInitialized = true;
 
-    // Add page-specific body class
+    // Add body class for CSS targeting
     if (document.body && !document.body.classList.contains('volunteer-form-page')) {
         document.body.classList.add('volunteer-form-page');
     }
 
-    // Apply page background - RED gradient
-    document.body.style.cssText += 'background:linear-gradient(135deg, #2a0e14 0%, #5c1f2e 50%, #8b2e3f 100%)!important;';
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
 
-    // Hide breadcrumbs
-    var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
-    for (var i = 0; i < breadcrumbs.length; i++) {
-        breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
-    }
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
 
-    // Hide banner images/decorators
-    var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
-    for (var i = 0; i < banners.length; i++) {
-        banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
-    }
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
 
-    // Style page title with typewriter effect
-    var pageTitle = document.querySelector('h1') ||
-                   document.querySelector('.article-header__title') ||
-                   document.querySelector('.master-content-wrapper h1');
-
-    if (pageTitle) {
-        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:4rem!important;font-weight:800!important;color:#ffffff!important;text-align:center!important;margin:2rem auto 3rem!important;padding:2rem!important;background:transparent!important;border:none!important;text-shadow:0 4px 20px rgba(244,208,63,0.6)!important;display:inline-block!important;max-width:1100px!important;width:90%!important;letter-spacing:-1px!important;';
-        addTypewriterEffect(pageTitle);
-    }
-
-    // Style the form container
-    form.style.cssText = 'max-width:1100px!important;margin:0 auto 3rem auto!important;padding:0 4rem 4rem 4rem!important;background:#ffffff!important;border-radius:16px!important;box-shadow:0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(244,208,63,0.15)!important;font-family:Urbanist,sans-serif!important;position:relative!important;z-index:5!important;';
-
-    // Style form labels - NO ANIMATION
-    var labels = form.querySelectorAll('label, .form-label');
-    for (var i = 0; i < labels.length; i++) {
-        labels[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.75rem!important;font-weight:600!important;color:#c93545!important;margin-bottom:0.75rem!important;display:block!important;opacity:1!important;transform:none!important;';
-    }
-
-    // Style ALL text elements
-    var allFormElements = form.querySelectorAll('*');
-    for (var i = 0; i < allFormElements.length; i++) {
-        var el = allFormElements[i];
-        var tagName = el.tagName.toLowerCase();
-        if (tagName === 'input' || tagName === 'select' || tagName === 'button' || tagName === 'textarea') continue;
-
-        var hasDirectText = false;
-        for (var j = 0; j < el.childNodes.length; j++) {
-            if (el.childNodes[j].nodeType === 3 && el.childNodes[j].textContent.trim().length > 0) {
-                hasDirectText = true;
-                break;
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                if (menuContent.classList.contains('menu-open')) {
+                    toggleButton.textContent = 'CLOSE';
+                } else {
+                    toggleButton.textContent = 'MENU';
+                }
             }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force navigation link colors (fight CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+
+            // CRITICAL: Remove webkit color overrides
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
         }
-        if (hasDirectText) {
-            el.style.fontSize = '1.5rem';
-            el.style.fontFamily = 'Urbanist, sans-serif';
-            el.style.lineHeight = '1.6';
-        }
     }
 
-    // Style inputs
-    // NOTE: Exclude select elements here as they need different padding treatment
-    var inputs = form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], input[type="number"], textarea');
-    for (var i = 0; i < inputs.length; i++) {
-        inputs[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;';
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
 
-        inputs[i].addEventListener('focus', function() {
-            this.style.borderColor = '#c93545';
-            this.style.boxShadow = '0 0 0 3px rgba(201,53,69,0.1)';
-            this.style.outline = 'none';
-        });
-        inputs[i].addEventListener('blur', function() {
-            this.style.borderColor = '#d1d9e6';
-            this.style.boxShadow = 'none';
-        });
-    }
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
 
-    // Style submit button - Crimson & Gold gradient
-    var submitButtons = form.querySelectorAll('button[type="submit"], input[type="submit"]');
-    for (var i = 0; i < submitButtons.length; i++) {
-        submitButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #c93545 0%, #f4d03f 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(201,53,69,0.3)!important;min-width:240px!important;margin-top:2rem!important;margin-right:1rem!important;display:inline-block!important;';
-
-        submitButtons[i].addEventListener('mouseenter', function() {
-            this.style.background = 'linear-gradient(135deg, #a82c3a 0%, #d4af37 100%)';
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 6px 20px rgba(201,53,69,0.4)';
-        });
-        submitButtons[i].addEventListener('mouseleave', function() {
-            this.style.background = 'linear-gradient(135deg, #c93545 0%, #f4d03f 100%)';
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 12px rgba(201,53,69,0.3)';
-        });
-    }
-
-    // Style reset button
-    var resetButtons = form.querySelectorAll('button[type="reset"], input[type="reset"]');
-    for (var i = 0; i < resetButtons.length; i++) {
-        resetButtons[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.625rem!important;font-weight:700!important;color:#ffffff!important;background:linear-gradient(135deg, #6b7280 0%, #4b5563 100%)!important;border:none!important;border-radius:50px!important;padding:1.75rem 4rem!important;cursor:pointer!important;transition:all 0.3s ease!important;box-shadow:0 4px 12px rgba(75,85,99,0.2)!important;min-width:240px!important;margin-top:2rem!important;display:inline-block!important;';
-
-        resetButtons[i].addEventListener('mouseenter', function() {
-            this.style.background = 'linear-gradient(135deg, #4b5563 0%, #374151 100%)';
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 6px 20px rgba(75,85,99,0.3)';
-        });
-        resetButtons[i].addEventListener('mouseleave', function() {
-            this.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 100%)';
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = '0 4px 12px rgba(75,85,99,0.2)';
-        });
-    }
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
 }
 
 // ========================================

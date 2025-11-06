@@ -576,294 +576,347 @@ body.gmach-donation-form-page .below-article li a:hover {
 }
 
 /* ====================================================================
-   PAGE-SPECIFIC STYLING: VOLUNTEER FORM
-   URL: /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm
+   PAGE-SPECIFIC STYLING: VOLUNTEER WITH US FORM
+   URL: /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm
    Target: form elements on this page
-   Theme: Warm Crimson Red (matching Community Connections)
-   Colors: #c93545 (crimson), #f4d03f (gold), red gradient background
+   Theme: Black/White/Gold (matching other pages)
+   Colors: #d4af37 (gold), standard gradient background
    ==================================================================== */
 
 /* Page-level styling - RED GRADIENT background */
 body.volunteer-form-page {
-    background: linear-gradient(135deg, #2a0e14 0%, #5c1f2e 50%, #8b2e3f 100%) !important;
-}
-
-/* Hide breadcrumbs on Volunteer Form page */
-body.volunteer-form-page .breadcrumbs,
-body.volunteer-form-page .breadcrumb,
-body.volunteer-form-page [class*="breadcrumb"] {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Hide banner images/decorators on Volunteer Form page - but NOT header */
-body.volunteer-form-page .banner_image,
-body.volunteer-form-page .page_banner,
-body.volunteer-form-page .article_banner,
-body.volunteer-form-page [class*="banner"] img,
-body.volunteer-form-page .article_banner_wrapper,
-body.volunteer-form-page .page_header_image {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    overflow: hidden !important;
-}
-
-/* Remove background from article header but keep visible (title is inside) - FULL WIDTH */
-body.volunteer-form-page header.article-header {
-    background: none !important;
-    background-image: none !important;
-    background-color: transparent !important;
-    padding: 0 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
     margin: 0 !important;
-    border: none !important;
-    display: block !important;
-    visibility: visible !important;
-    width: 100% !important;
-    text-align: center !important;
+    padding: 0 !important;
+    padding-top: 70px !important;
 }
 
-/* Remove background from decorator wrapper but keep content visible */
+body.volunteer-form-page #BodyContainer {
+    padding-top: 0 !important;
+}
+
+/* Make CMS containers transparent */
+body.volunteer-form-page #BodyContainer,
+body.volunteer-form-page #co_content_container,
+body.volunteer-form-page .body_wrapper,
+body.volunteer-form-page #content,
+body.volunteer-form-page #co_body_container,
 body.volunteer-form-page .master-content-wrapper,
-body.volunteer-form-page .master-content-wrapper.g960,
 body.volunteer-form-page div.master-content-wrapper,
-body.volunteer-form-page [class*="master-content"] {
-    background: none !important;
+body.volunteer-form-page #chabad_main_content {
     background-image: none !important;
+    background: transparent !important;
     background-color: transparent !important;
-    padding: 2rem 0 !important;
 }
 
-/* Style the page title on Volunteer Form page - WHITE with GOLD shadow - NO BOX - CENTERED */
-body.volunteer-form-page h1,
-body.volunteer-form-page h2.page-title,
-body.volunteer-form-page .master-content-wrapper h1,
-body.volunteer-form-page .master-content-wrapper h2,
-body.volunteer-form-page .sCHeading_1,
-body.volunteer-form-page .article-header__title {
+/* Remove decorative elements */
+body.volunteer-form-page body::before,
+body.volunteer-form-page body::after,
+body.volunteer-form-page #BodyContainer::before,
+body.volunteer-form-page #BodyContainer::after,
+body.volunteer-form-page #co_content_container::before,
+body.volunteer-form-page #co_content_container::after,
+body.volunteer-form-page .body_wrapper::before,
+body.volunteer-form-page .body_wrapper::after,
+body.volunteer-form-page #content::before,
+body.volunteer-form-page #content::after,
+body.volunteer-form-page #co_body_container::before,
+body.volunteer-form-page #co_body_container::after,
+body.volunteer-form-page .decorative-circles,
+body.volunteer-form-page .background-dots,
+body.volunteer-form-page [class*="dot"],
+body.volunteer-form-page [class*="circle"][class*="decorat"],
+body.volunteer-form-page [class*="background"][class*="element"] {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hero header section */
+body.volunteer-form-page .chabad_header {
+    position: relative !important;
+    min-height: 350px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+body.volunteer-form-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+body.volunteer-form-page .chabad_header .headerTitle,
+body.volunteer-form-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 4rem !important;
+    font-size: 5.5rem !important;
     font-weight: 800 !important;
     color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
     text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 2rem 2rem 0 2rem !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Form content styling */
+body.volunteer-form-page .chabad_left_column,
+body.volunteer-form-page #ContentArea {
     background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
     border: none !important;
-    text-shadow: 0 4px 20px rgba(244, 208, 63, 0.6) !important;
-    display: inline-block !important;
-    visibility: visible !important;
-    max-width: 1100px !important;
-    width: 90% !important;
-    letter-spacing: -1px !important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
-/* Typewriter animation container - JavaScript will handle the animation */
-body.volunteer-form-page h1.typewriter-ready,
-body.volunteer-form-page .article-header__title.typewriter-ready {
+body.volunteer-form-page article {
+    max-width: 1100px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
     position: relative !important;
+    z-index: 1 !important;
 }
 
-/* Hide duplicate form title inside white form box */
-body.volunteer-form-page form p[align="center"],
-body.volunteer-form-page form p[style*="text-align: center"],
-body.volunteer-form-page form p[style*="text-align:center"] {
-    display: none !important;
-    visibility: hidden !important;
-    height: 0 !important;
-    overflow: hidden !important;
-}
-
-/* Main form container styling - WIDER with ENHANCED shadow for dark bg */
-body.volunteer-form-page form,
-body.volunteer-form-page form[id*="form"],
-body.volunteer-form-page form[name*="form_"] {
-    max-width: 1100px !important;
-    margin: 0 auto 3rem auto !important;
-    padding: 0 4rem 4rem 4rem !important;
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15) !important;
+body.volunteer-form-page h1.article-header__title,
+body.volunteer-form-page h1.js-article-title,
+body.volunteer-form-page .article-header__title {
     font-family: 'Urbanist', sans-serif !important;
-    position: relative !important;
-    z-index: 5 !important;
+    font-size: 3.5rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
 }
 
-/* Form labels - EXTRA LARGE (1.75rem = 28px) */
+/* Form styling */
+body.volunteer-form-page form {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
 body.volunteer-form-page form label,
-body.volunteer-form-page form .form-label {
+body.volunteer-form-page form .label,
+body.volunteer-form-page form strong {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.75rem !important;
+    font-size: 1.5rem !important;
     font-weight: 600 !important;
-    color: #c93545 !important;
-    margin-bottom: 0.75rem !important;
+    color: #000000 !important;
+    margin-bottom: 0.5rem !important;
     display: block !important;
 }
 
-/* ALL text elements in form - make bigger (1.5rem = 24px) */
-body.volunteer-form-page form * {
+body.volunteer-form-page form small,
+body.volunteer-form-page form .small-text {
+    font-size: 1.2rem !important;
+    color: #666666 !important;
+}
+
+body.volunteer-form-page input[type="text"],
+body.volunteer-form-page input[type="email"],
+body.volunteer-form-page input[type="tel"],
+body.volunteer-form-page input[type="number"],
+body.volunteer-form-page textarea,
+body.volunteer-form-page select {
+    font-family: 'Urbanist', sans-serif !important;
     font-size: 1.5rem !important;
-    font-family: 'Urbanist', sans-serif !important;
-    line-height: 1.6 !important;
-}
-
-/* Reset input/select/button sizes (styled separately below) */
-body.volunteer-form-page form input,
-body.volunteer-form-page form select,
-body.volunteer-form-page form button,
-body.volunteer-form-page form textarea {
-    font-size: 1.35rem !important;
-}
-
-/* Form inputs - rounded corners - BIGGER (1.35rem = ~21.6px) */
-body.volunteer-form-page form input[type="text"],
-body.volunteer-form-page form input[type="email"],
-body.volunteer-form-page form input[type="tel"],
-body.volunteer-form-page form input[type="number"],
-body.volunteer-form-page form textarea,
-body.volunteer-form-page form select {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.35rem !important;
-    padding: 1.25rem 2rem !important;
-    border: 2px solid #d1d9e6 !important;
+    padding: 1.2rem 1.5rem !important;
+    border: 2px solid #e0e0e0 !important;
     border-radius: 12px !important;
     background: #ffffff !important;
-    color: #2a2a2a !important;
+    color: #1a1a1a !important;
     transition: all 0.3s ease !important;
+    width: 100% !important;
     box-sizing: border-box !important;
 }
 
-/* Input focus state */
-body.volunteer-form-page form input:focus,
-body.volunteer-form-page form textarea:focus,
-body.volunteer-form-page form select:focus {
+body.volunteer-form-page input[type="text"]:focus,
+body.volunteer-form-page input[type="email"]:focus,
+body.volunteer-form-page input[type="tel"]:focus,
+body.volunteer-form-page input[type="number"]:focus,
+body.volunteer-form-page textarea:focus,
+body.volunteer-form-page select:focus {
     outline: none !important;
-    border-color: #c93545 !important;
-    box-shadow: 0 0 0 3px rgba(201, 53, 69, 0.1) !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
 }
 
-/* Select dropdown arrow - BIGGER (1.35rem) */
-body.volunteer-form-page form select {
-    cursor: pointer !important;
-    appearance: none !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c93545' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat !important;
-    background-position: right 2rem center !important;
-    padding-right: 3.5rem !important;
+body.volunteer-form-page textarea {
+    min-height: 150px !important;
+    resize: vertical !important;
 }
 
-/* Form section headings - LARGE section headers (2rem = 32px) */
-body.volunteer-form-page form h2,
-body.volunteer-form-page form h3,
-body.volunteer-form-page form h4,
-body.volunteer-form-page form legend,
-body.volunteer-form-page form b,
-body.volunteer-form-page form strong,
-body.volunteer-form-page form u {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 2rem !important;
-    font-weight: 700 !important;
-    color: #8b0000 !important;
-    margin: 2rem 0 1rem 0 !important;
-    padding-bottom: 0.5rem !important;
-    border-bottom: 2px solid #f8e8ea !important;
-    display: block !important;
-}
-
-/* Submit button - styled - CRIMSON & GOLD gradient (1.625rem = 26px) */
-body.volunteer-form-page form button[type="submit"],
-body.volunteer-form-page form input[type="submit"],
-body.volunteer-form-page form .form-submit button,
-body.volunteer-form-page form [id*="submit"] input[type="submit"] {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.625rem !important;
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #c93545 0%, #f4d03f 100%) !important;
-    border: none !important;
-    border-radius: 50px !important;
-    padding: 1.75rem 4rem !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 12px rgba(201, 53, 69, 0.3) !important;
-    min-width: 240px !important;
-    margin-top: 2rem !important;
+body.volunteer-form-page input[type="checkbox"],
+body.volunteer-form-page input[type="radio"] {
+    width: 1.8rem !important;
+    height: 1.8rem !important;
     margin-right: 1rem !important;
-    display: inline-block !important;
+    cursor: pointer !important;
+    accent-color: #d4af37 !important;
 }
 
-body.volunteer-form-page form button[type="submit"]:hover,
-body.volunteer-form-page form input[type="submit"]:hover {
-    background: linear-gradient(135deg, #a82c3a 0%, #d4af37 100%) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(201, 53, 69, 0.4) !important;
+body.volunteer-form-page input[type="checkbox"] + label,
+body.volunteer-form-page input[type="radio"] + label {
+    display: inline !important;
+    font-size: 1.4rem !important;
+    font-weight: 400 !important;
+    cursor: pointer !important;
 }
 
-/* Reset button - GRAY gradient theme */
-body.volunteer-form-page form button[type="reset"],
-body.volunteer-form-page form input[type="reset"] {
+body.volunteer-form-page input[type="submit"],
+body.volunteer-form-page button[type="submit"],
+body.volunteer-form-page .submit-button {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.625rem !important;
+    font-size: 1.8rem !important;
     font-weight: 700 !important;
     color: #ffffff !important;
-    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
     border: none !important;
-    border-radius: 50px !important;
-    padding: 1.75rem 4rem !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 4rem !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 12px rgba(75, 85, 99, 0.2) !important;
-    min-width: 240px !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
     margin-top: 2rem !important;
-    display: inline-block !important;
 }
 
-body.volunteer-form-page form button[type="reset"]:hover,
-body.volunteer-form-page form input[type="reset"]:hover {
-    background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
+body.volunteer-form-page input[type="submit"]:hover,
+body.volunteer-form-page button[type="submit"]:hover,
+body.volunteer-form-page .submit-button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
 }
 
-/* Security text - make visible on dark background */
-body.volunteer-form-page .center_small,
-body.volunteer-form-page .center.small,
-body.volunteer-form-page form .center_small,
-body.volunteer-form-page form small {
-    color: #e5e7eb !important;
-    font-size: 0.95rem !important;
-    line-height: 1.6 !important;
-    font-family: 'Urbanist', sans-serif !important;
-    text-align: center !important;
-    margin-top: 1rem !important;
-    opacity: 0.9 !important;
+body.volunteer-form-page .form-row,
+body.volunteer-form-page .form-group,
+body.volunteer-form-page form > div {
+    margin-bottom: 2rem !important;
 }
 
-/* Mobile responsive for Volunteer Form */
-@media (max-width: 768px) {
-    body.volunteer-form-page form {
-        padding: 2.5rem 1.5rem !important;
-        margin: 2rem 1rem !important;
-        max-width: 95% !important;
+body.volunteer-form-page .required,
+body.volunteer-form-page .req,
+body.volunteer-form-page span[style*="color: red"],
+body.volunteer-form-page span[style*="color:red"] {
+    color: #d4af37 !important;
+}
+
+/* Responsive design for Volunteer form */
+@media (max-width: 1024px) {
+    body.volunteer-form-page .chabad_header .headerTitle,
+    body.volunteer-form-page .chabad_header .headerTitle a {
+        font-size: 4rem !important;
+        -webkit-text-stroke: 2.5px #d4af37 !important;
     }
 
-    body.volunteer-form-page h1,
+    body.volunteer-form-page h1.article-header__title,
     body.volunteer-form-page .article-header__title {
-        font-size: 2.5rem !important;
-        padding: 0 !important;
+        font-size: 2.8rem !important;
     }
 
-    body.volunteer-form-page form button[type="submit"],
-    body.volunteer-form-page form input[type="submit"],
-    body.volunteer-form-page form button[type="reset"],
-    body.volunteer-form-page form input[type="reset"] {
+    body.volunteer-form-page article {
+        padding: 4rem 3rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.volunteer-form-page .chabad_header {
+        min-height: 300px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    body.volunteer-form-page .chabad_header .headerTitle,
+    body.volunteer-form-page .chabad_header .headerTitle a {
+        font-size: 5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+    }
+
+    body.volunteer-form-page article {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+        border-radius: 20px !important;
+    }
+
+    body.volunteer-form-page h1.article-header__title,
+    body.volunteer-form-page .article-header__title {
+        font-size: 2.2rem !important;
+        border-bottom-width: 4px !important;
+        margin-bottom: 2rem !important;
+    }
+
+    body.volunteer-form-page input[type="submit"],
+    body.volunteer-form-page button[type="submit"],
+    body.volunteer-form-page .submit-button {
         width: 100% !important;
         padding: 1.5rem 2rem !important;
-        margin-right: 0 !important;
-        margin-bottom: 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    body.volunteer-form-page .chabad_header {
+        min-height: 250px !important;
+        padding: 2rem 1rem !important;
+    }
+
+    body.volunteer-form-page .chabad_header .headerTitle,
+    body.volunteer-form-page .chabad_header .headerTitle a {
+        font-size: 3.5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+    }
+
+    body.volunteer-form-page article {
+        padding: 2.5rem 1.5rem !important;
+        margin: 1.5rem 0.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    body.volunteer-form-page h1.article-header__title,
+    body.volunteer-form-page .article-header__title {
+        font-size: 1.8rem !important;
+        border-bottom-width: 3px !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    body.volunteer-form-page form label,
+    body.volunteer-form-page form .label {
+        font-size: 1.3rem !important;
+    }
+
+    body.volunteer-form-page input[type="text"],
+    body.volunteer-form-page input[type="email"],
+    body.volunteer-form-page input[type="tel"],
+    body.volunteer-form-page input[type="number"],
+    body.volunteer-form-page textarea,
+    body.volunteer-form-page select {
+        font-size: 1.4rem !important;
+        padding: 1rem 1.2rem !important;
     }
 }
 
@@ -1201,7 +1254,8 @@ div[class*="search_header"],
    ==================================================================== */
 
 /* ========================================
-   SHARED NAVIGATION STYLES FOR ALL THREE PAGES
+   SHARED NAVIGATION STYLES FOR ALL PAGES
+   (About Us, Purim Matanot, Volunteer Form, Kosher Food Bank, Get Help)
    ======================================== */
 
 /* Fixed navigation bar */
@@ -1209,6 +1263,8 @@ div[class*="search_header"],
 .about-us-page div#navigation,
 .purim-matanot-page #navigation,
 .purim-matanot-page div#navigation,
+.volunteer-form-page #navigation,
+.volunteer-form-page div#navigation,
 .kosher-food-bank-page #navigation,
 .kosher-food-bank-page div#navigation,
 .get-help-page #navigation,
@@ -1236,6 +1292,8 @@ div[class*="search_header"],
 .about-us-page div.chabad_menu_content,
 .purim-matanot-page .chabad_menu_content,
 .purim-matanot-page div.chabad_menu_content,
+.volunteer-form-page .chabad_menu_content,
+.volunteer-form-page div.chabad_menu_content,
 .kosher-food-bank-page .chabad_menu_content,
 .kosher-food-bank-page div.chabad_menu_content,
 .get-help-page .chabad_menu_content,
@@ -1249,6 +1307,7 @@ div[class*="search_header"],
 /* Navigation menu styling */
 .about-us-page ul#menu,
 .purim-matanot-page ul#menu,
+.volunteer-form-page ul#menu,
 .kosher-food-bank-page ul#menu,
 .get-help-page ul#menu {
     display: flex !important;
@@ -1266,6 +1325,8 @@ div[class*="search_header"],
 .about-us-page ul#menu li,
 .purim-matanot-page ul#menu li.item,
 .purim-matanot-page ul#menu li,
+.volunteer-form-page ul#menu li.item,
+.volunteer-form-page ul#menu li,
 .kosher-food-bank-page ul#menu li.item,
 .kosher-food-bank-page ul#menu li,
 .get-help-page ul#menu li.item,
@@ -1287,6 +1348,9 @@ div[class*="search_header"],
 .purim-matanot-page ul#menu li a.parent,
 .purim-matanot-page ul#menu li a,
 .purim-matanot-page #navigation a,
+.volunteer-form-page ul#menu li a.parent,
+.volunteer-form-page ul#menu li a,
+.volunteer-form-page #navigation a,
 .kosher-food-bank-page ul#menu li a.parent,
 .kosher-food-bank-page ul#menu li a,
 .kosher-food-bank-page #navigation a,
@@ -1311,6 +1375,7 @@ div[class*="search_header"],
 /* Hover state */
 .about-us-page ul#menu li a:hover,
 .purim-matanot-page ul#menu li a:hover,
+.volunteer-form-page ul#menu li a:hover,
 .kosher-food-bank-page ul#menu li a:hover,
 .get-help-page ul#menu li a:hover {
     color: #d4af37 !important;
@@ -1321,6 +1386,7 @@ div[class*="search_header"],
 /* Selected state */
 .about-us-page ul#menu li a.selected,
 .purim-matanot-page ul#menu li a.selected,
+.volunteer-form-page ul#menu li a.selected,
 .kosher-food-bank-page ul#menu li a.selected,
 .get-help-page ul#menu li a.selected {
     color: #d4af37 !important;
@@ -1330,6 +1396,7 @@ div[class*="search_header"],
 /* Dropdown menus */
 .about-us-page ul#menu li.arrow,
 .purim-matanot-page ul#menu li.arrow,
+.volunteer-form-page ul#menu li.arrow,
 .kosher-food-bank-page ul#menu li.arrow,
 .get-help-page ul#menu li.arrow {
     position: relative !important;
@@ -1337,6 +1404,7 @@ div[class*="search_header"],
 
 .about-us-page ul#menu li.arrow .sub_menu,
 .purim-matanot-page ul#menu li.arrow .sub_menu,
+.volunteer-form-page ul#menu li.arrow .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu,
 .get-help-page ul#menu li.arrow .sub_menu {
     position: absolute !important;
@@ -1358,6 +1426,7 @@ div[class*="search_header"],
 
 .about-us-page ul#menu li.arrow:hover .sub_menu,
 .purim-matanot-page ul#menu li.arrow:hover .sub_menu,
+.volunteer-form-page ul#menu li.arrow:hover .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
 .get-help-page ul#menu li.arrow:hover .sub_menu {
     opacity: 1 !important;
@@ -1367,6 +1436,7 @@ div[class*="search_header"],
 
 .about-us-page ul#menu li.arrow .sub_menu ul li a,
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a,
+.volunteer-form-page ul#menu li.arrow .sub_menu ul li a,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
 .get-help-page ul#menu li.arrow .sub_menu ul li a {
     display: block !important;
@@ -1382,6 +1452,7 @@ div[class*="search_header"],
 
 .about-us-page ul#menu li.arrow .sub_menu ul li a:hover,
 .purim-matanot-page ul#menu li.arrow .sub_menu ul li a:hover,
+.volunteer-form-page ul#menu li.arrow .sub_menu ul li a:hover,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
 .get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
     background: rgba(212, 175, 55, 0.2) !important;
@@ -1393,6 +1464,7 @@ div[class*="search_header"],
 /* Mobile menu toggle button */
 .about-us-page .mobile-menu-toggle,
 .purim-matanot-page .mobile-menu-toggle,
+.volunteer-form-page .mobile-menu-toggle,
 .kosher-food-bank-page .mobile-menu-toggle,
 .get-help-page .mobile-menu-toggle {
     display: none !important;
@@ -1412,6 +1484,7 @@ div[class*="search_header"],
 
 .about-us-page .mobile-menu-toggle:hover,
 .purim-matanot-page .mobile-menu-toggle:hover,
+.volunteer-form-page .mobile-menu-toggle:hover,
 .kosher-food-bank-page .mobile-menu-toggle:hover,
 .get-help-page .mobile-menu-toggle:hover {
     background: #d4af37 !important;
@@ -1422,6 +1495,7 @@ div[class*="search_header"],
 @media (max-width: 768px) {
     .about-us-page .mobile-menu-toggle,
     .purim-matanot-page .mobile-menu-toggle,
+    .volunteer-form-page .mobile-menu-toggle,
     .kosher-food-bank-page .mobile-menu-toggle,
     .get-help-page .mobile-menu-toggle {
         display: block !important;
@@ -1431,6 +1505,8 @@ div[class*="search_header"],
     .about-us-page div#navigation,
     .purim-matanot-page #navigation,
     .purim-matanot-page div#navigation,
+    .volunteer-form-page #navigation,
+    .volunteer-form-page div#navigation,
     .kosher-food-bank-page #navigation,
     .kosher-food-bank-page div#navigation,
     .get-help-page #navigation,
@@ -1447,6 +1523,8 @@ div[class*="search_header"],
     .about-us-page div.chabad_menu_content,
     .purim-matanot-page .chabad_menu_content,
     .purim-matanot-page div.chabad_menu_content,
+    .volunteer-form-page .chabad_menu_content,
+    .volunteer-form-page div.chabad_menu_content,
     .kosher-food-bank-page .chabad_menu_content,
     .kosher-food-bank-page div.chabad_menu_content,
     .get-help-page .chabad_menu_content,
@@ -1462,6 +1540,8 @@ div[class*="search_header"],
     .about-us-page div.chabad_menu_content.menu-open,
     .purim-matanot-page .chabad_menu_content.menu-open,
     .purim-matanot-page div.chabad_menu_content.menu-open,
+    .volunteer-form-page .chabad_menu_content.menu-open,
+    .volunteer-form-page div.chabad_menu_content.menu-open,
     .kosher-food-bank-page .chabad_menu_content.menu-open,
     .kosher-food-bank-page div.chabad_menu_content.menu-open,
     .get-help-page .chabad_menu_content.menu-open,
@@ -1473,6 +1553,7 @@ div[class*="search_header"],
 
     .about-us-page ul#menu,
     .purim-matanot-page ul#menu,
+    .volunteer-form-page ul#menu,
     .kosher-food-bank-page ul#menu,
     .get-help-page ul#menu {
         gap: 0.25rem !important;
@@ -1488,6 +1569,9 @@ div[class*="search_header"],
     .purim-matanot-page ul#menu li a.parent,
     .purim-matanot-page ul#menu li a,
     .purim-matanot-page #navigation a,
+    .volunteer-form-page ul#menu li a.parent,
+    .volunteer-form-page ul#menu li a,
+    .volunteer-form-page #navigation a,
     .kosher-food-bank-page ul#menu li a.parent,
     .kosher-food-bank-page ul#menu li a,
     .kosher-food-bank-page #navigation a,
