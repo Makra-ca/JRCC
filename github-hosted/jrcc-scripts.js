@@ -177,99 +177,368 @@
         redesignDesktopSidebar();
         setTimeout(redesignDesktopSidebar, 1000);
         setTimeout(redesignDesktopSidebar, 2000);
+        return; // Exit - don't run mobile code
     }
 
-    // MOBILE SIDEBAR REDESIGN
-    if (window.innerWidth <= 768) {
-        var mobileInitialized = false;
+    // MOBILE SIDEBAR BOTTOM SHEET
+    // Only run on mobile devices
 
-        function redesignMobileSidebar() {
-            if (mobileInitialized) return;
+    var mobileSidebar = null;
+    var backdrop = null;
+    var isOpen = false;
+    var initialized = false;
 
-            var mobileSidebar = document.querySelector('.g260, div.g260, .cco_search_header, div[class*="g260"], .sidebar-local-navigation, .co_local_menu');
-            if (!mobileSidebar) {
-                setTimeout(redesignMobileSidebar, 500);
+    function createMobileSidebar() {
+        // Prevent multiple initializations
+        if (initialized) return;
+
+        // Find navigation elements (NOT the search form container)
+        var navElement = document.querySelector('.co_local_menu, .sidebar-local-navigation');
+        if (!navElement) {
+            return;
+        }
+
+        // Check if navigation has links
+        var linkCount = navElement.querySelectorAll('a').length;
+        if (linkCount === 0) {
+            return;
+        }
+
+        initialized = true;
+
+        // Calculate responsive sizing based on screen size
+        var viewportHeight = window.innerHeight;
+        var sidebarHeight = viewportHeight <= 667 ? '85vh' : '80vh'; // iPhone SE gets more height
+        var visibleTab = '80px'; // Larger visible tab for better discoverability
+
+        // Create mobile sidebar container
+        mobileSidebar = document.createElement('div');
+        mobileSidebar.className = 'jrcc-mobile-sidebar';
+        mobileSidebar.style.cssText = 'position:fixed!important;bottom:0!important;left:0!important;right:0!important;width:100%!important;height:'+sidebarHeight+'!important;background:rgba(255,255,255,0.98)!important;backdrop-filter:blur(20px) saturate(180%)!important;-webkit-backdrop-filter:blur(20px) saturate(180%)!important;border-radius:28px 28px 0 0!important;box-shadow:0 -8px 32px rgba(0,0,0,0.2)!important;transform:translateY(calc(100% - '+visibleTab+'))!important;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1)!important;z-index:100001!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important;padding:20px!important;padding-top:80px!important;';
+
+        // Add iOS-style handle pill at top
+        var handle = document.createElement('div');
+        handle.style.cssText = 'position:absolute!important;top:16px!important;left:50%!important;transform:translateX(-50%)!important;width:48px!important;height:5px!important;background:rgba(30,58,138,0.4)!important;border-radius:3px!important;pointer-events:none!important;';
+        mobileSidebar.appendChild(handle);
+
+        // Add visible label "SIDEBAR" below handle
+        var label = document.createElement('div');
+        label.textContent = 'SIDEBAR';
+        label.style.cssText = 'position:absolute!important;top:30px!important;left:0!important;right:0!important;text-align:center!important;font-family:Urbanist,sans-serif!important;font-size:14px!important;font-weight:700!important;color:rgba(30,58,138,0.8)!important;letter-spacing:0.1em!important;pointer-events:none!important;';
+        mobileSidebar.appendChild(label);
+
+        var contentWrapper = document.createElement('div');
+        contentWrapper.style.cssText = 'width:100%!important;overflow-x:hidden!important;';
+
+        // Clone the navigation element
+        var clonedContent = navElement.cloneNode(true);
+        clonedContent.style.display = 'block';
+        clonedContent.style.visibility = 'visible';
+        clonedContent.style.opacity = '1';
+
+        // Transfer navigation children
+        while (clonedContent.firstChild) {
+            contentWrapper.appendChild(clonedContent.firstChild);
+        }
+
+        // Look for promotional widget boxes from the correct container
+        // Wait a bit for widgets to load, then search
+        setTimeout(function() {
+            // Find the ads/promotional container - this is .ads.g260, NOT .g260.cco_search_header
+            var adsContainer = document.querySelector('.ads.g260');
+            if (!adsContainer) {
                 return;
             }
 
-            mobileInitialized = true;
+            // Find all widget_content divs that contain promotional links
+            var widgetContents = adsContainer.querySelectorAll('.widget_content');
+            var promoWidgets = [];
 
-            // Create mobile menu button
-            var mobileMenuBtn = document.createElement('button');
-            mobileMenuBtn.innerHTML = '<span></span><span></span><span></span>';
-            mobileMenuBtn.style.cssText = 'position:fixed!important;bottom:20px!important;right:20px!important;width:60px!important;height:60px!important;background:linear-gradient(135deg,#3b82f6,#2563eb)!important;border-radius:50%!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;z-index:1001!important;box-shadow:0 4px 20px rgba(59,130,246,0.4)!important;border:none!important;cursor:pointer!important;transition:all 0.3s ease!important;';
+            // Keywords to identify promotional links
+            var promoKeywords = ['bookstore', 'hebrew', 'exodus', 'womens', 'women', 'circle', 'verification', 'magazine'];
 
-            // Style hamburger lines
-            var spans = mobileMenuBtn.querySelectorAll('span');
-            for (var i = 0; i < spans.length; i++) {
-                spans[i].style.cssText = 'width:24px!important;height:3px!important;background:white!important;border-radius:2px!important;transition:all 0.3s ease!important;';
-            }
+            for (var i = 0; i < widgetContents.length; i++) {
+                var widget = widgetContents[i];
+                var links = widget.querySelectorAll('a[href]');
 
-            document.body.appendChild(mobileMenuBtn);
+                // Check if any link in this widget matches our keywords
+                for (var j = 0; j < links.length; j++) {
+                    var linkText = links[j].textContent.trim().toLowerCase();
+                    var isPromo = false;
 
-            // Style mobile sidebar
-            mobileSidebar.style.cssText = 'position:fixed!important;bottom:-100%!important;left:0!important;right:0!important;width:100%!important;background:linear-gradient(to top,#ffffff,#f8fafc)!important;border-radius:30px 30px 0 0!important;padding:30px 20px 40px!important;max-height:80vh!important;overflow-y:auto!important;transition:bottom 0.4s cubic-bezier(0.25,0.46,0.45,0.94)!important;z-index:1000!important;box-shadow:0 -10px 40px rgba(0,0,0,0.15)!important;';
+                    for (var k = 0; k < promoKeywords.length; k++) {
+                        if (linkText.indexOf(promoKeywords[k]) !== -1) {
+                            isPromo = true;
+                            break;
+                        }
+                    }
 
-            var isMobileOpen = false;
-
-            // Create overlay
-            var overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;background:rgba(0,0,0,0.5)!important;z-index:999!important;opacity:0!important;visibility:hidden!important;transition:all 0.3s ease!important;';
-            document.body.appendChild(overlay);
-
-            // Toggle function
-            function toggleMobileMenu() {
-                isMobileOpen = !isMobileOpen;
-                if (isMobileOpen) {
-                    mobileSidebar.style.bottom = '0';
-                    overlay.style.opacity = '1';
-                    overlay.style.visibility = 'visible';
-                    mobileMenuBtn.style.transform = 'rotate(180deg)';
-                    // Animate hamburger to X
-                    spans[0].style.transform = 'rotate(45deg) translateY(10px)';
-                    spans[1].style.opacity = '0';
-                    spans[2].style.transform = 'rotate(-45deg) translateY(-10px)';
-                } else {
-                    mobileSidebar.style.bottom = '-100%';
-                    overlay.style.opacity = '0';
-                    overlay.style.visibility = 'hidden';
-                    mobileMenuBtn.style.transform = 'rotate(0)';
-                    // Reset hamburger
-                    spans[0].style.transform = 'none';
-                    spans[1].style.opacity = '1';
-                    spans[2].style.transform = 'none';
+                    if (isPromo) {
+                        promoWidgets.push(widget);
+                        break; // Only add widget once
+                    }
                 }
             }
 
-            mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-            overlay.addEventListener('click', toggleMobileMenu);
+            // Also find Contact and Donate links from header
+            var contactLink = document.querySelector('a[href*="3767140"]'); // Contact page ID
+            var donateLink = document.querySelector('a[href*="3772561"]'); // Donate page ID
+            var quickLinksList = [];
 
-            // Style mobile sidebar links
-            var mobileLinks = mobileSidebar.querySelectorAll('a');
-            for (var j = 0; j < mobileLinks.length; j++) {
-                mobileLinks[j].style.cssText += 'display:block!important;padding:15px 20px!important;color:#1e293b!important;text-decoration:none!important;border-radius:12px!important;margin-bottom:8px!important;background:#f1f5f9!important;font-weight:500!important;transition:all 0.2s ease!important;';
-
-                mobileLinks[j].addEventListener('click', function() {
-                    toggleMobileMenu();
-                });
+            if (contactLink) {
+                quickLinksList.push(contactLink);
+            }
+            if (donateLink) {
+                quickLinksList.push(donateLink);
             }
 
-            // Add header to mobile sidebar
-            var mobileHeader = document.createElement('div');
-            mobileHeader.innerHTML = '<h3 style="margin:0;color:#1e293b;font-size:20px;font-weight:700;">Menu</h3>';
-            mobileHeader.style.cssText = 'text-align:center!important;margin-bottom:25px!important;padding-bottom:15px!important;border-bottom:2px solid #e2e8f0!important;';
-            mobileSidebar.insertBefore(mobileHeader, mobileSidebar.firstChild);
+            // Add QUICK LINKS section if we have any
+            if (quickLinksList.length > 0 || promoWidgets.length > 0) {
 
-            // Add pull indicator
-            var pullIndicator = document.createElement('div');
-            pullIndicator.style.cssText = 'position:absolute!important;top:10px!important;left:50%!important;transform:translateX(-50%)!important;width:40px!important;height:4px!important;background:#cbd5e1!important;border-radius:2px!important;';
-            mobileSidebar.insertBefore(pullIndicator, mobileSidebar.firstChild);
+                // Add "QUICK LINKS" header
+                var quickLinksHeader = document.createElement('div');
+                quickLinksHeader.textContent = 'QUICK LINKS';
+                quickLinksHeader.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:14px!important;font-weight:700!important;color:#f59e0b!important;text-transform:uppercase!important;letter-spacing:0.05em!important;margin:24px 0 12px 4px!important;border-top:2px solid rgba(30,58,138,0.1)!important;padding-top:20px!important;';
+                contentWrapper.appendChild(quickLinksHeader);
+
+                // Add Contact and Donate links first (styled as buttons)
+                for (var i = 0; i < quickLinksList.length; i++) {
+                    var quickLinkClone = quickLinksList[i].cloneNode(true);
+                    quickLinkClone.style.cssText = 'display:block!important;padding:14px 20px!important;margin:10px 0!important;font-family:Urbanist,sans-serif!important;font-size:16px!important;font-weight:700!important;color:#1e3a8a!important;text-decoration:none!important;background:linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)!important;border-radius:12px!important;border:2px solid #2a75b8!important;text-align:center!important;box-shadow:0 2px 6px rgba(0,0,0,0.1)!important;text-transform:uppercase!important;letter-spacing:0.05em!important;';
+                    contentWrapper.appendChild(quickLinkClone);
+                }
+
+                // Then add promotional widgets
+                for (var i = 0; i < promoWidgets.length; i++) {
+                    var widgetClone = promoWidgets[i].cloneNode(true);
+
+                    // Style the cloned widget
+                    widgetClone.style.cssText = 'display:block!important;margin:12px 0!important;padding:12px!important;background:#ffffff!important;border-radius:10px!important;border:1px solid rgba(30,58,138,0.15)!important;box-shadow:0 2px 6px rgba(0,0,0,0.08)!important;';
+
+                    // Style all links inside the widget
+                    var widgetLinks = widgetClone.querySelectorAll('a');
+                    for (var j = 0; j < widgetLinks.length; j++) {
+                        widgetLinks[j].style.cssText = 'display:block!important;color:#1e3a8a!important;text-decoration:none!important;font-family:Urbanist,sans-serif!important;font-size:15px!important;font-weight:600!important;';
+                    }
+
+                    contentWrapper.appendChild(widgetClone);
+                }
+            }
+        }, 1000); // Wait 1 second for widgets to load
+
+        // Force visibility of all child elements AND style them beautifully
+        var allElements = contentWrapper.getElementsByTagName('*');
+        for (var i = 0; i < allElements.length; i++) {
+            var el = allElements[i];
+            if (el.tagName !== 'SCRIPT' && el.tagName !== 'STYLE' && el.type !== 'hidden') {
+                if (el.style.display === 'none') el.style.display = 'block';
+                el.style.visibility = 'visible';
+                if (el.style.opacity === '0') el.style.opacity = '1';
+            }
         }
 
-        redesignMobileSidebar();
-        setTimeout(redesignMobileSidebar, 1000);
-        setTimeout(redesignMobileSidebar, 2000);
+        // Style navigation links (NOT promotional boxes)
+        var allLinks = contentWrapper.querySelectorAll('a');
+        for (var i = 0; i < allLinks.length; i++) {
+            var link = allLinks[i];
+
+            // Check if this is a promotional box link (has target="_blank" or contains an image)
+            var isPromoBox = link.hasAttribute('target') && link.getAttribute('target') === '_blank';
+            var hasImage = link.querySelector('img') !== null;
+
+            if (isPromoBox || hasImage) {
+                // Style promotional boxes - ensure images show properly
+                link.style.cssText = 'display:block!important;margin:12px 0!important;padding:0!important;text-decoration:none!important;background:transparent!important;border:none!important;border-radius:12px!important;overflow:hidden!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+
+                // Ensure the image inside is fully visible
+                var img = link.querySelector('img');
+                if (img) {
+                    img.style.cssText = 'width:100%!important;height:auto!important;display:block!important;border-radius:12px!important;';
+                }
+            } else {
+                // Style navigation links - clean white background
+                link.style.cssText = 'display:block!important;padding:14px 18px!important;margin:6px 0!important;font-family:Urbanist,sans-serif!important;font-size:16px!important;font-weight:500!important;color:#1e3a8a!important;text-decoration:none!important;background:#ffffff!important;border-radius:12px!important;border:1px solid rgba(30,58,138,0.15)!important;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)!important;box-shadow:0 1px 3px rgba(0,0,0,0.05)!important;';
+
+                // Add hover effect with event listeners
+                link.addEventListener('touchstart', function() {
+                    this.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%)';
+                    this.style.transform = 'translateX(4px)';
+                    this.style.borderColor = 'rgba(30,58,138,0.3)';
+                    this.style.boxShadow = '0 2px 8px rgba(30,58,138,0.15)';
+                });
+                link.addEventListener('touchend', function() {
+                    this.style.background = '#ffffff';
+                    this.style.transform = 'translateX(0)';
+                    this.style.borderColor = 'rgba(30,58,138,0.15)';
+                    this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
+                });
+            }
+        }
+
+        // Remove ALL yellow/orange backgrounds and borders - check ALL elements
+        var allElements2 = contentWrapper.querySelectorAll('*');
+        for (var i = 0; i < allElements2.length; i++) {
+            var el = allElements2[i];
+            var style = el.style;
+
+            // Remove yellow/orange backgrounds
+            if (style.backgroundColor) {
+                if (style.backgroundColor.includes('255, 243') ||
+                    style.backgroundColor.includes('255, 193') ||
+                    style.backgroundColor.includes('rgb(255') ||
+                    style.backgroundColor.includes('253, 230') ||
+                    style.backgroundColor.includes('249, 242')) {
+                    style.backgroundColor = 'transparent';
+                }
+            }
+
+            // Remove yellow/orange borders
+            if (style.borderColor && (style.borderColor.includes('orange') || style.borderColor.includes('255, 193'))) {
+                style.border = 'none';
+            }
+
+            // Remove yellow/orange border shorthand properties
+            if (style.border && style.border.includes('rgb(255')) {
+                style.border = 'none';
+            }
+        }
+
+        // Style section headers if they exist
+        var headers = contentWrapper.querySelectorAll('h2, h3, h4, .header, [class*="header"]');
+        for (var i = 0; i < headers.length; i++) {
+            headers[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:14px!important;font-weight:700!important;color:#64748b!important;text-transform:uppercase!important;letter-spacing:0.05em!important;margin:20px 0 10px 4px!important;background:transparent!important;border:none!important;';
+        }
+
+        // Style images to be responsive and properly displayed
+        var allImages = contentWrapper.querySelectorAll('img');
+        for (var i = 0; i < allImages.length; i++) {
+            allImages[i].style.cssText = 'max-width:100%!important;height:auto!important;display:block!important;margin:12px 0!important;border-radius:12px!important;box-shadow:0 2px 8px rgba(0,0,0,0.1)!important;';
+        }
+
+        // Style promotional boxes/divs that contain images or special content
+        var allDivs = contentWrapper.querySelectorAll('div');
+        for (var i = 0; i < allDivs.length; i++) {
+            var div = allDivs[i];
+            // If div contains an image or has specific classes, style it
+            if (div.querySelector('img') || div.className) {
+                div.style.cssText = 'margin:12px 0!important;display:block!important;';
+            }
+        }
+
+        mobileSidebar.appendChild(contentWrapper);
+        document.body.appendChild(mobileSidebar);
+
+        // Create backdrop overlay
+        backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed!important;top:0!important;left:0!important;right:0!important;bottom:0!important;background:rgba(0,0,0,0.5)!important;opacity:0!important;visibility:hidden!important;z-index:100000!important;transition:all 0.3s ease!important;pointer-events:none!important;';
+        document.body.appendChild(backdrop);
+
+        // Touch event handlers
+        var touchStartY = 0;
+        var touchStartTime = 0;
+
+        mobileSidebar.addEventListener('touchstart', function(e) {
+            if (!isOpen) {
+                touchStartY = e.touches[0].clientY;
+                touchStartTime = Date.now();
+            }
+        }, {passive: true});
+
+        mobileSidebar.addEventListener('touchend', function(e) {
+            if (!isOpen) {
+                var touchEndY = e.changedTouches[0].clientY;
+                var touchEndTime = Date.now();
+                var verticalDiff = Math.abs(touchEndY - touchStartY);
+                var timeDiff = touchEndTime - touchStartTime;
+
+                // Tap to open (minimal movement, quick duration)
+                if (verticalDiff < 20 && timeDiff < 400) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    open();
+                }
+                // Swipe up to open
+                else if (touchEndY < touchStartY - 30 && timeDiff < 500) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    open();
+                }
+            }
+        });
+
+        // Click handler for desktop testing
+        mobileSidebar.addEventListener('click', function(e) {
+            if (!isOpen) {
+                var rect = mobileSidebar.getBoundingClientRect();
+                var clickY = e.clientY;
+                if (clickY >= rect.top) {
+                    e.preventDefault();
+                    open();
+                }
+            }
+        });
+
+        // Backdrop close handlers
+        backdrop.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            close();
+        });
+
+        backdrop.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            close();
+        });
+
+        // Keyboard handler
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isOpen) {
+                close();
+            }
+        });
+
+        function open() {
+            isOpen = true;
+            mobileSidebar.style.transform = 'translateY(0)';
+            mobileSidebar.style.setProperty('transform', 'translateY(0)', 'important');
+            backdrop.style.opacity = '1';
+            backdrop.style.visibility = 'visible';
+            backdrop.style.pointerEvents = 'auto';
+        }
+
+        function close() {
+            isOpen = false;
+            mobileSidebar.style.setProperty('transform', 'translateY(calc(100% - '+visibleTab+'))', 'important');
+            backdrop.style.opacity = '0';
+            backdrop.style.visibility = 'hidden';
+            backdrop.style.pointerEvents = 'none';
+        }
     }
+
+    // Try creating the sidebar multiple times with increasing delays
+    // This ensures we catch it after the CMS has loaded all navigation content
+    createMobileSidebar();
+    setTimeout(createMobileSidebar, 500);
+    setTimeout(createMobileSidebar, 1000);
+    setTimeout(createMobileSidebar, 1500);
+    setTimeout(createMobileSidebar, 2000);
+    setTimeout(createMobileSidebar, 3000);
+    setTimeout(createMobileSidebar, 4000);
+    setTimeout(createMobileSidebar, 5000);
+
+    // Also try on page load
+    window.addEventListener('load', createMobileSidebar);
+
+    // Watch for dynamic content loading with MutationObserver
+    var observer = new MutationObserver(function() {
+        if (!initialized) createMobileSidebar();
+    });
+
+    observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
 })();
 
 /* ======================================== */
