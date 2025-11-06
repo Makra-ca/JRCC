@@ -1255,7 +1255,7 @@ div[class*="search_header"],
 
 /* ========================================
    SHARED NAVIGATION STYLES FOR ALL PAGES
-   (About Us, Purim Matanot, Volunteer Form, FAQ, Donate KFB, Kosher Food Bank, Get Help)
+   (About Us, Purim Matanot, Volunteer Form, FAQ, Donate KFB, Donate, Kosher Food Bank, Get Help)
    ======================================== */
 
 /* Fixed navigation bar */
@@ -1269,6 +1269,10 @@ div[class*="search_header"],
 .faq-page div#navigation,
 .donate-kfb-page #navigation,
 .donate-kfb-page div#navigation,
+    .donate-page #navigation,
+    .donate-page div#navigation,
+.donate-page #navigation,
+.donate-page div#navigation,
 .kosher-food-bank-page #navigation,
 .kosher-food-bank-page div#navigation,
 .get-help-page #navigation,
@@ -1302,6 +1306,8 @@ div[class*="search_header"],
 .faq-page div.chabad_menu_content,
 .donate-kfb-page .chabad_menu_content,
 .donate-kfb-page div.chabad_menu_content,
+.donate-page .chabad_menu_content,
+.donate-page div.chabad_menu_content,
 .kosher-food-bank-page .chabad_menu_content,
 .kosher-food-bank-page div.chabad_menu_content,
 .get-help-page .chabad_menu_content,
@@ -1318,6 +1324,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu,
 .faq-page ul#menu,
 .donate-kfb-page ul#menu,
+.donate-page ul#menu,
 .kosher-food-bank-page ul#menu,
 .get-help-page ul#menu {
     display: flex !important;
@@ -1341,6 +1348,8 @@ div[class*="search_header"],
 .faq-page ul#menu li,
 .donate-kfb-page ul#menu li.item,
 .donate-kfb-page ul#menu li,
+.donate-page ul#menu li.item,
+.donate-page ul#menu li,
 .kosher-food-bank-page ul#menu li.item,
 .kosher-food-bank-page ul#menu li,
 .get-help-page ul#menu li.item,
@@ -1371,6 +1380,9 @@ div[class*="search_header"],
 .donate-kfb-page ul#menu li a.parent,
 .donate-kfb-page ul#menu li a,
 .donate-kfb-page #navigation a,
+.donate-page ul#menu li a.parent,
+.donate-page ul#menu li a,
+.donate-page #navigation a,
 .kosher-food-bank-page ul#menu li a.parent,
 .kosher-food-bank-page ul#menu li a,
 .kosher-food-bank-page #navigation a,
@@ -1398,6 +1410,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li a:hover,
 .faq-page ul#menu li a:hover,
 .donate-kfb-page ul#menu li a:hover,
+.donate-page ul#menu li a:hover,
 .kosher-food-bank-page ul#menu li a:hover,
 .get-help-page ul#menu li a:hover {
     color: #d4af37 !important;
@@ -1411,6 +1424,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li a.selected,
 .faq-page ul#menu li a.selected,
 .donate-kfb-page ul#menu li a.selected,
+.donate-page ul#menu li a.selected,
 .kosher-food-bank-page ul#menu li a.selected,
 .get-help-page ul#menu li a.selected {
     color: #d4af37 !important;
@@ -1423,6 +1437,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li.arrow,
 .faq-page ul#menu li.arrow,
 .donate-kfb-page ul#menu li.arrow,
+.donate-page ul#menu li.arrow,
 .kosher-food-bank-page ul#menu li.arrow,
 .get-help-page ul#menu li.arrow {
     position: relative !important;
@@ -1433,6 +1448,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li.arrow .sub_menu,
 .faq-page ul#menu li.arrow .sub_menu,
 .donate-kfb-page ul#menu li.arrow .sub_menu,
+.donate-page ul#menu li.arrow .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu,
 .get-help-page ul#menu li.arrow .sub_menu {
     position: absolute !important;
@@ -1457,6 +1473,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li.arrow:hover .sub_menu,
 .faq-page ul#menu li.arrow:hover .sub_menu,
 .donate-kfb-page ul#menu li.arrow:hover .sub_menu,
+.donate-page ul#menu li.arrow:hover .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
 .get-help-page ul#menu li.arrow:hover .sub_menu {
     opacity: 1 !important;
@@ -1469,6 +1486,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a,
 .faq-page ul#menu li.arrow .sub_menu ul li a,
 .donate-kfb-page ul#menu li.arrow .sub_menu ul li a,
+.donate-page ul#menu li.arrow .sub_menu ul li a,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
 .get-help-page ul#menu li.arrow .sub_menu ul li a {
     display: block !important;
@@ -1487,6 +1505,7 @@ div[class*="search_header"],
 .volunteer-form-page ul#menu li.arrow .sub_menu ul li a:hover,
 .faq-page ul#menu li.arrow .sub_menu ul li a:hover,
 .donate-kfb-page ul#menu li.arrow .sub_menu ul li a:hover,
+.donate-page ul#menu li.arrow .sub_menu ul li a:hover,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
 .get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
     background: rgba(212, 175, 55, 0.2) !important;
@@ -1501,6 +1520,7 @@ div[class*="search_header"],
 .volunteer-form-page .mobile-menu-toggle,
 .faq-page .mobile-menu-toggle,
 .donate-kfb-page .mobile-menu-toggle,
+.donate-page .mobile-menu-toggle,
 .kosher-food-bank-page .mobile-menu-toggle,
 .get-help-page .mobile-menu-toggle {
     display: none !important;
@@ -1523,6 +1543,7 @@ div[class*="search_header"],
 .volunteer-form-page .mobile-menu-toggle:hover,
 .faq-page .mobile-menu-toggle:hover,
 .donate-kfb-page .mobile-menu-toggle:hover,
+.donate-page .mobile-menu-toggle:hover,
 .kosher-food-bank-page .mobile-menu-toggle:hover,
 .get-help-page .mobile-menu-toggle:hover {
     background: #d4af37 !important;
@@ -1536,6 +1557,7 @@ div[class*="search_header"],
     .volunteer-form-page .mobile-menu-toggle,
     .faq-page .mobile-menu-toggle,
     .donate-kfb-page .mobile-menu-toggle,
+.donate-page .mobile-menu-toggle,
     .kosher-food-bank-page .mobile-menu-toggle,
     .get-help-page .mobile-menu-toggle {
         display: block !important;
@@ -1551,6 +1573,8 @@ div[class*="search_header"],
     .faq-page div#navigation,
     .donate-kfb-page #navigation,
     .donate-kfb-page div#navigation,
+    .donate-page #navigation,
+    .donate-page div#navigation,
     .kosher-food-bank-page #navigation,
     .kosher-food-bank-page div#navigation,
     .get-help-page #navigation,
@@ -1573,6 +1597,8 @@ div[class*="search_header"],
     .faq-page div.chabad_menu_content,
     .donate-kfb-page .chabad_menu_content,
     .donate-kfb-page div.chabad_menu_content,
+.donate-page .chabad_menu_content,
+.donate-page div.chabad_menu_content,
     .kosher-food-bank-page .chabad_menu_content,
     .kosher-food-bank-page div.chabad_menu_content,
     .get-help-page .chabad_menu_content,
@@ -1594,6 +1620,8 @@ div[class*="search_header"],
     .faq-page div.chabad_menu_content.menu-open,
     .donate-kfb-page .chabad_menu_content.menu-open,
     .donate-kfb-page div.chabad_menu_content.menu-open,
+    .donate-page .chabad_menu_content.menu-open,
+    .donate-page div.chabad_menu_content.menu-open,
     .kosher-food-bank-page .chabad_menu_content.menu-open,
     .kosher-food-bank-page div.chabad_menu_content.menu-open,
     .get-help-page .chabad_menu_content.menu-open,
@@ -1608,6 +1636,8 @@ div[class*="search_header"],
     .volunteer-form-page ul#menu,
     .faq-page ul#menu,
     .donate-kfb-page ul#menu,
+    .donate-page ul#menu,
+.donate-page ul#menu,
     .kosher-food-bank-page ul#menu,
     .get-help-page ul#menu {
         gap: 0.25rem !important;
@@ -1632,6 +1662,12 @@ div[class*="search_header"],
     .donate-kfb-page ul#menu li a.parent,
     .donate-kfb-page ul#menu li a,
     .donate-kfb-page #navigation a,
+    .donate-page ul#menu li a.parent,
+    .donate-page ul#menu li a,
+    .donate-page #navigation a,
+.donate-page ul#menu li a.parent,
+.donate-page ul#menu li a,
+.donate-page #navigation a,
     .kosher-food-bank-page ul#menu li a.parent,
     .kosher-food-bank-page ul#menu li a,
     .kosher-food-bank-page #navigation a,
@@ -2886,6 +2922,261 @@ body.donate-kfb-page a:hover {
     body.donate-kfb-page .submit-button {
         width: 100% !important;
         padding: 1.25rem 2rem !important;
+        font-size: 1.6rem !important;
+    }
+}
+
+/* ====================================================================
+   PAGE: DONATE (Projects/Cards Layout)
+   URL: /templates/articlecco_cdo/aid/6820893/jewish/Donate.htm
+   ==================================================================== */
+
+/* Global styles for Donate page */
+.donate-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+.donate-page #BodyContainer,
+.donate-page #co_content_container,
+.donate-page .body_wrapper,
+.donate-page #content,
+.donate-page #co_body_container,
+.donate-page .master-content-wrapper,
+.donate-page div.master-content-wrapper,
+.donate-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+.donate-page .chabad_header {
+    position: relative !important;
+    width: 100% !important;
+    min-height: 400px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    margin: 0 !important;
+    padding: 4rem 2rem !important;
+}
+
+/* Header title */
+.donate-page .chabad_header .headerTitle,
+.donate-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Hide header image if present */
+.donate-page .chabad_header img {
+    display: none !important;
+}
+
+/* Message sections */
+.donate-page .custom_message,
+.donate-page .label-message {
+    max-width: 1400px !important;
+    margin: 2rem auto !important;
+    padding: 3rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    border-left: 5px solid #d4af37 !important;
+}
+
+.donate-page .custom_message p,
+.donate-page .label-message p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 0.5rem 0 !important;
+}
+
+/* Promo cards container */
+.donate-page .sPromo-wrap {
+    display: inline-block !important;
+    width: calc(33.333% - 2rem) !important;
+    margin: 1rem !important;
+    vertical-align: top !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid #f0f2f5 !important;
+}
+
+.donate-page .sPromo-wrap:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18) !important;
+    border-color: #d4af37 !important;
+}
+
+/* Promo card image */
+.donate-page .sPromo-wrap img {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* Promo card caption/content */
+.donate-page .sPromo-wrap .caption {
+    padding: 2rem !important;
+    background: #ffffff !important;
+}
+
+.donate-page .sPromo-wrap .caption h3,
+.donate-page .sPromo-wrap .caption .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin: 0 0 1rem 0 !important;
+    line-height: 1.3 !important;
+}
+
+.donate-page .sPromo-wrap .caption p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    line-height: 1.7 !important;
+    color: #2a2a2a !important;
+    margin: 0.5rem 0 !important;
+}
+
+.donate-page .sPromo-wrap .caption a {
+    display: inline-block !important;
+    margin-top: 1.5rem !important;
+    padding: 0.875rem 2rem !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.donate-page .sPromo-wrap .caption a:hover {
+    background: linear-gradient(135deg, #c99d2e 0%, #d4af37 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* Article body content if present */
+.donate-page .co_body.article-body.cf {
+    max-width: 1400px !important;
+    margin: 3rem auto !important;
+    padding: 4rem !important;
+    background: transparent !important;
+}
+
+.donate-page .co_body.article-body.cf p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 1.5rem 0 !important;
+}
+
+.donate-page .co_body.article-body.cf strong,
+.donate-page .co_body.article-body.cf b {
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+.donate-page .co_body.article-body.cf a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+}
+
+.donate-page .co_body.article-body.cf a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Responsive design for Donate page */
+@media (max-width: 1024px) {
+    .donate-page .chabad_header .headerTitle,
+    .donate-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+    }
+
+    .donate-page .sPromo-wrap {
+        width: calc(50% - 2rem) !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .donate-page .chabad_header {
+        min-height: 300px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .donate-page .chabad_header .headerTitle,
+    .donate-page .chabad_header .headerTitle a {
+        font-size: 3.5rem !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        text-stroke: 2px #d4af37 !important;
+    }
+
+    .donate-page .sPromo-wrap {
+        width: calc(100% - 2rem) !important;
+        margin: 1rem !important;
+    }
+
+    .donate-page .custom_message,
+    .donate-page .label-message {
+        margin: 1.5rem 1rem !important;
+        padding: 2rem !important;
+    }
+
+    .donate-page .co_body.article-body.cf {
+        padding: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .donate-page .chabad_header .headerTitle,
+    .donate-page .chabad_header .headerTitle a {
+        font-size: 2.5rem !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        text-stroke: 1.5px #d4af37 !important;
+    }
+
+    .donate-page .sPromo-wrap img {
+        height: 200px !important;
+    }
+
+    .donate-page .sPromo-wrap .caption {
+        padding: 1.5rem !important;
+    }
+
+    .donate-page .sPromo-wrap .caption h3,
+    .donate-page .sPromo-wrap .caption .title {
         font-size: 1.6rem !important;
     }
 }

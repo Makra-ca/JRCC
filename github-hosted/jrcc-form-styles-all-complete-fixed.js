@@ -1557,10 +1557,90 @@ function styleDonateKFBPage() {
 }
 
 // ========================================
+// PAGE: DONATE (Projects/Cards Layout)
+// URL: /templates/articlecco_cdo/aid/6820893/jewish/Donate.htm
+// ========================================
+var donateInitialized = false;
+
+function styleDonatePage() {
+    // Prevent double initialization
+    if (donateInitialized) return;
+
+    // Detect page by article ID or filename
+    var isDonatePage = window.location.href.indexOf('/aid/6820893/') !== -1 ||
+                       window.location.href.indexOf('/Donate.htm') !== -1;
+
+    if (!isDonatePage) return;
+
+    donateInitialized = true;
+
+    // Add body class for CSS targeting
+    if (document.body && !document.body.classList.contains('donate-page')) {
+        document.body.classList.add('donate-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                if (menuContent.classList.contains('menu-open')) {
+                    toggleButton.textContent = 'CLOSE';
+                } else {
+                    toggleButton.textContent = 'MENU';
+                }
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force navigation link colors (fight CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+
+            // CRITICAL: Remove webkit color overrides
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 11 styling functions (6 forms + 5 article pages)
+    // Run all 12 styling functions (6 forms + 6 article pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
@@ -1572,6 +1652,7 @@ function initializeFormStyles() {
     styleGetHelpPage();
     stylePurimMatanotPage();
     styleFAQPage();
+    styleDonatePage();
 }
 
 // Run on various events with multiple retries (like original)
