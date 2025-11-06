@@ -3188,6 +3188,67 @@ body.donate-kfb-page a:hover {
     box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
 }
 
+/* ADDITIONAL CARD TARGETING - for div.inner cards */
+.donate-page div.inner {
+    display: inline-block !important;
+    width: calc(50% - 3rem) !important;
+    margin: 1.5rem !important;
+    vertical-align: top !important;
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    position: relative !important;
+}
+
+.donate-page div.inner::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%) !important;
+    z-index: 10 !important;
+}
+
+.donate-page div.inner:hover {
+    transform: translateY(-12px) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25) !important;
+    border-color: #d4af37 !important;
+}
+
+.donate-page div.inner img {
+    width: 100% !important;
+    height: 280px !important;
+    object-fit: cover !important;
+    display: block !important;
+    transition: transform 0.4s ease !important;
+}
+
+.donate-page div.inner:hover img {
+    transform: scale(1.05) !important;
+}
+
+.donate-page div.inner .title {
+    padding: 2.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.2rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    text-decoration: none !important;
+}
+
+.donate-page div.inner .subtitle {
+    padding: 0 2.5rem 2.5rem 2.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #4a4a4a !important;
+}
+
 /* Article body content if present */
 .donate-page .co_body.article-body.cf {
     max-width: 1400px !important;
