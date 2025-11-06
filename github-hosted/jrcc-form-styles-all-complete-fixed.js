@@ -229,13 +229,55 @@ function styleHealthyAtHomeForm() {
     // Apply page background (LIGHT gradient - white to lavender to match purple banner)
     document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
 
+    // IMPORTANT: Find and protect the page title FIRST before hiding anything
+    var pageTitle = null;
+
+    console.log('JRCC: Searching for Healthy At Home title...');
+
+    // Strategy 1: Direct h1 search
+    var h1Elements = document.querySelectorAll('h1');
+    console.log('JRCC: Found', h1Elements.length, 'h1 elements on page');
+    for (var i = 0; i < h1Elements.length; i++) {
+        console.log('JRCC: H1 text:', h1Elements[i].textContent);
+        if (h1Elements[i].textContent.toLowerCase().indexOf('healthy') !== -1 ||
+            h1Elements[i].textContent.toLowerCase().indexOf('registration') !== -1) {
+            pageTitle = h1Elements[i];
+            // Mark it as protected
+            pageTitle.setAttribute('data-protect-title', 'true');
+            console.log('JRCC: Found title via Strategy 1:', pageTitle.textContent);
+            break;
+        }
+    }
+
+    // Strategy 2: Search within master-content-wrapper
+    if (!pageTitle) {
+        pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, div.master-content-wrapper h1');
+        if (pageTitle) {
+            pageTitle.setAttribute('data-protect-title', 'true');
+            console.log('JRCC: Found title via Strategy 2:', pageTitle.textContent);
+        }
+    }
+
+    // Strategy 3: Any h1 on page
+    if (!pageTitle) {
+        pageTitle = document.querySelector('h1');
+        if (pageTitle) {
+            pageTitle.setAttribute('data-protect-title', 'true');
+            console.log('JRCC: Found title via Strategy 3:', pageTitle.textContent);
+        }
+    }
+
+    if (!pageTitle) {
+        console.error('JRCC: WARNING - Could not find page title!');
+    }
+
     // Hide breadcrumbs
     var breadcrumbs = document.querySelectorAll('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]');
     for (var i = 0; i < breadcrumbs.length; i++) {
         breadcrumbs[i].style.cssText = 'display:none!important;visibility:hidden!important;';
     }
 
-    // AGGRESSIVE: Hide ALL banner/header elements completely
+    // AGGRESSIVE: Hide ALL banner/header elements completely (but not our protected title)
     var bannersToHide = document.querySelectorAll(
         '.banner_image, .page_banner, .article_banner, [class*="banner"] img, ' +
         '.article_banner_wrapper, .page_header_image, .decorator, ' +
@@ -243,7 +285,11 @@ function styleHealthyAtHomeForm() {
         '.article-header *, header.article-header *, header img'
     );
     for (var i = 0; i < bannersToHide.length; i++) {
-        bannersToHide[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+        // Don't hide if this is our protected title or contains it
+        if (!bannersToHide[i].hasAttribute('data-protect-title') &&
+            !bannersToHide[i].querySelector('[data-protect-title="true"]')) {
+            bannersToHide[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
+        }
     }
 
     // AGGRESSIVE: Clear ALL elements with inline background styles in header area
@@ -282,8 +328,10 @@ function styleHealthyAtHomeForm() {
             container.style.setProperty('background-image', 'none', 'important');
             container.style.setProperty('background-color', 'transparent', 'important');
 
-            // If it's a header element, hide it
-            if (container.tagName === 'HEADER' || (container.className && container.className.indexOf('article-header') !== -1)) {
+            // If it's a header element, hide it (but not if it contains our protected title)
+            if ((container.tagName === 'HEADER' || (container.className && container.className.indexOf('article-header') !== -1)) &&
+                !container.hasAttribute('data-protect-title') &&
+                !container.querySelector('[data-protect-title="true"]')) {
                 container.style.setProperty('display', 'none', 'important');
             }
         }
@@ -301,35 +349,15 @@ function styleHealthyAtHomeForm() {
         masterWrappers[i].style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:2rem 0!important;display:block!important;visibility:visible!important;';
     }
 
-    // Find and style the page title
-    var pageTitle = null;
-
-    // Strategy 1: Direct h1 search
-    var h1Elements = document.querySelectorAll('h1');
-    for (var i = 0; i < h1Elements.length; i++) {
-        if (h1Elements[i].textContent.toLowerCase().indexOf('healthy') !== -1 ||
-            h1Elements[i].textContent.toLowerCase().indexOf('registration') !== -1) {
-            pageTitle = h1Elements[i];
-            break;
-        }
-    }
-
-    // Strategy 2: Search within master-content-wrapper
-    if (!pageTitle) {
-        pageTitle = document.querySelector('.master-content-wrapper h1, .master-content-wrapper h2, div.master-content-wrapper h1');
-    }
-
-    // Strategy 3: Any h1 on page
-    if (!pageTitle) {
-        pageTitle = document.querySelector('h1');
-    }
-
     // Style the main page title - BLACK color (no dark box background)
+    // (pageTitle was already found and protected earlier)
     if (pageTitle) {
-        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:inline-block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;';
+        console.log('JRCC: Styling title:', pageTitle.textContent);
+        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:0!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:10!important;position:relative!important;';
 
         // Typewriter animation effect for the title (custom implementation)
         var originalText = pageTitle.textContent;
+        console.log('JRCC: Starting typewriter animation for:', originalText);
         var charIndex = 0;
 
         // Clear the text and add cursor
@@ -354,6 +382,21 @@ function styleHealthyAtHomeForm() {
 
         // Start typing animation
         setTimeout(typeWriter, 300);
+
+        // ENSURE the title and its parent are visible
+        // Make sure the title's parent container is also visible
+        if (pageTitle.parentElement) {
+            pageTitle.parentElement.style.setProperty('display', 'block', 'important');
+            pageTitle.parentElement.style.setProperty('visibility', 'visible', 'important');
+            pageTitle.parentElement.style.setProperty('opacity', '1', 'important');
+        }
+
+        // Center the title's parent if it's a wrapper div
+        if (pageTitle.parentElement && pageTitle.parentElement.className &&
+            (pageTitle.parentElement.className.indexOf('wrapper') !== -1 ||
+             pageTitle.parentElement.className.indexOf('container') !== -1)) {
+            pageTitle.parentElement.style.setProperty('text-align', 'center', 'important');
+        }
     }
 
     // Hide the secondary heading "Healthy at Home - Seniors Event Registration" and duplicate titles
