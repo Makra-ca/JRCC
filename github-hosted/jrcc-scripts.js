@@ -1033,7 +1033,7 @@
 (function() {
     var initialized = false;
 
-    function styleKosherFoodBankPages() {
+    function styleKosherFoodBankPage() {
         if (initialized) return;
 
         // CHECK: Are we on any Kosher Food Bank page?
@@ -1164,23 +1164,23 @@
     }
 
     // Try multiple times to catch CMS loading
-    styleKosherFoodBankPages();
-    setTimeout(styleKosherFoodBankPages, 500);
-    setTimeout(styleKosherFoodBankPages, 1000);
-    setTimeout(styleKosherFoodBankPages, 2000);
+    styleKosherFoodBankPage();
+    setTimeout(styleKosherFoodBankPage, 500);
+    setTimeout(styleKosherFoodBankPage, 1000);
+    setTimeout(styleKosherFoodBankPage, 2000);
 
     // Also run on DOM ready
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', styleKosherFoodBankPages);
+        document.addEventListener('DOMContentLoaded', styleKosherFoodBankPage);
     } else {
-        styleKosherFoodBankPages();
+        styleKosherFoodBankPage();
     }
 
     // Watch for dynamic content loading
     if (typeof MutationObserver !== 'undefined') {
         var observer = new MutationObserver(function() {
             if (!initialized) {
-                styleKosherFoodBankPages();
+                styleKosherFoodBankPage();
             }
         });
         observer.observe(document.body, {
@@ -1472,7 +1472,7 @@
             currentURL.indexOf('get-help') !== -1 ||
             currentURL.indexOf('projects') !== -1) {
             console.log('JRCC: Kosher Food Bank page detected');
-            styleKosherFoodBankPages();
+            styleKosherFoodBankPage();
         }
 
         // Check for Gmach Donation Form (form#form1 or form[name="form_3767140"])
