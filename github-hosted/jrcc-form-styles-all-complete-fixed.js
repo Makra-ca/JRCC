@@ -1500,9 +1500,73 @@ function styleFAQPage() {
         }
     }
 
+    // Hide purple logo in header
+    function hidePurpleLogo() {
+        var header = document.querySelector('.faq-page .chabad_header');
+        if (!header) return;
+
+        // Hide all images in header except main background
+        var images = header.querySelectorAll('img');
+        images.forEach(function(img) {
+            // Hide logo images (usually smaller than hero images)
+            if (img.width < 600 || img.src.includes('logo') || img.src.includes('Logo')) {
+                img.style.display = 'none';
+            }
+        });
+    }
+
+    // Make FAQ accordion collapsible
+    function makeAccordion() {
+        var articleBody = document.querySelector('.faq-page .co_body.article-body.cf');
+        if (!articleBody) return;
+
+        // Find all strong/b tags (questions)
+        var questions = articleBody.querySelectorAll('strong, b');
+
+        questions.forEach(function(question) {
+            // Make question clickable
+            question.style.cursor = 'pointer';
+            question.setAttribute('data-expanded', 'true'); // Start expanded
+
+            // Find the answer (next paragraph)
+            var answer = question.nextElementSibling;
+            if (answer && answer.tagName === 'P') {
+                answer.style.transition = 'all 0.3s ease';
+                answer.setAttribute('data-answer', 'true');
+
+                // Add click event
+                question.addEventListener('click', function() {
+                    var isExpanded = this.getAttribute('data-expanded') === 'true';
+
+                    if (isExpanded) {
+                        // Collapse
+                        answer.style.maxHeight = '0';
+                        answer.style.opacity = '0';
+                        answer.style.marginBottom = '0';
+                        answer.style.overflow = 'hidden';
+                        this.setAttribute('data-expanded', 'false');
+                        this.style.opacity = '0.7';
+                    } else {
+                        // Expand
+                        answer.style.maxHeight = '1000px';
+                        answer.style.opacity = '1';
+                        answer.style.marginBottom = '2rem';
+                        answer.style.overflow = 'visible';
+                        this.setAttribute('data-expanded', 'true');
+                        this.style.opacity = '1';
+                    }
+                });
+            }
+        });
+    }
+
     // Run setup
     createMobileMenuToggle();
     forceNavColors();
+    hidePurpleLogo();
+
+    // Make accordion with delay to ensure content is loaded
+    setTimeout(makeAccordion, 500);
 
     // Re-run after delay
     setTimeout(function() { forceNavColors(true); }, 500);
