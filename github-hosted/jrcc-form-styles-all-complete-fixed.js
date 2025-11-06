@@ -235,7 +235,7 @@ function styleHealthyAtHomeForm() {
     }
 
     // Hide banner images/decorators - but NOT the header (title is inside it)
-    var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image');
+    var banners = document.querySelectorAll('.banner_image, .page_banner, .article_banner, [class*="banner"] img, .article_banner_wrapper, .page_header_image, .decorator, .article-header');
     for (var i = 0; i < banners.length; i++) {
         banners[i].style.cssText = 'display:none!important;visibility:hidden!important;height:0!important;overflow:hidden!important;';
     }
@@ -246,14 +246,21 @@ function styleHealthyAtHomeForm() {
         articleHeader.style.cssText = 'background:none!important;background-image:none!important;background-color:transparent!important;padding:0!important;margin:0!important;border:none!important;display:block!important;visibility:visible!important;width:100%!important;text-align:center!important;';
     }
 
-    // Also hide the decorator/background image specifically
-    var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"]');
+    // Hide ALL elements with background images in the header area
+    var headerImages = document.querySelectorAll('header img, .article-header img, [style*="background-image"], .article-header, header.article-header');
     for (var i = 0; i < headerImages.length; i++) {
         var element = headerImages[i];
         if (element.tagName === 'IMG') {
             element.style.cssText = 'display:none!important;';
         } else {
-            element.style.backgroundImage = 'none!important;';
+            // Clear any inline background styles
+            element.style.backgroundImage = 'none!important';
+            element.style.background = 'none!important';
+
+            // For article-header specifically, hide it completely
+            if (element.className && element.className.indexOf('article-header') !== -1) {
+                element.style.display = 'none!important';
+            }
         }
     }
 
@@ -324,11 +331,13 @@ function styleHealthyAtHomeForm() {
         setTimeout(typeWriter, 300);
     }
 
-    // Hide the secondary heading "Healthy at Home - Seniors Event Registration"
+    // Hide the secondary heading "Healthy at Home - Seniors Event Registration" and duplicate titles
     var secondaryHeadings = document.querySelectorAll('h1, h2, h3');
     for (var i = 0; i < secondaryHeadings.length; i++) {
         var headingText = secondaryHeadings[i].textContent.trim().toLowerCase();
-        if (headingText.indexOf('seniors event') !== -1 ||
+        // Hide the duplicate "Healthy at Home Registration" title if it's not our styled one
+        if ((headingText === 'healthy at home registration' && secondaryHeadings[i] !== pageTitle) ||
+            headingText.indexOf('seniors event') !== -1 ||
             (headingText.indexOf('healthy') !== -1 && headingText.indexOf('event') !== -1)) {
             secondaryHeadings[i].style.cssText = 'display:none!important;margin:0!important;padding:0!important;height:0!important;visibility:hidden!important;';
         }
@@ -395,6 +404,8 @@ function styleHealthyAtHomeForm() {
     }
 
     // Style select dropdowns with custom arrow
+    // NOTE: padding removed because it causes selected text to become invisible
+    // This is a known browser/CMS issue with custom padding on select elements
     var selects = form.querySelectorAll('select');
     for (var i = 0; i < selects.length; i++) {
         selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1d9e6!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%231e5a8e\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;';
@@ -690,9 +701,11 @@ function styleSeniorsNightOutForm() {
     }
 
     // Style select dropdowns
+    // NOTE: padding removed because it causes selected text to become invisible
+    // This is a known browser/CMS issue with custom padding on select elements
     var selects = form.querySelectorAll('select');
     for (var i = 0; i < selects.length; i++) {
-        selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;padding:1.25rem 2rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%236B3FA0\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;padding-right:3.5rem!important;';
+        selects[i].style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:1.35rem!important;border:2px solid #d1c4e9!important;border-radius:12px!important;background:#ffffff!important;color:#2a2a2a!important;transition:all 0.3s ease!important;box-sizing:border-box!important;width:100%!important;cursor:pointer!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 12 12\'%3E%3Cpath fill=\'%236B3FA0\' d=\'M6 9L1 4h10z\'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 2rem center!important;';
     }
 
     // Style submit button - Festival Gold & Purple gradient
