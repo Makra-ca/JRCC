@@ -2534,13 +2534,9 @@ div[class*="search_header"],
     animation: gentlePulse 3s ease-in-out infinite !important;
 }
 
+/* Question mark removed - cleaner header */
 .faq-page .chabad_header .headerTitle::before {
-    content: "?" !important;
-    display: inline-block !important;
-    margin-right: 1rem !important;
-    color: #d4af37 !important;
-    -webkit-text-stroke: 2px #ffffff !important;
-    text-stroke: 2px #ffffff !important;
+    content: none !important;
 }
 
 /* Article container - FAQ card style */
@@ -2556,7 +2552,7 @@ div[class*="search_header"],
     border: 3px solid #f0f2f5 !important;
 }
 
-/* FAQ Questions - Bold styling with Q: prefix */
+/* FAQ Questions - Clean bold styling without decorative border */
 .faq-page .co_body.article-body.cf strong,
 .faq-page .co_body.article-body.cf b {
     display: block !important;
@@ -2568,18 +2564,15 @@ div[class*="search_header"],
     margin-bottom: 1rem !important;
     padding: 1.5rem 2rem !important;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
-    border-left: 5px solid #d4af37 !important;
     border-radius: 12px !important;
     position: relative !important;
     line-height: 1.4 !important;
 }
 
+/* Q: prefix removed for cleaner appearance */
 .faq-page .co_body.article-body.cf strong::before,
 .faq-page .co_body.article-body.cf b::before {
-    content: "Q: " !important;
-    color: #d4af37 !important;
-    font-weight: 800 !important;
-    margin-right: 0.5rem !important;
+    content: none !important;
 }
 
 /* First question - no top margin */
@@ -2588,25 +2581,19 @@ div[class*="search_header"],
     margin-top: 0 !important;
 }
 
-/* FAQ Answers - Paragraph styling */
+/* FAQ Answers - Paragraph styling without A: prefix */
 .faq-page .co_body.article-body.cf p {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.6rem !important;
     line-height: 1.8 !important;
     color: #2a2a2a !important;
     margin: 0 0 2rem 0 !important;
-    padding-left: 3rem !important;
     position: relative !important;
 }
 
+/* A: prefix removed for cleaner appearance */
 .faq-page .co_body.article-body.cf p::before {
-    content: "A:" !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    font-weight: 700 !important;
-    color: #d4af37 !important;
-    font-size: 1.8rem !important;
+    content: none !important;
 }
 
 /* Remove A: prefix if paragraph is empty or very short */
