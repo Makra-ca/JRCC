@@ -576,9 +576,11 @@ body.gmach-donation-form-page .below-article li a:hover {
 }
 
 /* ====================================================================
-   PAGE-SPECIFIC STYLING: VOLUNTEER WITH US FORM
-   URL: /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm
-   Target: form elements on this page
+   PAGE-SPECIFIC STYLING: VOLUNTEER FORMS
+   URLs:
+     - /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm (General)
+     - /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm (KFB)
+   Target: form elements on both volunteer pages
    Theme: Black/White/Gold (matching other pages)
    Colors: #d4af37 (gold), standard gradient background
    ==================================================================== */

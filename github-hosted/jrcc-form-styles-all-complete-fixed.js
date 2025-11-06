@@ -954,14 +954,19 @@ function styleYeshivaScholarshipForm() {
 // ========================================
 // ========================================
 // PAGE: VOLUNTEER FORM
-// URL: /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm
+// URLs:
+//   - /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm (General Volunteer)
+//   - /templates/articlecco_cdo/aid/6827149/jewish/Volunteer-with-us.htm (KFB Volunteer)
 // ========================================
 function styleVolunteerForm() {
     // Prevent double initialization
     if (volunteerInitialized) return;
 
     // Detect page by article ID or filename
-    var isVolunteerPage = window.location.href.indexOf('/aid/6827149/') !== -1 ||
+    // Check for both volunteer pages: General (5094614) and KFB (6827149)
+    var isVolunteerPage = window.location.href.indexOf('/aid/5094614/') !== -1 ||
+                          window.location.href.indexOf('/aid/6827149/') !== -1 ||
+                          window.location.href.indexOf('Volunteer.htm') !== -1 ||
                           window.location.href.indexOf('Volunteer-with-us.htm') !== -1;
 
     if (!isVolunteerPage) return;

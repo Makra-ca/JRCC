@@ -548,9 +548,12 @@
 (function() {
     function styleVolunteerForm() {
         // Check if on volunteer form page
+        // Article IDs: 5094614 (General Volunteer), 6827149 (KFB Volunteer)
         var isVolunteerPage =
-            window.location.href.indexOf('6695166') !== -1 ||
-            window.location.href.indexOf('volunteer') !== -1;
+            window.location.href.indexOf('/aid/5094614/') !== -1 ||
+            window.location.href.indexOf('/aid/6827149/') !== -1 ||
+            window.location.href.indexOf('Volunteer.htm') !== -1 ||
+            window.location.href.indexOf('Volunteer-with-us.htm') !== -1;
 
         if (!isVolunteerPage) return;
 
