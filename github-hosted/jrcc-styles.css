@@ -2458,6 +2458,17 @@ div[class*="search_header"],
     padding: 3rem 2rem !important;
 }
 
+/* Header image - position as background */
+.faq-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+}
+
 /* Header title - Clean style without background */
 .faq-page .chabad_header .headerTitle,
 .faq-page .chabad_header .headerTitle a {
