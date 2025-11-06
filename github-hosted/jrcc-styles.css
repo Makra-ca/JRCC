@@ -2720,6 +2720,16 @@ body.donate-kfb-page .master-content-wrapper::before,
 body.donate-kfb-page .master-content-wrapper::after,
 body.donate-kfb-page form::before,
 body.donate-kfb-page form::after,
+body.donate-kfb-page label::before,
+body.donate-kfb-page label::after,
+body.donate-kfb-page .form-label::before,
+body.donate-kfb-page .form-label::after,
+body.donate-kfb-page .label-message::before,
+body.donate-kfb-page .label-message::after,
+body.donate-kfb-page .custom_message::before,
+body.donate-kfb-page .custom_message::after,
+body.donate-kfb-page div[class*="label"]::before,
+body.donate-kfb-page div[class*="label"]::after,
 body.donate-kfb-page .decorative-circles,
 body.donate-kfb-page .background-dots,
 body.donate-kfb-page [class*="dot"],
@@ -3258,11 +3268,25 @@ body.donate-kfb-page a:hover {
 
 /* Global styles for Matanot La'evyonim page */
 body.matanot-page {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 50%, #ffffff 100%) !important;
     background-attachment: fixed !important;
     padding-top: 70px !important;
     margin: 0 !important;
     min-height: 100vh !important;
+}
+
+/* Make CMS containers transparent */
+.matanot-page #BodyContainer,
+.matanot-page #co_content_container,
+.matanot-page .body_wrapper,
+.matanot-page #content,
+.matanot-page #co_body_container,
+.matanot-page .master-content-wrapper,
+.matanot-page div.master-content-wrapper,
+.matanot-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
 }
 
 /* Remove decorative elements */
@@ -3284,6 +3308,16 @@ body.matanot-page {
 .matanot-page form::after,
 .matanot-page .form-container::before,
 .matanot-page .form-container::after,
+.matanot-page label::before,
+.matanot-page label::after,
+.matanot-page .form-label::before,
+.matanot-page .form-label::after,
+.matanot-page .label-message::before,
+.matanot-page .label-message::after,
+.matanot-page .custom_message::before,
+.matanot-page .custom_message::after,
+.matanot-page div[class*="label"]::before,
+.matanot-page div[class*="label"]::after,
 .matanot-page .decorative-circles,
 .matanot-page .background-dots,
 .matanot-page [class*="dot"],
@@ -3297,7 +3331,7 @@ body.matanot-page {
 .matanot-page .chabad_header {
     position: relative !important;
     min-height: 500px !important;
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    background: transparent !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -3319,19 +3353,23 @@ body.matanot-page {
 .matanot-page .chabad_header .headerTitle a {
     position: relative !important;
     z-index: 2 !important;
-    color: #000000 !important;
-    font-size: 5rem !important;
-    font-weight: 900 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    color: #ffffff !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
     text-align: center !important;
-    -webkit-text-stroke: 2px #d4af37 !important;
-    text-stroke: 2px #d4af37 !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
     margin: 0 !important;
     padding: 2rem !important;
     text-decoration: none !important;
+    line-height: 1.2 !important;
 }
 
 .matanot-page .chabad_header .headerTitle a:hover {
-    color: #000000 !important;
+    color: #ffffff !important;
 }
 
 /* Form Container */
