@@ -2229,30 +2229,34 @@ div[class*="search_header"],
     line-height: 2 !important;
 }
 
-/* Images within article */
+/* Images within article - centered and large */
 .purim-matanot-page .co_body.article-body.cf img,
 .purim-matanot-page div.co_body.article-body img {
     display: block !important;
+    margin: 2rem auto !important;
+    width: 85% !important;
+    max-width: 700px !important;
     border-radius: 16px !important;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
     border: 3px solid #ffffff !important;
     height: auto !important;
 }
 
+/* Images should be centered and large, not floating */
 .purim-matanot-page .co_body.article-body.cf img:nth-of-type(1) {
-    float: left !important;
-    margin: 0 2.5rem 2rem 0 !important;
-    width: 32% !important;
-    max-width: 350px !important;
-    min-width: 200px !important;
+    float: none !important;
+    margin: 2rem auto !important;
+    width: 85% !important;
+    max-width: 700px !important;
+    display: block !important;
 }
 
 .purim-matanot-page .co_body.article-body.cf img:nth-of-type(2) {
-    float: right !important;
-    margin: 0 0 2rem 2.5rem !important;
-    width: 32% !important;
-    max-width: 350px !important;
-    min-width: 200px !important;
+    float: none !important;
+    margin: 2rem auto !important;
+    width: 85% !important;
+    max-width: 700px !important;
+    display: block !important;
 }
 
 /* Image containers (span elements) - make them transparent wrappers */
@@ -2405,6 +2409,52 @@ div[class*="search_header"],
         border-width: 2px !important;
         margin: 1.5rem 0 !important;
     }
+}
+
+/* Donate buttons */
+.purim-matanot-page .purim-donate-button {
+    display: block !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    margin: 2rem auto !important;
+    padding: 1.5rem 3rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border: 3px solid #000000 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+}
+
+.purim-matanot-page .purim-donate-button:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
+    border-color: #d4af37 !important;
+}
+
+.purim-matanot-page .purim-donate-above {
+    margin-bottom: 2rem !important;
+}
+
+.purim-matanot-page .purim-donate-below {
+    margin-top: 2rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* Hide original "DONATE" text headings from CMS content */
+.purim-matanot-page .co_body.article-body.cf > p > strong:only-child {
+    display: none !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf > p:empty {
+    display: none !important;
 }
 
 /* ========================================
@@ -3953,274 +4003,5 @@ body.matanot-page {
     }
 }
 
-/* ========================================
-   PAGE: PURIM MATANOT LA'EVYONIM - Article page with hero header
-   URL: /templates/articlecco_cdo/aid/6831199/jewish/Purim-Matanot-LaEvyonim.htm
-   ======================================== */
-
-/* Page background - standard gradient */
-body.purim-matanot-page {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
-    background-attachment: fixed !important;
-    padding-top: 70px !important;
-    margin: 0 !important;
-    min-height: 100vh !important;
-}
-
-/* Make CMS containers transparent */
-.purim-matanot-page #BodyContainer,
-.purim-matanot-page #co_content_container,
-.purim-matanot-page .body_wrapper,
-.purim-matanot-page #content,
-.purim-matanot-page #co_body_container,
-.purim-matanot-page .master-content-wrapper,
-.purim-matanot-page div.master-content-wrapper,
-.purim-matanot-page #chabad_main_content {
-    background-image: none !important;
-    background-color: transparent !important;
-}
-
-/* Hero Header */
-.purim-matanot-page .chabad_header {
-    position: relative !important;
-    min-height: 500px !important;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    overflow: hidden !important;
-    margin-bottom: 3rem !important;
-}
-
-.purim-matanot-page .chabad_header img {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    z-index: 1 !important;
-}
-
-.purim-matanot-page .chabad_header .headerTitle,
-.purim-matanot-page .chabad_header .headerTitle a {
-    position: relative !important;
-    z-index: 2 !important;
-    color: #ffffff !important;
-    font-size: 7rem !important;
-    font-weight: 900 !important;
-    text-align: center !important;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
-    -webkit-text-stroke: 3px #d4af37 !important;
-    text-stroke: 3px #d4af37 !important;
-    margin: 0 !important;
-    padding: 2rem !important;
-    animation: gentlePulse 3s ease-in-out infinite !important;
-    text-decoration: none !important;
-    font-family: 'Urbanist', sans-serif !important;
-}
-
-/* Article body content */
-.purim-matanot-page .co_body.article-body.cf {
-    max-width: 1000px !important;
-    margin: 0 auto !important;
-    padding: 3rem 2rem !important;
-    background: #ffffff !important;
-    border-radius: 16px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Article text */
-.purim-matanot-page .co_body.article-body.cf p {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.25rem !important;
-    line-height: 1.8 !important;
-    color: #333333 !important;
-    margin-bottom: 1.5rem !important;
-}
-
-/* Article headings */
-.purim-matanot-page .co_body.article-body.cf h2,
-.purim-matanot-page .co_body.article-body.cf h3 {
-    font-family: 'Urbanist', sans-serif !important;
-    font-weight: 800 !important;
-    color: #000000 !important;
-    margin-top: 2.5rem !important;
-    margin-bottom: 1.5rem !important;
-    border-bottom: 3px solid #d4af37 !important;
-    padding-bottom: 0.75rem !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf h2 {
-    font-size: 2.5rem !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf h3 {
-    font-size: 2rem !important;
-}
-
-/* Bold/Strong text */
-.purim-matanot-page .co_body.article-body.cf strong,
-.purim-matanot-page .co_body.article-body.cf b {
-    color: #d4af37 !important;
-    font-weight: 700 !important;
-}
-
-/* Links */
-.purim-matanot-page .co_body.article-body.cf a {
-    color: #d4af37 !important;
-    text-decoration: none !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease !important;
-    border-bottom: 2px solid transparent !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf a:hover {
-    color: #000000 !important;
-    border-bottom-color: #d4af37 !important;
-}
-
-/* Donate buttons */
-.purim-matanot-page .purim-donate-button {
-    display: block !important;
-    width: 100% !important;
-    max-width: 400px !important;
-    margin: 2rem auto !important;
-    padding: 1.5rem 3rem !important;
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.8rem !important;
-    font-weight: 800 !important;
-    text-align: center !important;
-    text-decoration: none !important;
-    color: #ffffff !important;
-    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
-    border: 3px solid #000000 !important;
-    border-radius: 16px !important;
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4) !important;
-    transition: all 0.3s ease !important;
-    cursor: pointer !important;
-}
-
-.purim-matanot-page .purim-donate-button:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.6) !important;
-    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
-    border-color: #d4af37 !important;
-}
-
-.purim-matanot-page .purim-donate-above {
-    margin-bottom: 2rem !important;
-}
-
-.purim-matanot-page .purim-donate-below {
-    margin-top: 2rem !important;
-    margin-bottom: 3rem !important;
-}
-
-/* Hide original "DONATE" text headings from CMS content */
-.purim-matanot-page .co_body.article-body.cf > p > strong:only-child {
-    display: none !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf > p:empty {
-    display: none !important;
-}
-
-/* Images in article - centered and larger */
-.purim-matanot-page .co_body.article-body.cf img {
-    width: 85% !important;
-    max-width: 700px !important;
-    height: auto !important;
-    border-radius: 16px !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
-    margin: 0 auto !important;
-    display: block !important;
-    transition: all 0.3s ease !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf img:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4) !important;
-}
-
-/* Lists */
-.purim-matanot-page .co_body.article-body.cf ul,
-.purim-matanot-page .co_body.article-body.cf ol {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.25rem !important;
-    line-height: 1.8 !important;
-    margin-bottom: 1.5rem !important;
-    padding-left: 2rem !important;
-}
-
-.purim-matanot-page .co_body.article-body.cf li {
-    margin-bottom: 0.75rem !important;
-}
-
-/* Responsive - Tablet */
-@media (max-width: 1024px) {
-    .purim-matanot-page .chabad_header {
-        min-height: 400px !important;
-    }
-
-    .purim-matanot-page .chabad_header .headerTitle,
-    .purim-matanot-page .chabad_header .headerTitle a {
-        font-size: 5rem !important;
-        -webkit-text-stroke: 2.5px #d4af37 !important;
-    }
-}
-
-/* Responsive - Mobile */
-@media (max-width: 768px) {
-    body.purim-matanot-page {
-        padding-top: 60px !important;
-    }
-
-    .purim-matanot-page .chabad_header {
-        min-height: 300px !important;
-    }
-
-    .purim-matanot-page .chabad_header .headerTitle,
-    .purim-matanot-page .chabad_header .headerTitle a {
-        font-size: 3.5rem !important;
-        -webkit-text-stroke: 2px #d4af37 !important;
-    }
-
-    .purim-matanot-page .co_body.article-body.cf {
-        padding: 2rem 1.5rem !important;
-    }
-
-    .purim-matanot-page .co_body.article-body.cf p {
-        font-size: 1.1rem !important;
-    }
-
-    .purim-matanot-page .co_body.article-body.cf h2 {
-        font-size: 2rem !important;
-    }
-
-    .purim-matanot-page .co_body.article-body.cf h3 {
-        font-size: 1.7rem !important;
-    }
-
-    .purim-matanot-page .purim-donate-button {
-        font-size: 1.5rem !important;
-        padding: 1.25rem 2rem !important;
-        max-width: 100% !important;
-    }
-
-    .purim-matanot-page .co_body.article-body.cf img {
-        width: 95% !important;
-        max-width: 100% !important;
-    }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-    .purim-matanot-page .chabad_header .headerTitle,
-    .purim-matanot-page .chabad_header .headerTitle a {
-        font-size: 2.5rem !important;
-        -webkit-text-stroke: 1.5px #d4af37 !important;
-    }
-}
 
 /* END OF JRCC CUSTOM STYLES */
