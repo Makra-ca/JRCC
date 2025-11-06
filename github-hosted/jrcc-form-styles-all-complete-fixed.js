@@ -1372,15 +1372,17 @@ function stylePurimMatanotPage() {
         var links = document.querySelectorAll('#navigation a, #menu a');
 
         links.forEach(function(link) {
-            var isSelected = link.classList.contains('selected');
+            // Check both link and parent for selected class
+            var isSelected = link.classList.contains('selected') ||
+                           link.parentElement.classList.contains('selected');
             var color = isSelected ? '#d4af37' : '#000000';
 
             link.style.setProperty('color', color, 'important');
+            link.style.setProperty('-webkit-text-fill-color', color, 'important');
             link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
             link.style.setProperty('font-weight', '500', 'important');
 
-            // CRITICAL: Remove webkit color overrides
-            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            // Remove any fill property
             link.style.removeProperty('fill');
         });
     }
