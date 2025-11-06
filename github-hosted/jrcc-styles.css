@@ -2702,6 +2702,32 @@ body.donate-kfb-page #BodyContainer {
     padding-top: 0 !important;
 }
 
+/* Remove decorative elements */
+body.donate-kfb-page body::before,
+body.donate-kfb-page body::after,
+body.donate-kfb-page #BodyContainer::before,
+body.donate-kfb-page #BodyContainer::after,
+body.donate-kfb-page #co_content_container::before,
+body.donate-kfb-page #co_content_container::after,
+body.donate-kfb-page .body_wrapper::before,
+body.donate-kfb-page .body_wrapper::after,
+body.donate-kfb-page #content::before,
+body.donate-kfb-page #content::after,
+body.donate-kfb-page #co_body_container::before,
+body.donate-kfb-page #co_body_container::after,
+body.donate-kfb-page .master-content-wrapper::before,
+body.donate-kfb-page .master-content-wrapper::after,
+body.donate-kfb-page form::before,
+body.donate-kfb-page form::after,
+body.donate-kfb-page .decorative-circles,
+body.donate-kfb-page .background-dots,
+body.donate-kfb-page [class*="dot"],
+body.donate-kfb-page [class*="circle"][class*="decorat"],
+body.donate-kfb-page [class*="background"][class*="element"] {
+    display: none !important;
+    content: none !important;
+}
+
 /* Make CMS containers transparent */
 body.donate-kfb-page #BodyContainer,
 body.donate-kfb-page #co_content_container,
@@ -3235,6 +3261,34 @@ body.matanot-page {
     padding-top: 70px !important;
     margin: 0 !important;
     min-height: 100vh !important;
+}
+
+/* Remove decorative elements */
+.matanot-page body::before,
+.matanot-page body::after,
+.matanot-page #BodyContainer::before,
+.matanot-page #BodyContainer::after,
+.matanot-page #co_content_container::before,
+.matanot-page #co_content_container::after,
+.matanot-page .body_wrapper::before,
+.matanot-page .body_wrapper::after,
+.matanot-page #content::before,
+.matanot-page #content::after,
+.matanot-page #co_body_container::before,
+.matanot-page #co_body_container::after,
+.matanot-page .master-content-wrapper::before,
+.matanot-page .master-content-wrapper::after,
+.matanot-page form::before,
+.matanot-page form::after,
+.matanot-page .form-container::before,
+.matanot-page .form-container::after,
+.matanot-page .decorative-circles,
+.matanot-page .background-dots,
+.matanot-page [class*="dot"],
+.matanot-page [class*="circle"][class*="decorat"],
+.matanot-page [class*="background"][class*="element"] {
+    display: none !important;
+    content: none !important;
 }
 
 /* Hero Header */
