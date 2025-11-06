@@ -1255,7 +1255,7 @@ div[class*="search_header"],
 
 /* ========================================
    SHARED NAVIGATION STYLES FOR ALL PAGES
-   (About Us, Purim Matanot, Volunteer Form, FAQ, Donate KFB, Donate, Kosher Food Bank, Get Help)
+   (About Us, Purim Matanot, Volunteer Form, FAQ, Donate KFB, Donate, Matanot La'evyonim, Kosher Food Bank, Get Help)
    ======================================== */
 
 /* Fixed navigation bar */
@@ -1272,7 +1272,9 @@ div[class*="search_header"],
     .donate-page #navigation,
     .donate-page div#navigation,
 .donate-page #navigation,
+.matanot-page #navigation,
 .donate-page div#navigation,
+.matanot-page div#navigation,
 .kosher-food-bank-page #navigation,
 .kosher-food-bank-page div#navigation,
 .get-help-page #navigation,
@@ -1308,6 +1310,8 @@ div[class*="search_header"],
 .donate-kfb-page div.chabad_menu_content,
 .donate-page .chabad_menu_content,
 .donate-page div.chabad_menu_content,
+.matanot-page .chabad_menu_content,
+.matanot-page div.chabad_menu_content,
 .kosher-food-bank-page .chabad_menu_content,
 .kosher-food-bank-page div.chabad_menu_content,
 .get-help-page .chabad_menu_content,
@@ -1325,6 +1329,7 @@ div[class*="search_header"],
 .faq-page ul#menu,
 .donate-kfb-page ul#menu,
 .donate-page ul#menu,
+.matanot-page ul#menu,
 .kosher-food-bank-page ul#menu,
 .get-help-page ul#menu {
     display: flex !important;
@@ -1350,6 +1355,8 @@ div[class*="search_header"],
 .donate-kfb-page ul#menu li,
 .donate-page ul#menu li.item,
 .donate-page ul#menu li,
+.matanot-page ul#menu li.item,
+.matanot-page ul#menu li,
 .kosher-food-bank-page ul#menu li.item,
 .kosher-food-bank-page ul#menu li,
 .get-help-page ul#menu li.item,
@@ -1383,6 +1390,9 @@ div[class*="search_header"],
 .donate-page ul#menu li a.parent,
 .donate-page ul#menu li a,
 .donate-page #navigation a,
+.matanot-page ul#menu li a.parent,
+.matanot-page ul#menu li a,
+.matanot-page #navigation a,
 .kosher-food-bank-page ul#menu li a.parent,
 .kosher-food-bank-page ul#menu li a,
 .kosher-food-bank-page #navigation a,
@@ -1411,6 +1421,7 @@ div[class*="search_header"],
 .faq-page ul#menu li a:hover,
 .donate-kfb-page ul#menu li a:hover,
 .donate-page ul#menu li a:hover,
+.matanot-page ul#menu li a:hover,
 .kosher-food-bank-page ul#menu li a:hover,
 .get-help-page ul#menu li a:hover {
     color: #d4af37 !important;
@@ -1425,6 +1436,7 @@ div[class*="search_header"],
 .faq-page ul#menu li a.selected,
 .donate-kfb-page ul#menu li a.selected,
 .donate-page ul#menu li a.selected,
+.matanot-page ul#menu li a.selected,
 .kosher-food-bank-page ul#menu li a.selected,
 .get-help-page ul#menu li a.selected {
     color: #d4af37 !important;
@@ -1438,6 +1450,7 @@ div[class*="search_header"],
 .faq-page ul#menu li.arrow,
 .donate-kfb-page ul#menu li.arrow,
 .donate-page ul#menu li.arrow,
+.matanot-page ul#menu li.arrow,
 .kosher-food-bank-page ul#menu li.arrow,
 .get-help-page ul#menu li.arrow {
     position: relative !important;
@@ -1449,6 +1462,7 @@ div[class*="search_header"],
 .faq-page ul#menu li.arrow .sub_menu,
 .donate-kfb-page ul#menu li.arrow .sub_menu,
 .donate-page ul#menu li.arrow .sub_menu,
+.matanot-page ul#menu li.arrow .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu,
 .get-help-page ul#menu li.arrow .sub_menu {
     position: absolute !important;
@@ -1474,6 +1488,7 @@ div[class*="search_header"],
 .faq-page ul#menu li.arrow:hover .sub_menu,
 .donate-kfb-page ul#menu li.arrow:hover .sub_menu,
 .donate-page ul#menu li.arrow:hover .sub_menu,
+.matanot-page ul#menu li.arrow:hover .sub_menu,
 .kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
 .get-help-page ul#menu li.arrow:hover .sub_menu {
     opacity: 1 !important;
@@ -1487,6 +1502,7 @@ div[class*="search_header"],
 .faq-page ul#menu li.arrow .sub_menu ul li a,
 .donate-kfb-page ul#menu li.arrow .sub_menu ul li a,
 .donate-page ul#menu li.arrow .sub_menu ul li a,
+.matanot-page ul#menu li.arrow .sub_menu ul li a,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
 .get-help-page ul#menu li.arrow .sub_menu ul li a {
     display: block !important;
@@ -1506,6 +1522,7 @@ div[class*="search_header"],
 .faq-page ul#menu li.arrow .sub_menu ul li a:hover,
 .donate-kfb-page ul#menu li.arrow .sub_menu ul li a:hover,
 .donate-page ul#menu li.arrow .sub_menu ul li a:hover,
+.matanot-page ul#menu li.arrow .sub_menu ul li a:hover,
 .kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
 .get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
     background: rgba(212, 175, 55, 0.2) !important;
@@ -1521,6 +1538,7 @@ div[class*="search_header"],
 .faq-page .mobile-menu-toggle,
 .donate-kfb-page .mobile-menu-toggle,
 .donate-page .mobile-menu-toggle,
+.matanot-page .mobile-menu-toggle,
 .kosher-food-bank-page .mobile-menu-toggle,
 .get-help-page .mobile-menu-toggle {
     display: none !important;
@@ -1544,6 +1562,7 @@ div[class*="search_header"],
 .faq-page .mobile-menu-toggle:hover,
 .donate-kfb-page .mobile-menu-toggle:hover,
 .donate-page .mobile-menu-toggle:hover,
+.matanot-page .mobile-menu-toggle:hover,
 .kosher-food-bank-page .mobile-menu-toggle:hover,
 .get-help-page .mobile-menu-toggle:hover {
     background: #d4af37 !important;
@@ -1558,6 +1577,7 @@ div[class*="search_header"],
     .faq-page .mobile-menu-toggle,
     .donate-kfb-page .mobile-menu-toggle,
 .donate-page .mobile-menu-toggle,
+.matanot-page .mobile-menu-toggle,
     .kosher-food-bank-page .mobile-menu-toggle,
     .get-help-page .mobile-menu-toggle {
         display: block !important;
@@ -1575,6 +1595,8 @@ div[class*="search_header"],
     .donate-kfb-page div#navigation,
     .donate-page #navigation,
     .donate-page div#navigation,
+    .matanot-page #navigation,
+    .matanot-page div#navigation,
     .kosher-food-bank-page #navigation,
     .kosher-food-bank-page div#navigation,
     .get-help-page #navigation,
@@ -1599,6 +1621,8 @@ div[class*="search_header"],
     .donate-kfb-page div.chabad_menu_content,
 .donate-page .chabad_menu_content,
 .donate-page div.chabad_menu_content,
+.matanot-page .chabad_menu_content,
+.matanot-page div.chabad_menu_content,
     .kosher-food-bank-page .chabad_menu_content,
     .kosher-food-bank-page div.chabad_menu_content,
     .get-help-page .chabad_menu_content,
@@ -1622,6 +1646,8 @@ div[class*="search_header"],
     .donate-kfb-page div.chabad_menu_content.menu-open,
     .donate-page .chabad_menu_content.menu-open,
     .donate-page div.chabad_menu_content.menu-open,
+    .matanot-page .chabad_menu_content.menu-open,
+    .matanot-page div.chabad_menu_content.menu-open,
     .kosher-food-bank-page .chabad_menu_content.menu-open,
     .kosher-food-bank-page div.chabad_menu_content.menu-open,
     .get-help-page .chabad_menu_content.menu-open,
@@ -1638,6 +1664,7 @@ div[class*="search_header"],
     .donate-kfb-page ul#menu,
     .donate-page ul#menu,
 .donate-page ul#menu,
+.matanot-page ul#menu,
     .kosher-food-bank-page ul#menu,
     .get-help-page ul#menu {
         gap: 0.25rem !important;
@@ -1668,6 +1695,9 @@ div[class*="search_header"],
 .donate-page ul#menu li a.parent,
 .donate-page ul#menu li a,
 .donate-page #navigation a,
+.matanot-page ul#menu li a.parent,
+.matanot-page ul#menu li a,
+.matanot-page #navigation a,
     .kosher-food-bank-page ul#menu li a.parent,
     .kosher-food-bank-page ul#menu li a,
     .kosher-food-bank-page #navigation a,
@@ -3178,6 +3208,342 @@ body.donate-kfb-page a:hover {
     .donate-page .sPromo-wrap .caption h3,
     .donate-page .sPromo-wrap .caption .title {
         font-size: 1.6rem !important;
+    }
+}
+
+/* ========================================
+   PAGE: MATANOT LA'EVYONIM - GIVE TO THE NEEDY
+   URL: /templates/articlecco_cdo/aid/6820507/jewish/Matanot-Laevyonim-Give-to-the-Needy.htm
+   ======================================== */
+
+/* Global styles for Matanot La'evyonim page */
+body.matanot-page {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+    margin: 0 !important;
+    min-height: 100vh !important;
+}
+
+/* Hero Header */
+.matanot-page .chabad_header {
+    position: relative !important;
+    min-height: 500px !important;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    margin-bottom: 3rem !important;
+}
+
+.matanot-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 1 !important;
+}
+
+.matanot-page .chabad_header .headerTitle,
+.matanot-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    color: #ffffff !important;
+    font-size: 7rem !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    margin: 0 !important;
+    padding: 2rem !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+    text-decoration: none !important;
+}
+
+.matanot-page .chabad_header .headerTitle a:hover {
+    color: #ffffff !important;
+}
+
+/* Form Container */
+.matanot-page form,
+.matanot-page .form-container {
+    background: #ffffff !important;
+    border: 3px solid #d4af37 !important;
+    border-radius: 20px !important;
+    padding: 3rem !important;
+    max-width: 800px !important;
+    margin: 0 auto 3rem auto !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Form Title */
+.matanot-page form h2,
+.matanot-page form h3,
+.matanot-page .form-container h2,
+.matanot-page .form-container h3 {
+    color: #000000 !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 2rem !important;
+    text-align: center !important;
+    border-bottom: 3px solid #d4af37 !important;
+    padding-bottom: 1rem !important;
+}
+
+/* Form Labels */
+.matanot-page form label {
+    display: block !important;
+    color: #000000 !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    margin-top: 1.5rem !important;
+}
+
+/* Form Inputs */
+.matanot-page form input[type="text"],
+.matanot-page form input[type="email"],
+.matanot-page form input[type="tel"],
+.matanot-page form input[type="number"],
+.matanot-page form textarea,
+.matanot-page form select {
+    width: 100% !important;
+    padding: 1rem !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 10px !important;
+    font-size: 1rem !important;
+    transition: all 0.3s ease !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+.matanot-page form input[type="text"]:focus,
+.matanot-page form input[type="email"]:focus,
+.matanot-page form input[type="tel"]:focus,
+.matanot-page form input[type="number"]:focus,
+.matanot-page form textarea:focus,
+.matanot-page form select:focus {
+    border-color: #d4af37 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
+}
+
+.matanot-page form textarea {
+    min-height: 150px !important;
+    resize: vertical !important;
+}
+
+/* Submit Button */
+.matanot-page form input[type="submit"],
+.matanot-page form button[type="submit"] {
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    color: #000000 !important;
+    border: none !important;
+    padding: 1.2rem 3rem !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin-top: 2rem !important;
+    display: block !important;
+    width: auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3) !important;
+}
+
+.matanot-page form input[type="submit"]:hover,
+.matanot-page form button[type="submit"]:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
+}
+
+/* Message Sections */
+.matanot-page .custom_message,
+.matanot-page .label-message {
+    background: #ffffff !important;
+    border-left: 5px solid #d4af37 !important;
+    border-radius: 15px !important;
+    padding: 2.5rem !important;
+    margin: 2rem auto !important;
+    max-width: 900px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.matanot-page .custom_message .title,
+.matanot-page .label-message .title,
+.matanot-page .custom_message h2,
+.matanot-page .label-message h2,
+.matanot-page .custom_message h3,
+.matanot-page .label-message h3 {
+    color: #000000 !important;
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1.5rem !important;
+    border-bottom: 2px solid #d4af37 !important;
+    padding-bottom: 1rem !important;
+}
+
+.matanot-page .custom_message p,
+.matanot-page .label-message p {
+    color: #333333 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.8 !important;
+    margin-bottom: 1rem !important;
+}
+
+/* Images within message sections */
+.matanot-page .custom_message img,
+.matanot-page .label-message img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 10px !important;
+    margin: 1.5rem auto !important;
+    display: block !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Article Body */
+.matanot-page .co_body.article-body.cf {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 3rem 2rem !important;
+}
+
+/* General Images */
+.matanot-page img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+/* Links */
+.matanot-page a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+}
+
+.matanot-page a:hover {
+    color: #f4d03f !important;
+    text-decoration: underline !important;
+}
+
+/* Content Container */
+.matanot-page #co_content_container {
+    background: transparent !important;
+}
+
+/* Responsive Design - Tablet */
+@media (max-width: 1024px) {
+    .matanot-page .chabad_header {
+        min-height: 400px !important;
+    }
+
+    .matanot-page .chabad_header .headerTitle,
+    .matanot-page .chabad_header .headerTitle a {
+        font-size: 5rem !important;
+        -webkit-text-stroke: 2.5px #d4af37 !important;
+        text-stroke: 2.5px #d4af37 !important;
+    }
+
+    .matanot-page form,
+    .matanot-page .form-container {
+        padding: 2.5rem !important;
+    }
+
+    .matanot-page .custom_message,
+    .matanot-page .label-message {
+        margin: 1.5rem 1rem !important;
+        padding: 2rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.matanot-page {
+        padding-top: 60px !important;
+    }
+
+    .matanot-page .chabad_header {
+        min-height: 300px !important;
+    }
+
+    .matanot-page .chabad_header .headerTitle,
+    .matanot-page .chabad_header .headerTitle a {
+        font-size: 4rem !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        text-stroke: 2px #d4af37 !important;
+    }
+
+    .matanot-page form,
+    .matanot-page .form-container {
+        padding: 2rem !important;
+        margin: 0 1rem 2rem 1rem !important;
+    }
+
+    .matanot-page form h2,
+    .matanot-page form h3 {
+        font-size: 2rem !important;
+    }
+
+    .matanot-page .custom_message .title,
+    .matanot-page .label-message .title,
+    .matanot-page .custom_message h2,
+    .matanot-page .label-message h2,
+    .matanot-page .custom_message h3,
+    .matanot-page .label-message h3 {
+        font-size: 1.7rem !important;
+    }
+
+    .matanot-page .co_body.article-body.cf {
+        padding: 2rem 1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .matanot-page .chabad_header .headerTitle,
+    .matanot-page .chabad_header .headerTitle a {
+        font-size: 2.5rem !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        text-stroke: 1.5px #d4af37 !important;
+    }
+
+    .matanot-page form,
+    .matanot-page .form-container {
+        padding: 1.5rem !important;
+    }
+
+    .matanot-page form input[type="submit"],
+    .matanot-page form button[type="submit"] {
+        width: 100% !important;
+        padding: 1rem 2rem !important;
+        font-size: 1.1rem !important;
+    }
+
+    .matanot-page .custom_message,
+    .matanot-page .label-message {
+        padding: 1.5rem !important;
+        margin: 1rem 0.5rem !important;
+    }
+
+    .matanot-page .custom_message .title,
+    .matanot-page .label-message .title,
+    .matanot-page .custom_message h2,
+    .matanot-page .label-message h2,
+    .matanot-page .custom_message h3,
+    .matanot-page .label-message h3 {
+        font-size: 1.5rem !important;
+    }
+
+    .matanot-page .custom_message p,
+    .matanot-page .label-message p {
+        font-size: 1rem !important;
     }
 }
 

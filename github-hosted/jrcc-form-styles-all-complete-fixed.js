@@ -1637,16 +1637,103 @@ function styleDonatePage() {
 }
 
 // ========================================
+// MATANOT LA'EVYONIM - GIVE TO THE NEEDY PAGE
+// ========================================
+var matanotInitialized = false;
+
+function styleMatanotPage() {
+    if (matanotInitialized) return;
+
+    var isMatanotPage = window.location.href.indexOf('/aid/6820507/') !== -1 ||
+                        window.location.href.indexOf('Matanot-Laevyonim-Give-to-the-Needy.htm') !== -1;
+
+    if (!isMatanotPage) return;
+    matanotInitialized = true;
+
+    // Add body class
+    if (document.body && !document.body.classList.contains('matanot-page')) {
+        document.body.classList.add('matanot-page');
+    }
+
+    // Create mobile menu toggle if it doesn't exist
+    var nav = document.querySelector('#navigation');
+    if (nav && !document.querySelector('.mobile-menu-toggle')) {
+        var toggle = document.createElement('button');
+        toggle.className = 'mobile-menu-toggle';
+        toggle.textContent = '☰ Menu';
+        toggle.style.cssText = 'display: none; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: #d4af37; color: #000; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; font-weight: 700; z-index: 100000;';
+
+        toggle.onclick = function() {
+            var menu = document.querySelector('#menu, #navigation ul');
+            if (menu) {
+                var currentDisplay = window.getComputedStyle(menu).display;
+                menu.style.display = currentDisplay === 'none' ? 'block' : 'none';
+            }
+        };
+
+        nav.insertBefore(toggle, nav.firstChild);
+    }
+
+    // Force navigation colors
+    function forceNavColors(silent) {
+        var navLinks = document.querySelectorAll('#navigation a, #menu a');
+        navLinks.forEach(function(link) {
+            // Force black text color
+            link.style.setProperty('color', '#000000', 'important');
+            link.style.setProperty('-webkit-text-fill-color', '#000000', 'important');
+
+            // Check if this link is selected
+            var isSelected = link.classList.contains('selected') ||
+                           link.parentElement.classList.contains('selected') ||
+                           link.getAttribute('aria-current') === 'page';
+
+            if (isSelected) {
+                link.style.setProperty('color', '#d4af37', 'important');
+                link.style.setProperty('-webkit-text-fill-color', '#d4af37', 'important');
+            }
+        });
+
+        // Hover effects
+        navLinks.forEach(function(link) {
+            link.addEventListener('mouseenter', function() {
+                this.style.setProperty('color', '#d4af37', 'important');
+                this.style.setProperty('-webkit-text-fill-color', '#d4af37', 'important');
+            });
+
+            link.addEventListener('mouseleave', function() {
+                var isSelected = this.classList.contains('selected') ||
+                               this.parentElement.classList.contains('selected') ||
+                               this.getAttribute('aria-current') === 'page';
+
+                if (!isSelected) {
+                    this.style.setProperty('color', '#000000', 'important');
+                    this.style.setProperty('-webkit-text-fill-color', '#000000', 'important');
+                }
+            });
+        });
+    }
+
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 12 styling functions (6 forms + 6 article pages)
+    // Run all 13 styling functions (7 forms + 6 article pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
     styleYeshivaScholarshipForm();
     styleVolunteerForm();
     styleDonateKFBPage();
+    styleMatanotPage();
     styleAboutUsPage();
     styleKosherFoodBankPage();
     styleGetHelpPage();
