@@ -1387,6 +1387,26 @@ function stylePurimMatanotPage() {
         });
     }
 
+    // Hide duplicate "DONATE" text from CMS
+    function hideDuplicateDonateText() {
+        var articleBody = document.querySelector('.co_body.article-body.cf');
+        if (!articleBody) return;
+
+        // Find all elements that might contain duplicate "DONATE" text
+        var allElements = articleBody.querySelectorAll('p, h1, h2, h3, h4, h5, strong, b, span, div');
+
+        allElements.forEach(function(element) {
+            var text = element.textContent.trim().toUpperCase();
+
+            // If the element contains ONLY "DONATE" or "DONATE NOW" text, hide it
+            // But skip our donate buttons
+            if (!element.classList.contains('purim-donate-button') &&
+                (text === 'DONATE' || text === 'DONATE NOW')) {
+                element.style.display = 'none';
+            }
+        });
+    }
+
     // Add donate buttons around the image
     function addDonateButtons() {
         var articleBody = document.querySelector('.co_body.article-body.cf');
@@ -1415,6 +1435,9 @@ function stylePurimMatanotPage() {
         // Insert buttons
         img.parentNode.insertBefore(buttonAbove, img);
         img.parentNode.insertBefore(buttonBelow, img.nextSibling);
+
+        // Hide any duplicate "DONATE" text after buttons are added
+        hideDuplicateDonateText();
     }
 
     // Run setup
@@ -1423,6 +1446,14 @@ function stylePurimMatanotPage() {
 
     // Add donate buttons with delay to ensure content is loaded
     setTimeout(addDonateButtons, 500);
+
+    // Re-run duplicate text hiding after content loads
+    setTimeout(function() {
+        var articleBody = document.querySelector('.co_body.article-body.cf');
+        if (articleBody) {
+            hideDuplicateDonateText();
+        }
+    }, 1000);
 
     // Re-run after delay
     setTimeout(function() { forceNavColors(true); }, 500);

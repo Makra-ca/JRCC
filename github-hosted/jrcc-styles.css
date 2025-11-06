@@ -2448,12 +2448,22 @@ div[class*="search_header"],
     margin-bottom: 3rem !important;
 }
 
-/* Hide original "DONATE" text headings from CMS content */
-.purim-matanot-page .co_body.article-body.cf > p > strong:only-child {
+/* Hide original "DONATE" text headings from CMS content - comprehensive rules */
+.purim-matanot-page .co_body.article-body.cf > p > strong:only-child,
+.purim-matanot-page .co_body.article-body.cf > p > b:only-child,
+.purim-matanot-page .co_body.article-body.cf > strong:only-child,
+.purim-matanot-page .co_body.article-body.cf > b:only-child {
     display: none !important;
 }
 
+/* Hide paragraphs that might contain only "DONATE" text */
 .purim-matanot-page .co_body.article-body.cf > p:empty {
+    display: none !important;
+}
+
+/* Hide headings that might contain "DONATE" text */
+.purim-matanot-page .co_body.article-body.cf h2:first-of-type,
+.purim-matanot-page .co_body.article-body.cf h3:first-of-type {
     display: none !important;
 }
 
