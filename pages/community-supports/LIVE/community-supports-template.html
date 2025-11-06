@@ -178,31 +178,22 @@ div.article_index div.item {
     cursor: pointer !important;
 }
 
-/* Diagonal accent stripe */
+/* Top accent bar on hover */
 .article_index .item::before {
     content: '' !important;
     position: absolute !important;
-    top: -50% !important;
-    right: -50% !important;
-    width: 200% !important;
-    height: 200% !important;
-    background: linear-gradient(135deg,
-        transparent 0%,
-        transparent 45%,
-        rgba(91, 44, 111, 0.05) 45%,
-        rgba(139, 74, 160, 0.08) 50%,
-        rgba(255, 107, 107, 0.05) 55%,
-        transparent 55%,
-        transparent 100%) !important;
-    transform: rotate(0deg) !important;
-    transition: all 0.6s ease !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #ff6b6b 0%, #ee5a52 50%, #ff6b6b 100%) !important;
+    transform: scaleX(0) !important;
+    transform-origin: left !important;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .article_index .item:hover::before {
-    opacity: 1 !important;
-    transform: rotate(5deg) !important;
+    transform: scaleX(1) !important;
 }
 
 .article_index .item:hover {
@@ -225,26 +216,9 @@ div.article_index div.item {
     margin: 0 !important;
     background: linear-gradient(135deg, #f8f5ff 0%, #fff9f9 50%, #fff5f8 100%) !important;
     border-radius: 0 !important;
-    padding: 2.5rem !important;
+    padding: 2rem !important;
     box-shadow: none !important;
     position: relative !important;
-}
-
-/* Decorative corner accent */
-.article_index .item div.synopsis_icon::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    height: 4px !important;
-    background: linear-gradient(90deg,
-        #5b2c6f 0%,
-        #8b4aa0 25%,
-        #ff6b6b 50%,
-        #8b4aa0 75%,
-        #5b2c6f 100%) !important;
-    opacity: 0.6 !important;
 }
 
 /* Style the icon link - fills container */

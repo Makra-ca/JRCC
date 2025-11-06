@@ -7,6 +7,9 @@ var healthyAtHomeInitialized = false;
 var seniorsInitialized = false;
 var yeshivaInitialized = false;
 var volunteerInitialized = false;
+var aboutUsInitialized = false;
+var kosherFoodBankInitialized = false;
+var getHelpInitialized = false;
 
 // ========================================
 // TYPEWRITER ANIMATION HELPER
@@ -1076,15 +1079,305 @@ function styleVolunteerForm() {
 }
 
 // ========================================
+// 6. ABOUT US PAGE STYLING
+// ========================================
+function styleAboutUsPage() {
+    if (aboutUsInitialized) return;
+
+    // Check if we're on the About Us page
+    var isAboutUsPage = window.location.href.indexOf('/aid/6820886/') !== -1 ||
+                        window.location.href.indexOf('About-Us.htm') !== -1;
+    if (!isAboutUsPage) return;
+
+    aboutUsInitialized = true;
+
+    // Add page-specific body class
+    if (document.body && !document.body.classList.contains('about-us-page')) {
+        document.body.classList.add('about-us-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                toggleButton.textContent = menuContent.classList.contains('menu-open') ? 'CLOSE' : 'MENU';
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force link colors (fix CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
+// 7. KOSHER FOOD BANK PAGE STYLING
+// ========================================
+function styleKosherFoodBankPage() {
+    if (kosherFoodBankInitialized) return;
+
+    // Check if we're on the Kosher Food Bank page
+    var isKosherFoodBankPage = window.location.href.indexOf('/aid/6819985/') !== -1 ||
+                                window.location.href.indexOf('Kosher-Food-Bank.htm') !== -1;
+    if (!isKosherFoodBankPage) return;
+
+    kosherFoodBankInitialized = true;
+
+    // Add page-specific body class
+    if (document.body && !document.body.classList.contains('kosher-food-bank-page')) {
+        document.body.classList.add('kosher-food-bank-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                toggleButton.textContent = menuContent.classList.contains('menu-open') ? 'CLOSE' : 'MENU';
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force link colors (fix CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Merge donate cards: Extract link from gold card and add pulsing text to white card
+    function styleDonateCard() {
+        var promoCards = Array.from(document.querySelectorAll('.sPromo-wrap'));
+        var whiteCard = null;
+        var goldCard = null;
+        var donateHref = null;
+
+        // Look for the white "DONATE NOW" card
+        for (var i = 0; i < promoCards.length; i++) {
+            var card = promoCards[i];
+            var caption = card.querySelector('.caption');
+
+            if (caption && caption.textContent.trim().toUpperCase().indexOf('DONATE NOW') !== -1) {
+                whiteCard = card;
+                whiteCard.classList.add('donate-card-white');
+
+                // Look for the next card (likely the gold card with the link)
+                if (i + 1 < promoCards.length) {
+                    var nextCard = promoCards[i + 1];
+                    var nextCardLink = nextCard.querySelector('a');
+                    if (nextCardLink && nextCardLink.href) {
+                        goldCard = nextCard;
+                        donateHref = nextCardLink.href;
+                    }
+                }
+
+                // Also check if this card itself has a wrapper link
+                var cardLink = card.querySelector('a[href*="donate"], a[href*="Donate"]');
+                if (!donateHref && cardLink && cardLink.href) {
+                    donateHref = cardLink.href;
+                }
+            }
+        }
+
+        // If we found both cards or at least the white card with a link
+        if (whiteCard && donateHref) {
+            // Check if we already added the pulsing link
+            if (!whiteCard.querySelector('.donate-link-pulse')) {
+                // Create the pulsing "DONATE NOW" link
+                var donateLink = document.createElement('a');
+                donateLink.href = donateHref;
+                donateLink.className = 'donate-link-pulse';
+                donateLink.textContent = 'DONATE NOW';
+                donateLink.setAttribute('target', '_blank');
+                donateLink.setAttribute('rel', 'noopener noreferrer');
+
+                // Insert the link at the end of the white card's caption or main content area
+                var caption = whiteCard.querySelector('.caption');
+                if (caption) {
+                    caption.parentElement.appendChild(donateLink);
+                } else {
+                    whiteCard.appendChild(donateLink);
+                }
+            }
+
+            // Hide the separate gold card if found
+            if (goldCard) {
+                goldCard.classList.add('gold-card-hidden');
+            }
+        }
+    }
+
+    // Function to forcefully remove height constraints from cards
+    function fixCardHeights() {
+        var cards = document.querySelectorAll('.sPromo-wrap');
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            card.style.removeProperty('height');
+            card.style.removeProperty('max-height');
+            card.style.removeProperty('min-height');
+            card.style.overflow = 'visible';
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+    styleDonateCard();
+    fixCardHeights();
+
+    // Re-run after delay
+    setTimeout(function() {
+        forceNavColors(true);
+        styleDonateCard();
+        fixCardHeights();
+    }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
+// 8. GET HELP PAGE STYLING
+// ========================================
+function styleGetHelpPage() {
+    if (getHelpInitialized) return;
+
+    // Check if we're on the Get Help page
+    var isGetHelpPage = window.location.href.indexOf('/aid/6827292/') !== -1 ||
+                        window.location.href.indexOf('Get-Help.htm') !== -1;
+    if (!isGetHelpPage) return;
+
+    getHelpInitialized = true;
+
+    // Add page-specific body class
+    if (document.body && !document.body.classList.contains('get-help-page')) {
+        document.body.classList.add('get-help-page');
+    }
+
+    // Create mobile menu toggle button
+    function createMobileMenuToggle() {
+        if (document.querySelector('.mobile-menu-toggle')) return;
+
+        var navigation = document.querySelector('#navigation');
+        if (!navigation) return;
+
+        var toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.textContent = 'MENU';
+        toggleButton.setAttribute('aria-label', 'Toggle navigation menu');
+
+        toggleButton.addEventListener('click', function() {
+            var menuContent = document.querySelector('.chabad_menu_content');
+            if (menuContent) {
+                menuContent.classList.toggle('menu-open');
+                toggleButton.textContent = menuContent.classList.contains('menu-open') ? 'CLOSE' : 'MENU';
+            }
+        });
+
+        navigation.insertBefore(toggleButton, navigation.firstChild);
+    }
+
+    // Force link colors (fix CMS overrides)
+    function forceNavColors(silent) {
+        var links = document.querySelectorAll('#navigation a, #menu a');
+
+        for (var i = 0; i < links.length; i++) {
+            var link = links[i];
+            var isSelected = link.classList.contains('selected');
+            var color = isSelected ? '#d4af37' : '#000000';
+
+            link.style.setProperty('color', color, 'important');
+            link.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
+            link.style.setProperty('font-weight', '500', 'important');
+            link.style.setProperty('-webkit-text-fill-color', 'unset', 'important');
+            link.style.removeProperty('fill');
+        }
+    }
+
+    // Run setup
+    createMobileMenuToggle();
+    forceNavColors();
+
+    // Re-run after delay
+    setTimeout(function() { forceNavColors(true); }, 500);
+
+    // Continuously fight CMS overrides
+    setInterval(function() { forceNavColors(true); }, 100);
+}
+
+// ========================================
 // INITIALIZE ALL FORM STYLES
 // ========================================
 function initializeFormStyles() {
-    // Run all 5 styling functions
+    // Run all 8 styling functions (5 forms + 3 Kosher Food Bank pages)
     styleGmachDonationForm();
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
     styleYeshivaScholarshipForm();
     styleVolunteerForm();
+    styleAboutUsPage();
+    styleKosherFoodBankPage();
+    styleGetHelpPage();
 }
 
 // Run on various events with multiple retries (like original)

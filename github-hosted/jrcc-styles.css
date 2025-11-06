@@ -1193,4 +1193,928 @@ div[class*="search_header"],
     box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4) !important;
 }
 
+/* ====================================================================
+   KOSHER FOOD BANK PAGES - MODERN BLACK/WHITE/GOLD THEME
+   Three pages: About Us, Kosher Food Bank Home, Get Help Form
+   Theme: Modern, clean design with full mobile responsiveness
+   Colors: Black (#000000), White (#ffffff), Gold (#d4af37)
+   ==================================================================== */
+
+/* ========================================
+   SHARED NAVIGATION STYLES FOR ALL THREE PAGES
+   ======================================== */
+
+/* Fixed navigation bar */
+.about-us-page #navigation,
+.about-us-page div#navigation,
+.kosher-food-bank-page #navigation,
+.kosher-food-bank-page div#navigation,
+.get-help-page #navigation,
+.get-help-page div#navigation {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 99999 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-bottom: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 70px !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: visible !important;
+}
+
+.about-us-page .chabad_menu_content,
+.about-us-page div.chabad_menu_content,
+.kosher-food-bank-page .chabad_menu_content,
+.kosher-food-bank-page div.chabad_menu_content,
+.get-help-page .chabad_menu_content,
+.get-help-page div.chabad_menu_content {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem !important;
+    width: 100% !important;
+}
+
+/* Navigation menu styling */
+.about-us-page ul#menu,
+.kosher-food-bank-page ul#menu,
+.get-help-page ul#menu {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0.75rem 0 !important;
+    list-style: none !important;
+}
+
+.about-us-page ul#menu li.item,
+.about-us-page ul#menu li,
+.kosher-food-bank-page ul#menu li.item,
+.kosher-food-bank-page ul#menu li,
+.get-help-page ul#menu li.item,
+.get-help-page ul#menu li {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    background: none !important;
+    border: none !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    display: inline-block !important;
+}
+
+/* Navigation links */
+.about-us-page ul#menu li a.parent,
+.about-us-page ul#menu li a,
+.about-us-page #navigation a,
+.kosher-food-bank-page ul#menu li a.parent,
+.kosher-food-bank-page ul#menu li a,
+.kosher-food-bank-page #navigation a,
+.get-help-page ul#menu li a.parent,
+.get-help-page ul#menu li a,
+.get-help-page #navigation a {
+    color: #000000 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    padding: 1rem 1.5rem !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    background: none !important;
+    border: none !important;
+    line-height: normal !important;
+}
+
+/* Hover state */
+.about-us-page ul#menu li a:hover,
+.kosher-food-bank-page ul#menu li a:hover,
+.get-help-page ul#menu li a:hover {
+    color: #d4af37 !important;
+    background: rgba(212, 175, 55, 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Selected state */
+.about-us-page ul#menu li a.selected,
+.kosher-food-bank-page ul#menu li a.selected,
+.get-help-page ul#menu li a.selected {
+    color: #d4af37 !important;
+    border-bottom: 2px solid #d4af37 !important;
+}
+
+/* Dropdown menus */
+.about-us-page ul#menu li.arrow,
+.kosher-food-bank-page ul#menu li.arrow,
+.get-help-page ul#menu li.arrow {
+    position: relative !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu,
+.get-help-page ul#menu li.arrow .sub_menu {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-8px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.3s ease !important;
+    background: #ffffff !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 0 !important;
+    min-width: 220px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    z-index: 1000 !important;
+    display: block !important;
+}
+
+.about-us-page ul#menu li.arrow:hover .sub_menu,
+.kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
+.get-help-page ul#menu li.arrow:hover .sub_menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu ul li a,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
+.get-help-page ul#menu li.arrow .sub_menu ul li a {
+    display: block !important;
+    padding: 0.875rem 1.5rem !important;
+    color: #000000 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    border-radius: 0 !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu ul li a:hover,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
+.get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
+    background: rgba(212, 175, 55, 0.2) !important;
+    color: #d4af37 !important;
+    padding-left: 2rem !important;
+    transform: none !important;
+}
+
+/* Mobile menu toggle button */
+.about-us-page .mobile-menu-toggle,
+.kosher-food-bank-page .mobile-menu-toggle,
+.get-help-page .mobile-menu-toggle {
+    display: none !important;
+    background: #000000 !important;
+    color: #d4af37 !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 2rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 0.75rem auto !important;
+    width: fit-content !important;
+}
+
+.about-us-page .mobile-menu-toggle:hover,
+.kosher-food-bank-page .mobile-menu-toggle:hover,
+.get-help-page .mobile-menu-toggle:hover {
+    background: #d4af37 !important;
+    color: #000000 !important;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .about-us-page .mobile-menu-toggle,
+    .kosher-food-bank-page .mobile-menu-toggle,
+    .get-help-page .mobile-menu-toggle {
+        display: block !important;
+    }
+
+    .about-us-page #navigation,
+    .about-us-page div#navigation,
+    .kosher-food-bank-page #navigation,
+    .kosher-food-bank-page div#navigation,
+    .get-help-page #navigation,
+    .get-help-page div#navigation {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 0 2rem 0 !important;
+    }
+
+    .about-us-page .chabad_menu_content,
+    .about-us-page div.chabad_menu_content,
+    .kosher-food-bank-page .chabad_menu_content,
+    .kosher-food-bank-page div.chabad_menu_content,
+    .get-help-page .chabad_menu_content,
+    .get-help-page div.chabad_menu_content {
+        padding: 0 1rem 2rem 1rem !important;
+        display: none !important;
+        width: 100% !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    .about-us-page .chabad_menu_content.menu-open,
+    .about-us-page div.chabad_menu_content.menu-open,
+    .kosher-food-bank-page .chabad_menu_content.menu-open,
+    .kosher-food-bank-page div.chabad_menu_content.menu-open,
+    .get-help-page .chabad_menu_content.menu-open,
+    .get-help-page div.chabad_menu_content.menu-open {
+        display: block !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    .about-us-page ul#menu,
+    .kosher-food-bank-page ul#menu,
+    .get-help-page ul#menu {
+        gap: 0.25rem !important;
+        padding: 0.5rem 0 2rem 0 !important;
+        overflow: visible !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+
+    .about-us-page ul#menu li a.parent,
+    .about-us-page ul#menu li a,
+    .about-us-page #navigation a,
+    .kosher-food-bank-page ul#menu li a.parent,
+    .kosher-food-bank-page ul#menu li a,
+    .kosher-food-bank-page #navigation a,
+    .get-help-page ul#menu li a.parent,
+    .get-help-page ul#menu li a,
+    .get-help-page #navigation a {
+        font-size: 14px !important;
+        padding: 0.75rem 1rem !important;
+        white-space: normal !important;
+        overflow: visible !important;
+    }
+}
+
+/* ========================================
+   PAGE: ABOUT US - Article styling with floating images
+   URL: /templates/articlecco_cdo/aid/6820886/jewish/About-Us.htm
+   ======================================== */
+
+/* Global styles for About Us page */
+.about-us-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+/* Make CMS containers transparent */
+.about-us-page #BodyContainer,
+.about-us-page #co_content_container,
+.about-us-page .body_wrapper,
+.about-us-page #content,
+.about-us-page #co_body_container,
+.about-us-page .master-content-wrapper,
+.about-us-page div.master-content-wrapper,
+.about-us-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Remove decorative elements */
+.about-us-page body::before,
+.about-us-page body::after,
+.about-us-page #BodyContainer::before,
+.about-us-page #BodyContainer::after,
+.about-us-page .decorative-circles,
+.about-us-page .background-dots {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hero header section */
+.about-us-page .chabad_header {
+    position: relative !important;
+    min-height: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.about-us-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.about-us-page .chabad_header .headerTitle,
+.about-us-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+        -webkit-text-stroke: 3px #d4af37 !important;
+    }
+    50% {
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.6) !important;
+        -webkit-text-stroke: 3px #f4d03f !important;
+    }
+}
+
+/* Article content styling */
+.about-us-page .chabad_left_column,
+.about-us-page #ContentArea,
+.about-us-page .content_page,
+.about-us-page #content_page {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Style ONLY the innermost content container as the card */
+.about-us-page .co_body.article-body.cf,
+.about-us-page div.co_body.article-body.cf {
+    max-width: 1200px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+
+/* Page title */
+.about-us-page h1.article-header__title,
+.about-us-page h1.js-article-title,
+.about-us-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Article text content */
+.about-us-page .co_body.article-body.cf p,
+.about-us-page div.co_body.article-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.7rem !important;
+    line-height: 1.9 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 2rem 0 !important;
+    font-weight: 400 !important;
+    overflow: visible !important;
+    clear: none !important;
+}
+
+.about-us-page .co_body.article-body.cf p:first-of-type {
+    font-size: 1.9rem !important;
+    font-weight: 500 !important;
+    color: #000000 !important;
+    line-height: 2 !important;
+}
+
+/* Images within article */
+.about-us-page .co_body.article-body.cf img,
+.about-us-page div.co_body.article-body img {
+    display: block !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+    border: 3px solid #ffffff !important;
+    height: auto !important;
+}
+
+.about-us-page .co_body.article-body.cf img:nth-of-type(1) {
+    float: left !important;
+    margin: 0 2.5rem 2rem 0 !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+.about-us-page .co_body.article-body.cf img:nth-of-type(2) {
+    float: right !important;
+    margin: 0 0 2rem 2.5rem !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+.about-us-page .co_body.article-body.cf::after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+}
+
+/* Links within article */
+.about-us-page .co_body.article-body.cf a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+}
+
+.about-us-page .co_body.article-body.cf a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Responsive design for About Us */
+@media (max-width: 768px) {
+    .about-us-page .chabad_header {
+        min-height: 350px !important;
+        padding: 3rem 1.5rem 7rem 1.5rem !important;
+        align-items: flex-end !important;
+    }
+
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 5.5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf img:nth-of-type(1),
+    .about-us-page .co_body.article-body.cf img:nth-of-type(2) {
+        float: none !important;
+        margin: 2rem auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+}
+
+/* ========================================
+   PAGE: KOSHER FOOD BANK HOME
+   URL: /templates/section_cdo/aid/6819985/jewish/Kosher-Food-Bank.htm
+   ======================================== */
+
+/* Global styles for Kosher Food Bank page */
+.kosher-food-bank-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+.kosher-food-bank-page #BodyContainer,
+.kosher-food-bank-page #co_content_container,
+.kosher-food-bank-page .body_wrapper,
+.kosher-food-bank-page #content,
+.kosher-food-bank-page #co_body_container,
+.kosher-food-bank-page .master-content-wrapper,
+.kosher-food-bank-page div.master-content-wrapper,
+.kosher-food-bank-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+.kosher-food-bank-page .chabad_header {
+    position: relative !important;
+    min-height: 500px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 5rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.kosher-food-bank-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.kosher-food-bank-page .chabad_header .headerTitle,
+.kosher-food-bank-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 7rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Custom message sections */
+.kosher-food-bank-page .custom_message {
+    max-width: 1100px !important;
+    margin: 5rem auto !important;
+    padding: 4rem !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.kosher-food-bank-page .custom_message .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.2rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    text-shadow: none !important;
+}
+
+.kosher-food-bank-page .custom_message .title::after {
+    content: '' !important;
+    display: block !important;
+    width: 80px !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%) !important;
+    margin: 1rem auto 0 !important;
+    border-radius: 2px !important;
+}
+
+.kosher-food-bank-page .custom_message .message p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+/* Image promo cards */
+.kosher-food-bank-page .sPromo-wrap,
+.kosher-food-bank-page a.sPromo-wrap,
+.kosher-food-bank-page div.sPromo-wrap {
+    border-radius: 16px !important;
+    overflow: visible !important;
+}
+
+/* Donate Now card styling */
+.kosher-food-bank-page .donate-link-pulse {
+    display: block !important;
+    text-align: center !important;
+    margin: 2rem auto 1rem !important;
+    padding: 2rem 3rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    color: #d4af37 !important;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%) !important;
+    border: 3px solid #d4af37 !important;
+    border-radius: 16px !important;
+    text-decoration: none !important;
+    text-shadow: 0 3px 15px rgba(212, 175, 55, 0.5) !important;
+    letter-spacing: 2px !important;
+    transition: all 0.3s ease !important;
+    animation: donateTextPulse 2.5s ease-in-out infinite !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+}
+
+.kosher-food-bank-page .donate-link-pulse:hover {
+    transform: translateY(-5px) scale(1.05) !important;
+    color: #f4d03f !important;
+    border-color: #f4d03f !important;
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.8), 0 0 40px rgba(244, 208, 63, 0.6) !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%) !important;
+}
+
+@keyframes donateTextPulse {
+    0%, 100% {
+        text-shadow: 0 3px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+        border-color: #d4af37 !important;
+    }
+    50% {
+        text-shadow: 0 4px 20px rgba(244, 208, 63, 0.8), 0 0 40px rgba(244, 208, 63, 0.6) !important;
+        border-color: #f4d03f !important;
+    }
+}
+
+.kosher-food-bank-page .gold-card-hidden {
+    display: none !important;
+}
+
+/* Responsive design for Kosher Food Bank */
+@media (max-width: 768px) {
+    .kosher-food-bank-page .sPromo-wrap,
+    .kosher-food-bank-page a.sPromo-wrap,
+    .kosher-food-bank-page div.sPromo-wrap {
+        overflow: visible !important;
+    }
+
+    .kosher-food-bank-page .donate-link-pulse {
+        font-size: 2.5rem !important;
+        padding: 1.8rem 2.5rem !important;
+        margin: 1.5rem auto 1rem !important;
+    }
+
+    .kosher-food-bank-page .chabad_header {
+        min-height: 450px !important;
+        padding: 3rem 1.5rem 9rem 1.5rem !important;
+        align-items: flex-end !important;
+    }
+
+    .kosher-food-bank-page .chabad_header .headerTitle,
+    .kosher-food-bank-page .chabad_header .headerTitle a {
+        font-size: 7rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .kosher-food-bank-page .custom_message {
+        padding: 2.5rem 1.5rem !important;
+        margin: 3rem 1rem !important;
+    }
+}
+
+/* ========================================
+   PAGE: GET HELP FORM
+   URL: /templates/articlecco_cdo/aid/6827292/jewish/Get-Help.htm
+   ======================================== */
+
+/* Global styles for Get Help page */
+.get-help-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+.get-help-page #BodyContainer,
+.get-help-page #co_content_container,
+.get-help-page .body_wrapper,
+.get-help-page #content,
+.get-help-page #co_body_container,
+.get-help-page .master-content-wrapper,
+.get-help-page div.master-content-wrapper,
+.get-help-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+.get-help-page .chabad_header {
+    position: relative !important;
+    min-height: 350px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.get-help-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.get-help-page .chabad_header .headerTitle,
+.get-help-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 5.5rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Form content styling */
+.get-help-page .chabad_left_column,
+.get-help-page #ContentArea {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.get-help-page article {
+    max-width: 1100px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.get-help-page h1.article-header__title,
+.get-help-page h1.js-article-title,
+.get-help-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.5rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Form styling */
+.get-help-page form {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+.get-help-page form label,
+.get-help-page form .label,
+.get-help-page form strong {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+.get-help-page input[type="text"],
+.get-help-page input[type="email"],
+.get-help-page input[type="tel"],
+.get-help-page input[type="number"],
+.get-help-page textarea,
+.get-help-page select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    padding: 1.2rem 1.5rem !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.get-help-page input[type="text"]:focus,
+.get-help-page input[type="email"]:focus,
+.get-help-page input[type="tel"]:focus,
+.get-help-page input[type="number"]:focus,
+.get-help-page textarea:focus,
+.get-help-page select:focus {
+    outline: none !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
+}
+
+.get-help-page input[type="checkbox"],
+.get-help-page input[type="radio"] {
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+    margin-right: 1rem !important;
+    cursor: pointer !important;
+    accent-color: #d4af37 !important;
+}
+
+.get-help-page input[type="submit"],
+.get-help-page button[type="submit"],
+.get-help-page .submit-button {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+    margin-top: 2rem !important;
+}
+
+.get-help-page input[type="submit"]:hover,
+.get-help-page button[type="submit"]:hover,
+.get-help-page .submit-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
+}
+
+/* Responsive design for Get Help */
+@media (max-width: 768px) {
+    .get-help-page .chabad_header {
+        min-height: 300px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .get-help-page .chabad_header .headerTitle,
+    .get-help-page .chabad_header .headerTitle a {
+        font-size: 5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+    }
+
+    .get-help-page article {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .get-help-page input[type="submit"],
+    .get-help-page button[type="submit"],
+    .get-help-page .submit-button {
+        width: 100% !important;
+        padding: 1.5rem 2rem !important;
+    }
+}
+
 /* END OF JRCC CUSTOM STYLES */
