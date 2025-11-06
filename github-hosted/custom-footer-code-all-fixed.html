@@ -1,0 +1,35 @@
+<!-- JRCC Custom Footer - COMPLETE VERSION with ALL Form Styles -->
+<script>
+// Load external JavaScript from GitHub with cache busting
+(function() {
+    // Add timestamp for cache busting during development
+    var version = new Date().getTime(); // Use timestamp for now, change to version number in production
+
+    // Load sidebar and general scripts
+    var script1 = document.createElement('script');
+    script1.src = 'https://cdn.jsdelivr.net/gh/Makra-ca/JRCC@main/github-hosted/jrcc-scripts.js?v=' + version;
+    script1.onload = function() {
+        console.log('JRCC: External scripts loaded successfully');
+    };
+    script1.onerror = function() {
+        console.error('JRCC: Failed to load external scripts');
+    };
+    document.head.appendChild(script1);
+
+    // Load ALL form styling functions (complete version with all 5 forms)
+    var script2 = document.createElement('script');
+    script2.src = 'https://cdn.jsdelivr.net/gh/Makra-ca/JRCC@main/github-hosted/jrcc-form-styles-all-complete.js?v=' + version;
+    script2.onload = function() {
+        console.log('JRCC: ALL form styles loaded successfully');
+        // Try to initialize immediately after load
+        if (typeof initializeFormStyles === 'function') {
+            initializeFormStyles();
+            console.log('JRCC: Initialized form styles for all pages');
+        }
+    };
+    script2.onerror = function() {
+        console.error('JRCC: Failed to load form styles');
+    };
+    document.head.appendChild(script2);
+})();
+</script>
