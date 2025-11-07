@@ -1,0 +1,882 @@
+﻿Co.MainNavigation = { Tweener: null, ActiveObject: null, PreviousActiveObject: null, ActiveChild: null, Delay: 200, Timeout: null };
+Co.MainNavigation.SetVisible = function(ev, obj, show) {
+	if (show || show === undefined) 
+	{
+		Co.MainNavigation.Show(ev, obj);
+	}
+	else
+	{
+		Co.MainNavigation.Hide(ev, obj);
+	}
+	
+}
+Co.MainNavigation.Show = function (ev, obj) {
+	if (this.ActiveObject != null)
+	{
+		if (this.ActiveObject === obj)
+			return;
+		this.Hide(ev, this.ActiveObject);
+	}
+
+	if (Co.PartnerSiteId == 0) 
+	{
+		$j(".clmc").addClass('--primary-navigation-open');
+	}
+
+	Co.DomEvents.FireEvent({ target: document.body }, document, "click");
+	this.ActiveObject = obj;
+	obj.className += " hover";
+	if (this.Tweener == null)
+	{
+		var nodes = Co.Tools.GetElementsByClassName("co_submenu_container", "DIV", obj);
+		if (nodes != null && nodes.length > 0)
+		{
+			obj.MenuNode = nodes[0];
+
+			Co.DomEvents.AddListener(obj.MenuNode, "mouseover", this.MenuItemOver, [obj], this);
+			Co.DomEvents.AddListener(obj.MenuNode, "mouseout", this.MenuItemOut, [obj], this);
+			this.Tweener = new Co.Tween(nodes[0], ["opacity"], Co.Tween.Easing.regularEaseIn, [0], [1], 0.20, [""]);
+		}
+		if (this.Tweener != null)
+		{
+			this.Tweener.Events.AddEventListener("motionFinished", function (ev) 
+			{
+				
+				ev.target.targetObject.style.filter = "none";
+				if (Co.BrowserInfo.IsLessThanIE8)
+					ev.target.targetObject.style.clip = "rect(auto auto auto auto)";
+				else
+					ev.target.targetObject.style.clip = "auto";
+			});
+			this.Tweener.Events.AddEventListener("motionStarted", function (ev)
+			{
+				var height = ev.target.targetObject.clientHeight;
+				ev.target.targetObject.style.height = height + "px";
+				ev.target.targetObject.style.filter = "alpha (opacity=0)";
+			});
+		}
+	}
+	if (typeof (obj.MenuNode) === "undefined")
+	{
+		var nodes = Co.Tools.GetElementsByClassName("co_submenu_container", "DIV", obj);
+		if (nodes != null && nodes.length > 0)
+			obj.MenuNode = nodes[0];
+		else
+		{
+			obj.MenuNode = null;
+			return;
+		}
+		Co.DomEvents.AddListener(obj.MenuNode, "mouseover", this.MenuItemOver, [obj], this);
+		Co.DomEvents.AddListener(obj.MenuNode, "mouseout", this.MenuItemOut, [obj], this);
+	}
+	if (typeof (obj.MenuNode) !== "undefined" && obj.MenuNode != null) {
+		obj.MenuNode.style.display = "block";
+		this.Tweener.targetObject = obj.MenuNode;
+		//Co.Tools.SetObjectOpacity(nodes[i], 100);
+		if (typeof (obj.MenuNode.finalHeight) == "undefined")
+			this.Tweener.endValues[0] = (obj.MenuNode.finalHeight = obj.MenuNode.clientHeight) + 6;
+		else
+			this.Tweener.endValues[0] = obj.MenuNode.finalHeight;
+		//this.Tweener.endValues[1] = (nodes[i].clientWidth + (nodes[i].clientWidth * 0.05));
+		this.Tweener.setEndValues(this.Tweener.endValues);
+		if (typeof (obj.ThirdLevelMenus) === "undefined")
+		{
+			var homeSectionHeight = obj.MenuNode.querySelector('.home-section')?.clientHeight ?? 0;
+			var bottomHeight = obj.MenuNode.querySelector('.bottom')?.clientHeight ?? 0;
+			
+			var height = obj.MenuNode.clientHeight - homeSectionHeight - bottomHeight;
+			var nodes = obj.MenuNode.childNodes;
+			var thirdLevelMenus = [];
+			for (var i = 0; i < nodes.length; i++)
+			{
+				if (nodes[i].nodeType == 1 && nodes[i].className != "home-section")
+				{
+					if (nodes[i].className === "co_column")
+						break;
+					else if ((nodes[i].className || "").toLowerCase().indexOf("submenu_header") == -1)
+					{
+						nodes = nodes[i].childNodes;
+						i = -1;
+					}
+				}
+			}
+			for (var i = 0; i < nodes.length; i++)
+			{
+				if (nodes[i].nodeType === 1 && nodes[i].className == "co_column")
+				{
+					var menuNodes = nodes[i].childNodes;
+					var menuNodesArray = [];
+					for (var x = 0; x < menuNodes.length; x++)
+					{
+						if (menuNodes[x].nodeType == 1)
+							menuNodesArray.push(menuNodes[x]);
+					}
+					obj.MenuNodes = menuNodesArray;
+				}
+				if (nodes[i].nodeType == 1 && nodes[i].id.toLowerCase().indexOf("menu_child") == 0)
+				{
+					nodes[i].style.display = "block";
+					var tempHeight = nodes[i].clientHeight;
+					nodes[i].style.display = "";
+					for (var c = 0; c < nodes[i].childNodes.length; c++)
+					{
+						if (nodes[i].childNodes[c].nodeType == 1 && nodes[i].childNodes[c].clientHeight > tempHeight)
+							tempHeight = nodes[i].childNodes[c].clientHeight;
+					}
+
+					if (tempHeight > height)
+						height = tempHeight;
+					thirdLevelMenus.push(nodes[i]);
+				}
+			}
+			obj.ThirdLevelMenus = thirdLevelMenus;
+			if (thirdLevelMenus.length > 0 && (height > thirdLevelMenus[0].parentNode.clientHeight))
+			{
+				var parent = thirdLevelMenus[0].parentNode;
+				parent.style.height = (obj.MenuNode.finalHeight = height) + "px"; //height + "px";
+				while ((parent = parent.nextSibling))
+				{
+					if (parent.nodeType == 1 && parent.className.indexOf("break_floats") != -1)
+						continue;
+					if (parent.nodeType == 1)
+						break;
+				}
+				if (parent != null)
+					height += parent.clientHeight;
+			}
+			else
+			{
+				/*
+				height = thirdLevelMenus[0].parentNode.clientHeight;
+				thirdLevelMenus[0].parentNode.style.height = (obj.MenuNode.finalHeight = height) + "px";
+				*/
+			}
+		}
+		if (height > obj.MenuNode.clientHeight - 5)
+			obj.MenuNode.style.height = (obj.MenuNode.finalHeight = height) + "px";
+	}
+
+	if (obj.MenuNode == null)
+		return;
+
+	var menuBoundaries = Co.Tools.GetObjectBoundaries(obj.MenuNode);
+	var containerBoundaries = Co.Tools.GetObjectBoundaries(document.getElementById("co_menu_container"));
+	var thirdLevelMenuWidth = 0;
+	for (var i = 0; i < obj.ThirdLevelMenus.length && thirdLevelMenuWidth == 0; i++)
+	{
+		var node = obj.ThirdLevelMenus[i].firstChild;
+		while (node && thirdLevelMenuWidth == 0)
+		{
+			thirdLevelMenuWidth = Co.Tools.GetClientWidth(node) || 0;
+			node = node.nextSibling;
+		}
+	}
+	/* 
+		This is the element with absolute position 
+		Adjusting MenuNode position will not move it's container and could cause the page to expand beyond the MenuNode
+	 */
+	var menuContentContainerNode = obj.MenuNode.parentNode;
+	if (Co.Translator.PageDirection() == "ltr")
+	{
+		if (containerBoundaries.right < menuBoundaries.right)
+			menuContentContainerNode.style.left = (-(menuBoundaries.right - containerBoundaries.right)) + "px";
+		if (containerBoundaries.right < menuBoundaries.right + thirdLevelMenuWidth
+		&& obj.MenuNode.className.indexOf("reversed") == -1)
+			obj.MenuNode.className += " reversed";
+	}
+	else
+	{
+		if (menuBoundaries.left < containerBoundaries.left)
+			menuContentContainerNode.style.left = (containerBoundaries.left - menuBoundaries.left) + "px";
+		if (menuBoundaries.left - thirdLevelMenuWidth < containerBoundaries.left
+		&& obj.MenuNode.className.indexOf("reversed") == -1)
+			obj.MenuNode.className += " reversed";
+	}
+	obj.MenuNode.style.display = "none";
+
+	clearTimeout(this.Timeout);
+	this.Timeout = null;
+	if (this.Tweener && obj.MenuNode)
+	{
+		obj.MenuNode.style.display = "block";
+		this.Tweener.start();
+	}
+}
+Co.MainNavigation.Select = function(articleId)
+{
+	var tab = document.getElementById("tabContentMain");
+
+	if (tab == null)
+		return;
+
+	for (var i = 0; i < tab.childNodes.length; i++)
+	{
+		var node = tab.childNodes[i];
+		if (node.nodeType != 1)
+			continue;
+		var aid = node.getAttribute("aid");
+		if (!isNaN(aid))
+		{
+			aid = parseInt(aid);
+			if (aid != 0 && aid == articleId)
+			{
+				node.className += " selected";
+				return;
+			}
+		}
+	}
+};
+Co.MainNavigation.FixWidths = function ()
+{
+	var tab = document.getElementById("tabContentMain");
+	if (tab === null)
+		return;
+
+	var menuNode = null;
+	if (Co.BrowserInfo.IsSafari)
+	{
+		menuNode = document.getElementById( "co_menu_container" ).firstElementChild;
+		if (menuNode !== null)
+			menuNode.style.display = "block";
+	}
+	var node = tab.firstElementChild;
+	while( node )
+	{
+		var currentWidth = Co.Tools.GetStyle( node, "width" ).width;
+		if( Co.BrowserInfo.IsMobileDevice() )
+		{
+			if( document.documentElement.clientWidth <= 320 || document.documentElement.clientHeight <= 320 )
+			{
+				tab.style.display = tab.parentNode.style.display = "block";
+				if( node.className.indexOf( "co_menu_item" ) != -1 )
+				{
+					node.style.width = "";
+					if( node.className.indexOf( "co_menu_item_divider" ) == -1 )
+						node.style.display = "block";
+				}
+			}
+			else
+			{
+				var tabWidth = tab.clientWidth;
+				var itemWidth = parseInt( currentWidth ) / parseInt( tabWidth );
+				var actualWidth = ( itemWidth * 100 );
+				node.style.width = actualWidth + "%";
+			}
+		}
+		var aid = node.getAttribute( "aid" );
+		if( !isNaN( aid ) )
+		{
+			var bg_extension = Co.Tools.GetElementsByClassName( "bg_extension", "a", node );
+			if( bg_extension != null && bg_extension.length > 0 )
+				bg_extension[0].style.width = node.style.width;
+		}
+		node = node.nextElementSibling;
+	}
+	if (menuNode != null)
+		menuNode.style.display = "";
+	if (Co.BrowserInfo.IsMobileDevice())
+	{
+		var second = Co.Tools.getChildElementById("tabContentMain", tab.parentNode.parentNode.nextSibling.nextSibling) || {childNodes:[]};
+		for (var i = 0; i < second.childNodes.length; i++)
+		{
+			var node = second.childNodes[i];
+			if (node.nodeType !== 1)
+				continue;
+			var currentWidth = Co.Tools.GetStyle(node, "width").width;
+			var tabWidth = second.clientWidth;
+			var itemWidth = parseInt(currentWidth) / parseInt(tabWidth);
+			var actualWidth = (itemWidth * 100);
+			node.style.width = actualWidth + "%";
+		}
+	}
+};
+Co.MainNavigation.IsSubmenu = function (node)
+{
+	return (node.nodeName == "A" && (node.className || "").indexOf("item") != -1 && (node.id || "").toLowerCase().indexOf("menu_item") == 0);
+}
+Co.MainNavigation.MenuItemOver = function (ev, obj)
+{
+	var target = ev.target || ev.srcElement;
+	if (target.nodeType === 3)
+		target = target.parentNode;
+	if (!this.IsSubmenu(target))
+	{
+		target = target.parentNode;
+		if (!this.IsSubmenu(target))
+			return;
+	}
+	if (typeof (obj.ThirdLevelMenus) == "undefined" || obj.ThirdLevelMenus.length == 0)
+		return;
+	var tempIndex = target.getAttribute("index");
+	if (tempIndex == null || tempIndex == "")
+	{
+		var nodes = target.parentNode.childNodes;
+		var tempIndex = 0;
+		for (var i = 0; i < nodes.length; i++)
+		{
+			if (nodes[i].nodeType != 1)
+				continue;
+			nodes[i].setAttribute("index", ++tempIndex);
+		}
+	}
+	var index;
+	for (var i = 0; i < obj.MenuNodes.length; i++)
+	{
+		var node = obj.MenuNodes[i];
+		if (node != target)
+		{
+			index = parseInt(node.getAttribute("index") || "0", 10);
+			if (index == 0)
+				continue;
+			node.className = node.className.replace(/\shover/gi, '');
+			obj.ThirdLevelMenus[index - 1].className = obj.ThirdLevelMenus[index - 1].className.replace(/\sselected/gi, "");
+		}
+	}
+
+	if (target.className.indexOf("hover") != -1)
+		return;
+
+	var index = parseInt(target.getAttribute("index") || "0", 10);
+	if (index == 0)
+		return;
+
+	target.className += " hover";
+	obj.ThirdLevelMenus[index - 1].className += " selected";
+
+	this.ActiveChild = target;
+}
+Co.MainNavigation.MenuItemOut = function (ev, obj)
+{
+
+}
+Co.MainNavigation.Hide = function (ev, obj) {
+	if (Co.Tools.IsChildOf(ev.toElement || ev.relatedTarget, obj))
+		return false;
+
+	$j(".clmc").removeClass('--primary-navigation-open')
+
+	obj.className = obj.className.replace(/ hover/gi, "");
+	if (typeof (obj.MenuNode) !== "undefined" && obj.MenuNode != null) {
+		obj.MenuNode.style.display = "none";
+		Co.Tools.SetObjectOpacity(obj.MenuNode, 0);
+	}
+	if (this.ActiveChild != null && (typeof (obj.ThirdLevelMenus) != "undefined" && obj.ThirdLevelMenus.length != 0))
+	{
+		if (parseInt(this.ActiveChild.getAttribute("index"), 10) != 1)
+		{
+			this.ActiveChild.className = this.ActiveChild.className.replace(/\shover/gi, "");
+			var index = parseInt(this.ActiveChild.getAttribute("index"), 10);
+			obj.ThirdLevelMenus[index - 1].className = obj.ThirdLevelMenus[index - 1].className.replace(/\sselected/gi, "");
+			var node = obj.MenuNodes[0];
+			node.className += " hover";
+			obj.ThirdLevelMenus[0].className += " selected";
+		}
+	}
+	if (this.Timeout != null)
+	{
+		clearTimeout(this.Timeout);
+		this.Timeout = null;
+	}
+
+	this.PreviousActiveObject = this.ActiveObject;
+	this.ActiveObject = null;
+	this.ActiveChild = null;
+	Co.Tools.SetTimeout(function () {
+		this.PreviousActiveObject = null;
+	}, this.Delay, this);
+	return true;
+};
+var TOP_POSITION;
+Co.DomEvents.AddListener(window, "domload", function ()
+{
+	Co.MainNavigation.Select( Co.SectionId );
+	var coMenuContainer = document.getElementById( 'co_menu_container' );
+	var coMenuItem = document.getElementById( "tabContentMain" );
+	if( !coMenuItem || !coMenuContainer )
+		return;
+	//Show hidden menu items if they're hidden and will fit.
+	coMenuItem = document.getElementById("tabContentMain").firstChild;
+	var coMenuWidth = Co.Tools.GetClientWidth( coMenuContainer );
+	while (coMenuItem && coMenuWidth > 0)
+	{
+		var width = Co.Tools.GetClientWidth(coMenuItem);
+		if( width )
+		{
+			coMenuWidth -= width;
+			if( coMenuWidth >= 0 )
+				coMenuItem.style.visibility = "visible";
+			else
+				coMenuItem.style.display = "none";
+		}
+		coMenuItem = coMenuItem.nextSibling;
+	}
+
+	Co.MainNavigation.FixWidths();
+});
+
+function loadPrimaryNavigation() {
+	// if the page already has menus, I'm not going to mess around (ie none-clmc sites)
+	if (document.querySelector('#co_menu_container .main_menu_container .co_menu_content'))
+		return;
+	if(document.querySelector('body.mobile'))
+		return;
+	// If there isn't any primary navigation.
+	if (!document.getElementById('co_menu_container_wrapper') || !primaryNavigationVersion )
+		return;
+
+	var menuContainer = document.getElementById('tabContentMain');
+	var lang = (Co.LanguageCode) ? Co.LanguageCode.slice(0, 2) : "en";
+
+	// If there isn't a place for a menu, nothing to do here.
+	if (!menuContainer) {
+		return;
+	}
+
+	function attachMenuEvents() {
+
+		// Partner sites use hover for the menus.
+		if (Co.PartnerSiteId > 0) {
+			$j(menuContainer).children('.co_menu_item').hover(function (e) {
+				Co.MainNavigation.Show(e, this);
+			}, function (e) {
+				Co.MainNavigation.Hide(e, this);
+			});
+			return;
+        }
+
+		// Once the menu has loaded, main menu links should no longer hyperlink on click.
+		$j(menuContainer).find('.co_menu_item .js-parent-menu-link, .co_menu_item .parent, .co_menu_item .bg_extension').removeAttr("href");
+
+		// A click anywhere off the open menu should close it.
+		$j(document).on("click", function (e) {
+			// If the element clicked is not the current open menu (or a descendant) then hide the current menu.
+			if (!e.target.closest("#tabContentMain") && Co.MainNavigation.ActiveObject) {
+				Co.MainNavigation.Hide(e, Co.MainNavigation.ActiveObject);
+			}
+		});
+		$j(menuContainer).children('.co_menu_item').on('click', function (e) {
+			var didClickCurrentOpenMenuItem = Co.MainNavigation.ActiveObject === this;
+			Co.MainNavigation.SetVisible(e, this, !didClickCurrentOpenMenuItem);
+		});
+	}
+
+	// the primary navigation has several top level items.
+	// the popup menus are offset to be underneath the top level items.
+	// historicaly, we used top:100%, but ie is a bit, shall we say, slow, and can't quite figure that out
+	// so now I calculate the offset and apply with javascript
+	function updateMenuItemOffset() {
+		var top = $j('.co_menu_item ').height();
+		$j('.co_menu_content').css('top', top + 'px');
+	}
+
+	function getMenuElement(aid) {
+		// when called to get menu element of overflow object:
+		// overflow object doesn't have an articleid, so passing in object.ArticleId evalutates to false.
+		if (!aid)
+			aid = 0;
+
+		if (getMenuElement.hasOwnProperty(aid))
+			return getMenuElement[aid];
+
+		var $menuElement;
+
+		if (aid)
+			$menuElement = $j(menuContainer).children('[aid=' + aid + ']');
+		// if couldn't find the aid (because it has to be placed in the overflow menu)
+		if(!aid || !$menuElement.length)
+			$menuElement = $j(menuContainer).children('.more');
+
+		getMenuElement[aid] = $menuElement;
+
+		return $menuElement;
+	}
+
+	//If this menu is only supposed to be single level (e.g., news) then don't try to load more
+
+	var PartnerSiteIds = {
+		News: 6199,
+		RovingRabbis: 1496716,
+		TorahTexts: 5420883
+	};
+
+	if (Co.PartnerSiteId == PartnerSiteIds.News || 
+		Co.PartnerSiteId == PartnerSiteIds.RovingRabbis || 
+		Co.PartnerSiteId == PartnerSiteIds.TorahTexts)
+		return;
+
+		/* Show loading icon on menu-mouse over until the menu is loaded. Disabled as per instructions.
+		$j(".main_menu_container.first .co_menu_item:not(.single_level)")
+				.prepend('<div class="co_menu_content co_menu_placeholder"><span class="fa fa-3x fa-spin fa-spinner"></span></div>');
+		*/
+		// get (promise which resolves to an) array of promises, each of which resolves to html
+		getPrimaryNavigationPromises().done(function(menuHtmlPromises) {
+			var numSections = menuHtmlPromises.length;
+			var numSectionsProccessed = 0;
+
+			$j(".main_menu_container.first .co_menu_item .co_menu_placeholder").remove();
+			// insert html into page
+			// when all html has been inserted, cache the menu html
+			menuHtmlPromises.forEach(function(promise) {
+				promise.done(function(data) {
+					getMenuElement(data.aid).prepend(data.html);
+
+					numSectionsProccessed++;
+
+					if (numSectionsProccessed == numSections) {
+						// offset before cached, so cached with offset
+						updateMenuItemOffset();
+						// I dont know exactly why, but if I attach the events before the dom is set up 
+						// and the user triggers an event before the dom is loaded,
+						// the menu doesn't open on mouseover
+						// I suspect it's because on mouse over dimensions are set by the script, which of course would be off if there's no content yet,
+						// but I didn't look into it.
+						attachMenuEvents();
+						// If you were already hovering over an item before the data was added, retrigger the hover so the menu shows
+						$j(".main_menu_container.first .co_menu_item:hover").trigger("mouseenter");
+					}
+				});
+				promise.fail(function() {
+					throw 'did not resolve';
+				});
+			});
+		});
+
+	// returns a promise
+	// which resolves to an array of promises
+	// which resolve to the html for one of the primarynavigation sections 
+	function getPrimaryNavigationPromises() {
+		var asynchronousPrimaryNavigationHtml = $j.Deferred();
+
+		var menuTypes = {
+			chabadOrg: "chabadOrg",
+			list: "list",
+			jewishTvSchedule: "jewishTvSchedule",
+			recipe: "recipe",
+			empty: ""
+		}
+
+		function isMultiLevel(type) {
+			switch (type) {
+				case menuTypes.chabadOrg:
+					return true;
+				case menuTypes.list:
+					return false;
+				default:
+					return false;
+			}
+		}
+
+		function numberPrimarySection(primarySection) {
+			var menuElement = getMenuElement(primarySection.ArticleId);
+			var menuIndex = $j(menuContainer).children('.co_menu_item').index(menuElement);
+
+			primarySection.position = menuIndex + 1;
+		}
+
+		// the overflow menu has parents
+		// these parents cant be grandparents
+		// if they are (he.chabad.org has overflow items, which are grandparents, as are all the other chabadorg items), they must be compressed
+		function compress(overFlow) {
+			var lists = [];
+
+			overFlow.Parents.forEach(function (item, index, array) {
+				// if the parent contains parents, convert the list of parents into a list of items
+				if (item.Parents) {
+					var list = item.Parents.map(function (item) {
+						return {
+							ArticleId: item.ArticleId,
+							Url: item.Url,
+							Title: item.Title
+						};
+					});
+
+					overFlow.Parents[index].Items = list;
+					delete overFlow.Parents[index].Parents;
+				}
+			});
+		}
+
+		function joinOverflowItems(primarySectionGroup) {
+			// the overflow is equivelent to a chabadorg grandfather menu, so I make it an object with a parents array
+			var overflow = { Parents : [] };
+			var toDelete = [];
+
+			primarySectionGroup.forEach(function (primarySection, index, array) {
+				if (getMenuElement(primarySection.ArticleId).hasClass('more')) {
+					overflow.Parents.push(primarySection);
+					// added objects will be removed from original location
+					// the have to removed last first, so that remaining indexes remain valid
+					toDelete.unshift(index);
+				}
+			});
+
+			if (overflow.Parents.length) {
+				compress(overflow);
+				primarySectionGroup.push(overflow);
+				// remove overflow items from original location
+				toDelete.forEach(function (index) {
+					primarySectionGroup.splice(index, 1);
+				});
+			}
+		}
+
+		var widths = {
+			big: {
+				grandParent: 946,
+				parent: 544
+			},
+			medium: {
+				grandParent: 716,
+				parent: 349
+			},
+			small: {
+				grandParent: 476,
+				parent: 174
+			},
+			get: function (grandParent) {
+				if (grandParent.Parents) {
+					if (grandParent.Parents.some(function (parent) { return parent.Sidebar && parent.Sidebar.ArticleId }))
+						return this.big;
+					else if (grandParent.Parents.some(function (parent) { return parent.columns && parent.columns.length > 1 }))
+						return this.medium;
+					else {
+						return this.small;
+					}
+				}
+			}
+		}
+
+		Handlebars.registerHelper({
+		add: function (a, b) { return a + b; },
+		translate: function (text) { return text.Translate(); },
+			select: function (test, val) {
+				return (test) ? val : "";
+			},
+			indexId: function (type, position, index) {
+				return type + position + '-' + (index + 1) ;
+			},
+			calcListWidth: function (columns) {
+				var columnWidth = 215;
+				return (columnWidth * columns.length) + "px";
+			},
+			/*
+			 * This following width helpers are used by the chabadorg template.
+			 * The chabadorg template is used by chabad.org, jewishtv, and kol
+			 * These helpers calculate list, without relying on eg the partner site id
+			 */
+			calcGrandParentWidth: function (menu) {
+				return widths.get(menu).grandParent + "px";
+			},
+			calcParentWidth: function (menu) {
+				return widths.get(menu).parent + "px";
+			},
+			monthAbbreviation: function (text) {
+				date = new Date(text);
+				// NonJewishMonthsArray is indexed from 1 ([0] is "")
+				// jewishtv needs first three letters for image name of calendar icon
+				return Co.Calendar.NonJewishMonthsArray[date.getMonth() + 1].slice(0,3).toLowerCase();
+			},
+			day: function (date) {
+				return new Date(date).getDate();
+			},
+			dateString: function (date) {
+				if (!date) {
+					console.debug("bad date param: " + date);
+					return "";
+				}
+
+				var coDate = new Co.Calendar.Date(date);
+				// I'm very particular to put the space in the translate, because in hebrew at is the beis prefix, which of course woudn't have the space
+				var dateText = coDate.ToLocalizedString("MMM. dd, yyyy ") + "at ".Translate() + coDate.ToLocalizedString("h:mm");
+
+				var suffix = coDate.ToLocalizedString("tt");
+				// todo: update Co.Translator.Translate to support merge tags
+				dateText += ((suffix) ? " " : "") + suffix;
+
+				return dateText;
+			}
+		});
+
+		function menuTypeOf(menu) {
+			var articleIds = {
+				jewishTvSchedule: 1495738
+			}
+
+			if (menu.Occasions && menu.Courses)
+				return menuTypes.recipe;
+			if (menu.Parents && menu.Parents.some(function (parent) { return parent.Items }))
+				return menuTypes.chabadOrg;
+			if (menu.ArticleId === articleIds.jewishTvSchedule)
+				return menuTypes.jewishTvSchedule;
+			if (menu.Items && menu.Items.length)
+				return menuTypes.list;
+			return menuTypes.empty;
+		}
+
+		function columnize(parent, columnSize, maxColumns, minColumns) {
+			if (maxColumns === undefined) maxColumns = 999;
+			var columns = [];
+
+			do {
+				columns.push(parent.Items.slice(0, columnSize));	// add items to new column
+				parent.Items.splice(0, columns[columns.length - 1].length);	// remove those items from source
+			} while (parent.Items.length && columns.length < maxColumns)
+
+			while (columns.length < minColumns) {
+				columns.push(null);
+			}
+
+			parent.columns = columns;
+			delete parent.Items;
+		}
+
+		var templatesCache = {
+			// returns promise which resolves to compiled template of requested type
+			get: function (menuType) {
+				if (templatesCache[menuType])
+					return templatesCache[menuType];
+				else {
+					templatesCache[menuType] = $j.Deferred(function () {
+						var deferred = this;
+
+						$j.get('/Templates/HandlebarsTemplates/PrimaryNavigation/' + menuType + '.hbs', function (template) {
+							deferred.resolve(Handlebars.compile(template));
+						}).fail(function () { throw "error: failed to get template"; });
+					});
+
+					return templatesCache[menuType].promise();
+				}
+			}
+		};
+
+		// requests primary navigation data from server
+		// primaryNavigationVersion is a variable set by primarynavigation.ascx, and it breaks the cache if primarynavigation.ascx has expired since the last use
+		var url = "/api/web/navigation";
+		if (Co.PartnerSiteId > 0)
+			url += "/" + Co.PartnerSiteId;
+		$j.getJSON(url + "?v=" + primaryNavigationVersion)
+		/**On receipt of data**
+		 *
+		 * 1) create list of promises
+		 * 	-) each promise resolves to html for one primary navigation section
+		 * 2) resolve the return value of this function (loadHtmlgetPrimaryNavigationPromises) with the finished list
+		 *
+		 */
+
+			.done(function (menuList) {
+				joinOverflowItems(menuList);
+				menuList.forEach(numberPrimarySection);
+
+				var htmlPromises = menuList.map(function (menu) {
+					// return a promise which resolves to html for one primary navigation section
+					var deferred = $j.Deferred(function () {
+						var deferred = this;
+						deferred.id = menu.ArticleId;
+
+						var menuType = menuTypeOf(menu);
+						var menuElement = getMenuElement(menu.ArticleId);
+
+						// data preprocessing/sanitization
+						var articleIds = {
+							speakers: 1495742
+						}
+						switch (menuType) {
+							case menuTypes.chabadOrg:
+								// the largest menu (on chabadorg) needs to always have 2 columns
+								var minColumns = (widths.get(menu) === widths.big) ? 2 : 0;
+								menu.Parents.forEach(function (parent) {
+									columnize(parent, 10, 2, minColumns);
+								});
+								break;
+							case menuTypes.recipe:
+								var coursesColumnSize = Math.ceil(menu.Courses.Items.length / 2.0);
+								var occasionsColumnSize = Math.ceil(menu.Occasions.Items.length / 2.0);
+
+								columnize(menu.Courses, coursesColumnSize);
+								columnize(menu.Occasions, occasionsColumnSize);
+								break;
+							case menuTypes.list:
+								var maxColumnSize = 20;
+
+								if (menu.ArticleId == articleIds.speakers)
+									maxColumnSize = 8;
+
+								columnize(menu, maxColumnSize);
+								break;
+							case menuTypes.empty:
+								deferred.resolve("");
+								return deferred.promise();
+						}
+
+						if (isMultiLevel(menuType)) {
+							menuElement.addClass("multi_level");
+						}
+
+						templatesCache.get(menuType).done(function (template) {
+							deferred.resolve({ aid: menu.ArticleId, html: template(menu)} );
+						})
+						.fail(function () {
+							throw 'didnt load template';
+						});
+					});
+
+					return deferred.promise();
+				});
+
+				// now that the list of promises has been created, resolve with it
+				asynchronousPrimaryNavigationHtml.resolve(htmlPromises);
+			});
+
+		// return a promise
+		return asynchronousPrimaryNavigationHtml;
+	}
+}
+
+$j(function () {
+	let primaryNavigationLoaded = false;
+
+	let desktopWidth = window.matchMedia('screen and (min-width: 769px)');
+
+	let localNavigation = $j('.js-local-nav');
+
+	// Desktop and mobile both have a meta element with a class specifying where to put the local navigation after.
+	let mobilePreviousSibling = $j('.js-mobile-local-nav');
+	let desktopPreviousSibling = $j('.js-desktop-local-nav');
+
+	// Desktop (might) have an extra class applied to root of local navigation.
+	// The default class list is for desktop.
+	let localNavigationDesktopClass = localNavigation.attr('class');
+	// The mobile class comes from the mobile local navigation location marker.
+	// No reason to add the js class back - we already saved references to the elements.
+	let defaultLocalNavigationClass = desktopPreviousSibling.data('baseClass');
+
+	let ensurePrimaryNavigationLoaded = function()
+	{
+		if (!primaryNavigationLoaded)
+		{
+			primaryNavigationLoaded = true;
+			loadPrimaryNavigation();
+		}
+	}
+
+	let adjustPrimaryNavigation = function(mediaQuery)
+	{
+		if (mediaQuery.matches)
+		{
+			ensurePrimaryNavigationLoaded();
+			localNavigation.attr('class', localNavigationDesktopClass);
+			desktopPreviousSibling.after(localNavigation);
+		}
+		else
+		{
+			localNavigation.attr('class', defaultLocalNavigationClass);
+			mobilePreviousSibling.after(localNavigation);
+		}
+	}
+
+	adjustPrimaryNavigation(desktopWidth);
+
+	desktopWidth.onchange = function(e) {
+		adjustPrimaryNavigation(e);
+	}
+});

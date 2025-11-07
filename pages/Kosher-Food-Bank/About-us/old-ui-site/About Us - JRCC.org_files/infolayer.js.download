@@ -1,0 +1,24 @@
+﻿Co.DomEvents.AddListener(window, "load", function ()
+{
+	activateInfoLayers(null, document.getElementById("co_body_container"));
+	Co.Paging.Events.AddEventListener("afterUpdate", activateInfoLayers, null, [document.getElementById("co_body_container")]);
+});
+
+function activateInfoLayers(ev, parentNode)
+{
+
+	var nodes = Co.Tools.GetElementsByClassName("layer_info", "div", parentNode);
+	for (var i = 0; i < nodes.length; i++)
+	{
+		if (Co.DomEvents.HasListener(nodes[i], "mouseover"))
+			continue;
+		nodes[i].HoverListener = Co.DomEvents.AddListener(nodes[i], "mouseover", function(ev)
+		{
+			Co.Tools.Content.Glossary.Show(this, true);
+		});
+		nodes[i].OutListener = Co.DomEvents.AddListener(nodes[i], "mouseout", function(ev)
+		{
+			Co.Tools.Content.Glossary.Hide(this);
+		});
+	}
+}

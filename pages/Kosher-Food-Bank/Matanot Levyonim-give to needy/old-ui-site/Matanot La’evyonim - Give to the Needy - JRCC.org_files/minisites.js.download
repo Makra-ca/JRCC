@@ -1,0 +1,26 @@
+﻿(function minisiteNav($) {
+	$(document).on("touch click", "#menu .item.heading:not(.expanded)", function () {
+		$(this).parents("#menu").css("height", function () { return $(this).height() });
+		$(this).nextAll().show();
+		$(this).parents("#menu").css("height", function () { return this.scrollHeight; });
+		$(this).addClass("expanded");
+	});
+	$(document).on("touch click", "#menu .item.heading.expanded", function () {
+		var height = $(this).height();
+		$(this).parents("#menu").css("height", height);
+		$(this).removeClass("expanded");
+	});
+
+	$(document).on("touch click", ".sub_menu_toggle:not(.expanded)", function () {
+		$(this).parents("#menu").css("height", "auto");
+		$(this).next(".sub_menu").css("height", function () { return this.scrollHeight; });
+		$(this).addClass("expanded");
+	});
+	$(document).on("touch click", ".sub_menu_toggle.expanded", function () {
+		$(this).next(".sub_menu").css("height", 0);
+		$(this).removeClass("expanded");
+	});
+	//For old custom minisites
+	$(document).on("mouseenter", "#menu>li", function() { $(this).addClass("active") })
+		.on("mouseleave", "#menu>li", function() { $(this).removeClass("active") });
+}(jQuery))

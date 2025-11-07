@@ -1,0 +1,37 @@
+﻿var PopupSubscribeLayer;
+function handleSubscribePopup()
+{
+	var setCookie = function (key, value)
+	{
+		var maxAge = 180; // * 24 * 60 * 60; //180 days
+		var expirationDate = new Date();
+		expirationDate.setDate(expirationDate.getDate() + maxAge);
+		Co.Cookie.Set(key, value, { Path: "/", ExpirationDate: expirationDate });
+	};
+	var showPopup = false;
+	var subscribeLayerCookie = parseInt(Co.Cookie.Get("spcnt"), 10) || null;
+	if (subscribeLayerCookie == null)
+		setCookie("spcnt", 1);
+	else if (subscribeLayerCookie >= 0)
+		showPopup = true;
+	if ((showPopup || window.location.href.match(/show_popup_subscribe.true/i)) && !!document.getElementById("PopupSubscribeMessage"))
+	{
+		PopupSubscribeLayer = new Co.Dialog({ buttons: {}, Title: Co.Translator.Translate("Shalom! We're glad you're here!", "Default") });
+		PopupSubscribeLayer.Create();
+		PopupSubscribeLayer.FooterBar.style.display = "none";
+		PopupSubscribeLayer.Show(document.getElementById("PopupSubscribeMessage"));
+		PopupSubscribeLayer.Events.AddEventListener("close", function (ev)
+		{
+			setCookie("spcnt", -1);
+			var source = ev.source;
+			if (typeof (source) == "undefined")
+				source = "closed-unknown";
+			TrackClick('popup-subscribe', (source).substr(0, 15), document.location.href, 'PopupSubscribe');
+		});
+		TrackClick('popup-subscribe', 'sub-active', document.location.href, 'PopupSubscribe');
+	}
+}
+
+$j(function() {
+	handleSubscribePopup();
+})

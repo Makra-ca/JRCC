@@ -1,0 +1,2612 @@
+/* JRCC Complete Custom Styles - Hosted on GitHub */
+/* This file contains ALL CSS from custom-header-code.html */
+/* Version: 2.0 - Complete extraction */
+
+/* ========================================
+   FONTS - Force Urbanist for timeline elements
+   ======================================== */
+.timeline-card, .timeline-card *, .header-section, .header-section * {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+/* ========================================
+   FORM FIELD WIDTHS - form_3767140 specific styling
+   ======================================== */
+form[name='form_3767140'] #cid_7 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #cid_7 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_9 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:33%;
+    float:right;
+}
+
+@media screen and (max-width: 767px) {
+    form[name='form_3767140'] #id_9 {
+        display:none;
+    }
+}
+
+form[name='form_3767140'] #id_1 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_1 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_3 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_3 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_5 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_5 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_6 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_6 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_4 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_4 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_10 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_10 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_11 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_11 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_12 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_12 {
+        width:98%;
+    }
+}
+
+form[name='form_3767140'] #id_8 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:98%;
+}
+
+@media screen and (min-width: 768px) {
+    form[name='form_3767140'] #id_8 {
+        display:none;
+    }
+}
+
+form[name='form_3767140'] #id_2 {
+    display:inline-block;
+    position:relative;
+    vertical-align:top;
+    width:65%;
+}
+
+@media screen and (max-width: 650px) {
+    form[name='form_3767140'] #id_2 {
+        width:98%;
+    }
+}
+
+/* ========================================
+   GLOBAL STYLES
+   ======================================== */
+.co_body .content .nicer_line_height p {
+    line-height:125%;
+}
+
+/* ====================================================================
+   PAGE-SPECIFIC STYLING: GMACH DONATION FORM
+   URL: /templates/articlecco_cdo/aid/912618/jewish/Gmach-Donation-Form.htm
+   Target: form#form1 (donation form on this page)
+   Theme: Soft Blue (matching Meir Shlomo Gmach page)
+   Colors: #1e5a8e (dark blue), #2a75b8 (lighter blue)
+   ==================================================================== */
+
+/* Page-level styling - BLACK GRADIENT */
+body.gmach-donation-form-page {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+}
+
+/* Hide breadcrumbs on Gmach Donation Form page */
+body.gmach-donation-form-page .breadcrumbs,
+body.gmach-donation-form-page .breadcrumb,
+body.gmach-donation-form-page [class*="breadcrumb"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide banner images/decorators on Gmach Donation Form page - but NOT header */
+body.gmach-donation-form-page .banner_image,
+body.gmach-donation-form-page .page_banner,
+body.gmach-donation-form-page .article_banner,
+body.gmach-donation-form-page [class*="banner"] img,
+body.gmach-donation-form-page .article_banner_wrapper,
+body.gmach-donation-form-page .page_header_image {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Remove background from article header but keep visible (title is inside) - FULL WIDTH */
+body.gmach-donation-form-page header.article-header {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* Remove background from decorator wrapper but keep content visible */
+body.gmach-donation-form-page .master-content-wrapper,
+body.gmach-donation-form-page .master-content-wrapper.g960,
+body.gmach-donation-form-page div.master-content-wrapper,
+body.gmach-donation-form-page [class*="master-content"] {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 2rem 0 !important;
+}
+
+/* Style the page title on Gmach Donation Form page - GOLD on dark bg - CENTERED */
+body.gmach-donation-form-page h1,
+body.gmach-donation-form-page h2.page-title,
+body.gmach-donation-form-page .master-content-wrapper h1,
+body.gmach-donation-form-page .master-content-wrapper h2,
+body.gmach-donation-form-page .sCHeading_1,
+body.gmach-donation-form-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.75rem !important;
+    font-weight: 800 !important;
+    color: #fbbf24 !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 3rem !important;
+    padding: 2.5rem !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 2px solid rgba(251, 191, 36, 0.3) !important;
+    border-radius: 12px !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    max-width: 1100px !important;
+    width: 90% !important;
+}
+
+/* Hide duplicate form title inside white form box */
+body.gmach-donation-form-page form#form1 p[align="center"],
+body.gmach-donation-form-page form p[style*="text-align: center"],
+body.gmach-donation-form-page form p[style*="text-align:center"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Main form container styling - Target form#form1 - WIDER with ENHANCED shadow for dark bg */
+form#form1,
+form[name='form_3767140'] {
+    max-width: 1100px !important;
+    margin: 3rem auto !important;
+    padding: 4rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    font-family: 'Urbanist', sans-serif !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* Form labels - EXTRA LARGE (1.75rem = 28px) */
+form#form1 label,
+form#form1 .form-label,
+form[name='form_3767140'] label,
+form[name='form_3767140'] .form-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 600 !important;
+    color: #1e5a8e !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+}
+
+/* ALL text elements in form - make bigger (1.5rem = 24px) */
+form#form1 *,
+form[name='form_3767140'] * {
+    font-size: 1.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    line-height: 1.6 !important;
+}
+
+/* Reset input/select/button sizes (styled separately below) */
+form#form1 input,
+form#form1 select,
+form#form1 button,
+form#form1 textarea,
+form[name='form_3767140'] input,
+form[name='form_3767140'] select,
+form[name='form_3767140'] button,
+form[name='form_3767140'] textarea {
+    font-size: 1.35rem !important;
+}
+
+/* Form inputs - rounded corners - BIGGER (1.35rem = ~21.6px) */
+form#form1 input[type="text"],
+form#form1 input[type="email"],
+form#form1 input[type="tel"],
+form#form1 input[type="number"],
+form#form1 textarea,
+form#form1 select,
+form[name='form_3767140'] input[type="text"],
+form[name='form_3767140'] input[type="email"],
+form[name='form_3767140'] input[type="tel"],
+form[name='form_3767140'] input[type="number"],
+form[name='form_3767140'] textarea,
+form[name='form_3767140'] select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.35rem !important;
+    padding: 1.25rem 2rem !important;
+    border: 2px solid #d1d9e6 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #2a2a2a !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+/* Input focus state */
+form#form1 input:focus,
+form#form1 textarea:focus,
+form#form1 select:focus,
+form[name='form_3767140'] input:focus,
+form[name='form_3767140'] textarea:focus,
+form[name='form_3767140'] select:focus {
+    outline: none !important;
+    border-color: #2a75b8 !important;
+    box-shadow: 0 0 0 3px rgba(42, 117, 184, 0.1) !important;
+}
+
+/* Select dropdown arrow - BIGGER (1.35rem) */
+form#form1 select,
+form[name='form_3767140'] select {
+    cursor: pointer !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e5a8e' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 2rem center !important;
+    padding-right: 3.5rem !important;
+}
+
+/* Form section headings - LARGE section headers (2rem = 32px) */
+form#form1 h2,
+form#form1 h3,
+form#form1 h4,
+form#form1 legend,
+form#form1 b,
+form#form1 strong,
+form#form1 u,
+form[name='form_3767140'] h2,
+form[name='form_3767140'] h3,
+form[name='form_3767140'] h4,
+form[name='form_3767140'] legend,
+form[name='form_3767140'] b,
+form[name='form_3767140'] strong,
+form[name='form_3767140'] u {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #8b0000 !important;
+    margin: 2rem 0 1rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid #e8f4f8 !important;
+    display: block !important;
+}
+
+/* Submit button - styled - BIGGER (1.625rem = 26px) */
+form#form1 button[type="submit"],
+form#form1 input[type="submit"],
+form#form1 .form-submit button,
+form#form1 [id*="submit"] input[type="submit"],
+form[name='form_3767140'] button[type="submit"],
+form[name='form_3767140'] input[type="submit"],
+form[name='form_3767140'] .form-submit button,
+form[name='form_3767140'] [id*="submit"] input[type="submit"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #1e5a8e 0%, #2a75b8 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(30, 90, 142, 0.2) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    margin-right: 1rem !important;
+    display: inline-block !important;
+}
+
+form#form1 button[type="submit"]:hover,
+form#form1 input[type="submit"]:hover,
+form[name='form_3767140'] button[type="submit"]:hover,
+form[name='form_3767140'] input[type="submit"]:hover {
+    background: linear-gradient(135deg, #0d4a73 0%, #1e5a8e 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.3) !important;
+}
+
+/* Reset button - GRAY gradient theme */
+form#form1 button[type="reset"],
+form#form1 input[type="reset"],
+form[name='form_3767140'] button[type="reset"],
+form[name='form_3767140'] input[type="reset"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(75, 85, 99, 0.2) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    display: inline-block !important;
+}
+
+form#form1 button[type="reset"]:hover,
+form#form1 input[type="reset"]:hover,
+form[name='form_3767140'] button[type="reset"]:hover,
+form[name='form_3767140'] input[type="reset"]:hover {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3) !important;
+}
+
+/* Mobile responsive for Gmach Donation Form */
+@media (max-width: 768px) {
+    form#form1,
+    form[name='form_3767140'] {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+        max-width: 95% !important;
+    }
+
+    form#form1 button[type="submit"],
+    form#form1 input[type="submit"],
+    form#form1 button[type="reset"],
+    form#form1 input[type="reset"],
+    form[name='form_3767140'] button[type="submit"],
+    form[name='form_3767140'] input[type="submit"],
+    form[name='form_3767140'] button[type="reset"],
+    form[name='form_3767140'] input[type="reset"] {
+        width: 100% !important;
+        padding: 1.5rem 2rem !important;
+        margin-right: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ====================================================================
+   "MORE IN THIS SECTION" WIDGET STYLING
+   Styles the related links section at the bottom of the page
+   Theme: Soft Blue with card-based design
+   ==================================================================== */
+
+/* Widget container */
+body.gmach-donation-form-page .below-article,
+body.gmach-donation-form-page [class*="below-article"] {
+    max-width: 1100px !important;
+    margin: 3rem auto !important;
+    padding: 3rem !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    text-align: center !important;
+}
+
+/* Widget heading */
+body.gmach-donation-form-page .below-article h2,
+body.gmach-donation-form-page .below-article__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.5rem !important;
+    font-weight: 700 !important;
+    color: #1e5a8e !important;
+    margin: 0 0 2rem 0 !important;
+    text-align: center !important;
+}
+
+/* Link container - grid layout */
+body.gmach-donation-form-page .below-article ul,
+body.gmach-donation-form-page .below-article .small-links {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    gap: 1.5rem !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Link items */
+body.gmach-donation-form-page .below-article li {
+    list-style: none !important;
+    margin: 0 !important;
+}
+
+/* Link card styling */
+body.gmach-donation-form-page .below-article a,
+body.gmach-donation-form-page .below-article li a {
+    display: block !important;
+    background: #ffffff !important;
+    border: 2px solid #2a75b8 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #1e5a8e !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Link hover effect */
+body.gmach-donation-form-page .below-article a:hover,
+body.gmach-donation-form-page .below-article li a:hover {
+    transform: translateY(-4px) !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 6px 20px rgba(30, 90, 142, 0.2) !important;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    body.gmach-donation-form-page .below-article ul,
+    body.gmach-donation-form-page .below-article .small-links {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.gmach-donation-form-page .below-article {
+        padding: 2rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    body.gmach-donation-form-page .below-article h2,
+    body.gmach-donation-form-page .below-article__title {
+        font-size: 2rem !important;
+    }
+
+    body.gmach-donation-form-page .below-article a,
+    body.gmach-donation-form-page .below-article li a {
+        font-size: 1.25rem !important;
+        padding: 1.25rem !important;
+    }
+}
+
+/* ====================================================================
+   PAGE-SPECIFIC STYLING: VOLUNTEER FORM
+   URL: /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm
+   Target: form elements on this page
+   Theme: Warm Crimson Red (matching Community Connections)
+   Colors: #c93545 (crimson), #f4d03f (gold), red gradient background
+   ==================================================================== */
+
+/* Page-level styling - RED GRADIENT background */
+body.volunteer-form-page {
+    background: linear-gradient(135deg, #2a0e14 0%, #5c1f2e 50%, #8b2e3f 100%) !important;
+}
+
+/* Hide breadcrumbs on Volunteer Form page */
+body.volunteer-form-page .breadcrumbs,
+body.volunteer-form-page .breadcrumb,
+body.volunteer-form-page [class*="breadcrumb"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide banner images/decorators on Volunteer Form page - but NOT header */
+body.volunteer-form-page .banner_image,
+body.volunteer-form-page .page_banner,
+body.volunteer-form-page .article_banner,
+body.volunteer-form-page [class*="banner"] img,
+body.volunteer-form-page .article_banner_wrapper,
+body.volunteer-form-page .page_header_image {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Remove background from article header but keep visible (title is inside) - FULL WIDTH */
+body.volunteer-form-page header.article-header {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* Remove background from decorator wrapper but keep content visible */
+body.volunteer-form-page .master-content-wrapper,
+body.volunteer-form-page .master-content-wrapper.g960,
+body.volunteer-form-page div.master-content-wrapper,
+body.volunteer-form-page [class*="master-content"] {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 2rem 0 !important;
+}
+
+/* Style the page title on Volunteer Form page - WHITE with GOLD shadow - NO BOX - CENTERED */
+body.volunteer-form-page h1,
+body.volunteer-form-page h2.page-title,
+body.volunteer-form-page .master-content-wrapper h1,
+body.volunteer-form-page .master-content-wrapper h2,
+body.volunteer-form-page .sCHeading_1,
+body.volunteer-form-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 2rem 2rem 0 2rem !important;
+    background: transparent !important;
+    border: none !important;
+    text-shadow: 0 4px 20px rgba(244, 208, 63, 0.6) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    max-width: 1100px !important;
+    width: 90% !important;
+    letter-spacing: -1px !important;
+}
+
+/* Typewriter animation container - JavaScript will handle the animation */
+body.volunteer-form-page h1.typewriter-ready,
+body.volunteer-form-page .article-header__title.typewriter-ready {
+    position: relative !important;
+}
+
+/* Hide duplicate form title inside white form box */
+body.volunteer-form-page form p[align="center"],
+body.volunteer-form-page form p[style*="text-align: center"],
+body.volunteer-form-page form p[style*="text-align:center"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Main form container styling - WIDER with ENHANCED shadow for dark bg */
+body.volunteer-form-page form,
+body.volunteer-form-page form[id*="form"],
+body.volunteer-form-page form[name*="form_"] {
+    max-width: 1100px !important;
+    margin: 0 auto 3rem auto !important;
+    padding: 0 4rem 4rem 4rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15) !important;
+    font-family: 'Urbanist', sans-serif !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+/* Form labels - EXTRA LARGE (1.75rem = 28px) */
+body.volunteer-form-page form label,
+body.volunteer-form-page form .form-label {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 600 !important;
+    color: #c93545 !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+}
+
+/* ALL text elements in form - make bigger (1.5rem = 24px) */
+body.volunteer-form-page form * {
+    font-size: 1.5rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    line-height: 1.6 !important;
+}
+
+/* Reset input/select/button sizes (styled separately below) */
+body.volunteer-form-page form input,
+body.volunteer-form-page form select,
+body.volunteer-form-page form button,
+body.volunteer-form-page form textarea {
+    font-size: 1.35rem !important;
+}
+
+/* Form inputs - rounded corners - BIGGER (1.35rem = ~21.6px) */
+body.volunteer-form-page form input[type="text"],
+body.volunteer-form-page form input[type="email"],
+body.volunteer-form-page form input[type="tel"],
+body.volunteer-form-page form input[type="number"],
+body.volunteer-form-page form textarea,
+body.volunteer-form-page form select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.35rem !important;
+    padding: 1.25rem 2rem !important;
+    border: 2px solid #d1d9e6 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #2a2a2a !important;
+    transition: all 0.3s ease !important;
+    box-sizing: border-box !important;
+}
+
+/* Input focus state */
+body.volunteer-form-page form input:focus,
+body.volunteer-form-page form textarea:focus,
+body.volunteer-form-page form select:focus {
+    outline: none !important;
+    border-color: #c93545 !important;
+    box-shadow: 0 0 0 3px rgba(201, 53, 69, 0.1) !important;
+}
+
+/* Select dropdown arrow - BIGGER (1.35rem) */
+body.volunteer-form-page form select {
+    cursor: pointer !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c93545' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 2rem center !important;
+    padding-right: 3.5rem !important;
+}
+
+/* Form section headings - LARGE section headers (2rem = 32px) */
+body.volunteer-form-page form h2,
+body.volunteer-form-page form h3,
+body.volunteer-form-page form h4,
+body.volunteer-form-page form legend,
+body.volunteer-form-page form b,
+body.volunteer-form-page form strong,
+body.volunteer-form-page form u {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+    color: #8b0000 !important;
+    margin: 2rem 0 1rem 0 !important;
+    padding-bottom: 0.5rem !important;
+    border-bottom: 2px solid #f8e8ea !important;
+    display: block !important;
+}
+
+/* Submit button - styled - CRIMSON & GOLD gradient (1.625rem = 26px) */
+body.volunteer-form-page form button[type="submit"],
+body.volunteer-form-page form input[type="submit"],
+body.volunteer-form-page form .form-submit button,
+body.volunteer-form-page form [id*="submit"] input[type="submit"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #c93545 0%, #f4d03f 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(201, 53, 69, 0.3) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    margin-right: 1rem !important;
+    display: inline-block !important;
+}
+
+body.volunteer-form-page form button[type="submit"]:hover,
+body.volunteer-form-page form input[type="submit"]:hover {
+    background: linear-gradient(135deg, #a82c3a 0%, #d4af37 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(201, 53, 69, 0.4) !important;
+}
+
+/* Reset button - GRAY gradient theme */
+body.volunteer-form-page form button[type="reset"],
+body.volunteer-form-page form input[type="reset"] {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.625rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 1.75rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(75, 85, 99, 0.2) !important;
+    min-width: 240px !important;
+    margin-top: 2rem !important;
+    display: inline-block !important;
+}
+
+body.volunteer-form-page form button[type="reset"]:hover,
+body.volunteer-form-page form input[type="reset"]:hover {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(75, 85, 99, 0.3) !important;
+}
+
+/* Security text - make visible on dark background */
+body.volunteer-form-page .center_small,
+body.volunteer-form-page .center.small,
+body.volunteer-form-page form .center_small,
+body.volunteer-form-page form small {
+    color: #e5e7eb !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+    opacity: 0.9 !important;
+}
+
+/* Mobile responsive for Volunteer Form */
+@media (max-width: 768px) {
+    body.volunteer-form-page form {
+        padding: 2.5rem 1.5rem !important;
+        margin: 2rem 1rem !important;
+        max-width: 95% !important;
+    }
+
+    body.volunteer-form-page h1,
+    body.volunteer-form-page .article-header__title {
+        font-size: 2.5rem !important;
+        padding: 0 !important;
+    }
+
+    body.volunteer-form-page form button[type="submit"],
+    body.volunteer-form-page form input[type="submit"],
+    body.volunteer-form-page form button[type="reset"],
+    body.volunteer-form-page form input[type="reset"] {
+        width: 100% !important;
+        padding: 1.5rem 2rem !important;
+        margin-right: 0 !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ========================================
+   GLOBAL LAYOUT STYLES
+   ======================================== */
+.cco_templateless_page #BodyContainer, .section_root #co_body_container {
+    text-align:left !important;
+}
+
+.article_index_container .co_index.article_index .row .item .synopsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 20px;
+}
+
+.article_index_container .co_index.article_index .row .item .synopsis_icon a.synopsis_icon {
+    background-color: transparent !important;
+}
+
+/* ========================================
+     JRCC MODERN SIDEBAR
+     Desktop sidebar is fully controlled by JavaScript in custom-footer-code.html
+     ======================================== */
+
+/* Hide search sidebar on all screen sizes */
+.cco_search_form,
+.cco_search_header form,
+div[class*="search-trigger"],
+div[class*="search_header"],
+.co_search_header,
+#cco_search_header {
+    display: none !important;
+}
+
+/* Desktop Sidebar - Custom scrollbar only (positioning handled by JS) */
+@media (min-width: 769px) {
+    .g260::-webkit-scrollbar,
+    div.g260::-webkit-scrollbar,
+    .cco_search_header::-webkit-scrollbar {
+        width: 6px !important;
+    }
+
+    .g260::-webkit-scrollbar-track,
+    div.g260::-webkit-scrollbar-track,
+    .cco_search_header::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.05) !important;
+        border-radius: 3px !important;
+    }
+
+    .g260::-webkit-scrollbar-thumb,
+    div.g260::-webkit-scrollbar-thumb,
+    .cco_search_header::-webkit-scrollbar-thumb {
+        background: rgba(30, 58, 138, 0.3) !important;
+        border-radius: 3px !important;
+    }
+
+    .g260::-webkit-scrollbar-thumb:hover,
+    div.g260::-webkit-scrollbar-thumb:hover,
+    .cco_search_header::-webkit-scrollbar-thumb:hover {
+        background: rgba(30, 58, 138, 0.5) !important;
+    }
+}
+
+/* Mobile - Hide original sidebar (custom one created via footer JS) */
+/* Don't use display:none - CMS won't populate content if it thinks sidebar is hidden */
+/* Instead, move it off-screen so CMS still loads navigation, then we clone it */
+@media (max-width: 768px) {
+    body div.g260,
+    body .g260,
+    html body div.g260,
+    div.g260.no_margin,
+    .g260.cco_search_header,
+    div.g260.cco_search_header,
+    body div.g260.no_margin.cco_search_header,
+    body div.g260.no_margin.cco_search_header.float_right {
+        position: fixed !important;
+        left: -9999px !important;
+        top: -9999px !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        z-index: -1 !important;
+        /* Keep it in DOM so CMS populates it with navigation, but invisible and off-screen */
+    }
+
+    /* ========================================
+       MOBILE SIDEBAR LINK STYLING
+       Modern card-style links with touch feedback
+       ======================================== */
+
+    /* Style all links in the mobile sidebar */
+    .jrcc-mobile-sidebar a,
+    .jrcc-mobile-sidebar a[href] {
+        display: block !important;
+        padding: 14px 18px !important;
+        margin: 6px 0 !important;
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        line-height: 1.4 !important;
+        color: #1e3a8a !important;
+        text-decoration: none !important;
+        background: rgba(255, 255, 255, 0.6) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(30, 58, 138, 0.1) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Touch/hover state for links */
+    .jrcc-mobile-sidebar a:active,
+    .jrcc-mobile-sidebar a:hover {
+        background: rgba(30, 58, 138, 0.1) !important;
+        transform: translateX(4px) !important;
+        border-color: rgba(30, 58, 138, 0.3) !important;
+        box-shadow: 0 2px 6px rgba(30, 58, 138, 0.15) !important;
+    }
+
+    /* Section headers in mobile sidebar */
+    .jrcc-mobile-sidebar h2,
+    .jrcc-mobile-sidebar h3,
+    .jrcc-mobile-sidebar h4,
+    .jrcc-mobile-sidebar .header,
+    .jrcc-mobile-sidebar [class*="header"] {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        color: #64748b !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        margin: 20px 0 10px 4px !important;
+    }
+
+    /* Quick Links section header if present */
+    .jrcc-mobile-sidebar div[style*="QUICK LINKS"] {
+        font-family: 'Urbanist', sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        color: #f59e0b !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        margin: 20px 0 10px 4px !important;
+    }
+}
+
+/* ======================================== */
+/* SENIORS NIGHT OUT FORM - Article ID: 6750519 */
+/* ======================================== */
+
+.seniors-night-out-form-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Style the main form - using attribute selector for numeric IDs */
+.seniors-night-out-form-page form[id="6750519"],
+.seniors-night-out-form-page form[name="form_6750519"],
+.seniors-night-out-form-page form.userform-form {
+    max-width: 700px !important;
+    margin: 40px auto !important;
+    background: white !important;
+    padding: 40px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3) !important;
+}
+
+.seniors-night-out-form-page h1,
+.seniors-night-out-form-page h2 {
+    color: #764ba2 !important;
+    text-align: center !important;
+    margin-bottom: 30px !important;
+    font-size: 2.5em !important;
+}
+
+.seniors-night-out-form-page label {
+    color: #333 !important;
+    font-weight: 600 !important;
+    display: block !important;
+    margin-bottom: 8px !important;
+    font-size: 16px !important;
+}
+
+.seniors-night-out-form-page input[type="text"],
+.seniors-night-out-form-page input[type="email"],
+.seniors-night-out-form-page input[type="tel"],
+.seniors-night-out-form-page input[type="number"],
+.seniors-night-out-form-page select,
+.seniors-night-out-form-page textarea {
+    width: 100% !important;
+    padding: 12px !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    font-size: 16px !important;
+    transition: border-color 0.3s !important;
+    background: white !important;
+}
+
+.seniors-night-out-form-page input:focus,
+.seniors-night-out-form-page select:focus,
+.seniors-night-out-form-page textarea:focus,
+.seniors-night-out-form-page .focused {
+    border-color: #764ba2 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1) !important;
+}
+
+.seniors-night-out-form-page input[type="submit"],
+.seniors-night-out-form-page button[type="submit"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+    padding: 15px 40px !important;
+    border: none !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    display: block !important;
+    margin: 30px auto 0 !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+    width: auto !important;
+}
+
+.seniors-night-out-form-page input[type="submit"]:hover,
+.seniors-night-out-form-page button[type="submit"]:hover,
+.seniors-night-out-form-page .hovered {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 30px rgba(118, 75, 162, 0.4) !important;
+}
+
+/* Hide search and print forms from styling */
+.seniors-night-out-form-page form[id="MainSearchForm"],
+.seniors-night-out-form-page form[name="print-form"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+/* ======================================== */
+/* YESHIVA SCHOLARSHIP FORM - Article ID: 5537074 */
+/* ======================================== */
+
+.yeshiva-scholarship-page {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    min-height: 100vh !important;
+    padding: 20px !important;
+}
+
+.yeshiva-scholarship-page form[method="post"],
+.yeshiva-scholarship-page form[id="5537074"],
+.yeshiva-scholarship-page form[name="form_5537074"] {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    background: white !important;
+    padding: 50px !important;
+    border-radius: 25px !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2) !important;
+}
+
+.yeshiva-scholarship-page h1,
+.yeshiva-scholarship-page h2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    text-align: center !important;
+    font-size: 2.5em !important;
+    margin-bottom: 30px !important;
+}
+
+.yeshiva-scholarship-page label {
+    color: #444 !important;
+    font-weight: 600 !important;
+    font-size: 16px !important;
+    display: block !important;
+    margin-bottom: 10px !important;
+}
+
+.yeshiva-scholarship-page input[type="text"],
+.yeshiva-scholarship-page input[type="email"],
+.yeshiva-scholarship-page input[type="tel"],
+.yeshiva-scholarship-page input[type="number"],
+.yeshiva-scholarship-page select,
+.yeshiva-scholarship-page textarea {
+    width: 100% !important;
+    padding: 15px !important;
+    border: 2px solid #f0f0f0 !important;
+    border-radius: 12px !important;
+    margin-bottom: 25px !important;
+    font-size: 16px !important;
+    transition: all 0.3s !important;
+}
+
+.yeshiva-scholarship-page input:focus,
+.yeshiva-scholarship-page select:focus,
+.yeshiva-scholarship-page textarea:focus,
+.yeshiva-scholarship-page .focused {
+    border-color: #f5576c !important;
+    box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1) !important;
+    outline: none !important;
+}
+
+.yeshiva-scholarship-page input[type="submit"],
+.yeshiva-scholarship-page button[type="submit"] {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+    color: white !important;
+    font-weight: bold !important;
+    font-size: 20px !important;
+    padding: 18px 50px !important;
+    border: none !important;
+    border-radius: 12px !important;
+    cursor: pointer !important;
+    display: block !important;
+    margin: 40px auto 0 !important;
+    transform: scale(1) !important;
+    transition: transform 0.3s, box-shadow 0.3s !important;
+    width: auto !important;
+}
+
+.yeshiva-scholarship-page input[type="submit"]:hover,
+.yeshiva-scholarship-page button[type="submit"]:hover,
+.yeshiva-scholarship-page .hovered {
+    transform: scale(1.05) !important;
+    box-shadow: 0 15px 40px rgba(245, 87, 108, 0.4) !important;
+}
+
+/* ====================================================================
+   KOSHER FOOD BANK PAGES - MODERN BLACK/WHITE/GOLD THEME
+   Three pages: About Us, Kosher Food Bank Home, Get Help Form
+   Theme: Modern, clean design with full mobile responsiveness
+   Colors: Black (#000000), White (#ffffff), Gold (#d4af37)
+   ==================================================================== */
+
+/* ========================================
+   SHARED NAVIGATION STYLES FOR ALL THREE PAGES
+   ======================================== */
+
+/* Fixed navigation bar */
+.about-us-page #navigation,
+.about-us-page div#navigation,
+.purim-matanot-page #navigation,
+.purim-matanot-page div#navigation,
+.kosher-food-bank-page #navigation,
+.kosher-food-bank-page div#navigation,
+.get-help-page #navigation,
+.get-help-page div#navigation {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 99999 !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-bottom: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 70px !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: visible !important;
+}
+
+.about-us-page .chabad_menu_content,
+.about-us-page div.chabad_menu_content,
+.purim-matanot-page .chabad_menu_content,
+.purim-matanot-page div.chabad_menu_content,
+.kosher-food-bank-page .chabad_menu_content,
+.kosher-food-bank-page div.chabad_menu_content,
+.get-help-page .chabad_menu_content,
+.get-help-page div.chabad_menu_content {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem !important;
+    width: 100% !important;
+}
+
+/* Navigation menu styling */
+.about-us-page ul#menu,
+.purim-matanot-page ul#menu,
+.kosher-food-bank-page ul#menu,
+.get-help-page ul#menu {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    flex-wrap: wrap !important;
+    font-size: 0 !important;
+    margin: 0 !important;
+    padding: 0.75rem 0 !important;
+    list-style: none !important;
+}
+
+.about-us-page ul#menu li.item,
+.about-us-page ul#menu li,
+.purim-matanot-page ul#menu li.item,
+.purim-matanot-page ul#menu li,
+.kosher-food-bank-page ul#menu li.item,
+.kosher-food-bank-page ul#menu li,
+.get-help-page ul#menu li.item,
+.get-help-page ul#menu li {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    background: none !important;
+    border: none !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    display: inline-block !important;
+}
+
+/* Navigation links */
+.about-us-page ul#menu li a.parent,
+.about-us-page ul#menu li a,
+.about-us-page #navigation a,
+.purim-matanot-page ul#menu li a.parent,
+.purim-matanot-page ul#menu li a,
+.purim-matanot-page #navigation a,
+.kosher-food-bank-page ul#menu li a.parent,
+.kosher-food-bank-page ul#menu li a,
+.kosher-food-bank-page #navigation a,
+.get-help-page ul#menu li a.parent,
+.get-help-page ul#menu li a,
+.get-help-page #navigation a {
+    color: #000000 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 17px !important;
+    font-weight: 500 !important;
+    padding: 1rem 1.5rem !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    background: none !important;
+    border: none !important;
+    line-height: normal !important;
+}
+
+/* Hover state */
+.about-us-page ul#menu li a:hover,
+.purim-matanot-page ul#menu li a:hover,
+.kosher-food-bank-page ul#menu li a:hover,
+.get-help-page ul#menu li a:hover {
+    color: #d4af37 !important;
+    background: rgba(212, 175, 55, 0.1) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Selected state */
+.about-us-page ul#menu li a.selected,
+.purim-matanot-page ul#menu li a.selected,
+.kosher-food-bank-page ul#menu li a.selected,
+.get-help-page ul#menu li a.selected {
+    color: #d4af37 !important;
+    border-bottom: 2px solid #d4af37 !important;
+}
+
+/* Dropdown menus */
+.about-us-page ul#menu li.arrow,
+.purim-matanot-page ul#menu li.arrow,
+.kosher-food-bank-page ul#menu li.arrow,
+.get-help-page ul#menu li.arrow {
+    position: relative !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu,
+.purim-matanot-page ul#menu li.arrow .sub_menu,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu,
+.get-help-page ul#menu li.arrow .sub_menu {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-8px) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.3s ease !important;
+    background: #ffffff !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 0 !important;
+    min-width: 220px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+    z-index: 1000 !important;
+    display: block !important;
+}
+
+.about-us-page ul#menu li.arrow:hover .sub_menu,
+.purim-matanot-page ul#menu li.arrow:hover .sub_menu,
+.kosher-food-bank-page ul#menu li.arrow:hover .sub_menu,
+.get-help-page ul#menu li.arrow:hover .sub_menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateX(-50%) translateY(0) !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu ul li a,
+.purim-matanot-page ul#menu li.arrow .sub_menu ul li a,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a,
+.get-help-page ul#menu li.arrow .sub_menu ul li a {
+    display: block !important;
+    padding: 0.875rem 1.5rem !important;
+    color: #000000 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+    border-radius: 0 !important;
+}
+
+.about-us-page ul#menu li.arrow .sub_menu ul li a:hover,
+.purim-matanot-page ul#menu li.arrow .sub_menu ul li a:hover,
+.kosher-food-bank-page ul#menu li.arrow .sub_menu ul li a:hover,
+.get-help-page ul#menu li.arrow .sub_menu ul li a:hover {
+    background: rgba(212, 175, 55, 0.2) !important;
+    color: #d4af37 !important;
+    padding-left: 2rem !important;
+    transform: none !important;
+}
+
+/* Mobile menu toggle button */
+.about-us-page .mobile-menu-toggle,
+.purim-matanot-page .mobile-menu-toggle,
+.kosher-food-bank-page .mobile-menu-toggle,
+.get-help-page .mobile-menu-toggle {
+    display: none !important;
+    background: #000000 !important;
+    color: #d4af37 !important;
+    border: 2px solid #d4af37 !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 2rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    margin: 0.75rem auto !important;
+    width: fit-content !important;
+}
+
+.about-us-page .mobile-menu-toggle:hover,
+.purim-matanot-page .mobile-menu-toggle:hover,
+.kosher-food-bank-page .mobile-menu-toggle:hover,
+.get-help-page .mobile-menu-toggle:hover {
+    background: #d4af37 !important;
+    color: #000000 !important;
+}
+
+/* Mobile navigation */
+@media (max-width: 768px) {
+    .about-us-page .mobile-menu-toggle,
+    .purim-matanot-page .mobile-menu-toggle,
+    .kosher-food-bank-page .mobile-menu-toggle,
+    .get-help-page .mobile-menu-toggle {
+        display: block !important;
+    }
+
+    .about-us-page #navigation,
+    .about-us-page div#navigation,
+    .purim-matanot-page #navigation,
+    .purim-matanot-page div#navigation,
+    .kosher-food-bank-page #navigation,
+    .kosher-food-bank-page div#navigation,
+    .get-help-page #navigation,
+    .get-help-page div#navigation {
+        display: block !important;
+        height: auto !important;
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0 0 2rem 0 !important;
+    }
+
+    .about-us-page .chabad_menu_content,
+    .about-us-page div.chabad_menu_content,
+    .purim-matanot-page .chabad_menu_content,
+    .purim-matanot-page div.chabad_menu_content,
+    .kosher-food-bank-page .chabad_menu_content,
+    .kosher-food-bank-page div.chabad_menu_content,
+    .get-help-page .chabad_menu_content,
+    .get-help-page div.chabad_menu_content {
+        padding: 0 1rem 2rem 1rem !important;
+        display: none !important;
+        width: 100% !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    .about-us-page .chabad_menu_content.menu-open,
+    .about-us-page div.chabad_menu_content.menu-open,
+    .purim-matanot-page .chabad_menu_content.menu-open,
+    .purim-matanot-page div.chabad_menu_content.menu-open,
+    .kosher-food-bank-page .chabad_menu_content.menu-open,
+    .kosher-food-bank-page div.chabad_menu_content.menu-open,
+    .get-help-page .chabad_menu_content.menu-open,
+    .get-help-page div.chabad_menu_content.menu-open {
+        display: block !important;
+        overflow: visible !important;
+        max-height: none !important;
+    }
+
+    .about-us-page ul#menu,
+    .purim-matanot-page ul#menu,
+    .kosher-food-bank-page ul#menu,
+    .get-help-page ul#menu {
+        gap: 0.25rem !important;
+        padding: 0.5rem 0 2rem 0 !important;
+        overflow: visible !important;
+        max-height: none !important;
+        height: auto !important;
+    }
+
+    .about-us-page ul#menu li a.parent,
+    .about-us-page ul#menu li a,
+    .about-us-page #navigation a,
+    .purim-matanot-page ul#menu li a.parent,
+    .purim-matanot-page ul#menu li a,
+    .purim-matanot-page #navigation a,
+    .kosher-food-bank-page ul#menu li a.parent,
+    .kosher-food-bank-page ul#menu li a,
+    .kosher-food-bank-page #navigation a,
+    .get-help-page ul#menu li a.parent,
+    .get-help-page ul#menu li a,
+    .get-help-page #navigation a {
+        font-size: 14px !important;
+        padding: 0.75rem 1rem !important;
+        white-space: normal !important;
+        overflow: visible !important;
+    }
+}
+
+/* ========================================
+   PAGE: ABOUT US - Article styling with floating images
+   URL: /templates/articlecco_cdo/aid/6820886/jewish/About-Us.htm
+   ======================================== */
+
+/* Global styles for About Us page */
+.about-us-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 70px !important;
+}
+
+.about-us-page #BodyContainer {
+    padding-top: 0 !important;
+}
+
+/* Make CMS containers transparent */
+.about-us-page #BodyContainer,
+.about-us-page #co_content_container,
+.about-us-page .body_wrapper,
+.about-us-page #content,
+.about-us-page #co_body_container,
+.about-us-page .master-content-wrapper,
+.about-us-page div.master-content-wrapper,
+.about-us-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Remove decorative elements */
+.about-us-page body::before,
+.about-us-page body::after,
+.about-us-page #BodyContainer::before,
+.about-us-page #BodyContainer::after,
+.about-us-page #co_content_container::before,
+.about-us-page #co_content_container::after,
+.about-us-page .body_wrapper::before,
+.about-us-page .body_wrapper::after,
+.about-us-page #content::before,
+.about-us-page #content::after,
+.about-us-page #co_body_container::before,
+.about-us-page #co_body_container::after,
+.about-us-page .master-content-wrapper::before,
+.about-us-page .master-content-wrapper::after,
+.about-us-page .decorative-circles,
+.about-us-page .background-dots,
+.about-us-page [class*="dot"],
+.about-us-page [class*="circle"][class*="decorat"],
+.about-us-page [class*="background"][class*="element"] {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hero header section */
+.about-us-page .chabad_header {
+    position: relative !important;
+    min-height: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.about-us-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.about-us-page .chabad_header .headerTitle,
+.about-us-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+        -webkit-text-stroke: 3px #d4af37 !important;
+    }
+    50% {
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9), 0 0 40px rgba(212, 175, 55, 0.6) !important;
+        -webkit-text-stroke: 3px #f4d03f !important;
+    }
+}
+
+/* Article content styling */
+.about-us-page .chabad_left_column,
+.about-us-page #ContentArea,
+.about-us-page .content_page,
+.about-us-page #content_page {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Style ONLY the innermost content container as the card */
+.about-us-page .co_body.article-body.cf,
+.about-us-page div.co_body.article-body.cf {
+    max-width: 1200px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+
+/* Page title */
+.about-us-page h1.article-header__title,
+.about-us-page h1.js-article-title,
+.about-us-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Article text content */
+.about-us-page .co_body.article-body.cf p,
+.about-us-page div.co_body.article-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.7rem !important;
+    line-height: 1.9 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 2rem 0 !important;
+    font-weight: 400 !important;
+    overflow: visible !important;
+    clear: none !important;
+}
+
+.about-us-page .co_body.article-body.cf p:first-of-type {
+    font-size: 1.9rem !important;
+    font-weight: 500 !important;
+    color: #000000 !important;
+    line-height: 2 !important;
+}
+
+/* Images within article */
+.about-us-page .co_body.article-body.cf img,
+.about-us-page div.co_body.article-body img {
+    display: block !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+    border: 3px solid #ffffff !important;
+    height: auto !important;
+}
+
+.about-us-page .co_body.article-body.cf img:nth-of-type(1) {
+    float: left !important;
+    margin: 0 2.5rem 2rem 0 !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+.about-us-page .co_body.article-body.cf img:nth-of-type(2) {
+    float: right !important;
+    margin: 0 0 2rem 2.5rem !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+/* Image containers (span elements) - make them transparent wrappers */
+.about-us-page .co_body.article-body.cf span {
+    display: inline !important;
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.about-us-page .co_body.article-body.cf::after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+}
+
+/* Strong/Bold text styling */
+.about-us-page .co_body.article-body.cf strong {
+    font-weight: 700 !important;
+    color: #000000 !important;
+}
+
+/* Links within article */
+.about-us-page .co_body.article-body.cf a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+}
+
+.about-us-page .co_body.article-body.cf a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Responsive design for About Us */
+@media (max-width: 1024px) {
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+        -webkit-text-stroke: 2.5px #d4af37 !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 3.2rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 4rem 3rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-us-page .chabad_header {
+        min-height: 350px !important;
+        padding: 3rem 1.5rem 7rem 1.5rem !important;
+        align-items: flex-end !important;
+    }
+
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 5.5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf img:nth-of-type(1),
+    .about-us-page .co_body.article-body.cf img:nth-of-type(2) {
+        float: none !important;
+        margin: 2rem auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.5rem !important;
+        line-height: 1.8 !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.6rem !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 2.5rem !important;
+        border-bottom-width: 4px !important;
+        margin-bottom: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-us-page .chabad_header {
+        min-height: 300px !important;
+        padding: 2rem 1rem 6rem 1rem !important;
+    }
+
+    .about-us-page .chabad_header .headerTitle,
+    .about-us-page .chabad_header .headerTitle a {
+        font-size: 4rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf {
+        padding: 2.5rem 1.5rem !important;
+        margin: 1.5rem 0.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    .about-us-page h1.article-header__title,
+    .about-us-page .article-header__title {
+        font-size: 2rem !important;
+        border-bottom-width: 3px !important;
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p {
+        font-size: 1.3rem !important;
+        line-height: 1.7 !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.4rem !important;
+    }
+
+    .about-us-page .co_body.article-body.cf img {
+        border-radius: 12px !important;
+        border-width: 2px !important;
+        margin: 1.5rem 0 !important;
+    }
+}
+
+/* ========================================
+   PAGE: PURIM MATANOT LA'EVYONIM - Article styling with floating images
+   URL: /templates/articlecco_cdo/aid/6831199/jewish/Purim-Matanot-LaEvyonim.htm
+   ======================================== */
+
+/* Global styles for Purim Matanot page */
+.purim-matanot-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    padding-top: 70px !important;
+}
+
+.purim-matanot-page #BodyContainer {
+    padding-top: 0 !important;
+}
+
+/* Make CMS containers transparent */
+.purim-matanot-page #BodyContainer,
+.purim-matanot-page #co_content_container,
+.purim-matanot-page .body_wrapper,
+.purim-matanot-page #content,
+.purim-matanot-page #co_body_container,
+.purim-matanot-page .master-content-wrapper,
+.purim-matanot-page div.master-content-wrapper,
+.purim-matanot-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Remove decorative elements */
+.purim-matanot-page body::before,
+.purim-matanot-page body::after,
+.purim-matanot-page #BodyContainer::before,
+.purim-matanot-page #BodyContainer::after,
+.purim-matanot-page #co_content_container::before,
+.purim-matanot-page #co_content_container::after,
+.purim-matanot-page .body_wrapper::before,
+.purim-matanot-page .body_wrapper::after,
+.purim-matanot-page #content::before,
+.purim-matanot-page #content::after,
+.purim-matanot-page #co_body_container::before,
+.purim-matanot-page #co_body_container::after,
+.purim-matanot-page .master-content-wrapper::before,
+.purim-matanot-page .master-content-wrapper::after,
+.purim-matanot-page .decorative-circles,
+.purim-matanot-page .background-dots,
+.purim-matanot-page [class*="dot"],
+.purim-matanot-page [class*="circle"][class*="decorat"],
+.purim-matanot-page [class*="background"][class*="element"] {
+    display: none !important;
+    content: none !important;
+}
+
+/* Hero header section */
+.purim-matanot-page .chabad_header {
+    position: relative !important;
+    min-height: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.purim-matanot-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.purim-matanot-page .chabad_header .headerTitle,
+.purim-matanot-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 6rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Article content styling */
+.purim-matanot-page .chabad_left_column,
+.purim-matanot-page #ContentArea,
+.purim-matanot-page .content_page,
+.purim-matanot-page #content_page {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Style ONLY the innermost content container as the card */
+.purim-matanot-page .co_body.article-body.cf,
+.purim-matanot-page div.co_body.article-body.cf {
+    max-width: 1200px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+
+/* Page title */
+.purim-matanot-page h1.article-header__title,
+.purim-matanot-page h1.js-article-title,
+.purim-matanot-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 4rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Article text content */
+.purim-matanot-page .co_body.article-body.cf p,
+.purim-matanot-page div.co_body.article-body p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.7rem !important;
+    line-height: 1.9 !important;
+    color: #1a1a1a !important;
+    margin: 0 0 2rem 0 !important;
+    font-weight: 400 !important;
+    overflow: visible !important;
+    clear: none !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf p:first-of-type {
+    font-size: 1.9rem !important;
+    font-weight: 500 !important;
+    color: #000000 !important;
+    line-height: 2 !important;
+}
+
+/* Images within article */
+.purim-matanot-page .co_body.article-body.cf img,
+.purim-matanot-page div.co_body.article-body img {
+    display: block !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+    border: 3px solid #ffffff !important;
+    height: auto !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf img:nth-of-type(1) {
+    float: left !important;
+    margin: 0 2.5rem 2rem 0 !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf img:nth-of-type(2) {
+    float: right !important;
+    margin: 0 0 2rem 2.5rem !important;
+    width: 32% !important;
+    max-width: 350px !important;
+    min-width: 200px !important;
+}
+
+/* Image containers (span elements) - make them transparent wrappers */
+.purim-matanot-page .co_body.article-body.cf span {
+    display: inline !important;
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf::after {
+    content: "" !important;
+    display: table !important;
+    clear: both !important;
+}
+
+/* Strong/Bold text styling */
+.purim-matanot-page .co_body.article-body.cf strong {
+    font-weight: 700 !important;
+    color: #000000 !important;
+}
+
+/* Links within article */
+.purim-matanot-page .co_body.article-body.cf a {
+    color: #d4af37 !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid transparent !important;
+    transition: all 0.3s ease !important;
+}
+
+.purim-matanot-page .co_body.article-body.cf a:hover {
+    color: #000000 !important;
+    border-bottom-color: #d4af37 !important;
+}
+
+/* Responsive design for Purim Matanot page */
+@media (max-width: 1024px) {
+    .purim-matanot-page .chabad_header .headerTitle,
+    .purim-matanot-page .chabad_header .headerTitle a {
+        font-size: 4.5rem !important;
+        -webkit-text-stroke: 2.5px #d4af37 !important;
+    }
+
+    .purim-matanot-page h1.article-header__title,
+    .purim-matanot-page .article-header__title {
+        font-size: 3.2rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf {
+        padding: 4rem 3rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf p {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .purim-matanot-page .chabad_header {
+        min-height: 350px !important;
+        padding: 3rem 1.5rem 7rem 1.5rem !important;
+        align-items: flex-end !important;
+    }
+
+    .purim-matanot-page .chabad_header .headerTitle,
+    .purim-matanot-page .chabad_header .headerTitle a {
+        font-size: 5.5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+        border-radius: 20px !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf img:nth-of-type(1),
+    .purim-matanot-page .co_body.article-body.cf img:nth-of-type(2) {
+        float: none !important;
+        margin: 2rem auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf p {
+        font-size: 1.5rem !important;
+        line-height: 1.8 !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.6rem !important;
+    }
+
+    .purim-matanot-page h1.article-header__title,
+    .purim-matanot-page .article-header__title {
+        font-size: 2.5rem !important;
+        border-bottom-width: 4px !important;
+        margin-bottom: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .purim-matanot-page .chabad_header {
+        min-height: 300px !important;
+        padding: 2rem 1rem 6rem 1rem !important;
+    }
+
+    .purim-matanot-page .chabad_header .headerTitle,
+    .purim-matanot-page .chabad_header .headerTitle a {
+        font-size: 4rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 1.5px #d4af37 !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf {
+        padding: 2.5rem 1.5rem !important;
+        margin: 1.5rem 0.5rem !important;
+        border-radius: 16px !important;
+    }
+
+    .purim-matanot-page h1.article-header__title,
+    .purim-matanot-page .article-header__title {
+        font-size: 2rem !important;
+        border-bottom-width: 3px !important;
+        margin-bottom: 1.5rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf p {
+        font-size: 1.3rem !important;
+        line-height: 1.7 !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf p:first-of-type {
+        font-size: 1.4rem !important;
+    }
+
+    .purim-matanot-page .co_body.article-body.cf img {
+        border-radius: 12px !important;
+        border-width: 2px !important;
+        margin: 1.5rem 0 !important;
+    }
+}
+
+/* ========================================
+   PAGE: KOSHER FOOD BANK HOME
+   URL: /templates/section_cdo/aid/6819985/jewish/Kosher-Food-Bank.htm
+   ======================================== */
+
+/* Global styles for Kosher Food Bank page */
+.kosher-food-bank-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+.kosher-food-bank-page #BodyContainer,
+.kosher-food-bank-page #co_content_container,
+.kosher-food-bank-page .body_wrapper,
+.kosher-food-bank-page #content,
+.kosher-food-bank-page #co_body_container,
+.kosher-food-bank-page .master-content-wrapper,
+.kosher-food-bank-page div.master-content-wrapper,
+.kosher-food-bank-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+.kosher-food-bank-page .chabad_header {
+    position: relative !important;
+    min-height: 500px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 5rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.kosher-food-bank-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.kosher-food-bank-page .chabad_header .headerTitle,
+.kosher-food-bank-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 7rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Custom message sections */
+.kosher-food-bank-page .custom_message {
+    max-width: 1100px !important;
+    margin: 5rem auto !important;
+    padding: 4rem !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-radius: 20px !important;
+    border: none !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.kosher-food-bank-page .custom_message .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.2rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 2.5rem 0 !important;
+    text-shadow: none !important;
+}
+
+.kosher-food-bank-page .custom_message .title::after {
+    content: '' !important;
+    display: block !important;
+    width: 80px !important;
+    height: 4px !important;
+    background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%) !important;
+    margin: 1rem auto 0 !important;
+    border-radius: 2px !important;
+}
+
+.kosher-food-bank-page .custom_message .message p {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.6rem !important;
+    line-height: 1.8 !important;
+    color: #2a2a2a !important;
+    margin: 0 0 1.5rem 0 !important;
+}
+
+/* Image promo cards */
+.kosher-food-bank-page .sPromo-wrap,
+.kosher-food-bank-page a.sPromo-wrap,
+.kosher-food-bank-page div.sPromo-wrap {
+    border-radius: 16px !important;
+    overflow: visible !important;
+}
+
+/* Donate Now card styling */
+.kosher-food-bank-page .donate-link-pulse {
+    display: block !important;
+    text-align: center !important;
+    margin: 2rem auto 1rem !important;
+    padding: 2rem 3rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    color: #d4af37 !important;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%) !important;
+    border: 3px solid #d4af37 !important;
+    border-radius: 16px !important;
+    text-decoration: none !important;
+    text-shadow: 0 3px 15px rgba(212, 175, 55, 0.5) !important;
+    letter-spacing: 2px !important;
+    transition: all 0.3s ease !important;
+    animation: donateTextPulse 2.5s ease-in-out infinite !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+}
+
+.kosher-food-bank-page .donate-link-pulse:hover {
+    transform: translateY(-5px) scale(1.05) !important;
+    color: #f4d03f !important;
+    border-color: #f4d03f !important;
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.8), 0 0 40px rgba(244, 208, 63, 0.6) !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%) !important;
+}
+
+@keyframes donateTextPulse {
+    0%, 100% {
+        text-shadow: 0 3px 15px rgba(212, 175, 55, 0.5), 0 0 20px rgba(212, 175, 55, 0.3) !important;
+        border-color: #d4af37 !important;
+    }
+    50% {
+        text-shadow: 0 4px 20px rgba(244, 208, 63, 0.8), 0 0 40px rgba(244, 208, 63, 0.6) !important;
+        border-color: #f4d03f !important;
+    }
+}
+
+.kosher-food-bank-page .gold-card-hidden {
+    display: none !important;
+}
+
+/* Responsive design for Kosher Food Bank */
+@media (max-width: 768px) {
+    .kosher-food-bank-page .sPromo-wrap,
+    .kosher-food-bank-page a.sPromo-wrap,
+    .kosher-food-bank-page div.sPromo-wrap {
+        overflow: visible !important;
+    }
+
+    .kosher-food-bank-page .donate-link-pulse {
+        font-size: 2.5rem !important;
+        padding: 1.8rem 2.5rem !important;
+        margin: 1.5rem auto 1rem !important;
+    }
+
+    .kosher-food-bank-page .chabad_header {
+        min-height: 450px !important;
+        padding: 3rem 1.5rem 9rem 1.5rem !important;
+        align-items: flex-end !important;
+    }
+
+    .kosher-food-bank-page .chabad_header .headerTitle,
+    .kosher-food-bank-page .chabad_header .headerTitle a {
+        font-size: 7rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .kosher-food-bank-page .custom_message {
+        padding: 2.5rem 1.5rem !important;
+        margin: 3rem 1rem !important;
+    }
+}
+
+/* ========================================
+   PAGE: GET HELP FORM
+   URL: /templates/articlecco_cdo/aid/6827292/jewish/Get-Help.htm
+   ======================================== */
+
+/* Global styles for Get Help page */
+.get-help-page body {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background-attachment: fixed !important;
+    padding-top: 70px !important;
+}
+
+.get-help-page #BodyContainer,
+.get-help-page #co_content_container,
+.get-help-page .body_wrapper,
+.get-help-page #content,
+.get-help-page #co_body_container,
+.get-help-page .master-content-wrapper,
+.get-help-page div.master-content-wrapper,
+.get-help-page #chabad_main_content {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Hero header section */
+.get-help-page .chabad_header {
+    position: relative !important;
+    min-height: 350px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 4rem 2rem !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    margin-top: 0 !important;
+}
+
+.get-help-page .chabad_header img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
+    filter: brightness(0.9) !important;
+}
+
+.get-help-page .chabad_header .headerTitle,
+.get-help-page .chabad_header .headerTitle a {
+    position: relative !important;
+    z-index: 2 !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 5.5rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 3px #d4af37 !important;
+    text-stroke: 3px #d4af37 !important;
+    paint-order: stroke fill !important;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    animation: gentlePulse 3s ease-in-out infinite !important;
+}
+
+/* Form content styling */
+.get-help-page .chabad_left_column,
+.get-help-page #ContentArea {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.get-help-page article {
+    max-width: 1100px !important;
+    margin: 4rem auto !important;
+    padding: 5rem 4rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fefefe 100%) !important;
+    border-radius: 24px !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.get-help-page h1.article-header__title,
+.get-help-page h1.js-article-title,
+.get-help-page .article-header__title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.5rem !important;
+    font-weight: 900 !important;
+    color: #000000 !important;
+    text-align: center !important;
+    margin: 0 0 3rem 0 !important;
+    text-shadow: none !important;
+    padding-bottom: 1.5rem !important;
+    border-bottom: 5px solid #d4af37 !important;
+    letter-spacing: -0.5px !important;
+}
+
+/* Form styling */
+.get-help-page form {
+    font-family: 'Urbanist', sans-serif !important;
+}
+
+.get-help-page form label,
+.get-help-page form .label,
+.get-help-page form strong {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: #000000 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+.get-help-page input[type="text"],
+.get-help-page input[type="email"],
+.get-help-page input[type="tel"],
+.get-help-page input[type="number"],
+.get-help-page textarea,
+.get-help-page select {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    padding: 1.2rem 1.5rem !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    transition: all 0.3s ease !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.get-help-page input[type="text"]:focus,
+.get-help-page input[type="email"]:focus,
+.get-help-page input[type="tel"]:focus,
+.get-help-page input[type="number"]:focus,
+.get-help-page textarea:focus,
+.get-help-page select:focus {
+    outline: none !important;
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1) !important;
+}
+
+.get-help-page input[type="checkbox"],
+.get-help-page input[type="radio"] {
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+    margin-right: 1rem !important;
+    cursor: pointer !important;
+    accent-color: #d4af37 !important;
+}
+
+.get-help-page input[type="submit"],
+.get-help-page button[type="submit"],
+.get-help-page .submit-button {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 4rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3) !important;
+    margin-top: 2rem !important;
+}
+
+.get-help-page input[type="submit"]:hover,
+.get-help-page button[type="submit"]:hover,
+.get-help-page .submit-button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5) !important;
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%) !important;
+}
+
+/* Responsive design for Get Help */
+@media (max-width: 768px) {
+    .get-help-page .chabad_header {
+        min-height: 300px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .get-help-page .chabad_header .headerTitle,
+    .get-help-page .chabad_header .headerTitle a {
+        font-size: 5rem !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: 2px #d4af37 !important;
+    }
+
+    .get-help-page article {
+        padding: 3rem 2rem !important;
+        margin: 2rem 1rem !important;
+    }
+
+    .get-help-page input[type="submit"],
+    .get-help-page button[type="submit"],
+    .get-help-page .submit-button {
+        width: 100% !important;
+        padding: 1.5rem 2rem !important;
+    }
+}
+
+/* END OF JRCC CUSTOM STYLES */

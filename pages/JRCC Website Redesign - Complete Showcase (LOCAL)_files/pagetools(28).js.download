@@ -1,0 +1,172 @@
+﻿$j(function() {
+	$j(document).on("click", ".js-share-popup", function() {
+		window.open(this.dataset.shareUrl, '_blank', 'width=400,height=500');
+	});
+});
+
+function setupPageTools() {
+	window.Co.PageTools = {
+		_lastScrollY: null,
+		_ticking: false
+	};
+
+	// CHABADORG-1933: Hide whatsapp share link in wrapper apps.
+	if (/org\.chabad\..*Wrapper/.test(navigator.userAgent)) {
+		$j('.js-share-whatsapp').remove();
+	}
+
+	Co.PageTools.Container = $j(".js-page-tools-sidebar");
+
+	Co.PageTools.MobileToggleHandler = function (stateIntent, speed)
+	{
+		if (typeof stateIntent !== "boolean")
+		{
+			stateIntent = !Co.PageTools.Container.hasClass("--open");
+		}
+
+		if (stateIntent)
+		{
+			$j(".js-page-tools-menu").stop().slideDown(speed);
+			$j(document).on("click.closePageTools", function (e)
+			{
+				if (Co.PageTools.Container.has(e.target).length)
+				{
+					return;
+				}
+				$j(document).off("click.closePageTools");
+				Co.PageTools.MobileToggleHandler(false);
+			});
+			//Adds print functionality to mobile without using the hide image dialog; make sure handler is added only once
+			$j(".fa-print").off("click").click(function ()
+			{
+				Co.Tools.Print(window);
+			});
+
+		}
+		else
+		{
+			$j(".js-page-tools-menu").stop().slideUp(speed);
+			$j(document).off("click.closePageTools");
+		}
+
+		Co.PageTools.Container.toggleClass("--open", stateIntent);
+	};
+
+	// This is the element that we'll use to enforce a bottom limit on the floating PageTools (for desktop);
+	// Fallback elements exist in case #ContentBody doesn't exist (i.e., anything besides Content.master).
+	var contentBottomEl = $j("#ContentBody")[0] || $j("#co_content_container")[0] || $j("#content")[0];
+	// Element for top limit. Use the full-width image, if that doesn't exist, use the same body container that we use for the bottom limit.
+	var contentTopEl = $j(".hero_wrapper")[0] || contentBottomEl;
+	Co.PageTools.UpdatePosition = function() {
+
+		/*
+			150 is a bit of magic number
+			The bounds.top is because there might be a header/image/wtvr above the content container, 
+			and we don't want to fix the sidebar until we've scrolled past it.
+		*/
+		var offsetTop = 150;
+		if (Co.IsMobilePage || Co.IsResponsive && window.innerWidth < 975) {
+			Co.PageTools.Container.css("top", "auto");
+			var lastScrollY = Co.PageTools._lastScrollY;
+			if (lastScrollY !== null && window.scrollY !== lastScrollY) {
+				var scrollingDown = window.scrollY > Co.PageTools._lastScrollY;
+				Co.PageTools.Container.toggleClass('--scrolling-down', scrollingDown);
+
+				if (scrollingDown) {
+					$j(".js-page-tools-menu").slideUp(0);
+					Co.PageTools.MobileToggleHandler(false, 0);
+				}
+			}
+			Co.PageTools._lastScrollY = window.scrollY;
+			Co.PageTools._ticking = false;
+		} else {
+			// If this was a responsive page, then we might be waiting for a click out to collapse the PageTools (if we rendered mobile view). So let's disable that.
+			$j(document).off("click.closePageTools");
+
+			var contentTop = contentTopEl.getBoundingClientRect().top;
+			var contentBottom = contentBottomEl.getBoundingClientRect().bottom;
+
+			var sidebarBounds = Co.PageTools.Container[0].getBoundingClientRect();
+			var windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+			var contentTopIsVisible = contentTop >= offsetTop;
+			var contentBottomIsVisible = contentBottom <= windowHeight;
+			var sidebarIsHiddenUp = sidebarBounds.top < offsetTop;
+			var sidebarIsAtOrBelowContent = sidebarBounds.bottom >= contentBottom;
+
+			var newTop = null;
+
+			if (contentTopIsVisible) {
+				//stuck at top of content
+				newTop = contentTop;
+			} else {
+
+				if (contentBottomIsVisible && (sidebarIsAtOrBelowContent || sidebarIsHiddenUp)) {
+					// pin the sidebar to the bottom of content
+					newTop = contentBottom - sidebarBounds.height;
+				} else if (contentTop <= offsetTop && (contentBottom >= (sidebarBounds.height + offsetTop))) {
+					// pin the sidebar to 150px from the viewport top
+					newTop = offsetTop;
+				}
+			}
+
+			var shouldUpdate = true;
+			// sidebar is already out of view. No need to keep moving it up.
+			if (sidebarBounds.bottom < 0 && newTop <= sidebarBounds.top) {
+				shouldUpdate = false;
+			}
+			// This can be tweaked, but basically ensure that the newTop is going to place the sidebar within the document.body's limits
+			if (newTop !== null && !(newTop > -document.body.scrollHeight && newTop < document.body.scrollHeight)) {
+				shouldUpdate = false;
+			}
+
+			if (shouldUpdate)
+				Co.PageTools.Container.css({ top: newTop });
+
+
+			Co.PageTools._ticking = false;
+		};
+	};
+	var handler = function (e) {
+		// Only request one frame at a time
+		if (!Co.PageTools._ticking) {
+			requestAnimationFrame(Co.PageTools.UpdatePosition);
+		}
+		Co.PageTools._ticking = true;
+	}
+
+
+	window.addEventListener('scroll', handler);
+	window.addEventListener('resize', Co.PageTools.UpdatePosition);
+
+	Co.PageTools.UpdatePosition();
+
+	//The FAB is not always visible, but if it is, this should work.
+	$j(document).on("click", ".js-fab-wrapper", Co.PageTools.MobileToggleHandler);
+}
+
+$j(setupPageTools);
+
+function coPrint(e, parentId) {
+	e.preventDefault();
+
+	var form = document.forms["print-form"];
+
+	var printGreen = form["print-green"].checked;
+
+	if (printGreen)
+		Co.Cookie.Set("cdo_pg", printGreen, { ExpirationDate: new Date().addDays(365) });
+	else
+		Co.Cookie.Remove("cdo_pg");
+
+	//used "GetSelectedItem" for compatibility with browsers that dont return the value on the collection.
+	var printSeries = form["print-series"] ? Co.Forms.GetSelectedItem(form["print-series"]).value === "true" : false;
+
+	Co.Tools.Print(window, (printSeries ? "&complete=true" : null), printGreen, parentId);
+	return false;
+}
+
+$j(function() {
+	//If print-form doesn't exist, (because the print button doesn't exist on this page) we shouldn't error.
+	((document.forms["print-form"] || {})["print-green"] || {}).checked = Co.Cookie.Get("cdo_pg");
+});

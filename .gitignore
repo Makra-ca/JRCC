@@ -1,0 +1,69 @@
+# Ignore the downloaded JRCC history page
+History - JRCC.org.html
+
+# Ignore the JRCC history files directory
+History - JRCC.org_files/
+# Jewish Identity Verification Service - JRCC.org_files
+# Jewish Identity Verification Services Worldwide - JRCC.org_files
+ .gitignore
+# pages/education-subsidies/old-site-look
+
+# pages/yeshiva-scholarship/old-site-look
+# pages/tefillin-bank/old-ui-site/Tefillin Bank - JRCC.org_files
+# pages/tefillin-bank/old-ui-site/Tefillin Bank - JRCC.org.html
+# pages/kosher-grant/old-ui-site/Kosher Grant - JRCC.org_files/
+# pages/kosher-grant/old-ui-site/Kosher Grant - JRCC.org.html
+# pages/sheitel-grant/old-ui-site/Sheitel Grant - JRCC.org.html
+# pages/sheitel-grant/old-ui-site/Sheitel Grant - JRCC.org_files/
+# pages/jewish-identity-grant/old-ui-site/About The JRCC Jewish Identity Grant - JRCC.org_files/
+# pages/jewish-identity-grant/old-ui-site/About The JRCC Jewish Identity Grant - JRCC.org.html
+# pages/holiday-tickets/old-ui-site/Holiday Tickets - JRCC.org_files/
+# pages/holiday-tickets/old-ui-site/Holiday Tickets - JRCC.org.html
+# pages/event-tickets/ld-ui-site/Event Tickets - JRCC.org_files/
+# pages/event-tickets/ld-ui-site/Event Tickets - JRCC.org.html
+# pages/financial-assistance/LIVE/financial-assistance-template.html
+# pages/financial-assistance/old-ui-site/Financial Assistance - JRCC.org_files/
+# pages/financial-assistance/old-ui-site/Financial Assistance - JRCC.org.html
+# pages/community-supports/old-ui-site/
+# pages/newcomer-services/old-ui-site/
+# pages/senior-services/old-ui-site/
+# pages/community-connections/old-ui-site/
+# pages/jewish-identity-grants/old-ui-site/
+# pages/healthy@home-registration-form/old-ui-site/
+# pages/Seniors-Night-out-form/
+# pages/Kosher-Food-Bank/Home/old-ui-site/
+# pages/Volunteer-form-page/old-ui-site/
+# pages/Kosher-Food-Bank/About-us/old-ui-site/
+# pages/Kosher-Food-Bank/Get-Help/old-ui-site/
+# pages/Kosher-Food-Bank/projects/old-ui-site/
+# github-hosted/CDN-CACHE-PURGE-INSTRUCTIONS.md
+# pages/Kosher-Food-Bank/FAQ/old-ui-site/
+# pages/Kosher-Food-Bank/volunteer-with-us/old-ui-site/
+# pages/Kosher-Food-Bank/Matanot Levyonim-give to needy/old-ui-site/
+
+# pages/Kosher-Food-Bank/New folder/
+# pages/tefillin-bank/new-ui-site/
+
+# pages/kosher-grant/new-ui-site/
+# pages/newcomer-services/new-ui-site/
+# pages/jewish-identity-grants/new-ui-site/
+# pages/community-connections/new-ui-site/
+# pages/community-supports/new-ui-site/
+# pages/financial-assistance/new-ui-site/
+# pages/holiday-tickets/new-ui-site/
+# pages/senior-services/new-ui-site/
+# pages/sheitel-grant/new-ui-site/
+# pages/Volunteer-form-page/new-ui-site/
+# pages/welcome-meeting/old-ui-site/
+# pages/welcome-meeting/new-ui-site/
+# pages/virtual-programs/old-ui-site/
+# pages/jrcc-publications/new-ui-site/
+# pages/meir-shlomo-gmach/new-ui-site/
+# pages/jrcc-publications/old-ui-site/
+# pages/meir-shlomo-gmach/old-ui-site/
+# pages/mezuzah-tefillin-checking/
+# pages/seniors-building-services/new-ui-site/
+# pages/seniors-building-services/old-ui-site/
+# pages/shabbat-family-experience/new-ui-site/
+# pages/shabbat-family-experience/old-ui-site/
+# pages/virtual-programs/new-ui-site/

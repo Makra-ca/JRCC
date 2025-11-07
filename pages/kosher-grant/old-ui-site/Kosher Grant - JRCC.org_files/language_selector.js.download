@@ -1,0 +1,47 @@
+﻿LanguageSelectorMenu = function(target)
+{
+	if (target.className.indexOf("active") > -1)
+		target.className = target.className.replace(/\s*\bactive\b/g, "");
+	else
+		target.className = target.className.replace(/\s*\bactive\b/g, "") + " active";
+	return;
+}
+function LanguageSelectorNavigateToLangCode(target)
+{
+	if (target.className.indexOf("active") == -1)
+	{
+		var seek = target.parentNode.firstChild;
+		while (seek)
+		{
+			if (seek.nodeType == 1)
+				seek.className = seek.className.replace(/\s*\bactive\b/g, "");
+			seek = seek.nextSibling;
+		}
+		target.className += " active";
+		seek = document.getElementById("LanguageSelectorActiveLanguage");
+		if (seek)
+			seek.innerHTML = Co.Tools.Content.GetInnerText(target);
+
+		var targetPage = Co.Request.ScriptName();
+		targetPage += Co.Request.Append("lang", target.getAttribute("lang"));
+		document.location.href = targetPage;
+	}
+	return;
+}
+Co.DomEvents.AddListener(document, "click", function (ev)
+{
+	var seek = ev.target || ev.srcElement || ev.toElement;
+	if (seek == null)
+		return;
+	var isOuterClick = true;
+	var target = document.getElementById("LanguageSelectorMenu");
+	while (seek && isOuterClick && seek != document.body)
+	{
+		if (seek == target)
+			isOuterClick = false;
+		else
+			seek = seek.parentNode;
+	}
+	if (isOuterClick && target && target.className.indexOf("active") > -1)
+		LanguageSelectorMenu(target);
+});

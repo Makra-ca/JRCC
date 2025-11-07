@@ -1,0 +1,401 @@
+﻿var CommentsLoader = {
+	TotalComments: 0,
+	InitialCommentCount: 20,
+	CurrentIndex: 0,
+	CommentLimit: 50,
+	CurrentSort: "desc",
+	Initialize: function ()
+	{
+		this.TotalComments = parseInt(Co.CommentCount, 10);
+		this.CurrentIndex = this.TotalComments < this.InitialCommentCount ? this.TotalComments : this.InitialCommentCount;
+	},
+	UpdateSort: function (sort)
+	{
+		if (this.CurrentSort.toLowerCase() == sort.toLowerCase())
+			return false;
+		this.CurrentSort = sort;
+		return this.AjaxCall(false, 0, sort, this.CurrentIndex, true);
+	},
+	Load: function (showAll)
+	{
+		var startIndex = this.CurrentIndex;
+
+		if (this.TotalComments < this.InitialCommentCount || startIndex >= this.TotalComments)
+			return;
+
+		startIndex++;
+
+		if (!showAll)
+		{
+			//currentNumber = reminingComments <= 50 ? currentNumber+remainingComments : 50 + currentNumber;
+			var remainingComments = this.TotalComments - (this.CurrentIndex + this.CommentLimit);
+
+			if (remainingComments <= this.CommentLimit)
+			{
+				if (remainingComments <= 0)
+					showAll = true;
+				else if (remainingComments < this.CommentLimit)
+				{
+					//document.getElementById('loadMoreComments').innerHTML = 'Load next ' + remainingComments;
+					document.getElementById('loadMoreComments_wrapper').style.display = 'none';
+				}
+			}
+		}
+		var image = document.getElementById('commentLoadingImage');
+		if (image)
+			image.style.display = 'inline';
+
+		return this.AjaxCall(showAll, startIndex, this.CurrentSort, this.CommentLimit, false);
+	},
+
+	AjaxCallback: function (responseObj, showAll, removeElements)
+	{
+		var newItem;
+		switch (responseObj.status)
+		{
+			case 200:
+				if (showAll)
+					this.CurrentIndex = this.TotalComments;
+				else if (!removeElements)
+					this.CurrentIndex += this.CommentLimit;
+
+				newItem = document.createElement("div");
+				newItem.innerHTML = responseObj.responseText;
+				newItem.style.display = 'table';
+
+				var inner_container = document.getElementById('inner_container');
+
+				if (removeElements)
+				{
+					for (var i = inner_container.childNodes.length - 1; i >= 0; i--)
+					{
+						inner_container.removeChild(inner_container.childNodes[i]);
+					}
+				}
+				inner_container.appendChild(newItem);
+				//$j('#inner_container').append(responseObj.responseText);
+
+				var image = document.getElementById('commentLoadingImage');
+				if (image)
+					image.style.display = 'none';
+
+				if (showAll || this.CurrentIndex <= 0)
+					document.getElementById('load_more_options').style.display = 'none';
+
+				LetterAvatar.transform();	// regenerate avatars
+
+				break;
+		}
+	},
+
+	AjaxCall: function (showAll, startIndex, sort, limit, removeElements)
+	{
+		var path = '/webservices/contentloader/Load_Discuss';
+		var request = new Co.Ajax.RequestObject(path);
+		request.Parameters = { "aid": Co.ArticleId, "startIndex": startIndex, "sort": sort };
+		if (!showAll)
+			request.Parameters.limit = limit;
+		request.CallbackParameters = [showAll, removeElements];
+		request.SourceObject = this;
+		request.Callback = this.AjaxCallback;
+		request.EnableCaching = true;
+		request.DisablePage = false;
+
+		return Co.Ajax.Request(request);
+	}
+};
+
+Co.DomEvents.AddListener(window, "load", CommentsLoader.Initialize, [], CommentsLoader);
+
+/*
+* LetterAvatar
+* 
+* Artur Heinze
+* Create Letter avatar based on Initials
+* based on https://gist.github.com/leecrossley/6027780
+* 
+* 
+* Adapted for Chabad.org
+*/
+(function(w, d){
+
+
+function LetterAvatar (name, size) {
+
+    name  = name || '';
+    size  = size || 60;
+
+	var colors = [
+			"#1abc9c", "#2ecc71", "#3498db", "#9b59b6", "#34495e", "#16a085", "#27ae60", "#2980b9", "#8e44ad", "#2c3e50",
+			"#f1c40f", "#e67e22", "#e74c3c", "#ecf0f1", "#95a5a6", "#f39c12", "#d35400", "#c0392b", "#bdc3c7", "#7f8c8d"
+		],
+		colors = [
+			"#E53935",
+			"#D81B60",
+			"#8E24AA",
+			"#5E35B1",
+			"#3949AB",
+			"#1E88E5",
+			"#039BE5",
+			"#00ACC1",
+			"#00897B",
+			"#43A047",
+			"#7CB342",
+			"#C0CA33",
+			"#FDD835",
+			"#FFB300",
+			"#FB8C00",
+			"#F4511E",
+			"#6D4C41",
+			"#757575",
+			"#546E7A",
+		],
+
+        //nameSplit = String(name).toUpperCase().split(' '),
+        initials, charIndex, color, canvas, context, dataURI;
+
+
+    //if (nameSplit.length == 1) {
+    //    initials = nameSplit[0] ? nameSplit[0].charAt(0) : '?';
+    //} else {
+    //    initials = nameSplit[0].charAt(0) + nameSplit[1].charAt(0);
+    //}
+	initials = name.trim().charAt(0).toUpperCase();
+
+    if (w.devicePixelRatio) {
+        size = (size * w.devicePixelRatio);
+    }
+                
+    //charIndex     = (initials == '?' ? 72 : initials.charCodeAt(0)) - 64;
+	charIndex     = initials.charCodeAt(0) - 64;
+    color         = colors[ (charIndex % 20) - 1 ];
+    canvas        = d.createElement('canvas');
+    canvas.width  = size;
+    canvas.height = size;
+    context       = canvas.getContext("2d");
+             
+	//Flame logo
+	if (charIndex == 61432)
+		color = "#ffc855";
+	if (charIndex == 61493)
+		color = "#9dbdd6";
+
+    context.fillStyle = color;
+    context.fillRect (0, 0, canvas.width, canvas.height);
+    context.font = Math.round(canvas.width / 2) + "px chabadorg, Arial";
+
+		// comment icon
+    if (charIndex == 61493)
+    	context.font = Math.round(canvas.width / 2) + "px FontAwesome";
+
+    context.textAlign = "center";
+    context.fillStyle = "#FFF";
+    context.fillText(initials, size / 2, size / 1.5);
+
+    dataURI = canvas.toDataURL();
+    canvas  = null;
+
+    return dataURI;
+}
+
+LetterAvatar.transform = function() {
+
+    Array.prototype.forEach.call(d.querySelectorAll('img[avatar]'), function(img, name) {
+        name = img.getAttribute('avatar');
+        img.src = LetterAvatar(name, img.getAttribute('width'));
+        img.removeAttribute('avatar');
+        img.setAttribute('alt', name);
+    });
+};
+
+
+            
+    window.LetterAvatar = LetterAvatar;
+    window.addEventListener("load", function () { LetterAvatar.transform(); }, false);
+})(window, document);
+
+
+(function () {
+	function activateMainCommentForm(form) {
+		$form = $j(form)
+
+		// to prevent attempted animation every time the input is clicked
+		if ($form.data('activated') == true)
+			return;
+		else
+			$form.data('activated', true);
+
+		// expand form
+		$form.find('.comment-body').animate({ height: '12rem' });
+
+		$form.find('.comment-form-bottom').slideDown();
+	}
+
+	function deactivateCommentForm(form) {
+		$form = $j(form)
+		$form.data('activated', false);
+
+		if ($form.attr('id') == "mainCommentForm") {
+			$form.find('.comment-body').animate({ height: '5rem' });
+			$form.find('.comment-form-bottom').slideUp();
+		} else {
+			// deactivation of reply-to comments: remove, show link (previous sibling)
+			$form.slideUp(function () { $form.prev().show(); $form.remove(); });
+		}
+
+		// reset inputs (clear text, checkboxes, etc): replace form with template
+		$form.get(0).reset();	// not available in jQuery.	Works wethere or not form argument is a jquery object
+		$form.find('.character-count').text('1000');
+	}
+
+	function cloneCommentForm() {
+		var commentFormTemplateClone = $j('#commentFormTemplate').clone(true);	// true so that also events are copied
+		commentFormTemplateClone.attr('id', '');	// clear the id
+		return commentFormTemplateClone;
+	}
+	function onReplyClick(e) {
+		var $target = $j(e.target);
+		if (! $target.is('.comment-reply-link'))
+			return;
+		$target.hide();
+		//$target.closest('form').on('submit', function () { $target.show(); });
+
+		$target.after(cloneCommentForm());
+		var $form = $target.next();
+
+		// set up the new form
+		$form.hide().slideDown();
+		$form.data('parentid', $target.data('id')); // save the comment id, used for nested reader comments
+		$form.find('[name=comment-body]').attr('placeholder', 'Reply to this comment'.Translate());	// update the placeholder text
+		return false;
+	}
+
+	// Initialization of the form template, and instantiation of said template
+	window.initCommentsForm = function(markup)
+	{
+		$j('#reader_comments_container #inner_container').on('click', onReplyClick);	// create comment form when "reply" link is clicked
+
+		/* Form submission event */
+		$formTemplate = $j('#commentFormTemplate');
+		$formTemplate.on('submit', function () {
+			submitReaderCommentsForm(this);
+			return false;
+		});
+
+
+		/* events for the comment-body field */
+
+		// keep track of how long the comment is so far
+		$formTemplate.find('[name=comment-body]')
+			.on('input', function (e) {
+				textCounter(this, $j(e.target).closest('form').find('.character-count').get(0), 1000);
+			});
+
+		// cancel submission, resetting form to default style
+		$formTemplate.find('.endbuttons-wrapper button[type=reset]').on('click', function (e) {
+			deactivateCommentForm($j(e.target).closest('form'));
+			return false;
+		});
+
+		/* Last, but surely not least, clone the template so that something actually shows up */
+
+		$j('#mainCommentForm_placeHolder').replaceWith(cloneCommentForm().attr('id', 'mainCommentForm'))	// id is also specified
+		var $mainCommentForm = $j('#mainCommentForm');
+		var $commentInput = $mainCommentForm.find('[name=comment-body]');
+
+		/* Main form loads in a minor form. Events for activation */
+		// onfocus, show the rest of the form
+		// to prevent focus on middle and right click, I handle mousedown before focus
+		$commentInput.on('mousedown', function (e) {
+			if (e.which == 1)
+				activateMainCommentForm($mainCommentForm);
+			e.target.dataset.handled = true;
+		})
+		.on('focus', function (e) {
+			if (e.target.dataset.handled) {
+				e.target.dataset.handled = false;
+				return 0;
+			}
+			deactivateCommentForm($mainCommentForm);
+			return false;
+		});
+
+		// initial de-activtation
+		// the de-activation function is not called, so as to avoid animation
+		$mainCommentForm.find('.comment-body').addClass('short');
+		$mainCommentForm.find('.comment-form-bottom').hide();
+	};
+
+	$j(initCommentsForm);
+	
+	function submitReaderCommentsForm(frm)
+	{
+		if (Co.Forms.Validation.Validate(frm, null, {markAsSubmitted:false}))
+		{
+			var $frm = $j(frm);
+			//Co.PageControl.GetDefault().disableFragments(document.getElementById('comment_form_container'), 'Saving, Please wait...');
+			// updated code to handle multiple forms
+			Co.PageControl.GetDefault().disableFragments(frm.querySelector(".comment_form_container"), 'Saving, Please wait...');
+
+			var args = new Co.Ajax.RequestObject('/WebServices/FormProcessor/ReaderComments');
+			args.Callback = submitReaderCommentsFormResponse;
+			var parentid_data = $frm.data('parentid');
+			args.Parameters = {
+				name2: $frm.find('[name=name]').val(),
+				middlename: $frm.find('[name=email]').val(),
+				textarea2: $frm.find('[name=comment-body]').val(),
+				city2: $frm.find('[name=city2]').val(),
+				chk_subscribe: ($frm.find('[name=chk_subscribe]').is(':checked') ? '1' : '0'),
+				checkbox2: ($frm.find('[name=chk-anonymous]').is(':checked') ? '1' : '0'), 
+				optIn:($frm.find('.optin_message input:checkbox').is(':checked') ? '1' : '0'),
+				aid: Co.ArticleId,
+				parentid : (parentid_data)? parentid_data : 0
+			};
+
+			$frm.children('.comment-reply-link').show();	// hidden when clicked (to open form), shown on form submit
+
+			args.CallbackParameters = [frm];
+			args.Method = "POST";
+			Co.Ajax.Request(args);
+		}
+		/* destroy form. it is of no use to us now */
+		// $frm.slideUp(function () { /* $(this).remove() */ });
+		return false;
+	}
+			
+	function submitReaderCommentsFormResponse(responseObject, frm) 
+	{
+		Co.PageControl.GetDefault().enableFragments();
+		if (responseObject.status >= 200 && responseObject.status < 300)
+		{		// updated to support multiple forms
+			var thankyouMsg = ($j(frm).is('#mainCommentForm')) ? "Thank you for sharing your comments".Translate() : "Thank you for adding to the discussion".Translate();
+			frm.querySelector(".comment_form_container").innerHTML = submittedFormResponse.replace('{0}', thankyouMsg);
+				
+
+		}
+		else {
+			frm.Submitted = false;
+			// updated to support multiple forms
+			frm.querySelector('.ReaderCommentsMessageContainer').style.display = '';
+			frm.querySelector('.ReaderCommentsMessageCell').innerHTML = responseObject.responseText;
+		}
+	}
+
+
+
+	function textCounter(field, countfield, maxlimit) {
+		if (field.value.length > maxlimit) { // if too long...trim it!
+			field.value = field.value.substring(0, maxlimit);
+			countfield.innerHTML = maxlimit - field.value.length;
+		}
+		else {	// otherwise, update 'characters left' counter
+			var remaining = maxlimit - field.value.length;
+			if (remaining < 200) {
+				$j(".character-counter").show();
+				countfield.innerHTML = remaining;
+			} else {
+				$j(".character-counter").hide();
+			}
+		}
+	}
+}());
