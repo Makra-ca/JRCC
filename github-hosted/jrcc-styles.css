@@ -594,6 +594,52 @@ body.volunteer-form-page {
     padding-top: 70px !important;
 }
 
+/* Hide breadcrumbs on Volunteer Form page */
+body.volunteer-form-page .breadcrumbs,
+body.volunteer-form-page .breadcrumb,
+body.volunteer-form-page [class*="breadcrumb"] {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Hide banner images/decorators on Volunteer Form page - but NOT header */
+body.volunteer-form-page .banner_image,
+body.volunteer-form-page .page_banner,
+body.volunteer-form-page .article_banner,
+body.volunteer-form-page [class*="banner"] img,
+body.volunteer-form-page .article_banner_wrapper,
+body.volunteer-form-page .page_header_image {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Remove background from article header but keep visible (title is inside) - FULL WIDTH */
+body.volunteer-form-page header.article-header {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    display: block !important;
+    visibility: visible !important;
+    width: 100% !important;
+    text-align: center !important;
+}
+
+/* Remove background from decorator wrapper but keep content visible */
+body.volunteer-form-page .master-content-wrapper,
+body.volunteer-form-page .master-content-wrapper.g960,
+body.volunteer-form-page div.master-content-wrapper,
+body.volunteer-form-page [class*="master-content"] {
+    background: none !important;
+    background-image: none !important;
+    background-color: transparent !important;
+    padding: 2rem 0 !important;
+}
+
 body.volunteer-form-page #BodyContainer {
     padding-top: 0 !important;
 }
@@ -735,6 +781,31 @@ body.volunteer-form-page .article-header__title {
 body.volunteer-form-page h1.typewriter-ready,
 body.volunteer-form-page .article-header__title.typewriter-ready {
     position: relative !important;
+}
+
+/* Hide duplicate form title inside white form box */
+body.volunteer-form-page form p[align="center"],
+body.volunteer-form-page form p[style*="text-align: center"],
+body.volunteer-form-page form p[style*="text-align:center"] {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Main form container styling - WIDER with ENHANCED shadow for dark bg */
+body.volunteer-form-page form,
+body.volunteer-form-page form[id*="form"],
+body.volunteer-form-page form[name*="form_"] {
+    max-width: 1100px !important;
+    margin: 0 auto 3rem auto !important;
+    padding: 0 4rem 4rem 4rem !important;
+    background: #ffffff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15) !important;
+    font-family: 'Urbanist', sans-serif !important;
+    position: relative !important;
+    z-index: 5 !important;
 }
 
 /* Form styling */
