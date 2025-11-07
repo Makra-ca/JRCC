@@ -954,7 +954,7 @@ function styleYeshivaScholarshipForm() {
 // 5. VOLUNTEER FORM STYLING
 // ========================================
 // ========================================
-// PAGE: VOLUNTEER FORM - GENERAL (with typewriter animations)
+// PAGE: VOLUNTEER FORM - GENERAL (with title typewriter animation)
 // URL: /templates/articlecco_cdo/aid/5094614/jewish/Volunteer.htm
 // ========================================
 function styleVolunteerFormGeneral() {
@@ -1048,42 +1048,6 @@ function styleVolunteerFormGeneral() {
     form.style.setProperty('border-radius', '16px', 'important');
     form.style.setProperty('box-shadow', '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15)', 'important');
     form.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
-
-    // ========================================
-    // TYPEWRITER ANIMATION FOR LABELS
-    // Character-by-character animation for each label
-    // ========================================
-    var labels = form.querySelectorAll('label, .form-label');
-    var labelTexts = []; // Store original texts
-
-    // Store original text and clear labels
-    for (var i = 0; i < labels.length; i++) {
-        labelTexts.push(labels[i].textContent.trim());
-        labels[i].textContent = '';
-        labels[i].style.visibility = 'visible';
-    }
-
-    // Typewriter function for a single label
-    function typeLabelText(label, text, startDelay) {
-        var charIndex = 0;
-        var typingSpeed = 50; // milliseconds per character (faster than title)
-
-        function typeNextChar() {
-            if (charIndex < text.length) {
-                label.textContent += text.charAt(charIndex);
-                charIndex++;
-                setTimeout(typeNextChar, typingSpeed);
-            }
-        }
-
-        setTimeout(typeNextChar, startDelay);
-    }
-
-    // Start typewriter animation for all labels simultaneously
-    for (var i = 0; i < labels.length; i++) {
-        var startDelay = 1000; // All labels start together after 1s
-        typeLabelText(labels[i], labelTexts[i], startDelay);
-    }
 
     // Create mobile menu toggle button
     function createMobileMenuToggle() {
@@ -1988,7 +1952,7 @@ function initializeFormStyles() {
     styleHealthyAtHomeForm();
     styleSeniorsNightOutForm();
     styleYeshivaScholarshipForm();
-    styleVolunteerFormGeneral();    // General volunteer page with typewriter
+    styleVolunteerFormGeneral();    // General volunteer page with title typewriter
     styleVolunteerFormKFB();         // KFB volunteer page with standard CSS
     styleDonateKFBPage();
     styleMatanotPage();
