@@ -450,6 +450,9 @@
     </div>
 
     <script>
+        // Base URL for GitHub raw content
+        const baseUrl = "https://raw.githack.com/Makra-ca/JRCC/main/pages/";
+
         // Define all pages with before/after versions
         const pages = [
             {
@@ -630,7 +633,7 @@
                             <h3>${page.name}</h3>
                         </div>
                         <div class="iframe-container">
-                            <iframe src="${page.oldPath}"></iframe>
+                            <iframe src="${baseUrl}${page.oldPath}"></iframe>
                         </div>
                     `;
                     container.appendChild(beforeSlide);
@@ -645,7 +648,7 @@
                             <h3>${page.name}</h3>
                         </div>
                         <div class="iframe-container">
-                            <iframe src="${page.newPath}"></iframe>
+                            <iframe src="${baseUrl}${page.newPath}"></iframe>
                         </div>
                     `;
                     container.appendChild(afterSlide);
@@ -663,13 +666,13 @@
                             <div class="comparison-panel before">
                                 <div class="comparison-panel-header">BEFORE</div>
                                 <div class="comparison-panel-content">
-                                    <iframe src="${page.oldPath}"></iframe>
+                                    <iframe src="${baseUrl}${page.oldPath}"></iframe>
                                 </div>
                             </div>
                             <div class="comparison-panel after">
                                 <div class="comparison-panel-header">AFTER</div>
                                 <div class="comparison-panel-content">
-                                    <iframe src="${page.newPath}"></iframe>
+                                    <iframe src="${baseUrl}${page.newPath}"></iframe>
                                 </div>
                             </div>
                         </div>
