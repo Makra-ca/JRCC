@@ -585,9 +585,9 @@ body.gmach-donation-form-page .below-article li a:hover {
    Colors: #d4af37 (gold), standard gradient background
    ==================================================================== */
 
-/* Page-level styling - RED GRADIENT background */
+/* Page-level styling - RED GRADIENT background (Crimson Red theme) */
 body.volunteer-form-page {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 25%, #f0f2f5 50%, #e9ecef 75%, #f8f9fa 100%) !important;
+    background: linear-gradient(135deg, #2a0e14 0%, #5c1f2e 50%, #8b2e3f 100%) !important;
     background-attachment: fixed !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -702,19 +702,39 @@ body.volunteer-form-page article {
     z-index: 1 !important;
 }
 
+/* Style the page title on Volunteer Form page - WHITE with GOLD shadow - NO BOX - CENTERED */
+body.volunteer-form-page h1,
+body.volunteer-form-page h2.page-title,
+body.volunteer-form-page .master-content-wrapper h1,
+body.volunteer-form-page .master-content-wrapper h2,
+body.volunteer-form-page .sCHeading_1,
 body.volunteer-form-page h1.article-header__title,
 body.volunteer-form-page h1.js-article-title,
 body.volunteer-form-page .article-header__title {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 3.5rem !important;
-    font-weight: 900 !important;
-    color: #000000 !important;
+    font-size: 4rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
     text-align: center !important;
-    margin: 0 0 3rem 0 !important;
-    text-shadow: none !important;
-    padding-bottom: 1.5rem !important;
-    border-bottom: 5px solid #d4af37 !important;
-    letter-spacing: -0.5px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 2rem 2rem 0 2rem !important;
+    background: transparent !important;
+    border: none !important;
+    text-shadow: 0 4px 20px rgba(244, 208, 63, 0.6) !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    max-width: 1100px !important;
+    width: 90% !important;
+    letter-spacing: -1px !important;
+}
+
+/* Typewriter animation container - JavaScript will handle the animation */
+body.volunteer-form-page h1.typewriter-ready,
+body.volunteer-form-page .article-header__title.typewriter-ready {
+    position: relative !important;
 }
 
 /* Form styling */

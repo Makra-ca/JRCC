@@ -1049,6 +1049,27 @@ function styleVolunteerFormGeneral() {
     form.style.setProperty('box-shadow', '0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(244, 208, 63, 0.15)', 'important');
     form.style.setProperty('font-family', "'Urbanist', sans-serif", 'important');
 
+    // IMPORTANT: Ensure all labels are visible (no typewriter animation on labels)
+    // This prevents any other scripts from animating labels
+    function ensureLabelsVisible() {
+        var labels = form.querySelectorAll('label, .form-label, .label');
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.setProperty('visibility', 'visible', 'important');
+            labels[i].style.setProperty('opacity', '1', 'important');
+            // Remove any typewriter-ready class that might have been added
+            labels[i].classList.remove('typewriter-ready');
+        }
+    }
+
+    // Run immediately
+    ensureLabelsVisible();
+
+    // Re-run after delays to override any other scripts
+    setTimeout(ensureLabelsVisible, 100);
+    setTimeout(ensureLabelsVisible, 500);
+    setTimeout(ensureLabelsVisible, 1000);
+    setTimeout(ensureLabelsVisible, 1500);
+
     // Create mobile menu toggle button
     function createMobileMenuToggle() {
         if (document.querySelector('.mobile-menu-toggle')) return;
