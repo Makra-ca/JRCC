@@ -30,39 +30,37 @@ and parchment scrolls.
     font-family: 'Urbanist', sans-serif !important;
 }
 
-/* Parchment Background - Main page */
-body.cco_body,
-#BodyContainer,
-#co_content_container,
-.clearfix,
-.mezuzah-content {
-    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
+/* Remove default background images and spacing - but preserve sidebar */
+body,
+body.cco_body {
     background-image: none !important;
+    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
 }
 
-/* Remove background images from all Chabad One containers */
-body,
-body.cco_body,
+/* Base overflow and spacing fixes for main containers */
 #BodyContainer,
 #co_content_container,
-.clearfix,
 .body_wrapper,
-#content,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
 .master-content-wrapper,
 .master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-.co_content_container,
-[class*="wrapper"],
-[class*="container"] {
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
     background-image: none !important;
-}
-
-/* Override inline styles */
-.master-content-wrapper[style*="background-image"],
-.master-content-wrapper.g960[style*="background-image"],
-div.master-content-wrapper.g960[style*="background-image"] {
-    background-image: none !important;
-    background: linear-gradient(135deg, #f5f1e8 0%, #e8dcc4 100%) !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
 }
 
 /* Hide Breadcrumbs */
@@ -410,25 +408,3 @@ The styling will automatically apply to create a beautiful page.
 
 </div>
 
-<!-- Force remove background image (overrides Chabad One inline styles) -->
-<style type="text/css">
-/* Additional overrides to ensure parchment background */
-body,
-body.cco_body,
-#BodyContainer,
-#co_content_container,
-.clearfix,
-.body_wrapper,
-#content,
-.master-content-wrapper,
-.master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-div[class*="master-content"],
-div[class*="wrapper"],
-div[class*="content"] {
-    background-image: none !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-    min-height: 0 !important;
-}
-</style>
