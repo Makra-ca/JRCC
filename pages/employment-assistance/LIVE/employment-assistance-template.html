@@ -67,26 +67,36 @@ All styles are inline for maximum compatibility with Chabad One CMS.
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap');
 
-/* Remove default background images and spacing */
+/* Remove default background images and spacing - but preserve sidebar */
 body,
-body.cco_body,
-#BodyContainer,
-#co_content_container,
-.clearfix,
-.body_wrapper,
-#content,
-.master-content-wrapper,
-.master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-div[class*="master-content"],
-div[class*="wrapper"],
-div[class*="content"] {
+body.cco_body {
     background-image: none !important;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f0f7fb 100%) !important;
+}
+
+/* Base overflow and spacing fixes for main containers */
+#BodyContainer,
+#co_content_container,
+.body_wrapper,
+#content {
+    background-image: none !important;
+    background: transparent !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
+.master-content-wrapper,
+.master-content-wrapper.g960,
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
+    background-image: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
     min-height: 0 !important;
 }
 
