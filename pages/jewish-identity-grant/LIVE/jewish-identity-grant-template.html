@@ -32,40 +32,37 @@ and divine light (gold). Symbolizes the transformative power of Jewish identity.
     overflow-wrap: break-word !important;
 }
 
-/* Clean White Background */
-body.cco_body,
-#BodyContainer,
-#co_content_container,
-.clearfix,
-.jewish-identity-content {
-    background: #ffffff !important;
+/* Remove default background images and spacing - but preserve sidebar */
+body,
+body.cco_body {
     background-image: none !important;
+    background: #ffffff !important;
 }
 
-/* Remove background images from all Chabad One containers */
-body,
-body.cco_body,
+/* Base overflow and spacing fixes for main containers */
 #BodyContainer,
 #co_content_container,
-.clearfix,
 .body_wrapper,
-#content,
+#content {
+    background-image: none !important;
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove background images from CMS wrappers */
 .master-content-wrapper,
 .master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-.co_content_container,
-[class*="wrapper"],
-[class*="container"] {
+div.master-content-wrapper,
+div.master-content-wrapper.g960 {
     background-image: none !important;
-    background: #ffffff !important;
-}
-
-/* Override inline styles */
-.master-content-wrapper[style*="background-image"],
-.master-content-wrapper.g960[style*="background-image"],
-div.master-content-wrapper.g960[style*="background-image"] {
-    background-image: none !important;
-    background: #ffffff !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
 }
 
 /* Hide Breadcrumbs */
@@ -79,32 +76,52 @@ div.master-content-wrapper.g960[style*="background-image"] {
    HERO SECTION - ROYAL BLUE
    =================================================================== */
 
+/* Hero Container - Ensure no clipping */
+.jewish-identity-hero {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+}
+
+/* Fix CMS-injected SECTION wrapper that clips H1 */
+.jewish-identity-hero section,
+.jewish-identity-hero > section {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 /* Main Page Title (H1) - Royal Blue Background */
 .jewish-identity-content > h1,
 .jewish-identity-content h1:first-child,
 .jewish-identity-hero h1 {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: clamp(3rem, 10vw, 7.5rem) !important;
+    font-size: clamp(2.5rem, 8vw, 4.5rem) !important;
     font-weight: 800 !important;
     color: #ffffff !important;
     text-align: center !important;
     background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
-    padding: 4rem 2rem 2rem !important;
+    padding: clamp(2.5rem, 8vw, 8rem) 2rem clamp(1rem, 2vw, 2rem) !important;
     margin: 0 !important;
     text-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
     letter-spacing: -1px !important;
-    line-height: 1.2 !important;
+    line-height: 1.5 !important;
+    overflow: visible !important;
+    position: relative !important;
+    display: block !important;
 }
 
 /* Subtitle (H2 in hero) - Part of blue banner */
 .jewish-identity-hero h2 {
     font-family: 'Urbanist', sans-serif !important;
-    font-size: clamp(1.8rem, 6vw, 3.75rem) !important;
+    font-size: clamp(1.6rem, 5vw, 2.5rem) !important;
     font-weight: 600 !important;
     color: #fbbf24 !important;
     text-align: center !important;
     background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
-    padding: 1rem 2rem 4rem !important;
+    padding: 0 2rem 4rem !important;
     margin: 0 0 3rem 0 !important;
     font-style: italic !important;
     line-height: 1.3 !important;
@@ -478,6 +495,28 @@ div.master-content-wrapper.g960[style*="background-image"] {
     }
 }
 
+/* Large screens - Extra padding for larger font sizes */
+@media (min-width: 769px) and (max-width: 1199px) {
+    .jewish-identity-content > h1,
+    .jewish-identity-content h1:first-child,
+    .jewish-identity-hero h1 {
+        padding: 7rem 2rem 2rem !important;
+        line-height: 1.6 !important;
+        min-height: 150px !important;
+    }
+}
+
+/* Extra large screens - Maximum padding for maximum font size */
+@media (min-width: 1200px) {
+    .jewish-identity-content > h1,
+    .jewish-identity-content h1:first-child,
+    .jewish-identity-hero h1 {
+        padding: 9rem 2rem 2.5rem !important;
+        line-height: 1.6 !important;
+        min-height: 180px !important;
+    }
+}
+
 /* ===================================================================
    OVERRIDE CHABAD ONE SPECIFICITY
    =================================================================== */
@@ -581,26 +620,3 @@ The styling will automatically apply to create a beautiful page.
 </div>
 
 </div>
-
-<!-- Force remove background image (overrides Chabad One inline styles) -->
-<style type="text/css">
-/* Additional overrides to ensure white background */
-body,
-body.cco_body,
-#BodyContainer,
-#co_content_container,
-.clearfix,
-.body_wrapper,
-#content,
-.master-content-wrapper,
-.master-content-wrapper.g960,
-div.master-content-wrapper.g960,
-div[class*="master-content"],
-div[class*="wrapper"],
-div[class*="content"] {
-    background-image: none !important;
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-    min-height: 0 !important;
-}
-</style>
