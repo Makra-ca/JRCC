@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JRCC Events</title>
+
+    <!-- Google Fonts - Urbanist -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================
+           JRCC EVENTS - EMBEDDABLE WIDGET
+           Powered by Google Sheets
+           ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .events-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .events-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e3a5f;
+            margin-bottom: 0.5rem;
+        }
+
+        .events-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Event Card */
+        .event-card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .event-card-content {
+            padding: 1.5rem;
+        }
+
+        /* Event Title */
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e67e22;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        /* Tags */
+        .event-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            background: #f0f0f0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .event-tag svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Description */
+        .event-description {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #fef9f3;
+            border-radius: 8px;
+            border-left: 3px solid #e67e22;
+        }
+
+        .event-description svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            color: #e67e22;
+            margin-top: 2px;
+        }
+
+        .event-description p {
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Event Details */
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .event-detail svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            color: #e67e22;
+            margin-top: 2px;
+        }
+
+        .event-detail span {
+            color: #333;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Divider */
+        .event-divider {
+            height: 1px;
+            background: #eee;
+            margin: 1rem 0;
+        }
+
+        /* Contact Section */
+        .event-contact {
+            margin-bottom: 1rem;
+        }
+
+        .event-contact-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .event-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-contact-item svg {
+            width: 16px;
+            height: 16px;
+            color: #888;
+        }
+
+        .event-contact-item a,
+        .event-contact-item span {
+            color: #2980b9;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .event-contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* CTA Button */
+        .event-cta {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-cta:hover {
+            opacity: 0.9;
+        }
+
+        .event-cta svg {
+            display: inline;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f0f0f0;
+            border-top-color: #e67e22;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 2rem;
+            background: #fff5f5;
+            border-radius: 12px;
+            color: #c0392b;
+        }
+
+        /* No Events */
+        .no-events {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .events-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card-content {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Powered by footer */
+        .powered-by {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        .powered-by a {
+            color: #e67e22;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="events-container">
+        <header class="events-header">
+            <h1>Upcoming Events</h1>
+            <p>Join us for community programs and celebrations</p>
+        </header>
+
+        <div id="events-grid" class="events-grid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading events...</p>
+            </div>
+        </div>
+
+        <footer class="powered-by">
+            Powered by <a href="https://www.jrcc.org" target="_blank">JRCC</a>
+        </footer>
+    </div>
+
+    <script>
+        /* ========================================
+           GOOGLE SHEETS CONFIGURATION
+           ======================================== */
+
+        // INSTRUCTIONS:
+        // 1. Create a Google Sheet with columns:
+        //    Title, AgeGroup, Description, Date, StartTime, EndTime, Location, ContactName, Phone, Email, Website
+        // 2. File → Share → Publish to web → Select "Sheet1" → CSV → Publish
+        // 3. Copy the CSV URL and paste it below
+
+        // Replace this URL with your published Google Sheet CSV URL
+        const GOOGLE_SHEET_CSV_URL = 'YOUR_GOOGLE_SHEET_CSV_URL_HERE';
+
+        // Or use this demo data for testing
+        const DEMO_DATA = [
+            {
+                title: "Giant Menorah Lighting",
+                ageGroup: "All ages",
+                description: "Public menorah lighting every night except day night in Peace Gardens. Latkes & Donuts are served!",
+                date: "Wednesday, January 1, 2025",
+                startTime: "7:00 PM",
+                endTime: "7:30 PM",
+                location: "Peace Gardens (adjacent to the town hall in Sheffield city centre)",
+                contactName: "Rabbi Y Golomb",
+                phone: "+44 788 742 9619",
+                email: "Ycgolomb81@gmail.com",
+                website: "https://www.jrcc.org"
+            },
+            {
+                title: "Shabbat Dinner",
+                ageGroup: "Families",
+                description: "Join us for a warm Friday night Shabbat dinner with traditional food, songs, and community.",
+                date: "Friday, January 10, 2025",
+                startTime: "6:30 PM",
+                endTime: "9:00 PM",
+                location: "JRCC Community Center, 441 Clark Ave W",
+                contactName: "JRCC Office",
+                phone: "(905) 303-1880",
+                email: "info@jrcc.org",
+                website: "https://www.jrcc.org"
+            },
+            {
+                title: "Kids Chanukah Party",
+                ageGroup: "Ages 3-12",
+                description: "Fun activities, games, crafts, and of course - donuts and latkes for the kids!",
+                date: "Sunday, December 22, 2024",
+                startTime: "2:00 PM",
+                endTime: "4:00 PM",
+                location: "JRCC Community Center",
+                contactName: "Youth Director",
+                phone: "(905) 303-1880",
+                email: "youth@jrcc.org",
+                website: "https://www.jrcc.org/chanukah"
+            }
+        ];
+
+        /* ========================================
+           ICONS (SVG)
+           ======================================== */
+        const icons = {
+            users: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+            calendar: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            clock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            mapPin: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+            phone: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+            mail: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+        };
+
+        /* ========================================
+           RENDER EVENT CARD
+           ======================================== */
+        function renderEventCard(event) {
+            const timeDisplay = event.endTime
+                ? `${event.startTime} - ${event.endTime}`
+                : event.startTime;
+
+            return `
+                <article class="event-card">
+                    <div class="event-card-content">
+                        <h2 class="event-title">${event.title}</h2>
+
+                        ${event.ageGroup ? `
+                        <div class="event-tags">
+                            <span class="event-tag">
+                                ${icons.users}
+                                ${event.ageGroup}
+                            </span>
+                        </div>
+                        ` : ''}
+
+                        ${event.description ? `
+                        <div class="event-description">
+                            ${icons.info}
+                            <p>${event.description}</p>
+                        </div>
+                        ` : ''}
+
+                        <div class="event-details">
+                            ${event.date ? `
+                            <div class="event-detail">
+                                ${icons.calendar}
+                                <span>${event.date}</span>
+                            </div>
+                            ` : ''}
+
+                            ${event.startTime ? `
+                            <div class="event-detail">
+                                ${icons.clock}
+                                <span>${timeDisplay}</span>
+                            </div>
+                            ` : ''}
+
+                            ${event.location ? `
+                            <div class="event-detail">
+                                ${icons.mapPin}
+                                <span>${event.location}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+
+                        ${event.contactName || event.phone || event.email ? `
+                        <div class="event-divider"></div>
+                        <div class="event-contact">
+                            ${event.contactName ? `<div class="event-contact-title">Contact: ${event.contactName}</div>` : ''}
+                            <div class="event-contact-info">
+                                ${event.phone ? `
+                                <div class="event-contact-item">
+                                    ${icons.phone}
+                                    <a href="tel:${event.phone}">${event.phone}</a>
+                                </div>
+                                ` : ''}
+                                ${event.email ? `
+                                <div class="event-contact-item">
+                                    ${icons.mail}
+                                    <a href="mailto:${event.email}">${event.email}</a>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    ${event.website ? `
+                    <a href="${event.website}" target="_blank" class="event-cta">
+                        ${icons.globe}
+                        Visit Website
+                    </a>
+                    ` : ''}
+                </article>
+            `;
+        }
+
+        /* ========================================
+           PARSE CSV FROM GOOGLE SHEETS
+           ======================================== */
+        function parseCSV(csv) {
+            const lines = csv.split('\n');
+            const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+
+            const events = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+
+                // Handle CSV with quoted fields
+                const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                const event = {};
+
+                headers.forEach((header, index) => {
+                    let value = values[index] || '';
+                    value = value.replace(/^"|"$/g, '').trim();
+
+                    // Map header names to our expected format
+                    const headerMap = {
+                        'Title': 'title',
+                        'AgeGroup': 'ageGroup',
+                        'Age Group': 'ageGroup',
+                        'Description': 'description',
+                        'Date': 'date',
+                        'StartTime': 'startTime',
+                        'Start Time': 'startTime',
+                        'EndTime': 'endTime',
+                        'End Time': 'endTime',
+                        'Location': 'location',
+                        'ContactName': 'contactName',
+                        'Contact Name': 'contactName',
+                        'Contact': 'contactName',
+                        'Phone': 'phone',
+                        'Email': 'email',
+                        'Website': 'website',
+                        'URL': 'website'
+                    };
+
+                    const mappedHeader = headerMap[header] || header.toLowerCase();
+                    event[mappedHeader] = value;
+                });
+
+                if (event.title) {
+                    events.push(event);
+                }
+            }
+
+            return events;
+        }
+
+        /* ========================================
+           LOAD AND RENDER EVENTS
+           ======================================== */
+        async function loadEvents() {
+            const container = document.getElementById('events-grid');
+
+            try {
+                let events;
+
+                if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL !== 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') {
+                    // Fetch from Google Sheets
+                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                    if (!response.ok) throw new Error('Failed to fetch data');
+                    const csv = await response.text();
+                    events = parseCSV(csv);
+                } else {
+                    // Use demo data
+                    console.log('Using demo data. Replace GOOGLE_SHEET_CSV_URL with your published Google Sheet CSV URL.');
+                    events = DEMO_DATA;
+                }
+
+                if (events.length === 0) {
+                    container.innerHTML = '<div class="no-events"><p>No upcoming events at this time.</p></div>';
+                    return;
+                }
+
+                container.innerHTML = events.map(renderEventCard).join('');
+
+            } catch (error) {
+                console.error('Error loading events:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <p>Unable to load events. Please try again later.</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load events on page load
+        document.addEventListener('DOMContentLoaded', loadEvents);
+    </script>
+</body>
+</html>
