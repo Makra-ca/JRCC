@@ -234,12 +234,12 @@
         }
 
         // Center #Buttons section - validation box and submit button
+        // NOTE: Don't set display property - CMS handles visibility
         function centerButtonsSection() {
             var buttonsSection = document.querySelector('#Buttons');
             if (!buttonsSection) return;
 
-            // Make the #Buttons container use flexbox to center its children
-            buttonsSection.style.setProperty('display', 'flex', 'important');
+            // Only apply centering styles - do NOT set display (CMS controls visibility)
             buttonsSection.style.setProperty('flex-direction', 'column', 'important');
             buttonsSection.style.setProperty('align-items', 'center', 'important');
             buttonsSection.style.setProperty('width', '100%', 'important');
