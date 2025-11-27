@@ -192,7 +192,7 @@ body.pv-events-listing .pv-info-row:last-child {
 body.pv-events-listing .pv-info-icon {
     width: 60px !important;
     height: 60px !important;
-    background: #F5F5F5 !important;
+    background: rgba(230, 126, 34, 0.1) !important;
     border-radius: 14px !important;
     display: flex !important;
     align-items: center !important;
@@ -679,11 +679,16 @@ body.pv-registration-page #RegisterHeader .event_description {
     max-width: 800px !important;
 }
 
-body.pv-registration-page #RegisterHeader .column2 {
-    background: #F5F5F5 !important;
+body.pv-registration-page #RegisterHeader .column2,
+body.pv-registration-page #RegisterHeader .column2.pv-info-styled,
+body.pv-registration-page #RegisterHeader div.column2,
+body.pv-registration-page .column2.pv-info-styled {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     color: #333 !important;
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
     gap: 1.5rem !important;
     padding: 2.5rem 3.5rem !important;
     border-radius: 0 !important;
@@ -702,7 +707,7 @@ body.pv-registration-page .pv-info-icon {
     height: 60px !important;
     min-width: 60px !important;
     border-radius: 14px !important;
-    background: #F5F5F5 !important;
+    background: rgba(230, 126, 34, 0.1) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -721,13 +726,14 @@ body.pv-registration-page .pv-info-card {
     border-radius: 20px !important;
     padding: 1.75rem 2rem !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04) !important;
-    border: 1px solid rgba(0,0,0,0.04) !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
     display: flex !important;
     align-items: center !important;
     gap: 1.25rem !important;
     text-decoration: none !important;
     color: inherit !important;
+    flex: 0 1 320px !important;
 }
 
 body.pv-registration-page .pv-info-card:hover {
@@ -795,10 +801,12 @@ body.pv-registration-page .pv-info-section-title {
 }
 
 body.pv-registration-page .pv-info-cards-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
     gap: 1.5rem !important;
-    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    max-width: 700px !important;
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
@@ -824,18 +832,21 @@ body.pv-registration-page #RegisterBody .title {
 }
 
 body.pv-registration-page #RegisterBody .performance {
-    background: #F5F5F5 !important;
-    border: 2px solid transparent !important;
-    border-radius: 16px !important;
-    padding: 1.75rem 2rem !important;
-    margin-bottom: 1.25rem !important;
+    background: #ffffff !important;
+    border: 2px solid rgba(230, 126, 34, 0.2) !important;
+    border-left: 4px solid #E67E22 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 2rem !important;
+    margin-bottom: 1rem !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
 }
 
 body.pv-registration-page #RegisterBody .performance:hover {
     border-color: #E67E22 !important;
-    background: #FFF8F0 !important;
-    box-shadow: 0 8px 24px rgba(230, 126, 34, 0.12) !important;
+    background: #fff9f5 !important;
+    box-shadow: 0 8px 24px rgba(230, 126, 34, 0.15) !important;
+    transform: translateX(4px) !important;
 }
 
 body.pv-registration-page #RegisterBody .performance .bold {
@@ -1256,7 +1267,7 @@ form#RegisterSinglePage {
     }
 
     body.pv-registration-page .pv-info-cards-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
+        justify-content: center !important;
         gap: 0.5rem !important;
     }
 
