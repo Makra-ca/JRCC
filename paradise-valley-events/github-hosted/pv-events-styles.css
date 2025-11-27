@@ -1287,59 +1287,67 @@ body.pv-registration-page #ReserversInformation {
 /* =========================================================
    SINGLE EVENT - FORM FIELDS GRID LAYOUT
    2 columns on desktop, 1 column on mobile
+   Structure: #ReserversInformation > div.wrapper > div.clearfix (form container)
+              Each field: div.clearfix.small_vertical_padding > div.label + div.float_left
    ========================================================= */
-/* Form fields container - create grid */
-body.pv-registration-page #ReserversInformation > .clearfix,
-body.pv-registration-page #ReserversInformation > div:not(.title),
-body.pv-registration-page #ReserversInformation table {
+/* Target ONLY the form fields container - use child combinator to avoid inner .clearfix */
+body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 1.5rem 2rem !important;
     width: 100% !important;
 }
 
-/* Each form field wrapper */
-body.pv-registration-page #ReserversInformation .clearfix > div,
-body.pv-registration-page #ReserversInformation table tr,
-body.pv-registration-page #ReserversInformation > div > div {
+/* Each form field wrapper inside the grid (they also have .clearfix class) */
+body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix {
     display: flex !important;
     flex-direction: column !important;
     gap: 0.5rem !important;
 }
 
-/* Make table cells display as block for grid */
-body.pv-registration-page #ReserversInformation table,
+/* Reset float on inner label and input divs */
+body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div {
+    float: none !important;
+    margin-left: 0 !important;
+}
+
+/* Full width for last item (usually checkbox/notes) */
+body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix:last-child {
+    grid-column: 1 / -1 !important;
+}
+
+/* Table-based layouts (if present) */
 body.pv-registration-page #ReserversInformation table tbody {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 1.5rem 2rem !important;
+    width: 100% !important;
 }
 
 body.pv-registration-page #ReserversInformation table tr {
     display: flex !important;
     flex-direction: column !important;
+    gap: 0.5rem !important;
 }
 
 body.pv-registration-page #ReserversInformation table td {
     display: block !important;
     width: 100% !important;
     padding: 0 !important;
+    border: none !important;
+}
+
+body.pv-registration-page #ReserversInformation table tr:last-child {
+    grid-column: 1 / -1 !important;
 }
 
 /* Labels in grid */
-body.pv-registration-page #ReserversInformation table td:first-child,
-body.pv-registration-page #ReserversInformation .clearfix label {
+body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) label {
     font-family: 'Inter', sans-serif !important;
     font-size: 1rem !important;
     font-weight: 600 !important;
     color: #555 !important;
     margin-bottom: 0.4rem !important;
-}
-
-/* Full width items (like email confirmation text, checkbox) */
-body.pv-registration-page #ReserversInformation table tr:last-child,
-body.pv-registration-page #ReserversInformation .clearfix > div:last-child {
-    grid-column: 1 / -1 !important;
 }
 
 /* Checkbox row styling */
@@ -1384,16 +1392,14 @@ body.pv-registration-page #ReserversInformation .red {
         padding: 2rem 1.5rem !important;
     }
 
-    body.pv-registration-page #ReserversInformation > .clearfix,
-    body.pv-registration-page #ReserversInformation > div:not(.title),
-    body.pv-registration-page #ReserversInformation table,
+    body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title),
     body.pv-registration-page #ReserversInformation table tbody {
         grid-template-columns: 1fr !important;
         gap: 1.25rem !important;
     }
 
-    body.pv-registration-page #ReserversInformation table tr:last-child,
-    body.pv-registration-page #ReserversInformation .clearfix > div:last-child {
+    body.pv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix:last-child,
+    body.pv-registration-page #ReserversInformation table tr:last-child {
         grid-column: 1 !important;
     }
 }
