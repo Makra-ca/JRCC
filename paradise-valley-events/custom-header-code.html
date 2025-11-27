@@ -350,6 +350,25 @@ body.pv-events-listing .pv-login-checkbox span {
     font-weight: 500 !important;
 }
 
+/* Login Notice - moved below cards (minimal styling) */
+body.pv-events-listing .blue.f-small.clearfix {
+    max-width: 600px !important;
+    margin: 2rem auto !important;
+    text-align: center !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    color: #666 !important;
+}
+
+body.pv-events-listing .blue.f-small.clearfix a {
+    color: #2980b9 !important;
+    text-decoration: underline !important;
+}
+
+body.pv-events-listing .blue.f-small.clearfix a:hover {
+    color: #E67E22 !important;
+}
+
 /* Register Button */
 body.pv-events-listing .pv-register-btn {
     display: inline-flex !important;
@@ -534,6 +553,42 @@ body.pv-registration-page .master-content-wrapper {
 }
 
 /* =========================================================
+   FOOTER PROTECTION - Ensure footer is not affected
+   ========================================================= */
+/* Footer inputs should use default styling */
+body.pv-registration-page #footer input,
+body.pv-registration-page #footer select,
+body.pv-registration-page #footer textarea,
+body.pv-registration-page .footer input,
+body.pv-registration-page .footer select,
+body.pv-registration-page .footer textarea,
+body.pv-registration-page .footer3 input,
+body.pv-registration-page .footer3 select,
+body.pv-registration-page .footer3 textarea {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    padding: initial !important;
+    border: initial !important;
+    border-radius: initial !important;
+    background: initial !important;
+    box-shadow: none !important;
+    width: auto !important;
+    max-width: none !important;
+}
+
+/* Footer labels should use default styling */
+body.pv-registration-page #footer label,
+body.pv-registration-page .footer label,
+body.pv-registration-page .footer3 label {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+    display: initial !important;
+    margin-bottom: initial !important;
+}
+
+/* =========================================================
    SINGLE EVENT - MAIN CONTAINER
    ========================================================= */
 body.pv-registration-page .master-content-wrapper {
@@ -710,6 +765,24 @@ body.pv-registration-page .pv-info-text {
     line-height: 1.5 !important;
 }
 
+body.pv-registration-page .pv-info-content {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    line-height: 1.5 !important;
+    margin-top: 0.25rem !important;
+}
+
+body.pv-registration-page .pv-info-content a {
+    color: #1a1a2e !important;
+    text-decoration: none !important;
+}
+
+body.pv-registration-page .pv-info-content a:hover {
+    color: #E67E22 !important;
+}
+
 body.pv-registration-page .pv-info-section-title {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.75rem !important;
@@ -720,15 +793,25 @@ body.pv-registration-page .pv-info-section-title {
     border-bottom: 2px solid rgba(230, 126, 34, 0.3) !important;
     display: block !important;
     grid-column: 1 / -1 !important;
+    text-align: center !important;
     background: transparent !important;
     box-shadow: none !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
 }
 
 body.pv-registration-page .pv-info-cards-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 1.5rem !important;
     grid-column: 1 / -1 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
 }
 
 /* =========================================================
@@ -841,7 +924,8 @@ body.pv-registration-page #RegisterBody .remove_reservation:hover {
    SINGLE EVENT - FORM FIELDS (VISIBLE BORDERS!)
    ========================================================= */
 /* NOTE: Do NOT set display property here - CMS JavaScript controls visibility */
-body.pv-registration-page .bottom_padding {
+/* IMPORTANT: Use #RegisterBody to avoid styling footer's .bottom_padding element */
+body.pv-registration-page #RegisterBody .bottom_padding {
     background: #ffffff !important;
     border-radius: 0 0 24px 24px !important;
     box-shadow: 0 20px 60px rgba(0,0,0,0.08) !important;
@@ -851,9 +935,9 @@ body.pv-registration-page .bottom_padding {
 }
 
 /* Global form input styles - DARK VISIBLE BORDERS */
-body.pv-registration-page .bottom_padding input,
-body.pv-registration-page .bottom_padding select,
-body.pv-registration-page .bottom_padding textarea,
+body.pv-registration-page #RegisterBody .bottom_padding input,
+body.pv-registration-page #RegisterBody .bottom_padding select,
+body.pv-registration-page #RegisterBody .bottom_padding textarea,
 body.pv-registration-page #Summary input,
 body.pv-registration-page #Summary select,
 body.pv-registration-page #Summary textarea,
@@ -863,12 +947,12 @@ body.pv-registration-page #ReserversInformation textarea,
 body.pv-registration-page #Payment input,
 body.pv-registration-page #Payment select,
 body.pv-registration-page #Payment textarea,
-body.pv-registration-page form input[type="text"],
-body.pv-registration-page form input[type="email"],
-body.pv-registration-page form input[type="tel"],
-body.pv-registration-page form input[type="number"],
-body.pv-registration-page form select,
-body.pv-registration-page form textarea {
+body.pv-registration-page form#RegisterSinglePage input[type="text"],
+body.pv-registration-page form#RegisterSinglePage input[type="email"],
+body.pv-registration-page form#RegisterSinglePage input[type="tel"],
+body.pv-registration-page form#RegisterSinglePage input[type="number"],
+body.pv-registration-page form#RegisterSinglePage select,
+body.pv-registration-page form#RegisterSinglePage textarea {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.1rem !important;
     padding: 0.9rem 1.1rem !important;
@@ -886,9 +970,9 @@ body.pv-registration-page form textarea {
     max-width: 100% !important;
 }
 
-body.pv-registration-page .bottom_padding input:focus,
-body.pv-registration-page .bottom_padding select:focus,
-body.pv-registration-page .bottom_padding textarea:focus,
+body.pv-registration-page #RegisterBody .bottom_padding input:focus,
+body.pv-registration-page #RegisterBody .bottom_padding select:focus,
+body.pv-registration-page #RegisterBody .bottom_padding textarea:focus,
 body.pv-registration-page #Summary input:focus,
 body.pv-registration-page #Summary select:focus,
 body.pv-registration-page #Summary textarea:focus,
@@ -904,7 +988,7 @@ body.pv-registration-page #Payment textarea:focus {
     box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.12) !important;
 }
 
-body.pv-registration-page .bottom_padding textarea,
+body.pv-registration-page #RegisterBody .bottom_padding textarea,
 body.pv-registration-page #Summary textarea,
 body.pv-registration-page #ReserversInformation textarea,
 body.pv-registration-page #Payment textarea {
@@ -913,7 +997,7 @@ body.pv-registration-page #Payment textarea {
 }
 
 /* Form labels */
-body.pv-registration-page .bottom_padding label,
+body.pv-registration-page #RegisterBody .bottom_padding label,
 body.pv-registration-page #Summary label,
 body.pv-registration-page #ReserversInformation label,
 body.pv-registration-page #Payment label {
@@ -1042,22 +1126,46 @@ body.pv-registration-page #Buttons .total .amount {
     }
 
     body.pv-registration-page .pv-info-icon {
-        width: 48px !important;
-        height: 48px !important;
-        min-width: 48px !important;
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        border-radius: 10px !important;
+    }
+
+    body.pv-registration-page .pv-info-icon svg {
+        width: 20px !important;
+        height: 20px !important;
     }
 
     body.pv-registration-page .pv-info-card {
-        padding: 1.25rem !important;
-        gap: 1rem !important;
+        padding: 0.75rem !important;
+        gap: 0.5rem !important;
+        border-radius: 12px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 
     body.pv-registration-page .pv-info-text {
-        font-size: 1rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    body.pv-registration-page .pv-card-label {
+        font-size: 0.65rem !important;
+    }
+
+    body.pv-registration-page .pv-info-content {
+        font-size: 0.8rem !important;
+    }
+
+    body.pv-registration-page .pv-info-section-title {
+        font-size: 1.15rem !important;
+        margin-bottom: 0.75rem !important;
     }
 
     body.pv-registration-page .pv-info-cards-grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.5rem !important;
     }
 
     body.pv-registration-page #RegisterBody,

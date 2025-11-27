@@ -458,6 +458,7 @@
             <div class="filter-group">
                 <span class="filter-label">Night:</span>
                 <button class="filter-btn active" data-filter="night" data-value="all">All</button>
+                <button class="filter-btn" data-filter="night" data-value="0">Pre-Chanukah</button>
                 <button class="filter-btn" data-filter="night" data-value="1">1</button>
                 <button class="filter-btn" data-filter="night" data-value="2">2</button>
                 <button class="filter-btn" data-filter="night" data-value="3">3</button>
@@ -480,6 +481,7 @@
                 <span class="filter-label">Night:</span>
                 <select id="night-select" class="filter-select">
                     <option value="all">All Nights</option>
+                    <option value="0">Pre-Chanukah</option>
                     <option value="1">Night 1</option>
                     <option value="2">Night 2</option>
                     <option value="3">Night 3</option>
@@ -577,12 +579,20 @@
            HELPER: Parse night number from various formats
            ======================================== */
         function parseNightNumber(nightValue) {
-            if (!nightValue) return null;
-            // Handle formats like "1", "Night 1", "night 1", "Night1", etc.
-            const match = nightValue.toString().match(/(\d+)/);
+            if (nightValue === null || nightValue === undefined || nightValue === '') return null;
+            // Handle formats like "0", "1", "Night 1", "night 1", "Night1", "Pre", "Pre-Chanukah", etc.
+            const strValue = nightValue.toString().trim().toLowerCase();
+
+            // Check for pre-Chanukah variations
+            if (strValue === 'pre' || strValue === 'pre-chanukah' || strValue === 'prechanukah' || strValue === 'before') {
+                return 0;
+            }
+
+            const match = strValue.match(/(\d+)/);
             if (match) {
                 const num = parseInt(match[1], 10);
-                if (num >= 1 && num <= 8) return num;
+                // 0 = pre-Chanukah, 1-8 = nights of Chanukah
+                if (num >= 0 && num <= 8) return num;
             }
             return null;
         }
@@ -598,7 +608,7 @@
             const nightNum = parseNightNumber(event.chanukahNight);
 
             return `
-                <article class="event-card" data-night="${nightNum || ''}" data-age="${event.ageGroup || ''}">
+                <article class="event-card" data-night="${nightNum !== null ? nightNum : ''}" data-age="${event.ageGroup || ''}">
                     <div class="event-card-content">
                         <h2 class="event-title">${event.title}</h2>
 
@@ -607,10 +617,10 @@
                         ` : ''}
 
                         <div class="event-tags">
-                            ${nightNum ? `
+                            ${nightNum !== null ? `
                             <span class="event-tag night-tag">
                                 ${icons.flame}
-                                Night ${nightNum}
+                                ${nightNum === 0 ? 'Pre-Chanukah' : `Night ${nightNum}`}
                             </span>
                             ` : ''}
                             <span class="event-tag">
@@ -1042,7 +1052,8 @@
                 // Night filter
                 if (currentFilters.night !== 'all') {
                     const eventNight = parseNightNumber(event.chanukahNight);
-                    if (!eventNight || eventNight.toString() !== currentFilters.night) {
+                    // Use === null check instead of !eventNight (since 0 is valid for pre-Chanukah)
+                    if (eventNight === null || eventNight.toString() !== currentFilters.night) {
                         return false;
                     }
                 }
