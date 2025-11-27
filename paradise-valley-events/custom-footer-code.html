@@ -1,0 +1,435 @@
+<!-- PARADISE VALLEY EVENTS - Custom Footer Code -->
+<!-- Paste this into Chabad One CMS: Custom Footer Code section -->
+<!-- This JavaScript transforms the events page after DOM loads -->
+
+<script type="text/javascript">
+(function() {
+    // Only run on events pages
+    if (!window.location.pathname.includes("/tools/events/")) {
+        return;
+    }
+
+    // =========================================================
+    // SVG ICONS
+    // =========================================================
+    var icons = {
+        clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+        location: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+        arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+    };
+
+    // =========================================================
+    // TEXT PARSING FUNCTIONS
+    // =========================================================
+
+    function parseEventContent(bottomPaddingEl) {
+        if (!bottomPaddingEl) return { description: "", dateTime: [], location: [], pricing: [], other: [] };
+
+        var html = bottomPaddingEl.innerHTML;
+        var lines = html.split(/<br\s*\/?>/gi).map(function(line) {
+            return line.replace(/<[^>]*>/g, "").trim();
+        }).filter(function(line) {
+            return line.length > 0;
+        });
+
+        var result = {
+            description: [],
+            dateTime: [],
+            location: [],
+            pricing: [],
+            other: []
+        };
+
+        var dayPattern = /\b(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)\b/i;
+        var timePattern = /\d{1,2}:\d{2}\s*(am|pm)?|\d{1,2}\s*(am|pm)/i;
+        var addressPattern = /\d+\s+\w+.*\b(St|Street|Ave|Avenue|Rd|Road|Blvd|Boulevard|Dr|Drive|Pkwy|Parkway|Way|Ln|Lane)\b/i;
+        var cityStatePattern = /\b[A-Z][a-z]+,?\s+(AZ|Arizona|CA|California|NV|Nevada)\s+\d{5}/i;
+        var pricePattern = /\$\d+/;
+
+        var foundStructuredContent = false;
+
+        // Patterns for lines that should NOT be treated as location continuation
+        var contactPattern = /\b(sponsor|reach out|contact|email|call|rabbi|please|includes|preferred|seating|meet and greet|exclusive)\b/i;
+
+        lines.forEach(function(line) {
+            if (pricePattern.test(line)) {
+                result.pricing.push(line);
+                foundStructuredContent = true;
+            } else if (dayPattern.test(line) || timePattern.test(line)) {
+                result.dateTime.push(line);
+                foundStructuredContent = true;
+            } else if (addressPattern.test(line) || cityStatePattern.test(line)) {
+                result.location.push(line);
+                foundStructuredContent = true;
+            } else if (!foundStructuredContent) {
+                result.description.push(line);
+            } else {
+                // Check if this looks like location continuation or other info
+                // Don't add contact/sponsor info or benefit descriptions to location
+                if (result.location.length > 0 && result.location.length < 2 &&
+                    !pricePattern.test(line) && !dayPattern.test(line) &&
+                    !contactPattern.test(line) && line.length < 50) {
+                    result.location.push(line);
+                } else {
+                    result.description.push(line);
+                }
+            }
+        });
+
+        return result;
+    }
+
+    function parsePricing(pricingLines) {
+        var prices = [];
+        pricingLines.forEach(function(line) {
+            var match = line.match(/\$(\d+)/);
+            if (match) {
+                var amount = "$" + match[1];
+                var label = line.replace(/\$\d+/, "").replace(/[-:]/g, "").trim();
+                if (!label) label = "Ticket";
+                prices.push({ label: label, amount: amount });
+            }
+        });
+        return prices;
+    }
+
+    function parseDate(dateLines) {
+        if (dateLines.length === 0) return { month: "", day: "", text: "" };
+
+        var firstLine = dateLines[0];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var monthAbbr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        var month = "";
+        var day = "";
+        var dayOfWeek = "";
+
+        for (var i = 0; i < months.length; i++) {
+            if (firstLine.indexOf(months[i]) !== -1) {
+                month = monthAbbr[i];
+                break;
+            }
+        }
+
+        var dayMatch = firstLine.match(/\b(\d{1,2})\b/);
+        if (dayMatch) {
+            day = dayMatch[1];
+        }
+
+        var dayOfWeekMatch = firstLine.match(/\b(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)\b/i);
+        if (dayOfWeekMatch) {
+            dayOfWeek = dayOfWeekMatch[1];
+        }
+
+        var timeOfDay = "Evening";
+        if (firstLine.toLowerCase().indexOf("morning") !== -1 || /\b([6-9]|10|11):?\d*\s*am\b/i.test(firstLine)) {
+            timeOfDay = "Morning";
+        } else if (firstLine.toLowerCase().indexOf("afternoon") !== -1 || /\b(12|1|2|3|4):?\d*\s*pm\b/i.test(firstLine)) {
+            timeOfDay = "Afternoon";
+        }
+
+        return {
+            month: month,
+            day: day,
+            text: dayOfWeek ? dayOfWeek + " " + timeOfDay : timeOfDay
+        };
+    }
+
+    // =========================================================
+    // DOM TRANSFORMATION
+    // =========================================================
+
+    function transformEvent(eventEl) {
+        if (eventEl.classList.contains("pv-modernized")) return;
+
+        var imgEl = eventEl.querySelector(".event__image img");
+        var titleEl = eventEl.querySelector(".event__performances h2 a, h2 a.a_underline_off");
+        var bottomPadding = eventEl.querySelector(".bottom_padding");
+        var form = eventEl.querySelector("form");
+
+        if (!titleEl) {
+            return;
+        }
+
+        var imageSrc = imgEl ? imgEl.src : "";
+        var title = titleEl.textContent.trim();
+        var registerUrl = form ? form.action : (titleEl.href || "#");
+
+        var parsed = parseEventContent(bottomPadding);
+        var pricing = parsePricing(parsed.pricing);
+        var dateInfo = parseDate(parsed.dateTime);
+
+        var newHTML = '';
+
+        // Header
+        newHTML += '<div class="pv-event-header">';
+        if (imageSrc) {
+            newHTML += '<div class="pv-event-image"><img src="' + imageSrc + '" alt="' + title + '"></div>';
+        }
+        newHTML += '<div class="pv-header-content">';
+        newHTML += '<span class="pv-event-category">Special Event</span>';
+        newHTML += '<h2 class="pv-event-title">' + title + '</h2>';
+        newHTML += '</div></div>';
+
+        // Body
+        newHTML += '<div class="pv-event-body">';
+
+        if (parsed.description.length > 0) {
+            newHTML += '<p class="pv-event-description">' + parsed.description.join(" ") + '</p>';
+        }
+
+        newHTML += '<div class="pv-event-info">';
+
+        if (parsed.dateTime.length > 0) {
+            newHTML += '<div class="pv-info-row">';
+            newHTML += '<div class="pv-info-icon">' + icons.clock + '</div>';
+            newHTML += '<div class="pv-info-content">';
+            newHTML += '<span class="pv-info-label">Date & Time</span>';
+            newHTML += '<span class="pv-info-value">' + parsed.dateTime.join("<br>") + '</span>';
+            newHTML += '</div></div>';
+        }
+
+        if (parsed.location.length > 0) {
+            newHTML += '<div class="pv-info-row">';
+            newHTML += '<div class="pv-info-icon">' + icons.location + '</div>';
+            newHTML += '<div class="pv-info-content">';
+            newHTML += '<span class="pv-info-label">Location</span>';
+            newHTML += '<span class="pv-info-value">' + parsed.location.join("<br>") + '</span>';
+            newHTML += '</div></div>';
+        }
+
+        newHTML += '</div>';
+
+        if (pricing.length > 0) {
+            newHTML += '<div class="pv-pricing-grid">';
+            pricing.forEach(function(p) {
+                newHTML += '<div class="pv-price-item">';
+                newHTML += '<span class="pv-price-label">' + p.label + '</span>';
+                newHTML += '<span class="pv-price-value">' + p.amount + '</span>';
+                newHTML += '</div>';
+            });
+            newHTML += '</div>';
+        }
+
+        newHTML += '</div>';
+
+        // Footer
+        newHTML += '<div class="pv-event-footer">';
+        newHTML += '<div class="pv-date-display">';
+        if (dateInfo.month && dateInfo.day) {
+            newHTML += '<div class="pv-date-box">';
+            newHTML += '<span class="pv-date-month">' + dateInfo.month + '</span>';
+            newHTML += '<span class="pv-date-day">' + dateInfo.day + '</span>';
+            newHTML += '</div>';
+        }
+        newHTML += '<span class="pv-date-text">' + dateInfo.text + '</span>';
+        newHTML += '</div>';
+
+        newHTML += '<div class="pv-footer-actions">';
+        newHTML += '<label class="pv-login-checkbox" id="pv-login-label-placeholder">';
+        newHTML += '<span>Login before registering</span>';
+        newHTML += '</label>';
+        newHTML += '<a href="' + registerUrl + '" class="pv-register-btn">Register Now ' + icons.arrow + '</a>';
+        newHTML += '</div>';
+        newHTML += '</div>';
+
+        eventEl.classList.add("pv-modernized");
+        eventEl.insertAdjacentHTML("afterbegin", newHTML);
+
+        // Handle checkbox functionality
+        var placeholderLabel = eventEl.querySelector('#pv-login-label-placeholder');
+        // Find original checkbox by Chabad One's ID pattern (eventid + "LoginFirst")
+        var originalCheckbox = eventEl.querySelector('input[id$="LoginFirst"]');
+
+        if (placeholderLabel) {
+            var newCheckbox = document.createElement('input');
+            newCheckbox.type = 'checkbox';
+            newCheckbox.id = 'pv-login-checkbox-' + Math.random().toString(36).substring(2, 11);
+            placeholderLabel.insertBefore(newCheckbox, placeholderLabel.firstChild);
+            placeholderLabel.removeAttribute('id');
+
+            var registerButton = eventEl.querySelector('.pv-register-btn');
+
+            if (originalCheckbox) {
+                // Sync new checkbox with original and trigger its onclick
+                newCheckbox.addEventListener('change', function() {
+                    originalCheckbox.checked = newCheckbox.checked;
+                    // Trigger the original onclick handler which updates form action
+                    if (originalCheckbox.onclick) {
+                        originalCheckbox.onclick.call(originalCheckbox);
+                    }
+                });
+            }
+
+            if (registerButton && form) {
+                registerButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Make sure original checkbox state matches ours
+                    if (originalCheckbox) {
+                        originalCheckbox.checked = newCheckbox.checked;
+                        if (originalCheckbox.onclick) {
+                            originalCheckbox.onclick.call(originalCheckbox);
+                        }
+                    }
+                    // Submit the original form (which has correct action set by onclick)
+                    form.submit();
+                });
+            }
+        }
+    }
+
+    // =========================================================
+    // STYLE PAGE TITLE
+    // =========================================================
+    function stylePageTitle() {
+        var titleSelectors = ['h1', '.page-title', '#content h1', '.content h1'];
+        var pageTitle = null;
+
+        for (var i = 0; i < titleSelectors.length; i++) {
+            var el = document.querySelector(titleSelectors[i]);
+            if (el && el.textContent.toLowerCase().includes('event')) {
+                pageTitle = el;
+                break;
+            }
+        }
+
+        if (!pageTitle) {
+            pageTitle = document.querySelector('h1');
+        }
+
+        if (!pageTitle) return;
+
+        // Add styling class
+        pageTitle.classList.add('pv-styled-title');
+
+        // Create and add accent bar if not exists
+        if (!document.getElementById('pv-title-accent')) {
+            var accent = document.createElement('div');
+            accent.id = 'pv-title-accent';
+            pageTitle.parentNode.insertBefore(accent, pageTitle.nextSibling);
+        }
+    }
+
+    // =========================================================
+    // MAIN EXECUTION
+    // =========================================================
+
+    // Style the page title
+    stylePageTitle();
+
+    // Transform all events
+    var events = document.querySelectorAll(".event");
+
+    events.forEach(function(eventEl) {
+        try {
+            transformEvent(eventEl);
+        } catch (e) {
+            // Silently fail for individual events
+        }
+    });
+
+    // =========================================================
+    // SCROLL INDICATORS (only if multiple events)
+    // =========================================================
+    function addScrollIndicators() {
+        var modernizedEvents = document.querySelectorAll(".event.pv-modernized");
+
+        if (modernizedEvents.length <= 1) {
+            return;
+        }
+
+        // Add scroll indicator after first event
+        var firstEvent = modernizedEvents[0];
+        var scrollIndicator = document.createElement('div');
+        scrollIndicator.className = 'pv-scroll-indicator';
+        scrollIndicator.innerHTML =
+            '<span class="pv-scroll-indicator-text">' + (modernizedEvents.length - 1) + ' more event' + (modernizedEvents.length > 2 ? 's' : '') + ' below</span>' +
+            '<div class="pv-scroll-indicator-arrow">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
+                    '<path d="M6 9l6 6 6-6"/>' +
+                '</svg>' +
+            '</div>';
+
+        // Click to scroll to next event
+        scrollIndicator.addEventListener('click', function() {
+            var secondEvent = modernizedEvents[1];
+            if (secondEvent) {
+                secondEvent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        firstEvent.parentNode.insertBefore(scrollIndicator, firstEvent.nextSibling);
+
+        // Add floating event counter
+        var counter = document.createElement('div');
+        counter.className = 'pv-event-counter';
+        counter.id = 'pv-event-counter';
+
+        var counterHTML = '<span>Events</span>';
+        for (var i = 0; i < modernizedEvents.length; i++) {
+            counterHTML += '<span class="pv-event-counter-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></span>';
+        }
+        counter.innerHTML = counterHTML;
+        document.body.appendChild(counter);
+
+        // Make dots clickable
+        var dots = counter.querySelectorAll('.pv-event-counter-dot');
+        dots.forEach(function(dot, index) {
+            dot.style.cursor = 'pointer';
+            dot.addEventListener('click', function() {
+                modernizedEvents[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Update active dot on scroll
+        var updateActiveDot = function() {
+            var scrollPosition = window.scrollY + window.innerHeight / 3;
+            var activeIndex = 0;
+
+            modernizedEvents.forEach(function(event, index) {
+                var rect = event.getBoundingClientRect();
+                var eventTop = rect.top + window.scrollY;
+                if (scrollPosition >= eventTop) {
+                    activeIndex = index;
+                }
+            });
+
+            dots.forEach(function(dot, index) {
+                if (index === activeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+
+            // Hide scroll indicator once user has scrolled past first event
+            if (scrollIndicator) {
+                var firstEventBottom = firstEvent.getBoundingClientRect().bottom;
+                if (firstEventBottom < 100) {
+                    scrollIndicator.style.opacity = '0';
+                    scrollIndicator.style.pointerEvents = 'none';
+                } else {
+                    scrollIndicator.style.opacity = '1';
+                    scrollIndicator.style.pointerEvents = 'auto';
+                }
+            }
+        };
+
+        // Throttled scroll handler
+        var scrollTimeout;
+        window.addEventListener('scroll', function() {
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(function() {
+                updateActiveDot();
+                scrollTimeout = null;
+            }, 50);
+        });
+
+        // Initial update
+        updateActiveDot();
+    }
+
+    addScrollIndicators();
+
+})();
+</script>
