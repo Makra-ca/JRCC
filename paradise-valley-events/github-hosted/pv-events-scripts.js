@@ -267,50 +267,48 @@
         }
 
         // Style the Reservations/Pricing section
-        // IMPORTANT: Only processes text nodes BEFORE .performance elements
-        // Never replaces innerHTML of containers with form elements
+        // Uses TreeWalker to safely find ONLY text nodes before form elements
         function stylePricingSection() {
             var registerBody = document.querySelector('#RegisterBody');
             if (!registerBody || registerBody.classList.contains('pv-pricing-styled')) return;
+
+            // Find where form controls start - we must not touch anything at or after this point
+            var firstFormElement = registerBody.querySelector('input, select, table.performance, .performance, form');
 
             var pricingItems = [];
             var sponsorshipLevels = [];
             var otherText = [];
             var nodesToHide = [];
 
-            // Only look at DIRECT child nodes of #RegisterBody, BEFORE .performance
-            var childNodes = Array.from(registerBody.childNodes);
-            var reachedPerformance = false;
+            // Use TreeWalker to find all text nodes
+            var walker = document.createTreeWalker(
+                registerBody,
+                NodeFilter.SHOW_TEXT,
+                null,
+                false
+            );
 
-            childNodes.forEach(function(node) {
-                // Stop when we hit .performance (category selection area)
-                if (node.classList && node.classList.contains('performance')) {
-                    reachedPerformance = true;
-                    return;
-                }
-                if (reachedPerformance) return;
-
-                // Skip title element
-                if (node.classList && node.classList.contains('title')) return;
-
-                var text = '';
-                if (node.nodeType === 3) { // Direct text node
-                    text = node.textContent.trim();
-                    if (text && text !== '---') nodesToHide.push(node);
-                } else if (node.nodeType === 1) { // Element node
-                    if (node.tagName === 'BR' || node.tagName === 'HR') {
-                        nodesToHide.push(node);
-                        return;
-                    }
-                    // CRITICAL: Skip elements containing form controls
-                    if (node.querySelector('input, select, table, form, .performance')) {
-                        return;
-                    }
-                    text = node.textContent.trim();
-                    if (text && text !== '---') nodesToHide.push(node);
+            var textNode;
+            while (textNode = walker.nextNode()) {
+                // Stop if we've reached or passed the form elements
+                if (firstFormElement && (firstFormElement.contains(textNode) ||
+                    firstFormElement.compareDocumentPosition(textNode) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+                    continue;
                 }
 
-                if (!text || text === '---') return;
+                // Skip if inside form element
+                if (textNode.parentElement && textNode.parentElement.closest('input, select, table, form, .performance, label[for]')) {
+                    continue;
+                }
+
+                var text = textNode.textContent.trim();
+                if (!text || text === '---' || text === '-') continue;
+
+                // Skip the "Reservations" title text
+                if (textNode.parentElement && textNode.parentElement.classList.contains('title')) continue;
+
+                // Track this node for hiding later
+                nodesToHide.push(textNode);
 
                 // Parse for sponsorship levels (multiple prices with |)
                 if (text.includes('|') && text.includes('$')) {
@@ -321,41 +319,57 @@
                         });
                     }
                     var textPart = text.split('$')[0].trim();
-                    if (textPart) otherText.push(textPart);
+                    if (textPart && textPart.length > 3) otherText.push(textPart);
                 }
                 // Check for VIP items
                 else if (text.toLowerCase().includes('vip') && text.includes('$')) {
                     var vipMatch = text.match(/\$[\d,]+/);
                     var vipAmount = vipMatch ? vipMatch[0] : '';
                     var vipLabel = text.replace(/\$[\d,]+/, '').replace(/[-:]/g, '').trim();
-                    if (vipLabel.length < 80) {
+                    if (vipLabel.length > 3 && vipLabel.length < 80) {
                         pricingItems.push({ label: vipLabel, amount: vipAmount, isVip: true });
                     }
                 }
-                // Check for regular pricing
-                else if (text.includes('$')) {
+                // Check for regular pricing (contains $ and reasonable length)
+                else if (text.includes('$') && text.length < 100) {
                     var priceMatch = text.match(/\$[\d,]+/);
                     var amount = priceMatch ? priceMatch[0] : '';
                     var label = text.replace(/\$[\d,]+/, '').replace(/[-:]+\s*$/, '').trim();
-                    if (label && label.length < 80) {
+                    if (label && label.length > 3 && label.length < 80) {
                         pricingItems.push({ label: label, amount: amount, isVip: false });
                     }
                 }
-                // Other descriptive text
-                else if (text.length > 3 && text.length < 200) {
+                // VIP description text (no price but mentions VIP)
+                else if (text.toLowerCase().includes('vip') && text.length > 10 && text.length < 200) {
                     otherText.push(text);
+                }
+                // Other descriptive text about sponsorship
+                else if ((text.toLowerCase().includes('sponsor') || text.toLowerCase().includes('appreciated'))
+                         && text.length > 10 && text.length < 200) {
+                    otherText.push(text);
+                }
+            }
+
+            // Also hide BR elements between pricing text and form
+            var allBRs = registerBody.querySelectorAll('br');
+            allBRs.forEach(function(br) {
+                if (firstFormElement && !firstFormElement.contains(br) &&
+                    !(firstFormElement.compareDocumentPosition(br) & Node.DOCUMENT_POSITION_FOLLOWING)) {
+                    nodesToHide.push(br);
                 }
             });
 
+            console.log('💰 Found pricing items:', pricingItems.length, 'sponsorship levels:', sponsorshipLevels.length);
+
             // Only create pricing UI if we found reasonable data
             if (pricingItems.length > 0 && pricingItems.length < 20) {
-                // Create new container (don't replace anything)
+                // Create new container
                 var pricingContainer = document.createElement('div');
                 pricingContainer.className = 'pv-pricing-container';
 
                 var titleEl = document.createElement('div');
                 titleEl.className = 'pv-pricing-title';
-                titleEl.textContent = '🎫 Ticket Pricing';
+                titleEl.textContent = 'Ticket Pricing';
                 pricingContainer.appendChild(titleEl);
 
                 pricingItems.forEach(function(item) {
@@ -383,12 +397,12 @@
                     pricingContainer.appendChild(itemEl);
                 });
 
-                // Add sponsorship text
+                // Add VIP/sponsorship description text
                 if (otherText.length > 0) {
-                    otherText.forEach(function(text) {
+                    otherText.forEach(function(txt) {
                         var p = document.createElement('p');
                         p.className = 'pv-sponsorship-text';
-                        p.textContent = text;
+                        p.textContent = txt;
                         pricingContainer.appendChild(p);
                     });
                 }
@@ -406,7 +420,7 @@
                     pricingContainer.appendChild(levelsContainer);
                 }
 
-                // Insert after title, before performance
+                // Insert after title
                 var titleNode = registerBody.querySelector('.title');
                 if (titleNode && titleNode.nextSibling) {
                     titleNode.parentNode.insertBefore(pricingContainer, titleNode.nextSibling);
@@ -414,7 +428,7 @@
                     registerBody.insertBefore(pricingContainer, registerBody.firstChild);
                 }
 
-                // Hide original text nodes (don't delete, just hide)
+                // Hide original text nodes (clear text, hide BRs)
                 nodesToHide.forEach(function(node) {
                     if (node.nodeType === 3) {
                         node.textContent = '';
@@ -423,7 +437,7 @@
                     }
                 });
 
-                console.log('💰 Pricing section styled with', pricingItems.length, 'items');
+                console.log('💰 Pricing section styled successfully');
             }
 
             registerBody.classList.add('pv-pricing-styled');
@@ -431,13 +445,10 @@
 
         // Run single event functions
         styleInfoCards();
-        // DISABLED: stylePricingSection() - was hiding category selection on some events
-        // TODO: Revisit pricing styling after understanding live site structure
-        // stylePricingSection();
+        stylePricingSection();
         removeDashedBorders();
         styleDeleteButtons();
         forceFormInputStyles();
-        // setTimeout(stylePricingSection, 100);
         setTimeout(forceFormInputStyles, 300);
         setTimeout(forceFormInputStyles, 800);
         setTimeout(forceFormInputStyles, 1500);
