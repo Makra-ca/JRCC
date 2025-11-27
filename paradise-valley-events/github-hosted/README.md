@@ -2,6 +2,8 @@
 
 ## Overview
 
+https://purge.jsdelivr.net/gh/Makra-ca/JRCC@main/paradise-valley-events/github-hosted/pv-events-scripts.js
+
 This solution hosts the Paradise Valley Events CSS and JavaScript on GitHub, dramatically reducing the file size in the Chabad One CMS.
 
 ## Benefits

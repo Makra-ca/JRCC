@@ -978,6 +978,126 @@ body.pv-registration-page #RegisterBody .performance .price {
 }
 
 /* =========================================================
+   SINGLE EVENT - CATEGORY SELECTION / TOGGLE OPTIONS
+   Properly aligns "Select a category", "Reservations", and "Continue" button
+   ========================================================= */
+body.pv-registration-page #RegisterBody .performance .toggle_options {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    margin-top: 1.25rem !important;
+    padding: 0 !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .toggle_options .inline_block {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+
+/* Category wrapper styling */
+body.pv-registration-page #RegisterBody .performance .pv-category-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+}
+
+/* Labels inside toggle options */
+body.pv-registration-page #RegisterBody .performance .toggle_options label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #555 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+/* Dropdowns inside toggle options */
+body.pv-registration-page #RegisterBody .performance .toggle_options select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    padding: 0.6rem 1rem !important;
+    border: 2px solid #999 !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    min-width: 120px !important;
+    cursor: pointer !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .toggle_options select:focus {
+    border-color: #E67E22 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
+}
+
+/* Continue button styling */
+body.pv-registration-page #RegisterBody .performance .toggle_options button,
+body.pv-registration-page #RegisterBody .performance .toggle_options input[type="submit"],
+body.pv-registration-page #RegisterBody .performance .toggle_options input[type="button"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    background: #E67E22 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 1.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    white-space: nowrap !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .toggle_options button:hover,
+body.pv-registration-page #RegisterBody .performance .toggle_options input[type="submit"]:hover,
+body.pv-registration-page #RegisterBody .performance .toggle_options input[type="button"]:hover {
+    background: #D35400 !important;
+    transform: scale(1.03) !important;
+}
+
+/* Cancel link styling */
+body.pv-registration-page #RegisterBody .performance .toggle_options a {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    color: #999 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .toggle_options a:hover {
+    color: #E67E22 !important;
+}
+
+/* Responsive - Stack on mobile */
+@media (max-width: 600px) {
+    body.pv-registration-page #RegisterBody .performance .toggle_options {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+
+    body.pv-registration-page #RegisterBody .performance .toggle_options .inline_block {
+        width: 100% !important;
+    }
+
+    body.pv-registration-page #RegisterBody .performance .toggle_options select {
+        flex: 1 !important;
+        width: 100% !important;
+    }
+
+    body.pv-registration-page #RegisterBody .performance .toggle_options button,
+    body.pv-registration-page #RegisterBody .performance .toggle_options input[type="submit"],
+    body.pv-registration-page #RegisterBody .performance .toggle_options input[type="button"] {
+        width: 100% !important;
+    }
+}
+
+/* =========================================================
    SINGLE EVENT - RESERVATION ROWS
    ========================================================= */
 body.pv-registration-page #RegisterBody .reservation,
