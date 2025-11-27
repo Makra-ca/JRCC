@@ -1,7 +1,7 @@
 <!-- PARADISE VALLEY EVENTS - Custom Footer Code -->
 <!-- Paste this into Chabad One CMS: Custom Footer Code section -->
 <!-- This JavaScript transforms the events page after DOM loads -->
-<!-- GRID LAYOUT VERSION -->
+<!-- Handles BOTH: Events listing (/tools/events/) AND Single event registration (/tools/events/register_cdo/) -->
 
 <script type="text/javascript">
 (function() {
@@ -9,6 +9,237 @@
     if (!window.location.pathname.includes("/tools/events/")) {
         return;
     }
+
+    // Check if this is a single event registration page
+    var isRegistrationPage = window.location.pathname.includes("/tools/events/register");
+
+    // =========================================================
+    // SINGLE EVENT REGISTRATION PAGE FUNCTIONS
+    // =========================================================
+    if (isRegistrationPage) {
+        // Add body class to scope CSS - CRITICAL for preventing style leaks
+        document.body.classList.add('pv-registration-page');
+        var singleEventIcons = {
+            location: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+            calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+        };
+
+        // Style info cards
+        function styleInfoCards() {
+            var infoSection = document.querySelector('#RegisterHeader .column2');
+            if (!infoSection || infoSection.classList.contains('pv-info-styled')) return;
+
+            var sectionTitle = null;
+            var locationData = null;
+            var dateData = null;
+            var locationHref = null;
+            var dateHref = null;
+
+            var headingEl = infoSection.querySelector('.heading');
+            if (headingEl) sectionTitle = headingEl.textContent.trim();
+
+            var mapLinkEl = infoSection.querySelector('.map_link');
+            if (mapLinkEl) {
+                locationHref = mapLinkEl.href || null;
+                var addrDiv = mapLinkEl.querySelector('div');
+                locationData = addrDiv ? addrDiv.innerHTML : mapLinkEl.textContent.trim();
+            }
+
+            var icalLinkEl = infoSection.querySelector('.ical_link');
+            if (icalLinkEl) {
+                dateHref = icalLinkEl.href || null;
+                var dateDiv = icalLinkEl.querySelector('div');
+                dateData = dateDiv ? dateDiv.innerHTML : icalLinkEl.textContent.trim();
+            }
+
+            var originalChildren = Array.from(infoSection.children);
+            originalChildren.forEach(function(child) {
+                child.setAttribute('style', 'display: none !important;');
+            });
+
+            var newWrapper = document.createElement('div');
+            newWrapper.className = 'pv-info-wrapper';
+            newWrapper.style.cssText = 'display: block !important;';
+
+            if (sectionTitle) {
+                var titleEl = document.createElement('div');
+                titleEl.className = 'pv-info-section-title';
+                titleEl.textContent = sectionTitle;
+                newWrapper.appendChild(titleEl);
+            }
+
+            var cardsGrid = document.createElement('div');
+            cardsGrid.className = 'pv-info-cards-grid';
+
+            if (locationData) {
+                var locCard = document.createElement('div');
+                locCard.className = 'pv-info-card';
+                locCard.innerHTML = '<div class="pv-info-icon">' + singleEventIcons.location + '</div>' +
+                    '<div class="pv-info-text"><span class="pv-card-label">LOCATION</span>' +
+                    '<div class="pv-info-content">' + locationData + '</div></div>';
+                if (locationHref) {
+                    locCard.style.cursor = 'pointer';
+                    locCard.onclick = function() { window.open(locationHref, '_blank'); };
+                }
+                cardsGrid.appendChild(locCard);
+            }
+
+            if (dateData) {
+                var dateCard = document.createElement('div');
+                dateCard.className = 'pv-info-card';
+                dateCard.innerHTML = '<div class="pv-info-icon">' + singleEventIcons.calendar + '</div>' +
+                    '<div class="pv-info-text"><span class="pv-card-label">DATE & TIME</span>' +
+                    '<div class="pv-info-content">' + dateData + '</div></div>';
+                if (dateHref) {
+                    dateCard.style.cursor = 'pointer';
+                    dateCard.onclick = function() { window.open(dateHref, '_blank'); };
+                }
+                cardsGrid.appendChild(dateCard);
+            }
+
+            newWrapper.appendChild(cardsGrid);
+            infoSection.appendChild(newWrapper);
+            infoSection.classList.add('pv-info-styled');
+        }
+
+        // Remove dashed borders (but NOT from form inputs!)
+        function removeDashedBorders() {
+            var registerBody = document.querySelector('#RegisterBody');
+            if (!registerBody) return;
+
+            var formTags = ['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON'];
+            var allElements = registerBody.querySelectorAll('*');
+            allElements.forEach(function(el) {
+                if (formTags.indexOf(el.tagName) !== -1) return;
+                var style = el.getAttribute('style');
+                if (style && (style.includes('dashed') || style.includes('dotted'))) {
+                    el.style.borderStyle = 'none';
+                }
+            });
+
+            var containers = registerBody.querySelectorAll('div, fieldset, table, tbody, tr, td');
+            containers.forEach(function(container) {
+                var currentStyle = window.getComputedStyle(container);
+                if (currentStyle.borderStyle === 'dashed' || currentStyle.borderStyle === 'dotted') {
+                    container.style.border = 'none';
+                    container.style.borderStyle = 'none';
+                }
+                container.style.outline = 'none';
+            });
+        }
+
+        // Style delete buttons
+        function styleDeleteButtons() {
+            var registerBody = document.querySelector('#RegisterBody');
+            if (!registerBody) return;
+
+            var reservations = registerBody.querySelectorAll('.reservation, .clearfix.reservation');
+            reservations.forEach(function(row) {
+                row.style.position = 'relative';
+                row.style.paddingRight = '50px';
+
+                var deleteBtn = row.querySelector('.remove_reservation, button.remove_reservation');
+                if (deleteBtn && !deleteBtn.classList.contains('pv-delete-styled')) {
+                    deleteBtn.style.cssText = 'position:absolute!important;right:10px!important;top:50%!important;transform:translateY(-50%)!important;width:28px!important;height:28px!important;min-width:28px!important;max-width:28px!important;border-radius:50%!important;background:#f0f0f0!important;border:1px solid #ddd!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;margin:0!important;color:#999!important;font-size:14px!important;font-weight:bold!important;opacity:0.6!important;z-index:100!important;';
+
+                    deleteBtn.addEventListener('mouseenter', function() {
+                        this.style.background = '#ff5252';
+                        this.style.borderColor = '#ff5252';
+                        this.style.color = 'white';
+                        this.style.opacity = '1';
+                        this.style.transform = 'translateY(-50%) scale(1.1)';
+                    });
+
+                    deleteBtn.addEventListener('mouseleave', function() {
+                        this.style.background = '#f0f0f0';
+                        this.style.borderColor = '#ddd';
+                        this.style.color = '#999';
+                        this.style.opacity = '0.6';
+                        this.style.transform = 'translateY(-50%)';
+                    });
+
+                    deleteBtn.classList.add('pv-delete-styled');
+                }
+            });
+        }
+
+        // Force form input styles
+        function forceFormInputStyles() {
+            var inputs = document.querySelectorAll('input, select, textarea');
+            inputs.forEach(function(input) {
+                if (input.type === 'hidden' || input.type === 'checkbox' || input.type === 'radio' ||
+                    input.type === 'submit' || input.type === 'button' || input.type === 'image') return;
+                if (input.closest('nav, header, .nav, .header, .menu')) return;
+
+                input.style.setProperty('font-family', "'Inter', sans-serif", 'important');
+                input.style.setProperty('font-size', '1.1rem', 'important');
+                input.style.setProperty('padding', '0.9rem 1.1rem', 'important');
+                input.style.setProperty('border', '2px solid #999', 'important');
+                input.style.setProperty('border-width', '2px', 'important');
+                input.style.setProperty('border-style', 'solid', 'important');
+                input.style.setProperty('border-color', '#999', 'important');
+                input.style.setProperty('border-radius', '10px', 'important');
+                input.style.setProperty('box-sizing', 'border-box', 'important');
+                input.style.setProperty('background', '#ffffff', 'important');
+                input.style.setProperty('box-shadow', 'inset 0 1px 3px rgba(0,0,0,0.1)', 'important');
+                input.style.setProperty('width', '100%', 'important');
+                input.style.setProperty('max-width', '100%', 'important');
+
+                if (input.tagName === 'TEXTAREA') {
+                    input.style.setProperty('min-height', '100px', 'important');
+                    input.style.setProperty('resize', 'vertical', 'important');
+                }
+
+                if (input.tagName === 'SELECT') {
+                    input.style.setProperty('cursor', 'pointer', 'important');
+                    input.style.setProperty('appearance', 'none', 'important');
+                    input.style.setProperty('background-image', "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E\")", 'important');
+                    input.style.setProperty('background-repeat', 'no-repeat', 'important');
+                    input.style.setProperty('background-position', 'right 1rem center', 'important');
+                    input.style.setProperty('padding-right', '2.5rem', 'important');
+                }
+            });
+
+            var labels = document.querySelectorAll('.bottom_padding label, #Summary label, #ReserversInformation label, #Payment label, form label');
+            labels.forEach(function(label) {
+                label.style.setProperty('font-family', "'Inter', sans-serif", 'important');
+                label.style.setProperty('font-size', '1.15rem', 'important');
+                label.style.setProperty('font-weight', '600', 'important');
+                label.style.setProperty('color', '#1a1a2e', 'important');
+                label.style.setProperty('display', 'block', 'important');
+                label.style.setProperty('margin-bottom', '0.5rem', 'important');
+            });
+        }
+
+        // Run single event functions
+        styleInfoCards();
+        removeDashedBorders();
+        styleDeleteButtons();
+        forceFormInputStyles();
+        setTimeout(forceFormInputStyles, 300);
+        setTimeout(forceFormInputStyles, 800);
+        setTimeout(forceFormInputStyles, 1500);
+        setTimeout(forceFormInputStyles, 3000);
+
+        // Watch for DOM changes
+        var registerBody = document.querySelector('#RegisterBody');
+        if (registerBody) {
+            var observer = new MutationObserver(function() {
+                styleDeleteButtons();
+                forceFormInputStyles();
+            });
+            observer.observe(registerBody, { childList: true, subtree: true });
+        }
+
+        console.log("✅ Paradise Valley Single Event styling applied!");
+        return; // Don't run events listing code
+    }
+
+    // =========================================================
+    // EVENTS LISTING PAGE
+    // =========================================================
+    // Add body class to scope CSS - CRITICAL for preventing style leaks
+    document.body.classList.add('pv-events-listing');
 
     // =========================================================
     // SVG ICONS

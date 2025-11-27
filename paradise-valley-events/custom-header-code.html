@@ -1,25 +1,26 @@
 <!-- PARADISE VALLEY EVENTS - Custom Header Code -->
 <!-- Paste this into Chabad One CMS: Custom Header Code section -->
 <!-- This loads the Google Font and CSS styles for the modernized events page -->
-<!-- GRID LAYOUT VERSION - 60% LARGER TEXT -->
+<!-- Handles BOTH: Events listing (/tools/events/) AND Single event registration (/tools/events/register_cdo/) -->
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap">
 
 <style type="text/css">
 /* =========================================================
    PARADISE VALLEY EVENTS - GRID LAYOUT STYLING
    Only applies to /tools/events/ pages
+   ALL SELECTORS SCOPED TO body.pv-events-listing
    ========================================================= */
 
 /* Page Background - White */
-body.cco_body {
+body.pv-events-listing {
     background: #ffffff !important;
 }
 
 /* =========================================================
    PAGE TITLE STYLING
    ========================================================= */
-.pv-styled-title {
+body.pv-events-listing .pv-styled-title {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 5rem !important;
     font-weight: 800 !important;
@@ -33,7 +34,7 @@ body.cco_body {
     width: 100% !important;
 }
 
-#pv-title-accent {
+body.pv-events-listing #pv-title-accent {
     width: 80px !important;
     height: 5px !important;
     background: linear-gradient(90deg, #2980b9, #E67E22) !important;
@@ -44,7 +45,7 @@ body.cco_body {
 /* =========================================================
    EVENTS GRID CONTAINER
    ========================================================= */
-.pv-events-grid {
+body.pv-events-listing .pv-events-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)) !important;
     gap: 2.5rem !important;
@@ -54,15 +55,15 @@ body.cco_body {
 }
 
 /* Hide original event content when modernized */
-.event.pv-modernized > .clearfix,
-.event.pv-modernized > .vertical_padding {
+body.pv-events-listing .event.pv-modernized > .clearfix,
+body.pv-events-listing .event.pv-modernized > .vertical_padding {
     display: none !important;
 }
 
 /* =========================================================
    EVENT CARD
    ========================================================= */
-.event.pv-modernized {
+body.pv-events-listing .event.pv-modernized {
     background: #ffffff !important;
     border-radius: 20px !important;
     box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1) !important;
@@ -76,7 +77,7 @@ body.cco_body {
     flex-direction: column !important;
 }
 
-.event.pv-modernized:hover {
+body.pv-events-listing .event.pv-modernized:hover {
     box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15) !important;
     transform: translateY(-6px) !important;
 }
@@ -84,14 +85,14 @@ body.cco_body {
 /* =========================================================
    HEADER WITH IMAGE BANNER
    ========================================================= */
-.pv-event-header {
+body.pv-events-listing .pv-event-header {
     position: relative !important;
     height: 280px !important;
     overflow: hidden !important;
     flex-shrink: 0 !important;
 }
 
-.pv-event-image {
+body.pv-events-listing .pv-event-image {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
@@ -100,7 +101,7 @@ body.cco_body {
     z-index: 1 !important;
 }
 
-.pv-event-image img {
+body.pv-events-listing .pv-event-image img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
@@ -108,7 +109,7 @@ body.cco_body {
 }
 
 /* Gradient overlay */
-.pv-event-header::after {
+body.pv-events-listing .pv-event-header::after {
     content: '' !important;
     position: absolute !important;
     bottom: 0 !important;
@@ -120,7 +121,7 @@ body.cco_body {
     pointer-events: none !important;
 }
 
-.pv-header-content {
+body.pv-events-listing .pv-header-content {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
@@ -129,7 +130,7 @@ body.cco_body {
     padding: 2rem 2.25rem !important;
 }
 
-.pv-event-category {
+body.pv-events-listing .pv-event-category {
     display: inline-block !important;
     background: rgba(255,255,255,0.25) !important;
     color: #fff !important;
@@ -142,8 +143,8 @@ body.cco_body {
     margin-bottom: 0.85rem !important;
 }
 
-.pv-event-title,
-h2.pv-event-title {
+body.pv-events-listing .pv-event-title,
+body.pv-events-listing h2.pv-event-title {
     font-size: 2.25rem !important;
     font-weight: 700 !important;
     color: #ffffff !important;
@@ -154,7 +155,7 @@ h2.pv-event-title {
     padding: 0 !important;
 }
 
-.pv-event-title a {
+body.pv-events-listing .pv-event-title a {
     color: #ffffff !important;
     text-decoration: none !important;
 }
@@ -162,14 +163,14 @@ h2.pv-event-title {
 /* =========================================================
    EVENT BODY
    ========================================================= */
-.pv-event-body {
+body.pv-events-listing .pv-event-body {
     padding: 2.25rem !important;
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
 }
 
-.pv-event-description {
+body.pv-events-listing .pv-event-description {
     font-size: 1.5rem !important;
     color: #555 !important;
     line-height: 1.65 !important;
@@ -179,24 +180,24 @@ h2.pv-event-title {
 /* =========================================================
    INFO ROWS
    ========================================================= */
-.pv-event-info {
+body.pv-events-listing .pv-event-info {
     border-top: 2px solid #f0f0f0 !important;
     padding-top: 1.75rem !important;
     margin-top: auto !important;
 }
 
-.pv-info-row {
+body.pv-events-listing .pv-info-row {
     display: flex !important;
     align-items: flex-start !important;
     margin-bottom: 1.5rem !important;
     gap: 1.25rem !important;
 }
 
-.pv-info-row:last-child {
+body.pv-events-listing .pv-info-row:last-child {
     margin-bottom: 0 !important;
 }
 
-.pv-info-icon {
+body.pv-events-listing .pv-info-icon {
     width: 60px !important;
     height: 60px !important;
     background: #F5F5F5 !important;
@@ -207,18 +208,18 @@ h2.pv-event-title {
     flex-shrink: 0 !important;
 }
 
-.pv-info-icon svg {
+body.pv-events-listing .pv-info-icon svg {
     width: 32px !important;
     height: 32px !important;
     color: #2980b9 !important;
 }
 
-.pv-info-content {
+body.pv-events-listing .pv-info-content {
     flex: 1 !important;
     min-width: 0 !important;
 }
 
-.pv-info-label {
+body.pv-events-listing .pv-info-label {
     font-size: 1rem !important;
     font-weight: 700 !important;
     color: #999 !important;
@@ -228,7 +229,7 @@ h2.pv-event-title {
     display: block !important;
 }
 
-.pv-info-value {
+body.pv-events-listing .pv-info-value {
     font-size: 1.5rem !important;
     color: #333 !important;
     font-weight: 500 !important;
@@ -238,14 +239,14 @@ h2.pv-event-title {
 /* =========================================================
    PRICING
    ========================================================= */
-.pv-pricing-grid {
+body.pv-events-listing .pv-pricing-grid {
     display: flex !important;
     gap: 1.25rem !important;
     margin-top: 1.75rem !important;
     flex-wrap: wrap !important;
 }
 
-.pv-price-item {
+body.pv-events-listing .pv-price-item {
     background: #FFF8F0 !important;
     padding: 1rem 1.5rem !important;
     border-radius: 14px !important;
@@ -254,7 +255,7 @@ h2.pv-event-title {
     min-width: 120px !important;
 }
 
-.pv-price-label {
+body.pv-events-listing .pv-price-label {
     font-size: 1rem !important;
     color: #888 !important;
     text-transform: uppercase !important;
@@ -263,7 +264,7 @@ h2.pv-event-title {
     margin-bottom: 0.25rem !important;
 }
 
-.pv-price-value {
+body.pv-events-listing .pv-price-value {
     font-size: 2rem !important;
     font-weight: 800 !important;
     color: #E67E22 !important;
@@ -272,7 +273,7 @@ h2.pv-event-title {
 /* =========================================================
    FOOTER
    ========================================================= */
-.pv-event-footer {
+body.pv-events-listing .pv-event-footer {
     background: #FAFAFA !important;
     padding: 1.75rem 2.25rem !important;
     display: flex !important;
@@ -283,13 +284,13 @@ h2.pv-event-title {
     flex-wrap: wrap !important;
 }
 
-.pv-date-display {
+body.pv-events-listing .pv-date-display {
     display: flex !important;
     align-items: center !important;
     gap: 1rem !important;
 }
 
-.pv-date-box {
+body.pv-events-listing .pv-date-box {
     background: #2980b9 !important;
     color: #fff !important;
     padding: 0.75rem 1.25rem !important;
@@ -298,7 +299,7 @@ h2.pv-event-title {
     min-width: 70px !important;
 }
 
-.pv-date-month {
+body.pv-events-listing .pv-date-month {
     font-size: 1rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
@@ -307,7 +308,7 @@ h2.pv-event-title {
     color: #fff !important;
 }
 
-.pv-date-day {
+body.pv-events-listing .pv-date-day {
     font-size: 2rem !important;
     font-weight: 800 !important;
     line-height: 1.1 !important;
@@ -315,20 +316,20 @@ h2.pv-event-title {
     color: #fff !important;
 }
 
-.pv-date-text {
+body.pv-events-listing .pv-date-text {
     font-size: 1.4rem !important;
     color: #666 !important;
     font-weight: 500 !important;
 }
 
 /* Footer actions */
-.pv-footer-actions {
+body.pv-events-listing .pv-footer-actions {
     display: flex !important;
     align-items: center !important;
     gap: 1.25rem !important;
 }
 
-.pv-login-checkbox {
+body.pv-events-listing .pv-login-checkbox {
     display: flex !important;
     align-items: center !important;
     gap: 0.6rem !important;
@@ -338,19 +339,19 @@ h2.pv-event-title {
     cursor: pointer !important;
 }
 
-.pv-login-checkbox input[type="checkbox"] {
+body.pv-events-listing .pv-login-checkbox input[type="checkbox"] {
     width: 20px !important;
     height: 20px !important;
     accent-color: #2980b9 !important;
     cursor: pointer !important;
 }
 
-.pv-login-checkbox span {
+body.pv-events-listing .pv-login-checkbox span {
     font-weight: 500 !important;
 }
 
 /* Register Button */
-.pv-register-btn {
+body.pv-events-listing .pv-register-btn {
     display: inline-flex !important;
     align-items: center !important;
     gap: 0.75rem !important;
@@ -368,13 +369,13 @@ h2.pv-event-title {
     white-space: nowrap !important;
 }
 
-.pv-register-btn:hover {
+body.pv-events-listing .pv-register-btn:hover {
     background: #D35400 !important;
     transform: scale(1.03) !important;
     color: #fff !important;
 }
 
-.pv-register-btn svg {
+body.pv-events-listing .pv-register-btn svg {
     width: 24px !important;
     height: 24px !important;
     color: #fff !important;
@@ -384,30 +385,30 @@ h2.pv-event-title {
    RESPONSIVE - TABLET
    ========================================================= */
 @media (max-width: 1100px) {
-    .pv-events-grid {
+    body.pv-events-listing .pv-events-grid {
         grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)) !important;
         gap: 2rem !important;
         padding: 0 1.5rem 2.5rem !important;
     }
 
-    .pv-styled-title {
+    body.pv-events-listing .pv-styled-title {
         font-size: 4rem !important;
     }
 
-    .pv-event-header {
+    body.pv-events-listing .pv-event-header {
         height: 240px !important;
     }
 
-    .pv-event-title,
-    h2.pv-event-title {
+    body.pv-events-listing .pv-event-title,
+    body.pv-events-listing h2.pv-event-title {
         font-size: 2rem !important;
     }
 
-    .pv-event-description {
+    body.pv-events-listing .pv-event-description {
         font-size: 1.3rem !important;
     }
 
-    .pv-info-value {
+    body.pv-events-listing .pv-info-value {
         font-size: 1.3rem !important;
     }
 }
@@ -416,94 +417,673 @@ h2.pv-event-title {
    RESPONSIVE - MOBILE (Single Column)
    ========================================================= */
 @media (max-width: 520px) {
-    .pv-events-grid {
+    body.pv-events-listing .pv-events-grid {
         grid-template-columns: 1fr !important;
         gap: 1.75rem !important;
         padding: 0 1rem 2rem !important;
     }
 
-    .pv-styled-title {
+    body.pv-events-listing .pv-styled-title {
         font-size: 2.75rem !important;
     }
 
-    #pv-title-accent {
+    body.pv-events-listing #pv-title-accent {
         margin-bottom: 2rem !important;
     }
 
-    .pv-event-header {
+    body.pv-events-listing .pv-event-header {
         height: 200px !important;
     }
 
-    .pv-header-content {
+    body.pv-events-listing .pv-header-content {
         padding: 1.5rem !important;
     }
 
-    .pv-event-category {
+    body.pv-events-listing .pv-event-category {
         font-size: 0.85rem !important;
         padding: 0.4rem 1rem !important;
     }
 
-    .pv-event-title,
-    h2.pv-event-title {
+    body.pv-events-listing .pv-event-title,
+    body.pv-events-listing h2.pv-event-title {
         font-size: 1.75rem !important;
     }
 
-    .pv-event-body {
+    body.pv-events-listing .pv-event-body {
         padding: 1.5rem !important;
     }
 
-    .pv-event-description {
+    body.pv-events-listing .pv-event-description {
         font-size: 1.2rem !important;
     }
 
-    .pv-info-icon {
+    body.pv-events-listing .pv-info-icon {
         width: 48px !important;
         height: 48px !important;
     }
 
-    .pv-info-icon svg {
+    body.pv-events-listing .pv-info-icon svg {
         width: 26px !important;
         height: 26px !important;
     }
 
-    .pv-info-label {
+    body.pv-events-listing .pv-info-label {
         font-size: 0.85rem !important;
     }
 
-    .pv-info-value {
+    body.pv-events-listing .pv-info-value {
         font-size: 1.2rem !important;
     }
 
-    .pv-price-value {
+    body.pv-events-listing .pv-price-value {
         font-size: 1.6rem !important;
     }
 
-    .pv-event-footer {
+    body.pv-events-listing .pv-event-footer {
         padding: 1.25rem 1.5rem !important;
     }
 
-    .pv-date-day {
+    body.pv-events-listing .pv-date-day {
         font-size: 1.6rem !important;
     }
 
-    .pv-date-text {
+    body.pv-events-listing .pv-date-text {
         font-size: 1.1rem !important;
     }
 
-    .pv-register-btn {
+    body.pv-events-listing .pv-register-btn {
         flex: 1 !important;
         justify-content: center !important;
         font-size: 1.2rem !important;
         padding: 1rem 1.5rem !important;
     }
 
-    .pv-footer-actions {
+    body.pv-events-listing .pv-footer-actions {
         flex-direction: column !important;
         width: 100% !important;
         gap: 1rem !important;
     }
 
-    .pv-login-checkbox {
+    body.pv-events-listing .pv-login-checkbox {
+        font-size: 1rem !important;
+    }
+}
+
+/* =========================================================
+   =========================================================
+   SINGLE EVENT REGISTRATION PAGE STYLES
+   For /tools/events/register_cdo/ pages
+   ALL SELECTORS SCOPED TO body.pv-registration-page
+   =========================================================
+   ========================================================= */
+
+/* =========================================================
+   SINGLE EVENT - PAGE BACKGROUND
+   ========================================================= */
+body.pv-registration-page {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f5f0e8 50%, #ebe4d8 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Remove default backgrounds for single event */
+body.pv-registration-page #BodyContainer,
+body.pv-registration-page #co_content_container,
+body.pv-registration-page .body_wrapper,
+body.pv-registration-page .master-content-wrapper {
+    background: transparent !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - MAIN CONTAINER
+   ========================================================= */
+body.pv-registration-page .master-content-wrapper {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 3rem 2rem 4rem !important;
+}
+
+body.pv-registration-page .master-content-wrapper > header.article-header {
+    display: none !important;
+}
+
+body.pv-registration-page .vertical_padding {
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+body.pv-registration-page form#RegisterSinglePage {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - REGISTER HEADER
+   ========================================================= */
+body.pv-registration-page #RegisterHeader {
+    padding: 0 !important;
+    background: transparent !important;
+    margin-bottom: 0 !important;
+}
+
+body.pv-registration-page #RegisterHeader .banner_image {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 10px 30px rgba(0,0,0,0.08) !important;
+    position: relative !important;
+}
+
+body.pv-registration-page #RegisterHeader .banner_image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+body.pv-registration-page #RegisterHeader .column1,
+body.pv-registration-page #RegisterHeader .column2 {
+    float: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.pv-registration-page #RegisterHeader .column1 {
+    background: #ffffff !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin-top: 2.5rem !important;
+    position: relative !important;
+    z-index: 10 !important;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 3.5rem 3.5rem 2.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.pv-registration-page #RegisterHeader .column1::before {
+    content: '✦ Special Event' !important;
+    display: inline-block !important;
+    background: linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E67E22 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 30px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3) !important;
+}
+
+body.pv-registration-page #RegisterHeader .event_name {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.5rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -1px !important;
+}
+
+body.pv-registration-page #RegisterHeader .event_description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #5a5a6e !important;
+    max-width: 800px !important;
+}
+
+body.pv-registration-page #RegisterHeader .column2 {
+    background: linear-gradient(180deg, #f8f6f2 0%, #ffffff 100%) !important;
+    color: #333 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    padding: 2.5rem 3.5rem !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+}
+
+body.pv-registration-page #RegisterHeader .column2 .heading {
+    display: none !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - INFO CARDS
+   ========================================================= */
+body.pv-registration-page .pv-info-icon {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    border-radius: 14px !important;
+    background: #F5F5F5 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+body.pv-registration-page .pv-info-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+    color: #2980b9 !important;
+    stroke: #2980b9 !important;
+}
+
+body.pv-registration-page .pv-info-card {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 1.75rem 2rem !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04) !important;
+    border: 1px solid rgba(0,0,0,0.04) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+body.pv-registration-page .pv-info-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04) !important;
+    border-color: rgba(230, 126, 34, 0.3) !important;
+}
+
+body.pv-registration-page .pv-card-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    color: #E67E22 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+body.pv-registration-page .pv-info-text {
+    flex: 1 !important;
+    min-width: 0 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    line-height: 1.5 !important;
+}
+
+body.pv-registration-page .pv-info-section-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(230, 126, 34, 0.3) !important;
+    display: block !important;
+    grid-column: 1 / -1 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+body.pv-registration-page .pv-info-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    grid-column: 1 / -1 !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - REGISTER BODY
+   ========================================================= */
+body.pv-registration-page #RegisterBody {
+    background: #ffffff !important;
+    padding: 3rem 3.5rem !important;
+    border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.pv-registration-page #RegisterBody .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 2rem !important;
+}
+
+body.pv-registration-page #RegisterBody .performance {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f8f6f2 100%) !important;
+    border: 2px solid transparent !important;
+    border-radius: 16px !important;
+    padding: 1.75rem 2rem !important;
+    margin-bottom: 1.25rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.pv-registration-page #RegisterBody .performance:hover {
+    border-color: #E67E22 !important;
+    background: linear-gradient(135deg, #fffdf7 0%, #fef5ed 100%) !important;
+    box-shadow: 0 8px 24px rgba(230, 126, 34, 0.12) !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .bold {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+body.pv-registration-page #RegisterBody .performance .price {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #E67E22 !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - RESERVATION ROWS
+   ========================================================= */
+body.pv-registration-page #RegisterBody .reservation,
+body.pv-registration-page #RegisterBody .clearfix.reservation {
+    position: relative !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 1rem 3rem 1rem 1rem !important;
+    margin-bottom: 0.75rem !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation:hover {
+    background: #fdfbf7 !important;
+}
+
+/* Delete button styling */
+body.pv-registration-page #RegisterBody .remove_reservation,
+body.pv-registration-page #RegisterBody button.remove_reservation,
+body.pv-registration-page button.remove_reservation {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    border-radius: 50% !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #999 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    opacity: 0.6 !important;
+    z-index: 100 !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation:hover .remove_reservation {
+    opacity: 1 !important;
+    background: #ffebee !important;
+    border-color: #ff5252 !important;
+    color: #ff5252 !important;
+}
+
+body.pv-registration-page #RegisterBody .remove_reservation:hover {
+    background: #ff5252 !important;
+    border-color: #ff5252 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - FORM FIELDS (VISIBLE BORDERS!)
+   ========================================================= */
+/* NOTE: Do NOT set display property here - CMS JavaScript controls visibility */
+body.pv-registration-page .bottom_padding {
+    background: #ffffff !important;
+    border-radius: 0 0 24px 24px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 0 !important;
+    margin-bottom: 3rem !important;
+    overflow: hidden !important;
+}
+
+/* Global form input styles - DARK VISIBLE BORDERS */
+body.pv-registration-page .bottom_padding input,
+body.pv-registration-page .bottom_padding select,
+body.pv-registration-page .bottom_padding textarea,
+body.pv-registration-page #Summary input,
+body.pv-registration-page #Summary select,
+body.pv-registration-page #Summary textarea,
+body.pv-registration-page #ReserversInformation input,
+body.pv-registration-page #ReserversInformation select,
+body.pv-registration-page #ReserversInformation textarea,
+body.pv-registration-page #Payment input,
+body.pv-registration-page #Payment select,
+body.pv-registration-page #Payment textarea,
+body.pv-registration-page form input[type="text"],
+body.pv-registration-page form input[type="email"],
+body.pv-registration-page form input[type="tel"],
+body.pv-registration-page form input[type="number"],
+body.pv-registration-page form select,
+body.pv-registration-page form textarea {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.1rem !important;
+    border: 2px solid #999 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #999 !important;
+    border-radius: 10px !important;
+    transition: all 0.25s ease !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+body.pv-registration-page .bottom_padding input:focus,
+body.pv-registration-page .bottom_padding select:focus,
+body.pv-registration-page .bottom_padding textarea:focus,
+body.pv-registration-page #Summary input:focus,
+body.pv-registration-page #Summary select:focus,
+body.pv-registration-page #Summary textarea:focus,
+body.pv-registration-page #ReserversInformation input:focus,
+body.pv-registration-page #ReserversInformation select:focus,
+body.pv-registration-page #ReserversInformation textarea:focus,
+body.pv-registration-page #Payment input:focus,
+body.pv-registration-page #Payment select:focus,
+body.pv-registration-page #Payment textarea:focus {
+    border-color: #E67E22 !important;
+    outline: none !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.12) !important;
+}
+
+body.pv-registration-page .bottom_padding textarea,
+body.pv-registration-page #Summary textarea,
+body.pv-registration-page #ReserversInformation textarea,
+body.pv-registration-page #Payment textarea {
+    min-height: 100px !important;
+    resize: vertical !important;
+}
+
+/* Form labels */
+body.pv-registration-page .bottom_padding label,
+body.pv-registration-page #Summary label,
+body.pv-registration-page #ReserversInformation label,
+body.pv-registration-page #Payment label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - SECTION STYLING
+   ========================================================= */
+body.pv-registration-page #Summary {
+    padding: 2.5rem 3.5rem !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.pv-registration-page #Summary .title,
+body.pv-registration-page #ReserversInformation .title,
+body.pv-registration-page #Payment .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+body.pv-registration-page #Summary .title::before,
+body.pv-registration-page #ReserversInformation .title::before,
+body.pv-registration-page #Payment .title::before {
+    content: '' !important;
+    width: 5px !important;
+    height: 28px !important;
+    background: linear-gradient(180deg, #E67E22, #F39C12) !important;
+    border-radius: 3px !important;
+}
+
+body.pv-registration-page #ReserversInformation {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+body.pv-registration-page #Payment {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - SUBMIT BUTTON
+   ========================================================= */
+body.pv-registration-page #Buttons {
+    padding: 2.5rem 3.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+}
+
+body.pv-registration-page #SubmitButton,
+body.pv-registration-page #Buttons button[name="submit"],
+body.pv-registration-page #Buttons input[type="submit"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E67E22 100%) !important;
+    background-size: 200% auto !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 1.4rem 3.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 8px 30px rgba(230, 126, 34, 0.35), 0 4px 12px rgba(0,0,0,0.1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+}
+
+body.pv-registration-page #SubmitButton:hover,
+body.pv-registration-page #Buttons button[name="submit"]:hover,
+body.pv-registration-page #Buttons input[type="submit"]:hover {
+    background-position: right center !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 14px 40px rgba(230, 126, 34, 0.4), 0 6px 16px rgba(0,0,0,0.12) !important;
+}
+
+body.pv-registration-page #Buttons .total strong,
+body.pv-registration-page #Buttons .total .amount {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+    body.pv-registration-page .master-content-wrapper {
+        padding: 1.5rem 1rem !important;
+    }
+
+    body.pv-registration-page #RegisterHeader .column1 {
+        padding: 2rem 1.5rem !important;
+        margin-top: 1.5rem !important;
+    }
+
+    body.pv-registration-page #RegisterHeader .event_name {
+        font-size: 2.25rem !important;
+    }
+
+    body.pv-registration-page #RegisterHeader .event_description {
+        font-size: 1.15rem !important;
+    }
+
+    body.pv-registration-page #RegisterHeader .column2 {
+        padding: 1.5rem !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    body.pv-registration-page .pv-info-icon {
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+    }
+
+    body.pv-registration-page .pv-info-card {
+        padding: 1.25rem !important;
+        gap: 1rem !important;
+    }
+
+    body.pv-registration-page .pv-info-text {
+        font-size: 1rem !important;
+    }
+
+    body.pv-registration-page .pv-info-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    body.pv-registration-page #RegisterBody,
+    body.pv-registration-page #Summary,
+    body.pv-registration-page #ReserversInformation,
+    body.pv-registration-page #Payment,
+    body.pv-registration-page #Buttons {
+        padding: 2rem 1.5rem !important;
+    }
+
+    body.pv-registration-page #Buttons {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        text-align: center !important;
+    }
+
+    body.pv-registration-page #SubmitButton,
+    body.pv-registration-page #Buttons button[name="submit"],
+    body.pv-registration-page #Buttons input[type="submit"] {
+        width: 100% !important;
+        padding: 1.25rem 2rem !important;
+    }
+
+    body.pv-registration-page #Summary label,
+    body.pv-registration-page #ReserversInformation label,
+    body.pv-registration-page #Payment label {
         font-size: 1rem !important;
     }
 }
