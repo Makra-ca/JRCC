@@ -267,175 +267,184 @@
         }
 
         // Style the Reservations/Pricing section
-        // Uses TreeWalker to safely find ONLY text nodes before form elements
+        // Parses text content and creates styled pricing cards
         function stylePricingSection() {
             var registerBody = document.querySelector('#RegisterBody');
             if (!registerBody || registerBody.classList.contains('pv-pricing-styled')) return;
 
-            // Find where form controls start - we must not touch anything at or after this point
-            var firstFormElement = registerBody.querySelector('input, select, table.performance, .performance, form');
+            // Get the raw HTML content of RegisterBody
+            var html = registerBody.innerHTML;
+
+            // Find where form controls start - everything after this we leave alone
+            var formStart = html.search(/<(input|select|table|form)/i);
+            if (formStart === -1) formStart = html.length;
+
+            // Get only the text before form elements
+            var pricingHtml = html.substring(0, formStart);
+
+            // Strip HTML tags to get plain text, preserve line breaks
+            var plainText = pricingHtml
+                .replace(/<br\s*\/?>/gi, '\n')
+                .replace(/<[^>]+>/g, '')
+                .replace(/&nbsp;/g, ' ')
+                .trim();
+
+            // Split into lines
+            var lines = plainText.split('\n').map(function(l) { return l.trim(); }).filter(function(l) { return l && l !== '---'; });
+
+            console.log('💰 Parsing pricing lines:', lines);
 
             var pricingItems = [];
             var sponsorshipLevels = [];
             var otherText = [];
-            var nodesToHide = [];
 
-            // Use TreeWalker to find all text nodes
-            var walker = document.createTreeWalker(
-                registerBody,
-                NodeFilter.SHOW_TEXT,
-                null,
-                false
-            );
+            lines.forEach(function(line) {
+                // Skip "Reservations" title
+                if (line.toLowerCase() === 'reservations') return;
 
-            var textNode;
-            while (textNode = walker.nextNode()) {
-                // Stop if we've reached or passed the form elements
-                if (firstFormElement && (firstFormElement.contains(textNode) ||
-                    firstFormElement.compareDocumentPosition(textNode) & Node.DOCUMENT_POSITION_FOLLOWING)) {
-                    continue;
-                }
-
-                // Skip if inside form element
-                if (textNode.parentElement && textNode.parentElement.closest('input, select, table, form, .performance, label[for]')) {
-                    continue;
-                }
-
-                var text = textNode.textContent.trim();
-                if (!text || text === '---' || text === '-') continue;
-
-                // Skip the "Reservations" title text
-                if (textNode.parentElement && textNode.parentElement.classList.contains('title')) continue;
-
-                // Track this node for hiding later
-                nodesToHide.push(textNode);
-
-                // Parse for sponsorship levels (multiple prices with |)
-                if (text.includes('|') && text.includes('$')) {
-                    var amounts = text.match(/\$[\d,]+/g);
+                // Sponsorship levels (multiple prices with |)
+                if (line.includes('|') && line.includes('$')) {
+                    var amounts = line.match(/\$[\d,]+/g);
                     if (amounts) {
                         amounts.forEach(function(amt) {
                             sponsorshipLevels.push(amt);
                         });
                     }
-                    var textPart = text.split('$')[0].trim();
+                    // Get text before first $
+                    var textPart = line.split('$')[0].replace(/\|/g, '').trim();
                     if (textPart && textPart.length > 3) otherText.push(textPart);
+                    return;
                 }
-                // Check for VIP items
-                else if (text.toLowerCase().includes('vip') && text.includes('$')) {
-                    var vipMatch = text.match(/\$[\d,]+/);
+
+                // VIP with price
+                if (line.toLowerCase().includes('vip') && line.includes('$')) {
+                    var vipMatch = line.match(/\$[\d,]+/);
                     var vipAmount = vipMatch ? vipMatch[0] : '';
-                    var vipLabel = text.replace(/\$[\d,]+/, '').replace(/[-:]/g, '').trim();
-                    if (vipLabel.length > 3 && vipLabel.length < 80) {
+                    var vipLabel = line.replace(/\$[\d,]+/g, '').replace(/[-:]+\s*$/, '').trim();
+                    if (vipLabel && vipLabel.length < 80) {
                         pricingItems.push({ label: vipLabel, amount: vipAmount, isVip: true });
                     }
+                    return;
                 }
-                // Check for regular pricing (contains $ and reasonable length)
-                else if (text.includes('$') && text.length < 100) {
-                    var priceMatch = text.match(/\$[\d,]+/);
+
+                // Regular pricing line (has $)
+                if (line.includes('$')) {
+                    var priceMatch = line.match(/\$[\d,]+/);
                     var amount = priceMatch ? priceMatch[0] : '';
-                    var label = text.replace(/\$[\d,]+/, '').replace(/[-:]+\s*$/, '').trim();
-                    if (label && label.length > 3 && label.length < 80) {
+                    var label = line.replace(/\$[\d,]+/g, '').replace(/[-:]+\s*$/, '').trim();
+                    if (label && label.length > 2 && label.length < 80) {
                         pricingItems.push({ label: label, amount: amount, isVip: false });
                     }
+                    return;
                 }
-                // VIP description text (no price but mentions VIP)
-                else if (text.toLowerCase().includes('vip') && text.length > 10 && text.length < 200) {
-                    otherText.push(text);
-                }
-                // Other descriptive text about sponsorship
-                else if ((text.toLowerCase().includes('sponsor') || text.toLowerCase().includes('appreciated'))
-                         && text.length > 10 && text.length < 200) {
-                    otherText.push(text);
-                }
-            }
 
-            // Also hide BR elements between pricing text and form
-            var allBRs = registerBody.querySelectorAll('br');
-            allBRs.forEach(function(br) {
-                if (firstFormElement && !firstFormElement.contains(br) &&
-                    !(firstFormElement.compareDocumentPosition(br) & Node.DOCUMENT_POSITION_FOLLOWING)) {
-                    nodesToHide.push(br);
+                // VIP description (mentions VIP but no price)
+                if (line.toLowerCase().includes('vip') && line.length > 15) {
+                    otherText.push(line);
+                    return;
+                }
+
+                // Sponsorship text
+                if ((line.toLowerCase().includes('sponsor') || line.toLowerCase().includes('appreciated')) && line.length > 10) {
+                    otherText.push(line);
+                    return;
                 }
             });
 
-            console.log('💰 Found pricing items:', pricingItems.length, 'sponsorship levels:', sponsorshipLevels.length);
+            console.log('💰 Found:', pricingItems.length, 'pricing items,', sponsorshipLevels.length, 'sponsorship levels');
 
-            // Only create pricing UI if we found reasonable data
-            if (pricingItems.length > 0 && pricingItems.length < 20) {
-                // Create new container
-                var pricingContainer = document.createElement('div');
-                pricingContainer.className = 'pv-pricing-container';
+            // Only proceed if we found pricing items
+            if (pricingItems.length === 0 || pricingItems.length > 20) {
+                registerBody.classList.add('pv-pricing-styled');
+                return;
+            }
 
-                var titleEl = document.createElement('div');
-                titleEl.className = 'pv-pricing-title';
-                titleEl.textContent = 'Ticket Pricing';
-                pricingContainer.appendChild(titleEl);
+            // Create styled container
+            var pricingContainer = document.createElement('div');
+            pricingContainer.className = 'pv-pricing-container';
 
-                pricingItems.forEach(function(item) {
-                    var itemEl = document.createElement('div');
-                    itemEl.className = 'pv-pricing-item';
+            var titleEl = document.createElement('div');
+            titleEl.className = 'pv-pricing-title';
+            titleEl.textContent = 'Ticket Pricing';
+            pricingContainer.appendChild(titleEl);
 
-                    var labelEl = document.createElement('span');
-                    labelEl.className = 'pv-pricing-label';
-                    if (item.isVip) {
-                        var badge = document.createElement('span');
-                        badge.className = 'pv-vip-badge';
-                        badge.textContent = 'VIP';
-                        labelEl.appendChild(badge);
-                        labelEl.appendChild(document.createTextNode(' ' + item.label));
-                    } else {
-                        labelEl.textContent = item.label;
-                    }
+            // Add pricing items
+            pricingItems.forEach(function(item) {
+                var itemEl = document.createElement('div');
+                itemEl.className = 'pv-pricing-item';
 
-                    var amountEl = document.createElement('span');
-                    amountEl.className = 'pv-pricing-amount';
-                    amountEl.textContent = item.amount;
-
-                    itemEl.appendChild(labelEl);
-                    itemEl.appendChild(amountEl);
-                    pricingContainer.appendChild(itemEl);
-                });
-
-                // Add VIP/sponsorship description text
-                if (otherText.length > 0) {
-                    otherText.forEach(function(txt) {
-                        var p = document.createElement('p');
-                        p.className = 'pv-sponsorship-text';
-                        p.textContent = txt;
-                        pricingContainer.appendChild(p);
-                    });
-                }
-
-                // Add sponsorship levels as pills
-                if (sponsorshipLevels.length > 0) {
-                    var levelsContainer = document.createElement('div');
-                    levelsContainer.className = 'pv-sponsorship-levels';
-                    sponsorshipLevels.forEach(function(level) {
-                        var pill = document.createElement('span');
-                        pill.className = 'pv-sponsorship-level';
-                        pill.textContent = level;
-                        levelsContainer.appendChild(pill);
-                    });
-                    pricingContainer.appendChild(levelsContainer);
-                }
-
-                // Insert after title
-                var titleNode = registerBody.querySelector('.title');
-                if (titleNode && titleNode.nextSibling) {
-                    titleNode.parentNode.insertBefore(pricingContainer, titleNode.nextSibling);
+                var labelEl = document.createElement('span');
+                labelEl.className = 'pv-pricing-label';
+                if (item.isVip) {
+                    var badge = document.createElement('span');
+                    badge.className = 'pv-vip-badge';
+                    badge.textContent = 'VIP';
+                    labelEl.appendChild(badge);
+                    labelEl.appendChild(document.createTextNode(' ' + item.label));
                 } else {
-                    registerBody.insertBefore(pricingContainer, registerBody.firstChild);
+                    labelEl.textContent = item.label;
                 }
 
-                // Hide original text nodes (clear text, hide BRs)
-                nodesToHide.forEach(function(node) {
-                    if (node.nodeType === 3) {
-                        node.textContent = '';
-                    } else if (node.nodeType === 1) {
-                        node.style.display = 'none';
-                    }
+                var amountEl = document.createElement('span');
+                amountEl.className = 'pv-pricing-amount';
+                amountEl.textContent = item.amount;
+
+                itemEl.appendChild(labelEl);
+                itemEl.appendChild(amountEl);
+                pricingContainer.appendChild(itemEl);
+            });
+
+            // Add description text
+            if (otherText.length > 0) {
+                otherText.forEach(function(txt) {
+                    var p = document.createElement('p');
+                    p.className = 'pv-sponsorship-text';
+                    p.textContent = txt;
+                    pricingContainer.appendChild(p);
                 });
+            }
+
+            // Add sponsorship level pills
+            if (sponsorshipLevels.length > 0) {
+                var levelsContainer = document.createElement('div');
+                levelsContainer.className = 'pv-sponsorship-levels';
+                sponsorshipLevels.forEach(function(level) {
+                    var pill = document.createElement('span');
+                    pill.className = 'pv-sponsorship-level';
+                    pill.textContent = level;
+                    levelsContainer.appendChild(pill);
+                });
+                pricingContainer.appendChild(levelsContainer);
+            }
+
+            // Find title and insert container after it
+            var titleNode = registerBody.querySelector('.title');
+            if (titleNode) {
+                // Hide original pricing text using CSS class
+                var style = document.createElement('style');
+                style.textContent = '#RegisterBody > br, #RegisterBody > span:not(.title):not([class*="performance"]) { display: none !important; }';
+                document.head.appendChild(style);
+
+                // Insert our styled container
+                titleNode.insertAdjacentElement('afterend', pricingContainer);
+
+                // Hide text nodes after title but before performance
+                var sibling = titleNode.nextSibling;
+                while (sibling) {
+                    if (sibling.nodeType === 1 && (sibling.classList.contains('performance') ||
+                        sibling.classList.contains('pv-pricing-container') ||
+                        sibling.querySelector && sibling.querySelector('input, select, table'))) {
+                        break;
+                    }
+                    if (sibling.nodeType === 3 && sibling.textContent.trim()) {
+                        sibling.textContent = '';
+                    } else if (sibling.nodeType === 1 && sibling.tagName === 'BR') {
+                        sibling.style.display = 'none';
+                    } else if (sibling.nodeType === 1 && !sibling.querySelector('input, select')) {
+                        sibling.style.display = 'none';
+                    }
+                    sibling = sibling.nextSibling;
+                }
 
                 console.log('💰 Pricing section styled successfully');
             }
