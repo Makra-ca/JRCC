@@ -420,31 +420,29 @@
             // Find title and insert container after it
             var titleNode = registerBody.querySelector('.title');
             if (titleNode) {
-                // Hide original pricing text using CSS class
-                var style = document.createElement('style');
-                style.textContent = '#RegisterBody > br, #RegisterBody > span:not(.title):not([class*="performance"]) { display: none !important; }';
-                document.head.appendChild(style);
-
-                // Insert our styled container
-                titleNode.insertAdjacentElement('afterend', pricingContainer);
-
-                // Hide text nodes after title but before performance
+                // FIRST: Collect all siblings to hide BEFORE inserting our container
+                var siblingsToHide = [];
                 var sibling = titleNode.nextSibling;
                 while (sibling) {
                     if (sibling.nodeType === 1 && (sibling.classList.contains('performance') ||
-                        sibling.classList.contains('pv-pricing-container') ||
                         sibling.querySelector && sibling.querySelector('input, select, table'))) {
                         break;
                     }
-                    if (sibling.nodeType === 3 && sibling.textContent.trim()) {
-                        sibling.textContent = '';
-                    } else if (sibling.nodeType === 1 && sibling.tagName === 'BR') {
-                        sibling.style.display = 'none';
-                    } else if (sibling.nodeType === 1 && !sibling.querySelector('input, select')) {
-                        sibling.style.display = 'none';
-                    }
+                    siblingsToHide.push(sibling);
                     sibling = sibling.nextSibling;
                 }
+
+                // SECOND: Hide all the collected siblings
+                siblingsToHide.forEach(function(node) {
+                    if (node.nodeType === 3 && node.textContent.trim()) {
+                        node.textContent = '';
+                    } else if (node.nodeType === 1) {
+                        node.style.display = 'none';
+                    }
+                });
+
+                // THIRD: Insert our styled container after title
+                titleNode.insertAdjacentElement('afterend', pricingContainer);
 
                 console.log('💰 Pricing section styled successfully');
             }
