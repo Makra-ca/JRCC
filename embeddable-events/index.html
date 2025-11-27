@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JRCC Events</title>
+    <title>Events Widget - Makra Prototype</title>
 
     <!-- Google Fonts - Urbanist -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,8 +12,9 @@
 
     <style>
         /* ========================================
-           JRCC EVENTS - EMBEDDABLE WIDGET
-           Powered by Google Sheets
+           EMBEDDABLE EVENTS WIDGET
+           A Makra Prototype - Powered by Google Sheets
+           Chabad Arizona Theme - Burgundy & Orange
            ======================================== */
 
         * {
@@ -22,9 +23,20 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overflow-x: hidden;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
+        }
+
         body {
             font-family: 'Urbanist', sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: #ffffff;
             min-height: 100vh;
             padding: 2rem;
         }
@@ -34,57 +46,191 @@
             margin: 0 auto;
         }
 
+        /* Header - Burgundy to Orange Gradient */
         .events-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            padding: 2rem 1rem;
         }
 
         .events-header h1 {
-            font-size: 2.5rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
-            color: #1e3a5f;
-            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #6B2C3E 0%, #8B3A4E 30%, #E67E22 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
         }
 
         .events-header p {
-            color: #666;
-            font-size: 1.1rem;
+            color: #5a6a7a;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 500;
+        }
+
+        /* Filters - Desktop (pill buttons) */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #2D2D2D;
+            margin-right: 0.25rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #6B2C3E;
+            border-radius: 25px;
+            background: white;
+            color: #6B2C3E;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #f8f0f2;
+        }
+
+        .filter-btn.active {
+            background: #6B2C3E;
+            color: white;
+        }
+
+        /* Mobile filter dropdowns - hidden on desktop */
+        .filters-mobile {
+            display: none;
+        }
+
+        .filter-select {
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border: 2px solid #6B2C3E;
+            border-radius: 12px;
+            background: white;
+            color: #6B2C3E;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%236B2C3E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 18px;
+            min-width: 140px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #E67E22;
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15);
+        }
+
+        .filter-select option {
+            padding: 0.5rem;
+        }
+
+        /* Mobile: Show dropdowns, hide buttons */
+        @media (max-width: 768px) {
+            .filters {
+                display: none;
+            }
+
+            .filters-mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+
+            .filter-row {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+
+            .filter-row .filter-label {
+                min-width: 50px;
+            }
+
+            .filter-select {
+                flex: 1;
+                max-width: 200px;
+            }
         }
 
         .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 2rem;
         }
 
-        /* Event Card */
+        /* Event Card - Chabad Arizona Theme */
         .event-card {
-            background: #ffffff;
+            background: linear-gradient(145deg, #ffffff 0%, #faf8f9 100%);
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(107, 44, 62, 0.15);
         }
 
         .event-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(107, 44, 62, 0.15);
+            border-color: rgba(107, 44, 62, 0.3);
         }
 
         .event-card-content {
             padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Event Title */
         .event-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #e67e22;
-            margin-bottom: 0.75rem;
+            color: #2D2D2D;
+            margin-bottom: 0.25rem;
             line-height: 1.3;
         }
 
-        /* Tags */
+        /* Event Host (Chabad House Name) */
+        .event-host {
+            font-size: 0.95rem;
+            color: #5a6a7a;
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        /* Tags - Burgundy Theme */
         .event-tags {
             display: flex;
             flex-wrap: wrap;
@@ -96,40 +242,52 @@
             display: inline-flex;
             align-items: center;
             gap: 0.25rem;
-            padding: 0.25rem 0.75rem;
-            background: #f0f0f0;
+            padding: 0.35rem 0.85rem;
+            background: linear-gradient(135deg, #f8f0f2 0%, #f0e4e7 100%);
             border-radius: 20px;
             font-size: 0.85rem;
-            color: #555;
+            color: #6B2C3E;
+            border: 1px solid rgba(107, 44, 62, 0.15);
         }
 
         .event-tag svg {
             width: 14px;
             height: 14px;
+            color: #6B2C3E;
         }
 
-        /* Description */
+        .event-tag.night-tag {
+            background: linear-gradient(135deg, #E67E22 0%, #D35400 100%);
+            color: white;
+            border: none;
+        }
+
+        .event-tag.night-tag svg {
+            color: white;
+        }
+
+        /* Description - Burgundy Accent */
         .event-description {
             display: flex;
             align-items: flex-start;
             gap: 0.75rem;
             margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: #fef9f3;
-            border-radius: 8px;
-            border-left: 3px solid #e67e22;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #faf8f9 0%, #f5f0f2 100%);
+            border-radius: 10px;
+            border-left: 3px solid #6B2C3E;
         }
 
         .event-description svg {
             flex-shrink: 0;
             width: 18px;
             height: 18px;
-            color: #e67e22;
+            color: #6B2C3E;
             margin-top: 2px;
         }
 
         .event-description p {
-            color: #555;
+            color: #3d4a5c;
             font-size: 0.95rem;
             line-height: 1.5;
         }
@@ -152,69 +310,22 @@
             flex-shrink: 0;
             width: 18px;
             height: 18px;
-            color: #e67e22;
+            color: #6B2C3E;
             margin-top: 2px;
         }
 
         .event-detail span {
-            color: #333;
+            color: #2d3a4a;
             font-size: 0.95rem;
             line-height: 1.4;
         }
 
-        /* Divider */
-        .event-divider {
-            height: 1px;
-            background: #eee;
-            margin: 1rem 0;
-        }
-
-        /* Contact Section */
-        .event-contact {
-            margin-bottom: 1rem;
-        }
-
-        .event-contact-title {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-
-        .event-contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .event-contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .event-contact-item svg {
-            width: 16px;
-            height: 16px;
-            color: #888;
-        }
-
-        .event-contact-item a,
-        .event-contact-item span {
-            color: #2980b9;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        .event-contact-item a:hover {
-            text-decoration: underline;
-        }
-
-        /* CTA Button */
+        /* CTA Button - Burgundy Gradient */
         .event-cta {
             display: block;
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            background: linear-gradient(135deg, #6B2C3E 0%, #8B3A4E 50%, #6B2C3E 100%);
             color: white;
             text-align: center;
             text-decoration: none;
@@ -222,11 +333,29 @@
             font-size: 1rem;
             border: none;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .event-cta:hover::before {
+            left: 100%;
         }
 
         .event-cta:hover {
-            opacity: 0.9;
+            background: linear-gradient(135deg, #7D3550 0%, #9D4560 50%, #7D3550 100%);
+            box-shadow: 0 4px 15px rgba(107, 44, 62, 0.3);
         }
 
         .event-cta svg {
@@ -237,18 +366,18 @@
             vertical-align: middle;
         }
 
-        /* Loading State */
+        /* Loading State - Themed */
         .loading {
             text-align: center;
             padding: 3rem;
-            color: #666;
+            color: #5a6a7a;
         }
 
         .loading-spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid #f0f0f0;
-            border-top-color: #e67e22;
+            border: 3px solid rgba(107, 44, 62, 0.1);
+            border-top-color: #6B2C3E;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
@@ -265,13 +394,16 @@
             background: #fff5f5;
             border-radius: 12px;
             color: #c0392b;
+            border: 1px solid rgba(192, 57, 43, 0.2);
         }
 
         /* No Events */
         .no-events {
             text-align: center;
             padding: 3rem;
-            color: #666;
+            color: #5a6a7a;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
         }
 
         /* Responsive */
@@ -293,28 +425,79 @@
             }
         }
 
-        /* Powered by footer */
-        .powered-by {
+        /* Designed by credit */
+        .designed-by {
             text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #ddd;
-            color: #999;
+            margin-top: 2.5rem;
+            padding: 1rem;
+            color: #8a8a8a;
             font-size: 0.85rem;
         }
 
-        .powered-by a {
-            color: #e67e22;
+        .designed-by a {
+            color: #6B2C3E;
             text-decoration: none;
+            font-weight: 600;
         }
+
+        .designed-by a:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
     <div class="events-container">
         <header class="events-header">
-            <h1>Upcoming Events</h1>
+            <h1>Celebrate Chanukah in Arizona</h1>
             <p>Join us for community programs and celebrations</p>
         </header>
+
+        <!-- Desktop: Pill Buttons -->
+        <div id="filters" class="filters">
+            <div class="filter-group">
+                <span class="filter-label">Night:</span>
+                <button class="filter-btn active" data-filter="night" data-value="all">All</button>
+                <button class="filter-btn" data-filter="night" data-value="1">1</button>
+                <button class="filter-btn" data-filter="night" data-value="2">2</button>
+                <button class="filter-btn" data-filter="night" data-value="3">3</button>
+                <button class="filter-btn" data-filter="night" data-value="4">4</button>
+                <button class="filter-btn" data-filter="night" data-value="5">5</button>
+                <button class="filter-btn" data-filter="night" data-value="6">6</button>
+                <button class="filter-btn" data-filter="night" data-value="7">7</button>
+                <button class="filter-btn" data-filter="night" data-value="8">8</button>
+            </div>
+            <div class="filter-group" id="age-filter-group">
+                <span class="filter-label">Age:</span>
+                <button class="filter-btn active" data-filter="age" data-value="all">All</button>
+                <!-- Age buttons populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Mobile: Dropdown Selects -->
+        <div class="filters-mobile">
+            <div class="filter-row">
+                <span class="filter-label">Night:</span>
+                <select id="night-select" class="filter-select">
+                    <option value="all">All Nights</option>
+                    <option value="1">Night 1</option>
+                    <option value="2">Night 2</option>
+                    <option value="3">Night 3</option>
+                    <option value="4">Night 4</option>
+                    <option value="5">Night 5</option>
+                    <option value="6">Night 6</option>
+                    <option value="7">Night 7</option>
+                    <option value="8">Night 8</option>
+                </select>
+            </div>
+            <div class="filter-row">
+                <span class="filter-label">Age:</span>
+                <select id="age-select" class="filter-select">
+                    <option value="all">All Ages</option>
+                    <!-- Age options populated dynamically -->
+                </select>
+            </div>
+        </div>
 
         <div id="events-grid" class="events-grid">
             <div class="loading">
@@ -323,67 +506,57 @@
             </div>
         </div>
 
-        <footer class="powered-by">
-            Powered by <a href="https://www.jrcc.org" target="_blank">JRCC</a>
-        </footer>
+        <p class="designed-by">This page was designed by <a href="https://makra.ca" target="_blank">Makra.ca</a></p>
     </div>
 
     <script>
         /* ========================================
-           GOOGLE SHEETS CONFIGURATION
+           CONFIGURATION
            ======================================== */
 
-        // INSTRUCTIONS:
-        // 1. Create a Google Sheet with columns:
-        //    Title, AgeGroup, Description, Date, StartTime, EndTime, Location, ContactName, Phone, Email, Website
-        // 2. File → Share → Publish to web → Select "Sheet1" → CSV → Publish
-        // 3. Copy the CSV URL and paste it below
+        // Enable debug mode by adding ?debug=true to the URL
+        const DEBUG_MODE = new URLSearchParams(window.location.search).get('debug') === 'true';
 
-        // Replace this URL with your published Google Sheet CSV URL
+        // Google Sheet CSV URL
         const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRNoCXQ32tZcF-m-facYIX9P0sjMbOC2CiXQ-3VgZ3UTvf7kZYUYoHYhK6nMsLxnB0UmnNZYy-FpRy5/pub?output=csv';
 
-        // Or use this demo data for testing
-        const DEMO_DATA = [
-            {
-                title: "Giant Menorah Lighting",
-                ageGroup: "All ages",
-                description: "Public menorah lighting every night except day night in Peace Gardens. Latkes & Donuts are served!",
-                date: "Wednesday, January 1, 2025",
-                startTime: "7:00 PM",
-                endTime: "7:30 PM",
-                location: "Peace Gardens (adjacent to the town hall in Sheffield city centre)",
-                contactName: "Rabbi Y Golomb",
-                phone: "+44 788 742 9619",
-                email: "Ycgolomb81@gmail.com",
-                website: "https://www.jrcc.org"
-            },
-            {
-                title: "Shabbat Dinner",
-                ageGroup: "Families",
-                description: "Join us for a warm Friday night Shabbat dinner with traditional food, songs, and community.",
-                date: "Friday, January 10, 2025",
-                startTime: "6:30 PM",
-                endTime: "9:00 PM",
-                location: "JRCC Community Center, 441 Clark Ave W",
-                contactName: "JRCC Office",
-                phone: "(905) 303-1880",
-                email: "info@jrcc.org",
-                website: "https://www.jrcc.org"
-            },
-            {
-                title: "Kids Chanukah Party",
-                ageGroup: "Ages 3-12",
-                description: "Fun activities, games, crafts, and of course - donuts and latkes for the kids!",
-                date: "Sunday, December 22, 2024",
-                startTime: "2:00 PM",
-                endTime: "4:00 PM",
-                location: "JRCC Community Center",
-                contactName: "Youth Director",
-                phone: "(905) 303-1880",
-                email: "youth@jrcc.org",
-                website: "https://www.jrcc.org/chanukah"
+        /* ========================================
+           DEBUG UTILITIES
+           ======================================== */
+        function debug(...args) {
+            if (DEBUG_MODE) {
+                console.log('%c[DEBUG]', 'color: #e67e22; font-weight: bold;', ...args);
             }
-        ];
+        }
+
+        function debugTable(label, data) {
+            if (DEBUG_MODE) {
+                console.log('%c[DEBUG] ' + label, 'color: #e67e22; font-weight: bold;');
+                console.table(data);
+            }
+        }
+
+        function debugGroup(label) {
+            if (DEBUG_MODE) console.group('%c[DEBUG] ' + label, 'color: #e67e22; font-weight: bold;');
+        }
+
+        function debugGroupEnd() {
+            if (DEBUG_MODE) console.groupEnd();
+        }
+
+        /* ========================================
+           URL HELPER
+           ======================================== */
+        function ensureHttps(url) {
+            if (!url) return '';
+            url = url.trim();
+            // If URL already has a protocol, return as-is
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url;
+            }
+            // Otherwise, prepend https://
+            return 'https://' + url;
+        }
 
         /* ========================================
            ICONS (SVG)
@@ -396,8 +569,23 @@
             mapPin: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
             phone: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
             mail: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
-            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+            flame: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>'
         };
+
+        /* ========================================
+           HELPER: Parse night number from various formats
+           ======================================== */
+        function parseNightNumber(nightValue) {
+            if (!nightValue) return null;
+            // Handle formats like "1", "Night 1", "night 1", "Night1", etc.
+            const match = nightValue.toString().match(/(\d+)/);
+            if (match) {
+                const num = parseInt(match[1], 10);
+                if (num >= 1 && num <= 8) return num;
+            }
+            return null;
+        }
 
         /* ========================================
            RENDER EVENT CARD
@@ -407,19 +595,29 @@
                 ? `${event.startTime} - ${event.endTime}`
                 : event.startTime;
 
+            const nightNum = parseNightNumber(event.chanukahNight);
+
             return `
-                <article class="event-card">
+                <article class="event-card" data-night="${nightNum || ''}" data-age="${event.ageGroup || ''}">
                     <div class="event-card-content">
                         <h2 class="event-title">${event.title}</h2>
 
-                        ${event.ageGroup ? `
+                        ${event.chabadHouseName ? `
+                        <p class="event-host">Hosted by ${event.chabadHouseName}</p>
+                        ` : ''}
+
                         <div class="event-tags">
+                            ${nightNum ? `
+                            <span class="event-tag night-tag">
+                                ${icons.flame}
+                                Night ${nightNum}
+                            </span>
+                            ` : ''}
                             <span class="event-tag">
                                 ${icons.users}
-                                ${event.ageGroup}
+                                ${event.ageGroup || 'All Ages'}
                             </span>
                         </div>
-                        ` : ''}
 
                         ${event.description ? `
                         <div class="event-description">
@@ -451,30 +649,10 @@
                             ` : ''}
                         </div>
 
-                        ${event.contactName || event.phone || event.email ? `
-                        <div class="event-divider"></div>
-                        <div class="event-contact">
-                            ${event.contactName ? `<div class="event-contact-title">Contact: ${event.contactName}</div>` : ''}
-                            <div class="event-contact-info">
-                                ${event.phone ? `
-                                <div class="event-contact-item">
-                                    ${icons.phone}
-                                    <a href="tel:${event.phone}">${event.phone}</a>
-                                </div>
-                                ` : ''}
-                                ${event.email ? `
-                                <div class="event-contact-item">
-                                    ${icons.mail}
-                                    <a href="mailto:${event.email}">${event.email}</a>
-                                </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                        ` : ''}
                     </div>
 
                     ${event.website ? `
-                    <a href="${event.website}" target="_blank" class="event-cta">
+                    <a href="${ensureHttps(event.website)}" target="_blank" class="event-cta">
                         ${icons.globe}
                         Visit Website
                     </a>
@@ -484,55 +662,473 @@
         }
 
         /* ========================================
-           PARSE CSV FROM GOOGLE SHEETS
+           ROBUST CSV PARSER
+           Handles all edge cases:
+           - Quoted fields with commas
+           - Escaped quotes (doubled quotes)
+           - Newlines within quoted fields
+           - Carriage returns (\r\n and \r)
+           - Empty fields
+           - Fields with special characters
            ======================================== */
         function parseCSV(csv) {
-            const lines = csv.split('\n');
-            const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            debugGroup('CSV PARSING');
+            debug('Raw CSV length:', csv.length, 'characters');
+            debug('First 500 chars:', csv.substring(0, 500));
 
+            // Normalize line endings (Windows \r\n, old Mac \r, Unix \n)
+            csv = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            debug('Normalized line endings');
+
+            // Robust CSV line parser
+            function parseCSVLine(line, lineNum) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                let i = 0;
+
+                while (i < line.length) {
+                    const char = line[i];
+
+                    if (inQuotes) {
+                        if (char === '"') {
+                            // Check for escaped quote (doubled)
+                            if (i + 1 < line.length && line[i + 1] === '"') {
+                                current += '"';
+                                i += 2;
+                                continue;
+                            } else {
+                                // End of quoted field
+                                inQuotes = false;
+                                i++;
+                                continue;
+                            }
+                        } else {
+                            current += char;
+                            i++;
+                        }
+                    } else {
+                        if (char === '"') {
+                            // Start of quoted field
+                            inQuotes = true;
+                            i++;
+                        } else if (char === ',') {
+                            // Field separator - push current field
+                            result.push(current);
+                            current = '';
+                            i++;
+                        } else {
+                            current += char;
+                            i++;
+                        }
+                    }
+                }
+
+                // Don't forget the last field
+                result.push(current);
+
+                // Debug: show parsing for each line
+                if (DEBUG_MODE && lineNum !== undefined) {
+                    debug(`Line ${lineNum}: ${result.length} fields parsed`);
+                    if (lineNum <= 3 || result[0]) {
+                        debug(`  Fields:`, result.map((f, idx) => `[${idx}]="${f.substring(0, 50)}${f.length > 50 ? '...' : ''}"`).join(', '));
+                    }
+                }
+
+                return result;
+            }
+
+            // Split into lines (but handle quoted fields containing newlines)
+            function splitCSVIntoLines(csv) {
+                const lines = [];
+                let currentLine = '';
+                let inQuotes = false;
+
+                for (let i = 0; i < csv.length; i++) {
+                    const char = csv[i];
+
+                    if (char === '"') {
+                        // Toggle quote state (handle escaped quotes)
+                        if (inQuotes && i + 1 < csv.length && csv[i + 1] === '"') {
+                            currentLine += '""';
+                            i++;
+                            continue;
+                        }
+                        inQuotes = !inQuotes;
+                        currentLine += char;
+                    } else if (char === '\n' && !inQuotes) {
+                        // End of line (only if not inside quotes)
+                        if (currentLine.trim()) {
+                            lines.push(currentLine);
+                        }
+                        currentLine = '';
+                    } else {
+                        currentLine += char;
+                    }
+                }
+
+                // Don't forget the last line
+                if (currentLine.trim()) {
+                    lines.push(currentLine);
+                }
+
+                return lines;
+            }
+
+            const lines = splitCSVIntoLines(csv);
+            debug('Total lines found:', lines.length);
+
+            if (lines.length === 0) {
+                debug('ERROR: No lines found in CSV');
+                debugGroupEnd();
+                return [];
+            }
+
+            // Parse header row
+            const headers = parseCSVLine(lines[0], 0);
+            debug('Headers found:', headers);
+
+            // Map header names to our expected format (case-insensitive)
+            const headerMap = {
+                'title': 'title',
+                'agegroup': 'ageGroup',
+                'age group': 'ageGroup',
+                'description': 'description',
+                'date': 'date',
+                'starttime': 'startTime',
+                'start time': 'startTime',
+                'endtime': 'endTime',
+                'end time': 'endTime',
+                'location': 'location',
+                'contactname': 'contactName',
+                'contact name': 'contactName',
+                'contact': 'contactName',
+                'phone': 'phone',
+                'email': 'email',
+                'website': 'website',
+                'url': 'website',
+                'chabadhousename': 'chabadHouseName',
+                'chabad house name': 'chabadHouseName',
+                'chabad house': 'chabadHouseName',
+                'organization': 'chabadHouseName',
+                'host': 'chabadHouseName',
+                'night': 'chanukahNight',
+                'chanukahnight': 'chanukahNight',
+                'chanukah night': 'chanukahNight',
+                'day': 'chanukahNight',
+                'nightofchanukah': 'chanukahNight',
+                'night of chanukah': 'chanukahNight'
+            };
+
+            // Parse data rows
             const events = [];
             for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-
-                // Handle CSV with quoted fields
-                const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                const values = parseCSVLine(lines[i], i);
                 const event = {};
 
                 headers.forEach((header, index) => {
-                    let value = values[index] || '';
-                    value = value.replace(/^"|"$/g, '').trim();
-
-                    // Map header names to our expected format
-                    const headerMap = {
-                        'Title': 'title',
-                        'AgeGroup': 'ageGroup',
-                        'Age Group': 'ageGroup',
-                        'Description': 'description',
-                        'Date': 'date',
-                        'StartTime': 'startTime',
-                        'Start Time': 'startTime',
-                        'EndTime': 'endTime',
-                        'End Time': 'endTime',
-                        'Location': 'location',
-                        'ContactName': 'contactName',
-                        'Contact Name': 'contactName',
-                        'Contact': 'contactName',
-                        'Phone': 'phone',
-                        'Email': 'email',
-                        'Website': 'website',
-                        'URL': 'website'
-                    };
-
-                    const mappedHeader = headerMap[header] || header.toLowerCase();
+                    const cleanHeader = header.replace(/"/g, '').trim().toLowerCase();
+                    const mappedHeader = headerMap[cleanHeader] || cleanHeader;
+                    const value = values[index] !== undefined ? values[index].trim() : '';
                     event[mappedHeader] = value;
                 });
 
-                if (event.title) {
+                // Only add events that have a title
+                if (event.title && event.title.trim()) {
                     events.push(event);
+                    debug(`Event ${events.length}: "${event.title}"`);
                 }
             }
 
+            debug('Total events parsed:', events.length);
+            debugTable('All Events', events);
+            debugGroupEnd();
+
             return events;
+        }
+
+        /* ========================================
+           CSV PARSER TEST SUITE
+           Run in console: runCSVTests()
+           ======================================== */
+        window.runCSVTests = function() {
+            console.log('%c=== CSV PARSER TEST SUITE ===', 'font-size: 16px; font-weight: bold; color: #1e3a5f;');
+
+            const tests = [
+                {
+                    name: 'Simple CSV',
+                    csv: 'Title,AgeGroup,Description\nEvent One,All ages,A simple event\nEvent Two,Kids,Another event',
+                    expected: [
+                        { title: 'Event One', ageGroup: 'All ages', description: 'A simple event' },
+                        { title: 'Event Two', ageGroup: 'Kids', description: 'Another event' }
+                    ]
+                },
+                {
+                    name: 'Fields with commas (quoted)',
+                    csv: 'Title,Location,Description\n"Hello, World","New York, NY","A test, with commas"',
+                    expected: [
+                        { title: 'Hello, World', location: 'New York, NY', description: 'A test, with commas' }
+                    ]
+                },
+                {
+                    name: 'Fields with quotes inside',
+                    csv: 'Title,Description\n"Say ""Hello""","She said ""Hi"" back"',
+                    expected: [
+                        { title: 'Say "Hello"', description: 'She said "Hi" back' }
+                    ]
+                },
+                {
+                    name: 'Empty fields',
+                    csv: 'Title,AgeGroup,Description,Date\nEvent One,,Has no age group,\nEvent Two,Adults,,Today',
+                    expected: [
+                        { title: 'Event One', ageGroup: '', description: 'Has no age group', date: '' },
+                        { title: 'Event Two', ageGroup: 'Adults', description: '', date: 'Today' }
+                    ]
+                },
+                {
+                    name: 'Multi-word titles without quotes',
+                    csv: 'Title,AgeGroup\nGiant Menorah Lighting,All ages\ntest 2 Arizona,making sure everything is wroking',
+                    expected: [
+                        { title: 'Giant Menorah Lighting', ageGroup: 'All ages' },
+                        { title: 'test 2 Arizona', ageGroup: 'making sure everything is wroking' }
+                    ]
+                },
+                {
+                    name: 'Windows line endings',
+                    csv: 'Title,AgeGroup\r\nEvent One,Adults\r\nEvent Two,Kids',
+                    expected: [
+                        { title: 'Event One', ageGroup: 'Adults' },
+                        { title: 'Event Two', ageGroup: 'Kids' }
+                    ]
+                },
+                {
+                    name: 'Mixed quoted and unquoted',
+                    csv: 'Title,AgeGroup,Description\nSimple Title,All ages,"A description, with comma"\n"Quoted Title",Kids,Simple description',
+                    expected: [
+                        { title: 'Simple Title', ageGroup: 'All ages', description: 'A description, with comma' },
+                        { title: 'Quoted Title', ageGroup: 'Kids', description: 'Simple description' }
+                    ]
+                },
+                {
+                    name: 'Special characters',
+                    csv: 'Title,Email,Phone\nEvent!@#$%,test@email.com,+1 (555) 123-4567',
+                    expected: [
+                        { title: 'Event!@#$%', email: 'test@email.com', phone: '+1 (555) 123-4567' }
+                    ]
+                }
+            ];
+
+            let passed = 0;
+            let failed = 0;
+
+            tests.forEach((test, index) => {
+                console.group(`Test ${index + 1}: ${test.name}`);
+
+                try {
+                    const result = parseCSV(test.csv);
+
+                    // Compare results
+                    let testPassed = true;
+                    if (result.length !== test.expected.length) {
+                        console.error(`❌ Expected ${test.expected.length} events, got ${result.length}`);
+                        testPassed = false;
+                    } else {
+                        test.expected.forEach((expected, i) => {
+                            Object.keys(expected).forEach(key => {
+                                if (result[i][key] !== expected[key]) {
+                                    console.error(`❌ Event ${i + 1}, field "${key}": expected "${expected[key]}", got "${result[i][key]}"`);
+                                    testPassed = false;
+                                }
+                            });
+                        });
+                    }
+
+                    if (testPassed) {
+                        console.log('%c✅ PASSED', 'color: green; font-weight: bold;');
+                        passed++;
+                    } else {
+                        console.log('%c❌ FAILED', 'color: red; font-weight: bold;');
+                        console.log('Expected:', test.expected);
+                        console.log('Got:', result);
+                        failed++;
+                    }
+                } catch (error) {
+                    console.error('❌ ERROR:', error.message);
+                    failed++;
+                }
+
+                console.groupEnd();
+            });
+
+            console.log('');
+            console.log('%c=== TEST RESULTS ===', 'font-size: 14px; font-weight: bold;');
+            console.log(`%c✅ Passed: ${passed}`, 'color: green;');
+            console.log(`%c❌ Failed: ${failed}`, failed > 0 ? 'color: red;' : 'color: gray;');
+            console.log(`Total: ${tests.length}`);
+
+            return { passed, failed, total: tests.length };
+        };
+
+        /* ========================================
+           DEBUG: Fetch and display raw CSV
+           Run in console: fetchRawCSV()
+           ======================================== */
+        window.fetchRawCSV = async function() {
+            console.log('%c=== FETCHING RAW CSV ===', 'font-size: 16px; font-weight: bold; color: #1e3a5f;');
+            try {
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                const csv = await response.text();
+                console.log('Raw CSV:');
+                console.log(csv);
+                console.log('');
+                console.log('Line by line:');
+                csv.split('\n').forEach((line, i) => {
+                    console.log(`Line ${i}: "${line}"`);
+                });
+                return csv;
+            } catch (error) {
+                console.error('Error fetching CSV:', error);
+            }
+        };
+
+        /* ========================================
+           FILTERING SYSTEM
+           ======================================== */
+        let allEvents = [];
+        let currentFilters = {
+            night: 'all',
+            age: 'all'
+        };
+
+        function populateAgeFilters(events) {
+            const ageGroups = new Set();
+            events.forEach(event => {
+                if (event.ageGroup && event.ageGroup.trim()) {
+                    ageGroups.add(event.ageGroup.trim());
+                }
+            });
+
+            const sortedAges = Array.from(ageGroups).sort();
+
+            // Populate desktop buttons
+            const ageFilterGroup = document.getElementById('age-filter-group');
+            if (ageFilterGroup && ageGroups.size > 0) {
+                sortedAges.forEach(age => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn';
+                    btn.dataset.filter = 'age';
+                    btn.dataset.value = age;
+                    btn.textContent = age;
+                    ageFilterGroup.appendChild(btn);
+                });
+            }
+
+            // Populate mobile dropdown
+            const ageSelect = document.getElementById('age-select');
+            if (ageSelect && ageGroups.size > 0) {
+                sortedAges.forEach(age => {
+                    const option = document.createElement('option');
+                    option.value = age;
+                    option.textContent = age;
+                    ageSelect.appendChild(option);
+                });
+            }
+        }
+
+        function filterEvents() {
+            const container = document.getElementById('events-grid');
+
+            let filtered = allEvents.filter(event => {
+                // Night filter
+                if (currentFilters.night !== 'all') {
+                    const eventNight = parseNightNumber(event.chanukahNight);
+                    if (!eventNight || eventNight.toString() !== currentFilters.night) {
+                        return false;
+                    }
+                }
+
+                // Age filter
+                if (currentFilters.age !== 'all') {
+                    if (!event.ageGroup || event.ageGroup.trim() !== currentFilters.age) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-events"><p>No events match your filters.</p></div>';
+            } else {
+                container.innerHTML = filtered.map(renderEventCard).join('');
+            }
+        }
+
+        function setupFilterListeners() {
+            // Desktop: Button click handlers
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filterType = this.dataset.filter;
+                    const filterValue = this.dataset.value;
+
+                    // Update active state for this filter group
+                    document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // Sync mobile dropdown
+                    const selectId = filterType === 'night' ? 'night-select' : 'age-select';
+                    const select = document.getElementById(selectId);
+                    if (select) select.value = filterValue;
+
+                    // Update filter state
+                    currentFilters[filterType] = filterValue;
+
+                    // Re-filter events
+                    filterEvents();
+                });
+            });
+
+            // Mobile: Dropdown change handlers
+            const nightSelect = document.getElementById('night-select');
+            const ageSelect = document.getElementById('age-select');
+
+            if (nightSelect) {
+                nightSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+
+                    // Sync desktop buttons
+                    document.querySelectorAll('.filter-btn[data-filter="night"]').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.value === filterValue) {
+                            b.classList.add('active');
+                        }
+                    });
+
+                    // Update filter state
+                    currentFilters.night = filterValue;
+                    filterEvents();
+                });
+            }
+
+            if (ageSelect) {
+                ageSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+
+                    // Sync desktop buttons
+                    document.querySelectorAll('.filter-btn[data-filter="age"]').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.value === filterValue) {
+                            b.classList.add('active');
+                        }
+                    });
+
+                    // Update filter state
+                    currentFilters.age = filterValue;
+                    filterEvents();
+                });
+            }
         }
 
         /* ========================================
@@ -561,6 +1157,16 @@
                     return;
                 }
 
+                // Store all events for filtering
+                allEvents = events;
+
+                // Populate age filter buttons dynamically
+                populateAgeFilters(events);
+
+                // Setup filter click handlers
+                setupFilterListeners();
+
+                // Initial render
                 container.innerHTML = events.map(renderEventCard).join('');
 
             } catch (error) {
@@ -576,6 +1182,28 @@
 
         // Load events on page load
         document.addEventListener('DOMContentLoaded', loadEvents);
+
+        /* ========================================
+           IFRAME AUTO-RESIZE
+           Sends height to parent window so iframe
+           can resize and avoid internal scrolling
+           ======================================== */
+        function sendHeightToParent() {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        // Send height after content changes
+        const resizeObserver = new ResizeObserver(() => {
+            sendHeightToParent();
+        });
+        resizeObserver.observe(document.body);
+
+        // Also send on load and after small delay (for fonts/images)
+        window.addEventListener('load', () => {
+            sendHeightToParent();
+            setTimeout(sendHeightToParent, 500);
+        });
     </script>
 </body>
 </html>

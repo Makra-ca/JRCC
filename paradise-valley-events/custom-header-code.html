@@ -1,12 +1,13 @@
 <!-- PARADISE VALLEY EVENTS - Custom Header Code -->
 <!-- Paste this into Chabad One CMS: Custom Header Code section -->
 <!-- This loads the Google Font and CSS styles for the modernized events page -->
+<!-- GRID LAYOUT VERSION - 60% LARGER TEXT -->
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
 
 <style type="text/css">
 /* =========================================================
-   PARADISE VALLEY EVENTS - MODERNIZED STYLING
+   PARADISE VALLEY EVENTS - GRID LAYOUT STYLING
    Only applies to /tools/events/ pages
    ========================================================= */
 
@@ -24,8 +25,8 @@ body.cco_body {
     font-weight: 800 !important;
     color: #E67E22 !important;
     text-align: center !important;
-    margin: 2rem auto 0.5rem !important;
-    padding: 0 2rem !important;
+    margin: 2rem auto 0.75rem !important;
+    padding: 0 1.5rem !important;
     background: none !important;
     letter-spacing: -2px !important;
     display: block !important;
@@ -33,121 +34,23 @@ body.cco_body {
 }
 
 #pv-title-accent {
-    width: 60px !important;
-    height: 4px !important;
+    width: 80px !important;
+    height: 5px !important;
     background: linear-gradient(90deg, #2980b9, #E67E22) !important;
-    margin: 1rem auto 3rem !important;
-    border-radius: 2px !important;
-    display: block !important;
-}
-
-@media (max-width: 768px) {
-    .pv-styled-title {
-        font-size: 3rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .pv-styled-title {
-        font-size: 2.5rem !important;
-    }
+    margin: 1rem auto 2.5rem !important;
+    border-radius: 3px !important;
 }
 
 /* =========================================================
-   SCROLL INDICATOR - Shows when multiple events exist
+   EVENTS GRID CONTAINER
    ========================================================= */
-.pv-scroll-indicator {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 1.5rem !important;
-    margin: -1rem auto 2rem !important;
-    max-width: 1100px !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-}
-
-.pv-scroll-indicator:hover {
-    transform: translateY(4px) !important;
-}
-
-.pv-scroll-indicator-text {
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    color: #888 !important;
-    margin-bottom: 0.5rem !important;
-    letter-spacing: 0.5px !important;
-}
-
-.pv-scroll-indicator-arrow {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50% !important;
-    background: #f5f5f5 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    animation: pvBounce 2s ease-in-out infinite !important;
-}
-
-.pv-scroll-indicator-arrow svg {
-    width: 20px !important;
-    height: 20px !important;
-    color: #2980b9 !important;
-}
-
-@keyframes pvBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-}
-
-/* Event Counter Badge */
-.pv-event-counter {
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important;
-    background: rgba(41, 128, 185, 0.95) !important;
-    color: #fff !important;
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 0.9rem !important;
-    font-weight: 600 !important;
-    padding: 0.75rem 1.25rem !important;
-    border-radius: 30px !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
-    z-index: 1000 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    transition: all 0.3s ease !important;
-}
-
-.pv-event-counter:hover {
-    background: rgba(41, 128, 185, 1) !important;
-    transform: scale(1.05) !important;
-}
-
-.pv-event-counter-dot {
-    width: 8px !important;
-    height: 8px !important;
-    border-radius: 50% !important;
-    background: rgba(255,255,255,0.5) !important;
-    transition: all 0.3s ease !important;
-}
-
-.pv-event-counter-dot.active {
-    background: #fff !important;
-    transform: scale(1.3) !important;
-}
-
-@media (max-width: 550px) {
-    .pv-event-counter {
-        bottom: 10px !important;
-        right: 10px !important;
-        padding: 0.5rem 1rem !important;
-        font-size: 0.8rem !important;
-    }
+.pv-events-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)) !important;
+    gap: 2.5rem !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem 3rem !important;
 }
 
 /* Hide original event content when modernized */
@@ -156,37 +59,38 @@ body.cco_body {
     display: none !important;
 }
 
-/* Event Card */
+/* =========================================================
+   EVENT CARD
+   ========================================================= */
 .event.pv-modernized {
     background: #ffffff !important;
-    border-radius: 24px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06) !important;
-    margin-bottom: 2.5rem !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-width: 1100px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1) !important;
     overflow: hidden !important;
-    transition: all 0.4s ease !important;
+    transition: all 0.3s ease !important;
     font-family: 'Urbanist', sans-serif !important;
     border: none !important;
     padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .event.pv-modernized:hover {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1) !important;
-    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-6px) !important;
 }
 
-/* Header with Image as Banner */
+/* =========================================================
+   HEADER WITH IMAGE BANNER
+   ========================================================= */
 .pv-event-header {
     position: relative !important;
-    min-height: 280px !important;
+    height: 280px !important;
     overflow: hidden !important;
-    display: flex !important;
-    align-items: flex-end !important;
+    flex-shrink: 0 !important;
 }
 
-/* Image as full background */
 .pv-event-image {
     position: absolute !important;
     top: 0 !important;
@@ -203,117 +107,119 @@ body.cco_body {
     display: block !important;
 }
 
-/* Dark gradient overlay for text readability */
+/* Gradient overlay */
 .pv-event-header::after {
     content: '' !important;
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
-    height: 70% !important;
+    height: 80% !important;
     background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%) !important;
     z-index: 2 !important;
     pointer-events: none !important;
 }
 
 .pv-header-content {
-    position: relative !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
     z-index: 3 !important;
-    padding: 2rem 2.5rem !important;
-    width: 100% !important;
+    padding: 2rem 2.25rem !important;
 }
 
 .pv-event-category {
     display: inline-block !important;
-    background: rgba(255,255,255,0.2) !important;
+    background: rgba(255,255,255,0.25) !important;
     color: #fff !important;
-    font-size: 0.95rem !important;
+    font-size: 1rem !important;
     font-weight: 600 !important;
-    padding: 0.5rem 1.2rem !important;
-    border-radius: 20px !important;
+    padding: 0.5rem 1.25rem !important;
+    border-radius: 16px !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
-    margin-bottom: 0.75rem !important;
-    width: fit-content !important;
+    margin-bottom: 0.85rem !important;
 }
 
 .pv-event-title,
-.pv-event-header .pv-event-title,
-.pv-header-content .pv-event-title,
 h2.pv-event-title {
-    font-size: 2.8rem !important;
-    font-weight: 800 !important;
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
     color: #ffffff !important;
     line-height: 1.25 !important;
     margin: 0 !important;
-    text-shadow: none !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
     background: none !important;
     padding: 0 !important;
-    letter-spacing: -0.5px !important;
 }
 
-.pv-event-title a,
-.pv-event-header a,
-.pv-header-content a {
+.pv-event-title a {
     color: #ffffff !important;
     text-decoration: none !important;
 }
 
-/* Body */
+/* =========================================================
+   EVENT BODY
+   ========================================================= */
 .pv-event-body {
-    padding: 3rem !important;
+    padding: 2.25rem !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
 }
 
 .pv-event-description {
-    font-size: 1.4rem !important;
-    color: #333 !important;
-    line-height: 1.7 !important;
-    margin-bottom: 2rem !important;
+    font-size: 1.5rem !important;
+    color: #555 !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1.75rem !important;
 }
 
-/* Info Rows */
+/* =========================================================
+   INFO ROWS
+   ========================================================= */
 .pv-event-info {
-    border-top: 1px solid #f0f0f0 !important;
-    padding-top: 1.5rem !important;
+    border-top: 2px solid #f0f0f0 !important;
+    padding-top: 1.75rem !important;
+    margin-top: auto !important;
 }
 
 .pv-info-row {
     display: flex !important;
     align-items: flex-start !important;
-    margin-bottom: 1rem !important;
-    padding-bottom: 1rem !important;
-    border-bottom: 1px dashed #eee !important;
+    margin-bottom: 1.5rem !important;
+    gap: 1.25rem !important;
 }
 
 .pv-info-row:last-child {
-    border-bottom: none !important;
     margin-bottom: 0 !important;
 }
 
 .pv-info-icon {
-    width: 56px !important;
-    height: 56px !important;
+    width: 60px !important;
+    height: 60px !important;
     background: #F5F5F5 !important;
     border-radius: 14px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    margin-right: 1.5rem !important;
     flex-shrink: 0 !important;
 }
 
 .pv-info-icon svg {
-    width: 28px !important;
-    height: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
     color: #2980b9 !important;
 }
 
 .pv-info-content {
     flex: 1 !important;
+    min-width: 0 !important;
 }
 
 .pv-info-label {
-    font-size: 0.85rem !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     color: #999 !important;
     text-transform: uppercase !important;
@@ -323,64 +229,58 @@ h2.pv-event-title {
 }
 
 .pv-info-value {
-    font-size: 1.4rem !important;
-    color: #222 !important;
-    font-weight: 600 !important;
-    display: block !important;
+    font-size: 1.5rem !important;
+    color: #333 !important;
+    font-weight: 500 !important;
     line-height: 1.5 !important;
 }
 
-.pv-info-value small {
-    color: #888 !important;
-    font-weight: 400 !important;
-}
-
-/* Pricing Grid */
+/* =========================================================
+   PRICING
+   ========================================================= */
 .pv-pricing-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
-    gap: 1rem !important;
-    margin-top: 2rem !important;
+    display: flex !important;
+    gap: 1.25rem !important;
+    margin-top: 1.75rem !important;
+    flex-wrap: wrap !important;
 }
 
 .pv-price-item {
-    background: #F8F8F8 !important;
-    padding: 1.25rem 1.5rem !important;
+    background: #FFF8F0 !important;
+    padding: 1rem 1.5rem !important;
     border-radius: 14px !important;
     text-align: center !important;
-    transition: all 0.3s ease !important;
-}
-
-.pv-price-item:hover {
-    background: #FFF5EB !important;
+    flex: 1 !important;
+    min-width: 120px !important;
 }
 
 .pv-price-label {
-    font-size: 0.9rem !important;
-    color: #666 !important;
+    font-size: 1rem !important;
+    color: #888 !important;
     text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    margin-bottom: 0.5rem !important;
+    letter-spacing: 0.5px !important;
     display: block !important;
+    margin-bottom: 0.25rem !important;
 }
 
 .pv-price-value {
-    font-size: 2.2rem !important;
+    font-size: 2rem !important;
     font-weight: 800 !important;
     color: #E67E22 !important;
-    display: block !important;
 }
 
-/* Footer */
+/* =========================================================
+   FOOTER
+   ========================================================= */
 .pv-event-footer {
     background: #FAFAFA !important;
-    padding: 1.5rem 2rem !important;
+    padding: 1.75rem 2.25rem !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    border-top: 1px solid #f0f0f0 !important;
+    border-top: 2px solid #f0f0f0 !important;
+    gap: 1.5rem !important;
     flex-wrap: wrap !important;
-    gap: 1rem !important;
 }
 
 .pv-date-display {
@@ -389,45 +289,17 @@ h2.pv-event-title {
     gap: 1rem !important;
 }
 
-.pv-footer-actions {
-    display: flex !important;
-    align-items: center !important;
-    gap: 1.5rem !important;
-}
-
-.pv-login-checkbox {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.5rem !important;
-    font-family: 'Urbanist', sans-serif !important;
-    font-size: 1rem !important;
-    color: #555 !important;
-    cursor: pointer !important;
-}
-
-.pv-login-checkbox input[type="checkbox"] {
-    width: 18px !important;
-    height: 18px !important;
-    cursor: pointer !important;
-    accent-color: #2980b9 !important;
-}
-
-.pv-login-checkbox span {
-    color: #2980b9 !important;
-    font-weight: 500 !important;
-}
-
 .pv-date-box {
     background: #2980b9 !important;
     color: #fff !important;
-    padding: 0.6rem 0.9rem !important;
-    border-radius: 10px !important;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 12px !important;
     text-align: center !important;
-    min-width: 60px !important;
+    min-width: 70px !important;
 }
 
 .pv-date-month {
-    font-size: 0.7rem !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
@@ -436,7 +308,7 @@ h2.pv-event-title {
 }
 
 .pv-date-day {
-    font-size: 1.6rem !important;
+    font-size: 2rem !important;
     font-weight: 800 !important;
     line-height: 1.1 !important;
     display: block !important;
@@ -444,175 +316,195 @@ h2.pv-event-title {
 }
 
 .pv-date-text {
-    font-size: 1.15rem !important;
-    color: #555 !important;
+    font-size: 1.4rem !important;
+    color: #666 !important;
+    font-weight: 500 !important;
+}
+
+/* Footer actions */
+.pv-footer-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+}
+
+.pv-login-checkbox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.1rem !important;
+    color: #666 !important;
+    cursor: pointer !important;
+}
+
+.pv-login-checkbox input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: #2980b9 !important;
+    cursor: pointer !important;
+}
+
+.pv-login-checkbox span {
+    font-weight: 500 !important;
 }
 
 /* Register Button */
 .pv-register-btn {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 0.6rem !important;
+    gap: 0.75rem !important;
     background: #E67E22 !important;
     color: #fff !important;
     font-family: 'Urbanist', sans-serif !important;
-    font-size: 1.2rem !important;
+    font-size: 1.4rem !important;
     font-weight: 700 !important;
-    padding: 1.1rem 2.2rem !important;
-    border-radius: 12px !important;
+    padding: 1.1rem 2rem !important;
+    border-radius: 14px !important;
     text-decoration: none !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 20px rgba(230, 126, 34, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3) !important;
     border: none !important;
+    white-space: nowrap !important;
 }
 
 .pv-register-btn:hover {
     background: #D35400 !important;
-    transform: scale(1.05) !important;
-    box-shadow: 0 6px 25px rgba(230, 126, 34, 0.4) !important;
+    transform: scale(1.03) !important;
     color: #fff !important;
 }
 
 .pv-register-btn svg {
-    width: 20px !important;
-    height: 20px !important;
-    transition: transform 0.3s ease !important;
+    width: 24px !important;
+    height: 24px !important;
     color: #fff !important;
 }
 
-.pv-register-btn:hover svg {
-    transform: translateX(4px) !important;
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+@media (max-width: 1100px) {
+    .pv-events-grid {
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)) !important;
+        gap: 2rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    .pv-styled-title {
+        font-size: 4rem !important;
+    }
+
+    .pv-event-header {
+        height: 240px !important;
+    }
+
+    .pv-event-title,
+    h2.pv-event-title {
+        font-size: 2rem !important;
+    }
+
+    .pv-event-description {
+        font-size: 1.3rem !important;
+    }
+
+    .pv-info-value {
+        font-size: 1.3rem !important;
+    }
 }
 
 /* =========================================================
-   RESPONSIVE DESIGN
+   RESPONSIVE - MOBILE (Single Column)
    ========================================================= */
-
-/* Large Tablet / Small Desktop */
-@media (max-width: 1150px) {
-    .event.pv-modernized {
-        margin-left: 2rem !important;
-        margin-right: 2rem !important;
+@media (max-width: 520px) {
+    .pv-events-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem !important;
+        padding: 0 1rem 2rem !important;
     }
-}
 
-/* Tablet */
-@media (max-width: 900px) {
-    .event.pv-modernized {
-        margin-left: 1.5rem !important;
-        margin-right: 1.5rem !important;
+    .pv-styled-title {
+        font-size: 2.75rem !important;
     }
+
+    #pv-title-accent {
+        margin-bottom: 2rem !important;
+    }
+
     .pv-event-header {
-        min-height: 220px !important;
+        height: 200px !important;
     }
-    .pv-event-title,
-    .pv-event-header .pv-event-title,
-    .pv-header-content .pv-event-title,
-    h2.pv-event-title {
-        font-size: 1.9rem !important;
-        font-weight: 700 !important;
-    }
-    .pv-event-body {
-        padding: 2.5rem !important;
-    }
-    .pv-event-description {
-        font-size: 1.15rem !important;
-    }
-    .pv-info-value {
-        font-size: 1.15rem !important;
-    }
-    .pv-info-icon {
-        width: 50px !important;
-        height: 50px !important;
-    }
-    .pv-info-icon svg {
-        width: 24px !important;
-        height: 24px !important;
-    }
-}
 
-/* Small Tablet */
-@media (max-width: 700px) {
-    .pv-event-header {
-        min-height: 200px !important;
-    }
-    .pv-event-title,
-    .pv-event-header .pv-event-title,
-    .pv-header-content .pv-event-title,
-    h2.pv-event-title {
-        font-size: 1.7rem !important;
-    }
-}
-
-/* Mobile */
-@media (max-width: 550px) {
-    .event.pv-modernized {
-        margin-left: 1rem !important;
-        margin-right: 1rem !important;
-        border-radius: 20px !important;
-    }
-    .pv-event-header {
-        min-height: 180px !important;
-    }
     .pv-header-content {
-        padding: 1.25rem 1.5rem !important;
+        padding: 1.5rem !important;
     }
+
+    .pv-event-category {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 1rem !important;
+    }
+
     .pv-event-title,
-    .pv-event-header .pv-event-title,
-    .pv-header-content .pv-event-title,
     h2.pv-event-title {
-        font-size: 1.5rem !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
+        font-size: 1.75rem !important;
     }
+
     .pv-event-body {
         padding: 1.5rem !important;
     }
+
     .pv-event-description {
-        font-size: 1.05rem !important;
+        font-size: 1.2rem !important;
     }
+
+    .pv-info-icon {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .pv-info-icon svg {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    .pv-info-label {
+        font-size: 0.85rem !important;
+    }
+
+    .pv-info-value {
+        font-size: 1.2rem !important;
+    }
+
+    .pv-price-value {
+        font-size: 1.6rem !important;
+    }
+
     .pv-event-footer {
-        flex-direction: column !important;
-        gap: 1rem !important;
         padding: 1.25rem 1.5rem !important;
     }
-    .pv-date-display {
-        width: 100% !important;
-        justify-content: center !important;
+
+    .pv-date-day {
+        font-size: 1.6rem !important;
     }
+
+    .pv-date-text {
+        font-size: 1.1rem !important;
+    }
+
+    .pv-register-btn {
+        flex: 1 !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 1rem 1.5rem !important;
+    }
+
     .pv-footer-actions {
-        width: 100% !important;
         flex-direction: column !important;
+        width: 100% !important;
         gap: 1rem !important;
     }
+
     .pv-login-checkbox {
-        justify-content: center !important;
-    }
-    .pv-register-btn {
-        width: 100% !important;
-        justify-content: center !important;
-    }
-    .pv-pricing-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-    .pv-info-row {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-    }
-    .pv-info-icon {
-        width: 44px !important;
-        height: 44px !important;
-        margin-bottom: 0.5rem !important;
-    }
-    .pv-info-icon svg {
-        width: 22px !important;
-        height: 22px !important;
-    }
-    .pv-info-value {
         font-size: 1rem !important;
-    }
-    .pv-price-value {
-        font-size: 1.5rem !important;
     }
 }
 </style>

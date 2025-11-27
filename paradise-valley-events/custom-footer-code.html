@@ -1,6 +1,7 @@
 <!-- PARADISE VALLEY EVENTS - Custom Footer Code -->
 <!-- Paste this into Chabad One CMS: Custom Footer Code section -->
 <!-- This JavaScript transforms the events page after DOM loads -->
+<!-- GRID LAYOUT VERSION -->
 
 <script type="text/javascript">
 (function() {
@@ -118,20 +119,13 @@
 
         var dayOfWeekMatch = firstLine.match(/\b(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)\b/i);
         if (dayOfWeekMatch) {
-            dayOfWeek = dayOfWeekMatch[1];
-        }
-
-        var timeOfDay = "Evening";
-        if (firstLine.toLowerCase().indexOf("morning") !== -1 || /\b([6-9]|10|11):?\d*\s*am\b/i.test(firstLine)) {
-            timeOfDay = "Morning";
-        } else if (firstLine.toLowerCase().indexOf("afternoon") !== -1 || /\b(12|1|2|3|4):?\d*\s*pm\b/i.test(firstLine)) {
-            timeOfDay = "Afternoon";
+            dayOfWeek = dayOfWeekMatch[1].substring(0, 3);
         }
 
         return {
             month: month,
             day: day,
-            text: dayOfWeek ? dayOfWeek + " " + timeOfDay : timeOfDay
+            text: dayOfWeek
         };
     }
 
@@ -167,7 +161,7 @@
             newHTML += '<div class="pv-event-image"><img src="' + imageSrc + '" alt="' + title + '"></div>';
         }
         newHTML += '<div class="pv-header-content">';
-        newHTML += '<span class="pv-event-category">Special Event</span>';
+        newHTML += '<span class="pv-event-category">Event</span>';
         newHTML += '<h2 class="pv-event-title">' + title + '</h2>';
         newHTML += '</div></div>';
 
@@ -180,26 +174,29 @@
 
         newHTML += '<div class="pv-event-info">';
 
+        // Date/Time row
         if (parsed.dateTime.length > 0) {
             newHTML += '<div class="pv-info-row">';
             newHTML += '<div class="pv-info-icon">' + icons.clock + '</div>';
             newHTML += '<div class="pv-info-content">';
-            newHTML += '<span class="pv-info-label">Date & Time</span>';
+            newHTML += '<span class="pv-info-label">When</span>';
             newHTML += '<span class="pv-info-value">' + parsed.dateTime.join("<br>") + '</span>';
             newHTML += '</div></div>';
         }
 
+        // Location row
         if (parsed.location.length > 0) {
             newHTML += '<div class="pv-info-row">';
             newHTML += '<div class="pv-info-icon">' + icons.location + '</div>';
             newHTML += '<div class="pv-info-content">';
-            newHTML += '<span class="pv-info-label">Location</span>';
+            newHTML += '<span class="pv-info-label">Where</span>';
             newHTML += '<span class="pv-info-value">' + parsed.location.join("<br>") + '</span>';
             newHTML += '</div></div>';
         }
 
         newHTML += '</div>';
 
+        // Pricing
         if (pricing.length > 0) {
             newHTML += '<div class="pv-pricing-grid">';
             pricing.forEach(function(p) {
@@ -222,14 +219,14 @@
             newHTML += '<span class="pv-date-day">' + dateInfo.day + '</span>';
             newHTML += '</div>';
         }
-        newHTML += '<span class="pv-date-text">' + dateInfo.text + '</span>';
+        if (dateInfo.text) {
+            newHTML += '<span class="pv-date-text">' + dateInfo.text + '</span>';
+        }
         newHTML += '</div>';
 
         newHTML += '<div class="pv-footer-actions">';
-        newHTML += '<label class="pv-login-checkbox" id="pv-login-label-placeholder">';
-        newHTML += '<span>Login before registering</span>';
-        newHTML += '</label>';
-        newHTML += '<a href="' + registerUrl + '" class="pv-register-btn">Register Now ' + icons.arrow + '</a>';
+        newHTML += '<label class="pv-login-checkbox" id="pv-login-label-placeholder"><span>Login before registering</span></label>';
+        newHTML += '<a href="' + registerUrl + '" class="pv-register-btn">Register ' + icons.arrow + '</a>';
         newHTML += '</div>';
         newHTML += '</div>';
 
@@ -238,7 +235,6 @@
 
         // Handle checkbox functionality
         var placeholderLabel = eventEl.querySelector('#pv-login-label-placeholder');
-        // Find original checkbox by Chabad One's ID pattern (eventid + "LoginFirst")
         var originalCheckbox = eventEl.querySelector('input[id$="LoginFirst"]');
 
         if (placeholderLabel) {
@@ -251,10 +247,8 @@
             var registerButton = eventEl.querySelector('.pv-register-btn');
 
             if (originalCheckbox) {
-                // Sync new checkbox with original and trigger its onclick
                 newCheckbox.addEventListener('change', function() {
                     originalCheckbox.checked = newCheckbox.checked;
-                    // Trigger the original onclick handler which updates form action
                     if (originalCheckbox.onclick) {
                         originalCheckbox.onclick.call(originalCheckbox);
                     }
@@ -264,18 +258,42 @@
             if (registerButton && form) {
                 registerButton.addEventListener('click', function(e) {
                     e.preventDefault();
-                    // Make sure original checkbox state matches ours
                     if (originalCheckbox) {
                         originalCheckbox.checked = newCheckbox.checked;
                         if (originalCheckbox.onclick) {
                             originalCheckbox.onclick.call(originalCheckbox);
                         }
                     }
-                    // Submit the original form (which has correct action set by onclick)
                     form.submit();
                 });
             }
         }
+    }
+
+    // =========================================================
+    // CREATE GRID CONTAINER
+    // =========================================================
+    function wrapEventsInGrid() {
+        var events = document.querySelectorAll(".event");
+        if (events.length === 0) return;
+
+        var firstEvent = events[0];
+        var parent = firstEvent.parentNode;
+
+        // Check if grid already exists
+        if (document.querySelector('.pv-events-grid')) return;
+
+        // Create grid container
+        var grid = document.createElement('div');
+        grid.className = 'pv-events-grid';
+
+        // Insert grid before first event
+        parent.insertBefore(grid, firstEvent);
+
+        // Move all events into grid
+        events.forEach(function(event) {
+            grid.appendChild(event);
+        });
     }
 
     // =========================================================
@@ -317,6 +335,9 @@
     // Style the page title
     stylePageTitle();
 
+    // Wrap events in grid container
+    wrapEventsInGrid();
+
     // Transform all events
     var events = document.querySelectorAll(".event");
 
@@ -327,109 +348,6 @@
             // Silently fail for individual events
         }
     });
-
-    // =========================================================
-    // SCROLL INDICATORS (only if multiple events)
-    // =========================================================
-    function addScrollIndicators() {
-        var modernizedEvents = document.querySelectorAll(".event.pv-modernized");
-
-        if (modernizedEvents.length <= 1) {
-            return;
-        }
-
-        // Add scroll indicator after first event
-        var firstEvent = modernizedEvents[0];
-        var scrollIndicator = document.createElement('div');
-        scrollIndicator.className = 'pv-scroll-indicator';
-        scrollIndicator.innerHTML =
-            '<span class="pv-scroll-indicator-text">' + (modernizedEvents.length - 1) + ' more event' + (modernizedEvents.length > 2 ? 's' : '') + ' below</span>' +
-            '<div class="pv-scroll-indicator-arrow">' +
-                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">' +
-                    '<path d="M6 9l6 6 6-6"/>' +
-                '</svg>' +
-            '</div>';
-
-        // Click to scroll to next event
-        scrollIndicator.addEventListener('click', function() {
-            var secondEvent = modernizedEvents[1];
-            if (secondEvent) {
-                secondEvent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-
-        firstEvent.parentNode.insertBefore(scrollIndicator, firstEvent.nextSibling);
-
-        // Add floating event counter
-        var counter = document.createElement('div');
-        counter.className = 'pv-event-counter';
-        counter.id = 'pv-event-counter';
-
-        var counterHTML = '<span>Events</span>';
-        for (var i = 0; i < modernizedEvents.length; i++) {
-            counterHTML += '<span class="pv-event-counter-dot' + (i === 0 ? ' active' : '') + '" data-index="' + i + '"></span>';
-        }
-        counter.innerHTML = counterHTML;
-        document.body.appendChild(counter);
-
-        // Make dots clickable
-        var dots = counter.querySelectorAll('.pv-event-counter-dot');
-        dots.forEach(function(dot, index) {
-            dot.style.cursor = 'pointer';
-            dot.addEventListener('click', function() {
-                modernizedEvents[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-
-        // Update active dot on scroll
-        var updateActiveDot = function() {
-            var scrollPosition = window.scrollY + window.innerHeight / 3;
-            var activeIndex = 0;
-
-            modernizedEvents.forEach(function(event, index) {
-                var rect = event.getBoundingClientRect();
-                var eventTop = rect.top + window.scrollY;
-                if (scrollPosition >= eventTop) {
-                    activeIndex = index;
-                }
-            });
-
-            dots.forEach(function(dot, index) {
-                if (index === activeIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-
-            // Hide scroll indicator once user has scrolled past first event
-            if (scrollIndicator) {
-                var firstEventBottom = firstEvent.getBoundingClientRect().bottom;
-                if (firstEventBottom < 100) {
-                    scrollIndicator.style.opacity = '0';
-                    scrollIndicator.style.pointerEvents = 'none';
-                } else {
-                    scrollIndicator.style.opacity = '1';
-                    scrollIndicator.style.pointerEvents = 'auto';
-                }
-            }
-        };
-
-        // Throttled scroll handler
-        var scrollTimeout;
-        window.addEventListener('scroll', function() {
-            if (scrollTimeout) return;
-            scrollTimeout = setTimeout(function() {
-                updateActiveDot();
-                scrollTimeout = null;
-            }, 50);
-        });
-
-        // Initial update
-        updateActiveDot();
-    }
-
-    addScrollIndicators();
 
 })();
 </script>
