@@ -1,0 +1,19 @@
+<!-- PARADISE VALLEY EVENTS - Custom Footer Code (GitHub Hosted Version) -->
+<!-- This minimal loader replaces the large inline JavaScript file -->
+<!-- Paste this into Chabad One CMS: Custom Footer Code section -->
+
+<!-- External JavaScript from GitHub -->
+<!-- Using jsDelivr CDN for better performance and reliability -->
+<script src="https://cdn.jsdelivr.net/gh/Makra-ca/JRCC@main/paradise-valley-events/github-hosted/pv-events-scripts.js"></script>
+
+<!-- Alternative: Direct GitHub raw URL (slower but works as backup) -->
+<!-- <script src="https://raw.githubusercontent.com/Makra-ca/JRCC/main/paradise-valley-events/github-hosted/pv-events-scripts.js"></script> -->
+
+<!-- Error handling if script fails to load -->
+<script>
+window.addEventListener('error', function(e) {
+    if (e.target.tagName === 'SCRIPT' && e.target.src.includes('pv-events')) {
+        console.error('Failed to load Paradise Valley Events scripts from GitHub. Please check the URL.');
+    }
+}, true);
+</script>
