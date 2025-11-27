@@ -831,6 +831,120 @@ body.pv-registration-page #RegisterBody .title {
     margin-bottom: 2rem !important;
 }
 
+/* =========================================================
+   SINGLE EVENT - RESERVATIONS PRICING SECTION
+   Styles the General Admission, VIP, and Sponsorship text
+   ========================================================= */
+/* Container for pricing info */
+body.pv-registration-page #RegisterBody .pv-pricing-container {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF5EB 100%) !important;
+    border-radius: 20px !important;
+    padding: 2rem 2.5rem !important;
+    margin-bottom: 2rem !important;
+    border: 2px solid rgba(230, 126, 34, 0.2) !important;
+    box-shadow: 0 4px 20px rgba(230, 126, 34, 0.08) !important;
+}
+
+/* Pricing section title */
+body.pv-registration-page #RegisterBody .pv-pricing-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #E67E22 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(230, 126, 34, 0.3) !important;
+    display: block !important;
+}
+
+/* Style pricing items - wrapper for each price line */
+body.pv-registration-page .pv-pricing-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+body.pv-registration-page .pv-pricing-item:hover {
+    border-color: rgba(230, 126, 34, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.1) !important;
+}
+
+body.pv-registration-page .pv-pricing-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
+
+body.pv-registration-page .pv-pricing-amount {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #E67E22 !important;
+}
+
+/* Sponsorship levels - horizontal layout */
+body.pv-registration-page .pv-sponsorship-levels {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px dashed rgba(230, 126, 34, 0.3) !important;
+}
+
+body.pv-registration-page .pv-sponsorship-level {
+    background: linear-gradient(135deg, #E67E22 0%, #F39C12 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.pv-registration-page .pv-sponsorship-level:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4) !important;
+}
+
+/* VIP badge style */
+body.pv-registration-page .pv-vip-badge {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 20px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-right: 0.5rem !important;
+    vertical-align: middle !important;
+}
+
+/* Sponsorship description text */
+body.pv-registration-page .pv-sponsorship-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-style: italic !important;
+    color: #666 !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+}
+
 body.pv-registration-page #RegisterBody .performance {
     background: #ffffff !important;
     border: 2px solid rgba(230, 126, 34, 0.2) !important;

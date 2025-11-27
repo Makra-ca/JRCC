@@ -266,11 +266,128 @@
             }
         }
 
+        // Style the Reservations/Pricing section
+        function stylePricingSection() {
+            var registerBody = document.querySelector('#RegisterBody');
+            if (!registerBody || registerBody.classList.contains('pv-pricing-styled')) return;
+
+            // Look for divs that contain pricing text (General Admission, VIP, Sponsorship, etc.)
+            var pricingContainer = null;
+            var allDivs = registerBody.querySelectorAll('div');
+
+            for (var i = 0; i < allDivs.length; i++) {
+                var div = allDivs[i];
+                var text = div.textContent || '';
+                // Check if this div contains pricing info
+                if ((text.includes('$') && (text.includes('General') || text.includes('VIP') || text.includes('Sponsor'))) ||
+                    (text.includes('Section') && text.includes('$'))) {
+                    pricingContainer = div;
+                    break;
+                }
+            }
+
+            if (!pricingContainer) {
+                // Try looking directly in RegisterBody for text nodes
+                var bodyText = registerBody.innerHTML;
+                if (bodyText.includes('General Admission') || bodyText.includes('VIP') || bodyText.includes('Sponsor')) {
+                    var firstChild = registerBody.querySelector('div');
+                    if (firstChild && firstChild.textContent.includes('$')) {
+                        pricingContainer = firstChild;
+                    }
+                }
+            }
+
+            if (pricingContainer && !pricingContainer.classList.contains('pv-pricing-container')) {
+                // Get the raw HTML and transform it
+                var rawHtml = pricingContainer.innerHTML;
+                var lines = rawHtml.split(/<br\s*\/?>/gi);
+
+                var newContent = '<div class="pv-pricing-title">🎫 Ticket Pricing</div>';
+                var pricingItems = [];
+                var sponsorshipLevels = [];
+                var otherText = [];
+
+                lines.forEach(function(line) {
+                    var cleanLine = line.replace(/<[^>]*>/g, '').trim();
+                    if (!cleanLine) return;
+
+                    // Check for sponsorship levels (multiple prices on one line with |)
+                    if (cleanLine.includes('|') && cleanLine.includes('$')) {
+                        var amounts = cleanLine.match(/\$[\d,]+/g);
+                        if (amounts) {
+                            amounts.forEach(function(amt) {
+                                sponsorshipLevels.push(amt);
+                            });
+                        }
+                        var textPart = cleanLine.split('$')[0].trim();
+                        if (textPart) {
+                            otherText.push(textPart);
+                        }
+                    }
+                    // Check for VIP items
+                    else if (cleanLine.toLowerCase().includes('vip')) {
+                        var vipMatch = cleanLine.match(/\$[\d,]+/);
+                        var vipAmount = vipMatch ? vipMatch[0] : '';
+                        var vipLabel = cleanLine.replace(/\$[\d,]+/, '').replace(/[-:]/g, '').trim();
+                        pricingItems.push({ label: vipLabel, amount: vipAmount, isVip: true });
+                    }
+                    // Check for regular pricing
+                    else if (cleanLine.includes('$')) {
+                        var priceMatch = cleanLine.match(/\$[\d,]+/);
+                        var amount = priceMatch ? priceMatch[0] : '';
+                        var label = cleanLine.replace(/\$[\d,]+/, '').replace(/[-:]+\s*$/, '').trim();
+                        if (label && amount) {
+                            pricingItems.push({ label: label, amount: amount, isVip: false });
+                        }
+                    }
+                    else if (cleanLine.length > 3) {
+                        otherText.push(cleanLine);
+                    }
+                });
+
+                // Build the styled HTML
+                if (pricingItems.length > 0) {
+                    pricingItems.forEach(function(item) {
+                        newContent += '<div class="pv-pricing-item">';
+                        newContent += '<span class="pv-pricing-label">';
+                        if (item.isVip) {
+                            newContent += '<span class="pv-vip-badge">VIP</span> ';
+                        }
+                        newContent += item.label + '</span>';
+                        newContent += '<span class="pv-pricing-amount">' + item.amount + '</span>';
+                        newContent += '</div>';
+                    });
+                }
+
+                if (otherText.length > 0) {
+                    otherText.forEach(function(text) {
+                        newContent += '<p class="pv-sponsorship-text">' + text + '</p>';
+                    });
+                }
+
+                if (sponsorshipLevels.length > 0) {
+                    newContent += '<div class="pv-sponsorship-levels">';
+                    sponsorshipLevels.forEach(function(level) {
+                        newContent += '<span class="pv-sponsorship-level">' + level + '</span>';
+                    });
+                    newContent += '</div>';
+                }
+
+                pricingContainer.innerHTML = newContent;
+                pricingContainer.classList.add('pv-pricing-container');
+            }
+
+            registerBody.classList.add('pv-pricing-styled');
+            console.log('💰 Pricing section styled');
+        }
+
         // Run single event functions
         styleInfoCards();
+        stylePricingSection();
         removeDashedBorders();
         styleDeleteButtons();
         forceFormInputStyles();
+        setTimeout(stylePricingSection, 100);
         setTimeout(forceFormInputStyles, 300);
         setTimeout(forceFormInputStyles, 800);
         setTimeout(forceFormInputStyles, 1500);
