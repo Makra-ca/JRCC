@@ -1551,7 +1551,7 @@ body.pv-registration-page #RegisterBody {
 
 /* Orange border around entire form card */
 form#RegisterSinglePage {
-    border: 3px solid #E67E22 !important;
+    /* border: 3px solid #E67E22 !important; */
     border-radius: 24px !important;
     overflow: hidden !important;
 }
