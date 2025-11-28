@@ -947,8 +947,8 @@ body.pv-registration-page .pv-sponsorship-text {
 
 body.pv-registration-page #RegisterBody .performance {
     background: #ffffff !important;
-    /* border: 2px solid rgba(230, 126, 34, 0.2) !important; */
-    /* border-left: 4px solid #E67E22 !important; */
+    border: 2px solid rgba(230, 126, 34, 0.2) !important;
+    border-left: 4px solid #E67E22 !important;
     border-radius: 12px !important;
     padding: 1.5rem 2rem !important;
     margin-bottom: 1rem !important;
@@ -957,7 +957,7 @@ body.pv-registration-page #RegisterBody .performance {
 }
 
 body.pv-registration-page #RegisterBody .performance:hover {
-    /* border-color: #E67E22 !important; */
+    border-color: #E67E22 !important;
     background: #fff9f5 !important;
     box-shadow: 0 8px 24px rgba(230, 126, 34, 0.15) !important;
     transform: translateX(4px) !important;
