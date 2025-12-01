@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 1: Desert Sunset - Chabad Rural Arizona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================================
+           MOCKUP 1: DESERT SUNSET - Warm & Welcoming
+           Inspired by the van's sunset gradient and desert silhouettes
+           =================================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Primary Palette - From Van */
+            --sunset-peach: #E8A87C;
+            --sunset-pink: #C38D94;
+            --dusty-mauve: #A67580;
+            --deep-burgundy: #722F37;
+            --teal-green: #2D5A5A;
+            --warm-cream: #F5E6D3;
+            --golden-sand: #D4A84B;
+
+            /* Extended */
+            --dark-burgundy: #4A1F24;
+            --light-cream: #FDF8F3;
+            --sunset-orange: #E07B4C;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: var(--light-cream);
+            color: var(--dark-burgundy);
+            line-height: 1.6;
+        }
+
+        /* ===================================================================
+           NAVIGATION
+           =================================================================== */
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Merriweather', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--deep-burgundy);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-burgundy);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--teal-green);
+        }
+
+        .nav-donate {
+            background: var(--deep-burgundy);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .nav-donate:hover {
+            background: var(--teal-green);
+        }
+
+        /* ===================================================================
+           HERO - Desert Sunset Gradient
+           =================================================================== */
+
+        .hero {
+            min-height: 100vh;
+            padding-top: 80px;
+            background: linear-gradient(
+                180deg,
+                #E8A87C 0%,
+                #D4956A 20%,
+                #C38D94 40%,
+                #A67580 60%,
+                #8B5A62 80%,
+                #722F37 100%
+            );
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            overflow: hidden;
+        }
+
+        /* Cactus Silhouettes */
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: var(--dark-burgundy);
+            clip-path: polygon(
+                0% 100%,
+                0% 60%,
+                5% 55%,
+                5% 30%,
+                6% 30%,
+                6% 55%,
+                8% 50%,
+                10% 55%,
+                12% 50%,
+                15% 60%,
+                20% 55%,
+                25% 60%,
+                30% 50%,
+                30% 20%,
+                31% 20%,
+                31% 15%,
+                32% 15%,
+                32% 20%,
+                33% 20%,
+                33% 50%,
+                35% 55%,
+                40% 50%,
+                45% 55%,
+                50% 45%,
+                55% 50%,
+                60% 45%,
+                65% 55%,
+                70% 50%,
+                70% 25%,
+                71% 25%,
+                71% 50%,
+                73% 45%,
+                75% 50%,
+                80% 45%,
+                85% 55%,
+                90% 50%,
+                95% 60%,
+                100% 55%,
+                100% 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-tagline {
+            background: var(--teal-green);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero h1 {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: white;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--warm-cream);
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--golden-sand);
+            color: var(--dark-burgundy);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--deep-burgundy);
+        }
+
+        /* ===================================================================
+           LOCATIONS SECTION
+           =================================================================== */
+
+        .locations {
+            padding: 6rem 2rem;
+            background: var(--light-cream);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--golden-sand);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--dusty-mauve);
+            font-size: 1.15rem;
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .location-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .location-card:hover .location-image {
+            transform: scale(1.1);
+        }
+
+        .location-card:hover .location-overlay {
+            opacity: 0.7;
+        }
+
+        .location-card:hover .location-arrow {
+            transform: translateX(5px);
+            opacity: 1;
+        }
+
+        .location-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-color: var(--dusty-mauve);
+            transition: transform 0.5s ease;
+        }
+
+        .location-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                180deg,
+                rgba(114, 47, 55, 0.2) 0%,
+                rgba(114, 47, 55, 0.8) 100%
+            );
+            transition: opacity 0.3s ease;
+        }
+
+        .location-overlay.overlay-teal {
+            background: linear-gradient(
+                180deg,
+                rgba(45, 90, 90, 0.3) 0%,
+                rgba(45, 90, 90, 0.9) 100%
+            );
+        }
+
+        .location-overlay.overlay-gold {
+            background: linear-gradient(
+                135deg,
+                var(--golden-sand) 0%,
+                var(--sunset-orange) 100%
+            );
+            opacity: 0.95;
+        }
+
+        .location-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .location-content h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.25rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .location-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .location-arrow {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .card-cta .location-content h3 {
+            color: var(--dark-burgundy);
+            text-shadow: none;
+        }
+
+        .card-cta .location-subtitle {
+            color: var(--dark-burgundy);
+        }
+
+        .card-cta .location-arrow {
+            color: var(--dark-burgundy);
+        }
+
+        /* ===================================================================
+           QUICK ACTIONS
+           =================================================================== */
+
+        .actions {
+            padding: 5rem 2rem;
+            background: var(--deep-burgundy);
+        }
+
+        .actions .section-header h2 {
+            color: white;
+        }
+
+        .actions .section-header p {
+            color: var(--sunset-peach);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .action-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .action-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===================================================================
+           MOTTO BANNER
+           =================================================================== */
+
+        .motto {
+            background: var(--teal-green);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .motto-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .motto h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .motto p {
+            color: var(--warm-cream);
+            font-size: 1.2rem;
+        }
+
+        /* ===================================================================
+           LATEST PHOTOS
+           =================================================================== */
+
+        .photos {
+            padding: 5rem 2rem;
+            background: var(--warm-cream);
+        }
+
+        .photos .section-header h2 {
+            color: var(--deep-burgundy);
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .photo-item {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .photos-cta {
+            text-align: center;
+        }
+
+        .btn-photos {
+            display: inline-block;
+            background: var(--deep-burgundy);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-photos:hover {
+            background: var(--teal-green);
+            transform: translateY(-3px);
+        }
+
+        /* ===================================================================
+           FOOTER
+           =================================================================== */
+
+        .footer {
+            background: var(--dark-burgundy);
+            color: var(--warm-cream);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-tagline {
+            opacity: 0.7;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: var(--warm-cream);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--golden-sand);
+            color: var(--dark-burgundy);
+            transform: translateY(-3px);
+        }
+
+        .footer-contact h4,
+        .footer-links-col h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--golden-sand);
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .footer-contact a {
+            color: var(--warm-cream);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-contact a:hover {
+            color: var(--golden-sand);
+        }
+
+        .footer-links-col a {
+            display: block;
+            color: var(--warm-cream);
+            text-decoration: none;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .footer-links-col a:hover {
+            opacity: 1;
+            color: var(--golden-sand);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-legal a {
+            color: var(--warm-cream);
+            opacity: 0.6;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-legal a:hover {
+            opacity: 1;
+        }
+
+        /* ===================================================================
+           RESPONSIVE
+           =================================================================== */
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                min-height: 80vh;
+                padding: 6rem 1.5rem 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .locations-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .location-card {
+                aspect-ratio: 16/9;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .photos-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-social {
+                justify-content: center;
+            }
+
+            .footer-links-col a:hover {
+                transform: none;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .locations-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">Chabad Rural AZ</a>
+            <ul class="nav-links">
+                <li><a href="/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm">Classes</a></li>
+                <li><a href="/templates/articlecco_cdo/aid/6532340/jewish/Events.htm">Events</a></li>
+                <li><a href="/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm">Programs</a></li>
+                <li><a href="/templates/articlecco_cdo/aid/6531898/jewish/Photos.htm">Photos</a></li>
+                <li><a href="/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm">Get Involved</a></li>
+                <li><a href="/6532283">About</a></li>
+                <li><a href="/tools/feedback.asp">Contact</a></li>
+            </ul>
+            <a href="/4970020" class="nav-donate">Donate</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tagline">Think Good and It Will Be Good</div>
+            <h1>Chabad of Rural Arizona</h1>
+            <p class="hero-subtitle">Bringing Jewish life, learning, and warmth to every corner of the Arizona desert</p>
+            <div class="hero-cta">
+                <a href="#" class="btn-primary">Find Your Location</a>
+                <a href="#" class="btn-secondary">Get Involved</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATIONS SECTION -->
+    <section class="locations">
+        <div class="section-header">
+            <h2>Areas We Currently Serve</h2>
+            <p>Bringing Jewish life to communities across rural Arizona</p>
+        </div>
+        <div class="locations-grid">
+            <a href="/tools/feedback.asp" class="location-card">
+                <div class="location-image" style="background-image: url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=400&fit=crop');"></div>
+                <div class="location-overlay"></div>
+                <div class="location-content">
+                    <h3>Payson / Rim Country</h3>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+            <a href="/tools/feedback.asp" class="location-card">
+                <div class="location-image" style="background-image: url('https://images.unsplash.com/photo-1508193638397-1c4234db14d9?w=600&h=400&fit=crop');"></div>
+                <div class="location-overlay"></div>
+                <div class="location-content">
+                    <h3>The White Mountains</h3>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+            <a href="/templates/articlecco_cdo/aid/6532417/jewish/Jewish-Meetup-in-Holbrook.htm" class="location-card">
+                <div class="location-image" style="background-image: url('https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&h=400&fit=crop');"></div>
+                <div class="location-overlay"></div>
+                <div class="location-content">
+                    <h3>Holbrook</h3>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+            <a href="/templates/articlecco_cdo/aid/6532429/jewish/Jewish-Meetup-in-GlobeMiami.htm" class="location-card">
+                <div class="location-image" style="background-image: url('https://images.unsplash.com/photo-1518173946687-a4c036bc3c32?w=600&h=400&fit=crop');"></div>
+                <div class="location-overlay"></div>
+                <div class="location-content">
+                    <h3>Globe / Miami</h3>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+            <a href="/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm" class="location-card">
+                <div class="location-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&h=400&fit=crop');"></div>
+                <div class="location-overlay overlay-teal"></div>
+                <div class="location-content">
+                    <h3>Wherever You Are!</h3>
+                    <p class="location-subtitle">Online Programs</p>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+            <a href="/tools/feedback.asp" class="location-card card-cta">
+                <div class="location-image"></div>
+                <div class="location-overlay overlay-gold"></div>
+                <div class="location-content">
+                    <h3>Request New Location</h3>
+                    <p class="location-subtitle">Expand our reach</p>
+                    <span class="location-arrow">→</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- QUICK ACTIONS -->
+    <section class="actions">
+        <div class="section-header">
+            <h2>I Would Like To...</h2>
+            <p>How can we help you today?</p>
+        </div>
+        <div class="actions-grid">
+            <a href="/4970020" class="action-card">
+                <div class="action-icon">❤️</div>
+                <h3>Donate</h3>
+                <p>Support our mission across rural Arizona</p>
+            </a>
+            <a href="/tools/feedback.asp" class="action-card">
+                <div class="action-icon">🤝</div>
+                <h3>Connect</h3>
+                <p>Get in touch with Rabbi Yaakov</p>
+            </a>
+            <a href="/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm" class="action-card">
+                <div class="action-icon">✨</div>
+                <h3>Get Involved</h3>
+                <p>Volunteer and make a difference</p>
+            </a>
+            <a href="/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm" class="action-card">
+                <div class="action-icon">📚</div>
+                <h3>Learn Online</h3>
+                <p>Torah classes & Jewish education</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- LATEST PHOTOS -->
+    <section class="photos">
+        <div class="section-header">
+            <h2>Latest Photos</h2>
+            <p>Moments from our community</p>
+        </div>
+        <div class="photos-grid">
+            <div class="photo-item" style="background: linear-gradient(135deg, var(--sunset-peach), var(--dusty-mauve));"></div>
+            <div class="photo-item" style="background: linear-gradient(135deg, var(--dusty-mauve), var(--deep-burgundy));"></div>
+            <div class="photo-item" style="background: linear-gradient(135deg, var(--teal-green), #1E3D3D);"></div>
+            <div class="photo-item" style="background: linear-gradient(135deg, var(--golden-sand), var(--sunset-orange));"></div>
+        </div>
+        <div class="photos-cta">
+            <a href="/templates/articlecco_cdo/aid/6531898/jewish/Photos.htm" class="btn-photos">See More Photos →</a>
+        </div>
+    </section>
+
+    <!-- MOTTO BANNER -->
+    <section class="motto">
+        <div class="motto-content">
+            <h2>"Think Good and It Will Be Good"</h2>
+            <p>A message of hope and positivity from the Rebbe</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h3>Chabad of Rural Arizona</h3>
+                    <p class="footer-tagline">Bringing Jewish life across the desert</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/JewishRuralAZ" target="_blank" class="social-icon" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="https://www.instagram.com/jewishruralaz" target="_blank" class="social-icon" aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://www.youtube.com/@jewishruralaz" target="_blank" class="social-icon" aria-label="YouTube">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p><a href="tel:+19708525416">(970) 852-5416</a></p>
+                    <p><a href="mailto:RabbiYaakov@JewishRuralAZ.org">RabbiYaakov@JewishRuralAZ.org</a></p>
+                    <p>6548 E. Sharon Dr, 85254</p>
+                </div>
+                <div class="footer-links-col">
+                    <h4>Quick Links</h4>
+                    <a href="/6532283">About</a>
+                    <a href="/templates/articlecco_cdo/aid/6532340/jewish/Events.htm">Events</a>
+                    <a href="/4970020">Donate</a>
+                    <a href="/asktherabbi/default_cdo/jewish/Ask-the-Rabbi.htm">Ask the Rabbi</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Chabad of Rural Arizona is a 501(c)(3) nonprofit organization, EIN 86-3663272 | Donations are tax-deductible</p>
+                <p class="footer-legal"><a href="/4026210">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
