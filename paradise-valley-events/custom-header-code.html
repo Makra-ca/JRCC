@@ -540,7 +540,7 @@ body.pv-events-listing .pv-register-btn svg {
    SINGLE EVENT - PAGE BACKGROUND
    ========================================================= */
 body.pv-registration-page {
-    background: linear-gradient(135deg, #fdfbf7 0%, #f5f0e8 50%, #ebe4d8 100%) !important;
+    background: #ffffff !important;
     min-height: 100vh !important;
 }
 
@@ -656,7 +656,7 @@ body.pv-registration-page #RegisterHeader .column1 {
 body.pv-registration-page #RegisterHeader .column1::before {
     content: '✦ Special Event' !important;
     display: inline-block !important;
-    background: linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E67E22 100%) !important;
+    background: #E67E22 !important;
     color: #ffffff !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 0.9rem !important;
@@ -673,7 +673,7 @@ body.pv-registration-page #RegisterHeader .event_name {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 3.5rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     margin-bottom: 1.5rem !important;
     line-height: 1.2 !important;
     letter-spacing: -1px !important;
@@ -683,12 +683,12 @@ body.pv-registration-page #RegisterHeader .event_description {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.4rem !important;
     line-height: 1.8 !important;
-    color: #5a5a6e !important;
+    color: #555 !important;
     max-width: 800px !important;
 }
 
 body.pv-registration-page #RegisterHeader .column2 {
-    background: linear-gradient(180deg, #f8f6f2 0%, #ffffff 100%) !important;
+    background: #F5F5F5 !important;
     color: #333 !important;
     display: grid !important;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
@@ -761,7 +761,7 @@ body.pv-registration-page .pv-info-text {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.2rem !important;
     font-weight: 600 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     line-height: 1.5 !important;
 }
 
@@ -769,13 +769,13 @@ body.pv-registration-page .pv-info-content {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.1rem !important;
     font-weight: 600 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     line-height: 1.5 !important;
     margin-top: 0.25rem !important;
 }
 
 body.pv-registration-page .pv-info-content a {
-    color: #1a1a2e !important;
+    color: #333 !important;
     text-decoration: none !important;
 }
 
@@ -787,7 +787,7 @@ body.pv-registration-page .pv-info-section-title {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.75rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     margin-bottom: 1.5rem !important;
     padding-bottom: 0.75rem !important;
     border-bottom: 2px solid rgba(230, 126, 34, 0.3) !important;
@@ -804,9 +804,10 @@ body.pv-registration-page .pv-info-section-title {
 
 body.pv-registration-page .pv-info-cards-grid {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(200px, 280px)) !important;
     gap: 1.5rem !important;
     grid-column: 1 / -1 !important;
+    justify-content: center !important;
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
@@ -827,12 +828,146 @@ body.pv-registration-page #RegisterBody .title {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.75rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     margin-bottom: 2rem !important;
 }
 
+/* =========================================================
+   SINGLE EVENT - RESERVATIONS PRICING SECTION
+   Styles the General Admission, VIP, and Sponsorship text
+   ========================================================= */
+/* Container for pricing info */
+body.pv-registration-page #RegisterBody > div:first-child,
+body.pv-registration-page #RegisterBody .pv-pricing-container {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF5EB 100%) !important;
+    border-radius: 20px !important;
+    padding: 2rem 2.5rem !important;
+    margin-bottom: 2rem !important;
+    border: 2px solid rgba(230, 126, 34, 0.2) !important;
+    box-shadow: 0 4px 20px rgba(230, 126, 34, 0.08) !important;
+}
+
+/* Pricing section title (e.g., "Reservations") */
+body.pv-registration-page #RegisterBody > div:first-child > .title:first-child,
+body.pv-registration-page #RegisterBody .pv-pricing-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #E67E22 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(230, 126, 34, 0.3) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+}
+
+body.pv-registration-page #RegisterBody > div:first-child > .title:first-child::before,
+body.pv-registration-page #RegisterBody .pv-pricing-title::before {
+    content: '🎫' !important;
+    font-size: 1.25rem !important;
+}
+
+/* Pricing text paragraphs */
+body.pv-registration-page #RegisterBody p,
+body.pv-registration-page #RegisterBody > div:first-child p {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.15rem !important;
+    line-height: 1.8 !important;
+    color: #444 !important;
+    margin-bottom: 0.75rem !important;
+}
+
+/* Style pricing items - wrapper for each price line */
+body.pv-registration-page .pv-pricing-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+body.pv-registration-page .pv-pricing-item:hover {
+    border-color: rgba(230, 126, 34, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(230, 126, 34, 0.1) !important;
+}
+
+body.pv-registration-page .pv-pricing-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
+
+body.pv-registration-page .pv-pricing-amount {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #E67E22 !important;
+}
+
+/* Sponsorship levels - horizontal layout */
+body.pv-registration-page .pv-sponsorship-levels {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px dashed rgba(230, 126, 34, 0.3) !important;
+}
+
+body.pv-registration-page .pv-sponsorship-level {
+    background: linear-gradient(135deg, #E67E22 0%, #F39C12 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.pv-registration-page .pv-sponsorship-level:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4) !important;
+}
+
+/* VIP badge style */
+body.pv-registration-page .pv-vip-badge {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 20px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-right: 0.5rem !important;
+    vertical-align: middle !important;
+}
+
+/* Sponsorship description text */
+body.pv-registration-page .pv-sponsorship-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-style: italic !important;
+    color: #666 !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+}
+
 body.pv-registration-page #RegisterBody .performance {
-    background: linear-gradient(135deg, #fdfbf7 0%, #f8f6f2 100%) !important;
+    background: #F5F5F5 !important;
     border: 2px solid transparent !important;
     border-radius: 16px !important;
     padding: 1.75rem 2rem !important;
@@ -842,7 +977,7 @@ body.pv-registration-page #RegisterBody .performance {
 
 body.pv-registration-page #RegisterBody .performance:hover {
     border-color: #E67E22 !important;
-    background: linear-gradient(135deg, #fffdf7 0%, #fef5ed 100%) !important;
+    background: #FFF8F0 !important;
     box-shadow: 0 8px 24px rgba(230, 126, 34, 0.12) !important;
 }
 
@@ -850,7 +985,7 @@ body.pv-registration-page #RegisterBody .performance .bold {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.35rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
 }
 
 body.pv-registration-page #RegisterBody .performance .price {
@@ -875,7 +1010,7 @@ body.pv-registration-page #RegisterBody .clearfix.reservation {
 }
 
 body.pv-registration-page #RegisterBody .reservation:hover {
-    background: #fdfbf7 !important;
+    background: #FAFAFA !important;
 }
 
 /* Delete button styling */
@@ -1004,7 +1139,7 @@ body.pv-registration-page #Payment label {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.15rem !important;
     font-weight: 600 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     display: block !important;
     margin-bottom: 0.5rem !important;
 }
@@ -1024,7 +1159,7 @@ body.pv-registration-page #Payment .title {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 1.75rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
     display: flex !important;
     align-items: center !important;
     gap: 0.75rem !important;
@@ -1037,7 +1172,7 @@ body.pv-registration-page #Payment .title::before {
     content: '' !important;
     width: 5px !important;
     height: 28px !important;
-    background: linear-gradient(180deg, #E67E22, #F39C12) !important;
+    background: #E67E22 !important;
     border-radius: 3px !important;
 }
 
@@ -1070,15 +1205,14 @@ body.pv-registration-page #Buttons input[type="submit"] {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.25rem !important;
     font-weight: 700 !important;
-    background: linear-gradient(135deg, #E67E22 0%, #F39C12 50%, #E67E22 100%) !important;
-    background-size: 200% auto !important;
+    background: #E67E22 !important;
     color: #ffffff !important;
     border: none !important;
     border-radius: 16px !important;
     padding: 1.4rem 3.5rem !important;
     cursor: pointer !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 8px 30px rgba(230, 126, 34, 0.35), 0 4px 12px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3) !important;
     text-transform: uppercase !important;
     letter-spacing: 1.5px !important;
 }
@@ -1086,9 +1220,8 @@ body.pv-registration-page #Buttons input[type="submit"] {
 body.pv-registration-page #SubmitButton:hover,
 body.pv-registration-page #Buttons button[name="submit"]:hover,
 body.pv-registration-page #Buttons input[type="submit"]:hover {
-    background-position: right center !important;
-    transform: translateY(-3px) !important;
-    box-shadow: 0 14px 40px rgba(230, 126, 34, 0.4), 0 6px 16px rgba(0,0,0,0.12) !important;
+    background: #D35400 !important;
+    transform: scale(1.03) !important;
 }
 
 body.pv-registration-page #Buttons .total strong,
@@ -1096,7 +1229,109 @@ body.pv-registration-page #Buttons .total .amount {
     font-family: 'Urbanist', sans-serif !important;
     font-size: 2.75rem !important;
     font-weight: 700 !important;
-    color: #1a1a2e !important;
+    color: #333 !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - OVERRIDE CMS DEFAULT BORDER COLORS
+   Change #EDF1F5 (CMS default light gray-blue) to #E67E22 (orange)
+   ========================================================= */
+body.pv-registration-page #RegisterBody *,
+body.pv-registration-page #Summary *,
+body.pv-registration-page #ReserversInformation *,
+body.pv-registration-page #Payment *,
+body.pv-registration-page .bottom_padding * {
+    border-color: #E67E22 !important;
+}
+
+/* Keep specific border colors where needed */
+body.pv-registration-page #RegisterBody .performance {
+    border: 2px solid transparent !important;
+}
+
+body.pv-registration-page #RegisterBody .performance:hover {
+    border-color: #E67E22 !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation {
+    border: none !important;
+}
+
+body.pv-registration-page #RegisterBody .remove_reservation {
+    border: 1px solid #ddd !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation:hover .remove_reservation {
+    border-color: #ff5252 !important;
+}
+
+body.pv-registration-page #RegisterBody .remove_reservation:hover {
+    border-color: #ff5252 !important;
+}
+
+/* Form inputs - use #999 for default, #E67E22 for focus */
+body.pv-registration-page #RegisterBody input,
+body.pv-registration-page #RegisterBody select,
+body.pv-registration-page #RegisterBody textarea,
+body.pv-registration-page #Summary input,
+body.pv-registration-page #Summary select,
+body.pv-registration-page #Summary textarea,
+body.pv-registration-page #ReserversInformation input,
+body.pv-registration-page #ReserversInformation select,
+body.pv-registration-page #ReserversInformation textarea,
+body.pv-registration-page #Payment input,
+body.pv-registration-page #Payment select,
+body.pv-registration-page #Payment textarea {
+    border-color: #999 !important;
+}
+
+body.pv-registration-page #RegisterBody input:focus,
+body.pv-registration-page #RegisterBody select:focus,
+body.pv-registration-page #RegisterBody textarea:focus,
+body.pv-registration-page #Summary input:focus,
+body.pv-registration-page #Summary select:focus,
+body.pv-registration-page #Summary textarea:focus,
+body.pv-registration-page #ReserversInformation input:focus,
+body.pv-registration-page #ReserversInformation select:focus,
+body.pv-registration-page #ReserversInformation textarea:focus,
+body.pv-registration-page #Payment input:focus,
+body.pv-registration-page #Payment select:focus,
+body.pv-registration-page #Payment textarea:focus {
+    border-color: #E67E22 !important;
+}
+
+/* Section title underlines */
+body.pv-registration-page .pv-info-section-title {
+    border-bottom-color: rgba(230, 126, 34, 0.3) !important;
+}
+
+/* Section separators - subtle */
+body.pv-registration-page #Summary,
+body.pv-registration-page #ReserversInformation,
+body.pv-registration-page #Payment,
+body.pv-registration-page #RegisterBody {
+    border-color: rgba(0,0,0,0.06) !important;
+}
+
+/* Override shaded containers to white */
+.cco_body .ads .container.shaded,
+.container.shaded,
+.footnote.selected {
+    background-color: #ffffff !important;
+}
+
+/* Override RegisterHeader blue background to white */
+#RegisterHeader.clearfix.blue,
+#RegisterHeader.blue {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+
+/* Orange border around entire form card */
+form#RegisterSinglePage {
+    border: 3px solid #E67E22 !important;
+    border-radius: 24px !important;
+    overflow: hidden !important;
 }
 
 /* =========================================================

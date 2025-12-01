@@ -1,0 +1,643 @@
+<!-- PARADISE VALLEY EVENTS - Single Event Registration Page -->
+<!-- Custom Header Code - CSS Styles -->
+<!-- Paste this into Chabad One CMS: Custom Header Code section -->
+<!-- For single event registration pages: /tools/events/register_cdo/eventid/XXXXX -->
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+
+<style type="text/css">
+/* =========================================================
+   PARADISE VALLEY - SINGLE EVENT REGISTRATION PAGE
+   Premium Clean Design with Gold Accents
+   Only applies to /tools/events/register_cdo/ pages
+   ========================================================= */
+
+/* =========================================================
+   PAGE BACKGROUND - Elegant Warm Gradient
+   ========================================================= */
+body.cco_body {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f5f0e8 50%, #ebe4d8 100%) !important;
+    min-height: 100vh !important;
+}
+
+/* Remove default backgrounds */
+#BodyContainer,
+#co_content_container,
+.body_wrapper,
+.master-content-wrapper {
+    background: transparent !important;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+.master-content-wrapper {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 3rem 2rem 4rem !important;
+}
+
+/* Hide original header */
+.master-content-wrapper > header.article-header {
+    display: none !important;
+}
+
+/* =========================================================
+   VERTICAL PADDING
+   ========================================================= */
+.vertical_padding {
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+/* =========================================================
+   FORM CONTAINER
+   ========================================================= */
+form#RegisterSinglePage {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* =========================================================
+   REGISTER HEADER - Banner Image
+   ========================================================= */
+#RegisterHeader {
+    padding: 0 !important;
+    background: transparent !important;
+    margin-bottom: 0 !important;
+}
+
+/* Banner Image - Elegant rounded with deep shadow */
+#RegisterHeader .banner_image {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 25px 80px rgba(0,0,0,0.15),
+        0 10px 30px rgba(0,0,0,0.08) !important;
+    position: relative !important;
+}
+
+#RegisterHeader .banner_image::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 120px !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent) !important;
+    pointer-events: none !important;
+}
+
+#RegisterHeader .banner_image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+/* =========================================================
+   CONTENT CARD - Premium Floating Card
+   ========================================================= */
+#RegisterHeader .column1,
+#RegisterHeader .column2 {
+    float: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Main content card */
+#RegisterHeader .column1 {
+    background: #ffffff !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin-top: 2.5rem !important;
+    position: relative !important;
+    z-index: 10 !important;
+    box-shadow:
+        0 -10px 40px rgba(0,0,0,0.04),
+        0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 3.5rem 3.5rem 2.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+/* Event Badge - Gold accent */
+#RegisterHeader .column1::before {
+    content: '✦ Special Event' !important;
+    display: inline-block !important;
+    background: linear-gradient(135deg, #c9a227 0%, #dbb84d 50%, #c9a227 100%) !important;
+    color: #1a1a2e !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 30px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+}
+
+/* Event Title - Elegant Serif */
+#RegisterHeader .event_name {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 3.5rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -1px !important;
+}
+
+/* Event Description */
+#RegisterHeader .event_description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #5a5a6e !important;
+    max-width: 800px !important;
+}
+
+/* =========================================================
+   INFO GRID - Elegant Info Cards
+   ========================================================= */
+#RegisterHeader .column2 {
+    background: linear-gradient(180deg, #f8f6f2 0%, #ffffff 100%) !important;
+    color: #333 !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    padding: 2.5rem 3.5rem !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+}
+
+#RegisterHeader .column2 .heading {
+    display: none !important;
+}
+
+/* Info icon styling */
+.pv-info-icon {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    border-radius: 14px !important;
+    background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%) !important;
+    box-shadow: 0 4px 12px rgba(26, 26, 46, 0.25) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.pv-info-icon svg {
+    width: 26px !important;
+    height: 26px !important;
+    color: #c9a227 !important;
+    stroke: #c9a227 !important;
+}
+
+/* =========================================================
+   REGISTER BODY - Ticket Selection
+   ========================================================= */
+#RegisterBody {
+    background: #ffffff !important;
+    padding: 3rem 3.5rem !important;
+    border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+#RegisterBody .title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 2rem !important;
+}
+
+/* Ticket rows */
+#RegisterBody .performance {
+    background: linear-gradient(135deg, #fdfbf7 0%, #f8f6f2 100%) !important;
+    border: 2px solid transparent !important;
+    border-radius: 16px !important;
+    padding: 1.75rem 2rem !important;
+    margin-bottom: 1.25rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: block !important;
+}
+
+#RegisterBody .performance:hover {
+    border-color: #c9a227 !important;
+    background: linear-gradient(135deg, #fffdf7 0%, #fdf8ed 100%) !important;
+    box-shadow: 0 8px 24px rgba(201, 162, 39, 0.12) !important;
+}
+
+#RegisterBody .performance .bold {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+/* Ticket price styling */
+#RegisterBody .performance .price,
+#RegisterBody .performance span[class*="price"] {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #c9a227 !important;
+}
+
+/* =========================================================
+   RESERVATION ROWS (DIV-based structure)
+   ========================================================= */
+#RegisterBody .reservation,
+#RegisterBody .clearfix.reservation {
+    position: relative !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 1rem 3rem 1rem 1rem !important;
+    margin-bottom: 0.75rem !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease !important;
+}
+
+#RegisterBody .reservation:hover {
+    background: #fdfbf7 !important;
+}
+
+/* Delete button styling */
+#RegisterBody .remove_reservation,
+#RegisterBody button.remove_reservation,
+button.remove_reservation {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    min-height: 28px !important;
+    max-height: 28px !important;
+    border-radius: 50% !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #999 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    line-height: 1 !important;
+    opacity: 0.6 !important;
+    z-index: 100 !important;
+}
+
+#RegisterBody .reservation:hover .remove_reservation {
+    opacity: 1 !important;
+    background: #ffebee !important;
+    border-color: #ff5252 !important;
+    color: #ff5252 !important;
+}
+
+#RegisterBody .remove_reservation:hover {
+    background: #ff5252 !important;
+    border-color: #ff5252 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+/* =========================================================
+   FORM FIELDS - Global Styles (VISIBLE BORDERS!)
+   ========================================================= */
+.bottom_padding {
+    display: block !important;
+    background: #ffffff !important;
+    border-radius: 0 0 24px 24px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 0 !important;
+    margin-bottom: 3rem !important;
+    overflow: hidden !important;
+}
+
+/* Global form input styles - DARK VISIBLE BORDERS */
+.bottom_padding input,
+.bottom_padding select,
+.bottom_padding textarea,
+#Summary input,
+#Summary select,
+#Summary textarea,
+#ReserversInformation input,
+#ReserversInformation select,
+#ReserversInformation textarea,
+#Payment input,
+#Payment select,
+#Payment textarea,
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="number"],
+form select,
+form textarea {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.1rem !important;
+    border: 2px solid #999 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #999 !important;
+    border-radius: 10px !important;
+    transition: all 0.25s ease !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.bottom_padding input:focus,
+.bottom_padding select:focus,
+.bottom_padding textarea:focus,
+#Summary input:focus,
+#Summary select:focus,
+#Summary textarea:focus,
+#ReserversInformation input:focus,
+#ReserversInformation select:focus,
+#ReserversInformation textarea:focus,
+#Payment input:focus,
+#Payment select:focus,
+#Payment textarea:focus {
+    border-color: #c9a227 !important;
+    outline: none !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12) !important;
+}
+
+.bottom_padding textarea,
+#Summary textarea,
+#ReserversInformation textarea,
+#Payment textarea {
+    min-height: 100px !important;
+    resize: vertical !important;
+}
+
+/* Form labels */
+.bottom_padding label,
+#Summary label,
+#ReserversInformation label,
+#Payment label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* =========================================================
+   SECTION STYLING
+   ========================================================= */
+#Summary {
+    padding: 2.5rem 3.5rem !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+#Summary .title,
+#ReserversInformation .title,
+#Payment .title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+#Summary .title::before,
+#ReserversInformation .title::before,
+#Payment .title::before {
+    content: '' !important;
+    width: 5px !important;
+    height: 28px !important;
+    background: linear-gradient(180deg, #c9a227, #dbb84d) !important;
+    border-radius: 3px !important;
+}
+
+#ReserversInformation {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+#Payment {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   SUBMIT BUTTON
+   ========================================================= */
+#Buttons {
+    padding: 2.5rem 3.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+}
+
+#SubmitButton,
+#Buttons button[name="submit"],
+#Buttons input[type="submit"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #c9a227 0%, #dbb84d 50%, #c9a227 100%) !important;
+    background-size: 200% auto !important;
+    color: #1a1a2e !important;
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 1.4rem 3.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow:
+        0 8px 30px rgba(201, 162, 39, 0.35),
+        0 4px 12px rgba(0,0,0,0.1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+}
+
+#SubmitButton:hover,
+#Buttons button[name="submit"]:hover,
+#Buttons input[type="submit"]:hover {
+    background-position: right center !important;
+    transform: translateY(-3px) !important;
+    box-shadow:
+        0 14px 40px rgba(201, 162, 39, 0.4),
+        0 6px 16px rgba(0,0,0,0.12) !important;
+}
+
+/* Total display */
+#Buttons .total strong,
+#Buttons .total .amount {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 2.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+}
+
+/* =========================================================
+   INFO CARD STYLING
+   ========================================================= */
+.pv-info-card {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 1.75rem 2rem !important;
+    box-shadow:
+        0 2px 4px rgba(0,0,0,0.02),
+        0 8px 24px rgba(0,0,0,0.04) !important;
+    border: 1px solid rgba(0,0,0,0.04) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.pv-info-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow:
+        0 12px 40px rgba(0,0,0,0.08),
+        0 4px 12px rgba(0,0,0,0.04) !important;
+    border-color: rgba(201, 162, 39, 0.3) !important;
+}
+
+.pv-card-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    color: #c9a227 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+.pv-info-text {
+    flex: 1 !important;
+    min-width: 0 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #1a1a2e !important;
+    line-height: 1.5 !important;
+}
+
+.pv-info-section-title {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a2e !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(201, 162, 39, 0.3) !important;
+    display: block !important;
+    grid-column: 1 / -1 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.pv-info-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1.5rem !important;
+    grid-column: 1 / -1 !important;
+}
+
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
+@media (max-width: 768px) {
+    .master-content-wrapper {
+        padding: 1.5rem 1rem !important;
+    }
+
+    #RegisterHeader .column1 {
+        padding: 2rem 1.5rem !important;
+        margin-top: 1.5rem !important;
+    }
+
+    #RegisterHeader .event_name {
+        font-size: 2.25rem !important;
+    }
+
+    #RegisterHeader .event_description {
+        font-size: 1.15rem !important;
+    }
+
+    #RegisterHeader .column2 {
+        padding: 1.5rem !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    .pv-info-icon {
+        width: 48px !important;
+        height: 48px !important;
+        min-width: 48px !important;
+    }
+
+    .pv-info-icon svg {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .pv-info-card {
+        padding: 1.25rem !important;
+        gap: 1rem !important;
+    }
+
+    .pv-info-text {
+        font-size: 1rem !important;
+    }
+
+    .pv-info-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    #RegisterBody,
+    #Summary,
+    #ReserversInformation,
+    #Payment,
+    #Buttons {
+        padding: 2rem 1.5rem !important;
+    }
+
+    #Buttons {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        text-align: center !important;
+    }
+
+    #SubmitButton,
+    #Buttons button[name="submit"],
+    #Buttons input[type="submit"] {
+        width: 100% !important;
+        padding: 1.25rem 2rem !important;
+    }
+
+    /* Form labels mobile */
+    #Summary label,
+    #ReserversInformation label,
+    #Payment label {
+        font-size: 1rem !important;
+    }
+}
+</style>

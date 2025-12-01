@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mockup 2 - Bold & Vibrant Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===================================================================
+           MOCKUP 2: BOLD & VIBRANT DESIGN
+           - Light cream background
+           - Cards with colored left accent border
+           - Teal/Blue (#2A7B9B) for buttons
+           - Orange (#E67E22) for titles and highlights
+           - More visual hierarchy and color blocks
+           =================================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: #FAF8F5;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2D2D2D;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .page-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 2.5rem;
+        }
+
+        .events-container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* Event Card */
+        .event {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            border-left: 6px solid #E67E22;
+            transition: all 0.3s ease;
+        }
+
+        .event:hover {
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .event:nth-child(even) {
+            border-left-color: #2A7B9B;
+        }
+
+        /* Event Image */
+        .event-image {
+            flex-shrink: 0;
+            width: 200px;
+            min-height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #E67E22 0%, #D35400 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .event:nth-child(even) .event-image-placeholder {
+            background: linear-gradient(135deg, #2A7B9B 0%, #1E5A73 100%);
+        }
+
+        .event-image-placeholder svg {
+            width: 60px;
+            height: 60px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* Event Content */
+        .event-content {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Event Title */
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #E67E22;
+            margin-bottom: 0.5rem;
+            line-height: 1.25;
+        }
+
+        .event:nth-child(even) .event-title {
+            color: #2A7B9B;
+        }
+
+        /* Event Description */
+        .event-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.65;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        /* Event Details Grid */
+        .event-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #F8F6F3;
+            border-radius: 10px;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .event-detail-icon {
+            width: 20px;
+            height: 20px;
+            color: #E67E22;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .event:nth-child(even) .event-detail-icon {
+            color: #2A7B9B;
+        }
+
+        .event-detail-text {
+            font-size: 0.85rem;
+            color: #444;
+            line-height: 1.4;
+        }
+
+        .event-detail-label {
+            font-weight: 700;
+            color: #333;
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        /* Tickets */
+        .event-tickets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-badge {
+            background: #FFF3E6;
+            color: #D35400;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .event:nth-child(even) .ticket-badge {
+            background: #E6F3F7;
+            color: #1E5A73;
+        }
+
+        /* Footer */
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .event-date {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        /* Register Button */
+        .register-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #2A7B9B 0%, #1E5A73 100%);
+            color: #fff;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(42, 123, 155, 0.25);
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(42, 123, 155, 0.35);
+        }
+
+        .register-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .event {
+                flex-direction: column;
+                border-left: none;
+                border-top: 6px solid #E67E22;
+            }
+            .event:nth-child(even) {
+                border-top-color: #2A7B9B;
+            }
+            .event-image {
+                width: 100%;
+                min-height: 180px;
+            }
+            .event-details {
+                grid-template-columns: 1fr;
+            }
+            .event-footer {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .register-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">Upcoming Events</h1>
+    <p class="page-subtitle">Join us for inspiring gatherings and celebrations</p>
+
+    <div class="events-container">
+        <!-- Event 1 -->
+        <div class="event">
+            <div class="event-image">
+                <div class="event-image-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+            </div>
+            <div class="event-content">
+                <h2 class="event-title">An Evening with Hostage Survivor Omer Shem Tov</h2>
+                <p class="event-description">
+                    Hear Omer's harrowing account and miraculous survival of 505 days in captivity in Gaza!
+                    Please note, there will be ample security at the event.
+                </p>
+
+                <div class="event-details">
+                    <div class="event-detail">
+                        <svg class="event-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <div class="event-detail-text">
+                            <span class="event-detail-label">When</span>
+                            Tuesday, December 16, 7:00pm<br>
+                            6:15 - Meet and Greet for Sponsors
+                        </div>
+                    </div>
+                    <div class="event-detail">
+                        <svg class="event-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div class="event-detail-text">
+                            <span class="event-detail-label">Where</span>
+                            Embassy Suites by Hilton Phoenix Scottsdale<br>
+                            4415 E Paradise Vlg Pkwy S, Phoenix, AZ 85032
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-tickets">
+                    <span class="ticket-badge">General: $36</span>
+                    <span class="ticket-badge">VIP Sponsor: $300</span>
+                </div>
+
+                <div class="event-footer">
+                    <span class="event-date">Tue, Dec 16, 2025</span>
+                    <a href="#" class="register-btn">
+                        Register
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="event">
+            <div class="event-image">
+                <div class="event-image-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+            </div>
+            <div class="event-content">
+                <h2 class="event-title">Lights and Strikes - YJP Chanukah</h2>
+                <p class="event-description">
+                    JPhoenix Young Professionals Present: Annual Chanukah Soiree at AMF Bowling Lounge.
+                    Schmooze over cocktails and knock down pins at a premiere Bowling lounge.
+                    Join other young Jewish professionals who will come together to mingle and party!
+                </p>
+
+                <div class="event-details">
+                    <div class="event-detail">
+                        <svg class="event-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        <div class="event-detail-text">
+                            <span class="event-detail-label">When</span>
+                            Saturday Evening, December 20, 8:00pm
+                        </div>
+                    </div>
+                    <div class="event-detail">
+                        <svg class="event-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <div class="event-detail-text">
+                            <span class="event-detail-label">Where</span>
+                            2959 E Bell Rd, Phoenix, AZ 85032-1918
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-tickets">
+                    <span class="ticket-badge">Early Bird: $15</span>
+                    <span class="ticket-badge">Advance: $18</span>
+                    <span class="ticket-badge">Week of: $23</span>
+                    <span class="ticket-badge">Door: $35</span>
+                </div>
+
+                <div class="event-footer">
+                    <span class="event-date">Sat, Dec 20 - Sun, Dec 21, 2025</span>
+                    <a href="#" class="register-btn">
+                        Register
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

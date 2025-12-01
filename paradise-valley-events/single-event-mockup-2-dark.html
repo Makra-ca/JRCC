@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Event Mockup 2 - Dark & Bold</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800;900&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: #0f0f1a;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+        .hero {
+            position: relative;
+            border-radius: 32px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        .hero-image { width: 100%; height: 400px; object-fit: cover; display: block; }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 30%, rgba(15,15,26,0.95) 100%);
+        }
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+        }
+        .event-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: #E67E22;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 0.6rem 1.25rem;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(230,126,34,0.3);
+        }
+        .event-tag::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #E67E22;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+        .hero-title span {
+            background: linear-gradient(135deg, #E67E22, #F1C40F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 2rem;
+        }
+        .details-card {
+            background: linear-gradient(145deg, #1a1a2e, #16162a);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .card-header h2 { font-size: 1.5rem; font-weight: 700; color: white; }
+        .card-header .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #E67E22, #D35400);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-header .icon svg { width: 20px; height: 20px; color: white; }
+        .description { font-size: 1.1rem; color: #a0a0b0; line-height: 1.8; margin-bottom: 2rem; }
+        .info-pills { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+        .info-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            flex: 1;
+            min-width: 200px;
+        }
+        .info-pill .pill-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .info-pill .pill-icon svg { width: 22px; height: 22px; color: white; }
+        .info-pill .pill-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .info-pill .pill-value { font-size: 1rem; color: white; font-weight: 600; margin-top: 0.25rem; }
+        .ticket-option {
+            background: rgba(255,255,255,0.02);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .ticket-option:hover, .ticket-option.selected {
+            border-color: #E67E22;
+            background: rgba(230,126,34,0.1);
+        }
+        .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+        .ticket-name { font-size: 1.25rem; font-weight: 700; color: white; }
+        .ticket-price {
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #E67E22, #F1C40F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .ticket-desc { font-size: 0.95rem; color: #888; margin-bottom: 1rem; }
+        .ticket-perks { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .perk {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.8rem;
+            color: #a0a0b0;
+            background: rgba(255,255,255,0.05);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+        }
+        .perk svg { width: 14px; height: 14px; color: #4ade80; }
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .qty-btn:hover { border-color: #E67E22; background: rgba(230,126,34,0.1); }
+        .qty-display { font-size: 1.25rem; font-weight: 700; color: white; min-width: 40px; text-align: center; }
+        .registration-card {
+            background: linear-gradient(145deg, #1a1a2e, #16162a);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 2rem;
+        }
+        .reg-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .reg-header h3 { font-size: 1.25rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+        .reg-header p { font-size: 0.9rem; color: #666; }
+        .form-field { margin-bottom: 1.25rem; }
+        .form-field label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .form-field input {
+            width: 100%;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 1rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: white;
+            transition: all 0.2s;
+        }
+        .form-field input::placeholder { color: #555; }
+        .form-field input:focus { outline: none; border-color: #667eea; background: rgba(102,126,234,0.05); }
+        .order-summary {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            color: #a0a0b0;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .order-row.total {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 0.75rem;
+            margin-bottom: 0;
+        }
+        .order-row.total span:last-child {
+            background: linear-gradient(135deg, #E67E22, #F1C40F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .submit-btn {
+            width: 100%;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, #E67E22 0%, #D35400 100%);
+            border: none;
+            border-radius: 16px;
+            padding: 1.25rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(230,126,34,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(230,126,34,0.4); }
+        .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        .secure-note svg { width: 14px; height: 14px; }
+        @media (max-width: 900px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-content { padding: 2rem; }
+            .registration-card { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <img src="https://www.jewishparadisevalley.com/uploads/media/resized/0001/06/e6c8f5b0ce5c31b28a65ef12f76ac3f8ce3fc770.jpeg" alt="Event Banner" class="hero-image">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <span class="event-tag">Live Event</span>
+                <h1 class="hero-title">An Evening with <span>Omer Shem Tov</span></h1>
+            </div>
+        </div>
+        <div class="main-grid">
+            <div class="details-card">
+                <div class="card-header">
+                    <div class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    </div>
+                    <h2>Event Details</h2>
+                </div>
+                <p class="description">Hear Omer's harrowing account and miraculous survival of 505 days in captivity in Gaza! Please note, there will be ample security at the event.</p>
+                <div class="info-pills">
+                    <div class="info-pill">
+                        <div class="pill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                        </div>
+                        <div>
+                            <div class="pill-label">Date</div>
+                            <div class="pill-value">Tuesday, Dec 16</div>
+                        </div>
+                    </div>
+                    <div class="info-pill">
+                        <div class="pill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                        </div>
+                        <div>
+                            <div class="pill-label">Time</div>
+                            <div class="pill-value">7:00 PM - 9:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="info-pill">
+                        <div class="pill-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div>
+                            <div class="pill-label">Location</div>
+                            <div class="pill-value">Embassy Suites Phoenix</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header" style="margin-top: 1rem;">
+                    <div class="icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h6"/></svg>
+                    </div>
+                    <h2>Select Your Tickets</h2>
+                </div>
+                <div class="ticket-option selected">
+                    <div class="ticket-header">
+                        <span class="ticket-name">General Admission</span>
+                        <span class="ticket-price">$36</span>
+                    </div>
+                    <p class="ticket-desc">Standard seating with full event access</p>
+                    <div class="ticket-perks">
+                        <span class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Full Event Access</span>
+                        <span class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Refreshments</span>
+                    </div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn">-</button>
+                        <span class="qty-display">2</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <div class="ticket-option">
+                    <div class="ticket-header">
+                        <span class="ticket-name">VIP Sponsor Package</span>
+                        <span class="ticket-price">$300</span>
+                    </div>
+                    <p class="ticket-desc">Premium experience with exclusive perks</p>
+                    <div class="ticket-perks">
+                        <span class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Preferred Seating</span>
+                        <span class="perk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Meet & Greet</span>
+                    </div>
+                    <div class="quantity-selector">
+                        <button class="qty-btn">-</button>
+                        <span class="qty-display">0</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="registration-card">
+                <div class="reg-header">
+                    <h3>Complete Registration</h3>
+                    <p>Enter your details below</p>
+                </div>
+                <div class="form-field"><label>First Name</label><input type="text" placeholder="Enter first name"></div>
+                <div class="form-field"><label>Last Name</label><input type="text" placeholder="Enter last name"></div>
+                <div class="form-field"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+                <div class="form-field"><label>Phone Number</label><input type="tel" placeholder="(555) 123-4567"></div>
+                <div class="order-summary">
+                    <div class="order-row"><span>General Admission x 2</span><span>$72.00</span></div>
+                    <div class="order-row"><span>Processing Fee</span><span>$1.80</span></div>
+                    <div class="order-row total"><span>Total</span><span>$73.80</span></div>
+                </div>
+                <button class="submit-btn">Complete Purchase</button>
+                <div class="secure-note">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    Secure checkout
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

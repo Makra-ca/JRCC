@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Event Mockup 3 - Minimal & Elegant</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+        .page-container { max-width: 1200px; margin: 0 auto; }
+        .hero-banner {
+            position: relative;
+            height: 50vh;
+            min-height: 400px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+        .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.6) 100%);
+        }
+        .hero-badge {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: white;
+            color: #1a1a1a;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.6rem 1.25rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .main-content {
+            padding: 0 2rem;
+            margin-top: -100px;
+            position: relative;
+            z-index: 10;
+        }
+        .title-card {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 4rem;
+            margin-bottom: 1px;
+        }
+        .event-meta {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .event-meta span { display: flex; align-items: center; gap: 0.5rem; }
+        .event-meta svg { width: 16px; height: 16px; }
+        .event-title {
+            font-size: 3.5rem;
+            font-weight: 300;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+        .event-title strong { font-weight: 700; }
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: #E67E22;
+            margin-bottom: 1.5rem;
+        }
+        .event-description {
+            font-size: 1.15rem;
+            color: #666;
+            line-height: 1.9;
+            max-width: 700px;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 1px;
+            background: #f5f5f5;
+        }
+        .details-section {
+            background: white;
+            padding: 3rem 4rem;
+        }
+        .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+        }
+        .info-list { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 3rem; }
+        .info-item { display: flex; gap: 1.5rem; }
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .info-icon svg { width: 22px; height: 22px; color: #333; }
+        .info-text h4 { font-size: 1.1rem; font-weight: 600; color: #1a1a1a; margin-bottom: 0.25rem; }
+        .info-text p { font-size: 0.95rem; color: #888; }
+        .pricing-section {
+            margin-top: 2rem;
+            padding-top: 3rem;
+            border-top: 1px solid #eee;
+        }
+        .pricing-table { width: 100%; border-collapse: collapse; }
+        .pricing-table th {
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 0 0 1rem;
+        }
+        .pricing-table th:last-child { text-align: right; }
+        .pricing-table td {
+            padding: 1.25rem 0;
+            border-top: 1px solid #f5f5f5;
+            vertical-align: middle;
+        }
+        .pricing-table td:last-child { text-align: right; }
+        .ticket-name { font-size: 1rem; font-weight: 600; color: #1a1a1a; }
+        .ticket-detail { font-size: 0.85rem; color: #999; margin-top: 0.25rem; }
+        .ticket-price { font-size: 1.25rem; font-weight: 700; color: #1a1a1a; }
+        .qty-select {
+            font-family: 'Urbanist', sans-serif;
+            font-size: 1rem;
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            min-width: 70px;
+        }
+        .qty-select:focus { outline: none; border-color: #1a1a1a; }
+        .form-section {
+            background: #fafafa;
+            padding: 3rem;
+        }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+        }
+        .form-group input {
+            width: 100%;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 1rem;
+            padding: 1rem;
+            border: 1px solid #e5e5e5;
+            background: white;
+            transition: all 0.2s;
+        }
+        .form-group input:focus { outline: none; border-color: #1a1a1a; }
+        .form-group input::placeholder { color: #ccc; }
+        .order-summary {
+            background: white;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid #eee;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+        .summary-row.total {
+            border-top: 1px solid #eee;
+            margin-top: 0.75rem;
+            padding-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .submit-btn {
+            width: 100%;
+            font-family: 'Urbanist', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: white;
+            background: #1a1a1a;
+            border: none;
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover { background: #E67E22; }
+        .terms-note {
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #bbb;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .terms-note a { color: #888; text-decoration: underline; }
+        .footer-spacer { height: 4rem; background: white; }
+        @media (max-width: 900px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .title-card { padding: 2.5rem 2rem; }
+            .event-title { font-size: 2.5rem; }
+            .details-section { padding: 2rem; }
+            .main-content { padding: 0 1rem; }
+            .event-meta { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="hero-banner">
+            <img src="https://www.jewishparadisevalley.com/uploads/media/resized/0001/06/e6c8f5b0ce5c31b28a65ef12f76ac3f8ce3fc770.jpeg" alt="Event Banner">
+            <div class="hero-overlay"></div>
+            <span class="hero-badge">Special Event</span>
+        </div>
+        <div class="main-content">
+            <div class="title-card">
+                <div class="event-meta">
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>December 16, 2024</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>7:00 PM</span>
+                    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Phoenix, AZ</span>
+                </div>
+                <h1 class="event-title">An Evening with <strong>Hostage Survivor Omer Shem Tov</strong></h1>
+                <div class="divider"></div>
+                <p class="event-description">Hear Omer's harrowing account and miraculous survival of 505 days in captivity in Gaza! Please note, there will be ample security at the event.</p>
+            </div>
+            <div class="content-grid">
+                <div class="details-section">
+                    <p class="section-label">Event Details</p>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+                            <div class="info-text">
+                                <h4>Tuesday, December 16, 2024</h4>
+                                <p>7:00 PM - 9:00 PM</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                            <div class="info-text">
+                                <h4>Embassy Suites by Hilton</h4>
+                                <p>4415 E Paradise Village Pkwy, Phoenix, AZ 85032</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pricing-section">
+                        <p class="section-label">Select Tickets</p>
+                        <table class="pricing-table">
+                            <thead><tr><th>Ticket Type</th><th>Quantity</th><th>Price</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td><div class="ticket-name">General Admission</div><div class="ticket-detail">Standard seating</div></td>
+                                    <td><select class="qty-select"><option>0</option><option selected>2</option><option>3</option><option>4</option></select></td>
+                                    <td class="ticket-price">$36</td>
+                                </tr>
+                                <tr>
+                                    <td><div class="ticket-name">VIP Sponsor</div><div class="ticket-detail">Preferred seating + Meet & Greet</div></td>
+                                    <td><select class="qty-select"><option selected>0</option><option>1</option><option>2</option></select></td>
+                                    <td class="ticket-price">$300</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <p class="section-label">Registration</p>
+                    <div class="form-group"><label>First Name</label><input type="text" placeholder="Enter first name"></div>
+                    <div class="form-group"><label>Last Name</label><input type="text" placeholder="Enter last name"></div>
+                    <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com"></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="(555) 123-4567"></div>
+                    <div class="order-summary">
+                        <div class="summary-row"><span>General Admission x 2</span><span>$72.00</span></div>
+                        <div class="summary-row total"><span>Total</span><span>$72.00</span></div>
+                    </div>
+                    <button class="submit-btn">Complete Registration</button>
+                    <p class="terms-note">By registering, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-spacer"></div>
+    </div>
+</body>
+</html>

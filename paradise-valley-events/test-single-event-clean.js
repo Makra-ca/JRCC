@@ -1304,19 +1304,10 @@
             padding: 3rem 3.5rem !important;
             border-bottom: 1px solid rgba(0,0,0,0.06) !important;
             background: #ffffff !important;
-        }
-
-        /* Force show all Payment form field containers (CMS may hide them) */
-        #Payment > div > div:not(.clearfix.title),
-        #Payment .large_top_padding > div:not(.clearfix.title) {
             display: block !important;
         }
 
-        /* Ensure clearfix containers inside Payment are visible (except title which uses flex) */
-        #Payment .clearfix:not(.title) {
-            display: block !important;
-        }
-
+        /* Payment title */
         #Payment .title {
             font-family: 'Urbanist', sans-serif !important;
             font-size: 1.75rem !important;
@@ -1366,6 +1357,79 @@
             outline: none !important;
             background: #ffffff !important;
             box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.12) !important;
+        }
+
+        /* =========================================================
+           PAYMENT GRID LAYOUT
+           Structure: #Payment > div.large_top_padding > div#CreditCard
+           ========================================================= */
+        /* Credit card fields container - 2 column grid */
+        #Payment #CreditCard {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 1.5rem 2rem !important;
+            width: 100% !important;
+            margin-top: 1rem !important;
+        }
+
+        /* Each credit card field row */
+        #Payment #CreditCard > div.clearfix {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+
+        /* Reset floats inside credit card fields */
+        #Payment #CreditCard > div.clearfix > div {
+            float: none !important;
+            margin-left: 0 !important;
+        }
+
+        /* Expiration date field - has 2 selects, keep them inline */
+        #Payment #CreditCard > div.clearfix > div.float_left {
+            display: flex !important;
+            gap: 0.5rem !important;
+            flex-wrap: wrap !important;
+        }
+
+        /* Payment method row - full width above the grid */
+        #Payment > div > div.clearfix.small_vertical_padding.required {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+            margin-bottom: 1rem !important;
+        }
+
+        #Payment > div > div.clearfix.small_vertical_padding.required > div {
+            float: none !important;
+            margin-left: 0 !important;
+        }
+
+        /* Comments section - full width below */
+        #Payment #Comments {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+            margin-top: 1.5rem !important;
+            grid-column: 1 / -1 !important;
+        }
+
+        #Payment #Comments > div {
+            float: none !important;
+            margin-left: 0 !important;
+        }
+
+        #Payment #Comments textarea {
+            width: 100% !important;
+            min-height: 100px !important;
+        }
+
+        /* Mobile: single column for payment */
+        @media (max-width: 768px) {
+            #Payment #CreditCard {
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem !important;
+            }
         }
 
         /* =========================================================
@@ -1790,23 +1854,6 @@
             background-position: right center !important;
             transform: translateY(-3px) !important;
             box-shadow: 0 14px 40px rgba(230, 126, 34, 0.4) !important;
-        }
-
-        /* =========================================================
-           HIDDEN SECTIONS - Show after Continue click
-           ========================================================= */
-        #Summary.pv-hidden,
-        #ReserversInformation.pv-hidden,
-        #Payment.pv-hidden,
-        #Buttons.pv-hidden {
-            display: none !important;
-        }
-
-        #Summary.pv-visible,
-        #ReserversInformation.pv-visible,
-        #Payment.pv-visible,
-        #Buttons.pv-visible {
-            display: block !important;
         }
 
         /* =========================================================
@@ -3264,6 +3311,7 @@
         clearTimeout(window.pvValidationDebounce);
         window.pvValidationDebounce = setTimeout(function() {
             forceFormInputStyles();
+            forceGridLayouts(); // Re-apply grid after DOM changes
         }, 100);
     });
 
@@ -3285,6 +3333,7 @@
             clearTimeout(window.pvFormValidationDebounce);
             window.pvFormValidationDebounce = setTimeout(function() {
                 forceFormInputStyles();
+                forceGridLayouts(); // Re-apply grid after DOM changes
             }, 100);
         });
         formObserver.observe(form, { childList: true, subtree: true });
@@ -3406,59 +3455,10 @@
         console.log("✅ Form sections transformed");
     }
 
-    // Setup section visibility (hide until continue)
-    function setupSectionVisibility() {
-        // Find sections that should be hidden initially
-        var sectionsToHide = document.querySelectorAll('#Summary, #ReserversInformation, #Payment, #Buttons, [id*="Summary"], [id*="Information"], [id*="Payment"], [id*="Button"]');
-
-        sectionsToHide.forEach(function(section) {
-            // Don't hide the main registration/ticket section
-            var sectionText = (section.id + ' ' + section.className).toLowerCase();
-            if (sectionText.includes('register') && sectionText.includes('body')) return;
-            if (sectionText.includes('header')) return;
-
-            section.classList.add('pv-hidden');
-        });
-
-        // Find continue button - use iteration since :contains() is not valid CSS
-        var continueBtn = document.querySelector('.pv-continue-btn');
-
-        // Find by iterating buttons if not found
-        if (!continueBtn) {
-            var allBtns = document.querySelectorAll('input[type="submit"], input[type="button"], button');
-            allBtns.forEach(function(btn) {
-                if (continueBtn) return; // Already found
-                var btnText = (btn.value || btn.textContent || '').toLowerCase();
-                if (btnText.includes('continue') || btnText.includes('next')) {
-                    continueBtn = btn;
-                }
-            });
-        }
-
-        if (continueBtn) {
-            continueBtn.classList.add('pv-continue-btn');
-            console.log("✅ Found Continue button");
-
-            continueBtn.addEventListener('click', function() {
-                setTimeout(function() {
-                    sectionsToHide.forEach(function(section) {
-                        section.classList.remove('pv-hidden');
-                        section.classList.add('pv-visible');
-                    });
-
-                    // Scroll to first revealed section
-                    var firstVisible = document.querySelector('.pv-visible');
-                    if (firstVisible) {
-                        firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }, 150);
-            });
-        }
-    }
-
     // Run generic transformations
     transformAllSections();
-    setupSectionVisibility();
+    // NOTE: Section visibility (hide until continue click) is handled by the CMS natively
+    // We only apply styling - no show/hide functionality needed
 
     // =========================================================
     // CLEANUP - Remove previous PV elements if they exist
@@ -4061,17 +4061,18 @@
 
         // =====================================================
         // CENTER BUTTONS SECTION - Center the boxes themselves
+        // NOTE: Don't set display property - CMS handles visibility
         // =====================================================
         function centerButtonsSection() {
             var buttonsSection = document.querySelector('#Buttons');
             if (!buttonsSection) return;
 
-            // Make the #Buttons container use flexbox to center its children
-            buttonsSection.style.setProperty('display', 'flex', 'important');
+            // Only apply centering styles - do NOT set display (CMS controls visibility)
+            // These styles will take effect when CMS makes section visible
             buttonsSection.style.setProperty('flex-direction', 'column', 'important');
             buttonsSection.style.setProperty('align-items', 'center', 'important');
             buttonsSection.style.setProperty('width', '100%', 'important');
-            console.log('📦 #Buttons container set to flexbox centering');
+            console.log('📦 #Buttons container centering styles applied (display left to CMS)');
 
             // Center all direct children (validation boxes, button wrapper, etc.)
             var children = buttonsSection.children;
@@ -4101,10 +4102,122 @@
         console.log("✅ MOBILE-FIRST layout applied to", styledCount, "inputs. Mobile:", isMobile);
     }
 
-    // Run on load
+    // Apply grid layouts to form sections (runs when CMS reveals sections)
+    function forceGridLayouts() {
+        console.log('🔧 forceGridLayouts() called');
+
+        // #ReserversInformation grid - try multiple selectors
+        var riFormContainer = document.querySelector('#ReserversInformation > div > div.clearfix:not(.title)');
+
+        // If not found, try alternative selectors
+        if (!riFormContainer) {
+            console.log('⚠️ Primary selector failed, trying alternatives...');
+            riFormContainer = document.querySelector('#ReserversInformation div.clearfix:not(.title)');
+        }
+        if (!riFormContainer) {
+            riFormContainer = document.querySelector('#ReserversInformation > div.large_top_padding > div.clearfix');
+        }
+        if (!riFormContainer) {
+            // Last resort: find by structure
+            var riSection = document.querySelector('#ReserversInformation');
+            if (riSection) {
+                var candidates = riSection.querySelectorAll('div.clearfix');
+                for (var i = 0; i < candidates.length; i++) {
+                    if (!candidates[i].classList.contains('title') && candidates[i].children.length > 5) {
+                        riFormContainer = candidates[i];
+                        console.log('📍 Found form container via fallback search');
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (riFormContainer) {
+            console.log('✅ Found #ReserversInformation form container:', riFormContainer.className);
+            console.log('   Current display:', window.getComputedStyle(riFormContainer).display);
+
+            riFormContainer.style.setProperty('display', 'grid', 'important');
+            riFormContainer.style.setProperty('grid-template-columns', 'repeat(2, 1fr)', 'important');
+            riFormContainer.style.setProperty('gap', '1.5rem 2rem', 'important');
+            riFormContainer.style.setProperty('width', '100%', 'important');
+
+            console.log('   After setting: display =', window.getComputedStyle(riFormContainer).display);
+
+            // Style each field row
+            var fieldRows = riFormContainer.querySelectorAll(':scope > div.clearfix');
+            fieldRows.forEach(function(row, i) {
+                row.style.setProperty('display', 'flex', 'important');
+                row.style.setProperty('flex-direction', 'column', 'important');
+                row.style.setProperty('gap', '0.5rem', 'important');
+
+                // Reset floats inside
+                var innerDivs = row.querySelectorAll(':scope > div');
+                innerDivs.forEach(function(div) {
+                    div.style.setProperty('float', 'none', 'important');
+                    div.style.setProperty('margin-left', '0', 'important');
+                });
+
+                // Last field spans full width
+                if (i === fieldRows.length - 1) {
+                    row.style.setProperty('grid-column', '1 / -1', 'important');
+                }
+            });
+
+            console.log('📊 #ReserversInformation grid applied:', fieldRows.length, 'fields');
+        } else {
+            console.log('❌ Could NOT find #ReserversInformation form container!');
+            console.log('   Available in #ReserversInformation:', document.querySelectorAll('#ReserversInformation *').length, 'elements');
+        }
+
+        // #CreditCard grid
+        var creditCard = document.querySelector('#Payment #CreditCard');
+        if (creditCard) {
+            creditCard.style.setProperty('display', 'grid', 'important');
+            creditCard.style.setProperty('grid-template-columns', 'repeat(2, 1fr)', 'important');
+            creditCard.style.setProperty('gap', '1.5rem 2rem', 'important');
+            creditCard.style.setProperty('width', '100%', 'important');
+            creditCard.style.setProperty('margin-top', '1rem', 'important');
+
+            // Style each credit card field
+            var ccFields = creditCard.querySelectorAll(':scope > div.clearfix');
+            ccFields.forEach(function(field) {
+                field.style.setProperty('display', 'flex', 'important');
+                field.style.setProperty('flex-direction', 'column', 'important');
+                field.style.setProperty('gap', '0.5rem', 'important');
+
+                var innerDivs = field.querySelectorAll(':scope > div');
+                innerDivs.forEach(function(div) {
+                    div.style.setProperty('float', 'none', 'important');
+                    div.style.setProperty('margin-left', '0', 'important');
+                });
+            });
+
+            console.log('📊 #CreditCard grid applied:', ccFields.length, 'fields');
+        }
+
+        // Comments section styling
+        var comments = document.querySelector('#Payment #Comments');
+        if (comments) {
+            comments.style.setProperty('display', 'flex', 'important');
+            comments.style.setProperty('flex-direction', 'column', 'important');
+            comments.style.setProperty('gap', '0.5rem', 'important');
+            comments.style.setProperty('margin-top', '1.5rem', 'important');
+
+            var commentDivs = comments.querySelectorAll(':scope > div');
+            commentDivs.forEach(function(div) {
+                div.style.setProperty('float', 'none', 'important');
+                div.style.setProperty('margin-left', '0', 'important');
+            });
+        }
+    }
+
+    // Run on load - apply styling (visibility controlled by CMS)
     forceFormInputStyles();
+    forceGridLayouts();
     setTimeout(forceFormInputStyles, 500);
+    setTimeout(forceGridLayouts, 600);
     setTimeout(forceFormInputStyles, 1500);
+    setTimeout(forceGridLayouts, 1600);
 
     // AGGRESSIVE: Re-apply on resize (for DevTools device mode changes)
     var resizeTimeout;

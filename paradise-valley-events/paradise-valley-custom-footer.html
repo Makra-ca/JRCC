@@ -1,0 +1,285 @@
+<!--
+    EVENTS PAGE MODERNIZATION - Chabad of Paradise Valley & Arcadia
+
+    INSTALLATION: Paste this entire code into the CMS Custom Footer Code section
+
+    This code ONLY applies styles to the Events Reservations page
+    (/tools/events/default.htm) and will NOT affect any other pages on the site.
+-->
+
+<script>
+(function() {
+    // Only run on the Events Reservations page
+    if (!window.location.pathname.includes('/tools/events/')) {
+        return; // Exit - not on events page
+    }
+
+    // Create and inject the stylesheet
+    var style = document.createElement('style');
+    style.id = 'events-page-modernization';
+    style.textContent = `
+        /* ===================================================================
+           EVENTS PAGE MODERNIZATION
+           Only applied to /tools/events/ pages
+           =================================================================== */
+
+        /* Import Modern Font */
+        @import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap');
+
+        /* ===================================================================
+           BASE STYLES - Page Background
+           =================================================================== */
+
+        body.cco_body {
+            background: linear-gradient(135deg, #faf8f5 0%, #f5f0eb 100%) !important;
+        }
+
+        /* ===================================================================
+           PAGE HEADER / TITLE
+           =================================================================== */
+
+        .co_content_container h1,
+        #ContentBody h1,
+        .content-area-parent h1 {
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: clamp(2rem, 5vw, 3rem) !important;
+            font-weight: 800 !important;
+            color: #2D2D2D !important;
+            text-align: center !important;
+            margin: 2rem 0 !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        /* ===================================================================
+           EVENTS CONTAINER
+           =================================================================== */
+
+        .co_content_container,
+        #ContentBody,
+        .content-area-parent {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 2rem !important;
+        }
+
+        /* ===================================================================
+           INDIVIDUAL EVENT CARDS
+           =================================================================== */
+
+        .event {
+            background: #ffffff !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+            padding: 2rem !important;
+            margin-bottom: 1.5rem !important;
+            border: 1px solid rgba(107, 44, 62, 0.1) !important;
+            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+            font-family: 'Urbanist', sans-serif !important;
+        }
+
+        .event:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 8px 30px rgba(107, 44, 62, 0.15) !important;
+        }
+
+        /* Event Title */
+        .event h2,
+        .event h3,
+        .event .event-title,
+        .event a[href*="event"] {
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            color: #6B2C3E !important;
+            margin-bottom: 0.75rem !important;
+            text-decoration: none !important;
+            line-height: 1.3 !important;
+        }
+
+        .event a[href*="event"]:hover {
+            color: #8B3C4E !important;
+        }
+
+        /* Event Description */
+        .event p,
+        .event .description,
+        .event .event-description {
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: 1rem !important;
+            color: #555555 !important;
+            line-height: 1.6 !important;
+            margin-bottom: 1rem !important;
+        }
+
+        /* Event Meta Info (Date, Time, Location, Price) */
+        .event .date,
+        .event .time,
+        .event .location,
+        .event .price,
+        .event .event-date,
+        .event .event-time,
+        .event .event-location,
+        .event .event-price,
+        .event span[class*="date"],
+        .event span[class*="time"],
+        .event span[class*="location"],
+        .event span[class*="price"],
+        .event .blue,
+        .event .f-small {
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: 0.95rem !important;
+            color: #666666 !important;
+            display: inline-block !important;
+            margin-right: 1.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        /* Add icons before meta info */
+        .event .blue.f-small::before {
+            content: '' !important;
+            display: inline-block !important;
+            width: 16px !important;
+            height: 16px !important;
+            margin-right: 6px !important;
+            vertical-align: middle !important;
+            opacity: 0.7 !important;
+        }
+
+        /* ===================================================================
+           REGISTER BUTTON
+           =================================================================== */
+
+        .event a[href*="register"],
+        .event a[href*="signup"],
+        .event input[type="submit"],
+        .event input[type="button"],
+        .event button,
+        .event .register,
+        .event .btn,
+        .event a.btn {
+            display: inline-block !important;
+            background: linear-gradient(135deg, #6B2C3E 0%, #8B3C4E 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: 1rem !important;
+            font-weight: 600 !important;
+            padding: 0.875rem 2rem !important;
+            border-radius: 50px !important;
+            border: none !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(107, 44, 62, 0.3) !important;
+            margin-top: 1rem !important;
+        }
+
+        .event a[href*="register"]:hover,
+        .event a[href*="signup"]:hover,
+        .event input[type="submit"]:hover,
+        .event input[type="button"]:hover,
+        .event button:hover,
+        .event .register:hover,
+        .event .btn:hover,
+        .event a.btn:hover {
+            background: linear-gradient(135deg, #7D3C4E 0%, #9B4C5E 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(107, 44, 62, 0.4) !important;
+        }
+
+        /* ===================================================================
+           EVENT IMAGE (if present)
+           =================================================================== */
+
+        .event img {
+            border-radius: 12px !important;
+            max-width: 100% !important;
+            height: auto !important;
+            margin-bottom: 1rem !important;
+        }
+
+        /* ===================================================================
+           SPACING BETWEEN EVENT SECTIONS
+           =================================================================== */
+
+        .event hr,
+        .event .divider {
+            border: none !important;
+            border-top: 1px solid rgba(107, 44, 62, 0.1) !important;
+            margin: 1rem 0 !important;
+        }
+
+        /* ===================================================================
+           NO EVENTS MESSAGE
+           =================================================================== */
+
+        .no-events,
+        .empty-message,
+        p:contains("no events"),
+        p:contains("No events") {
+            font-family: 'Urbanist', sans-serif !important;
+            font-size: 1.1rem !important;
+            color: #888888 !important;
+            text-align: center !important;
+            padding: 3rem !important;
+            background: #f8f8f8 !important;
+            border-radius: 12px !important;
+        }
+
+        /* ===================================================================
+           RESPONSIVE DESIGN
+           =================================================================== */
+
+        @media (max-width: 768px) {
+            .event {
+                padding: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .event h2,
+            .event h3,
+            .event .event-title {
+                font-size: 1.25rem !important;
+            }
+
+            .event a[href*="register"],
+            .event .register,
+            .event .btn {
+                display: block !important;
+                text-align: center !important;
+                padding: 1rem !important;
+            }
+
+            .co_content_container,
+            #ContentBody,
+            .content-area-parent {
+                padding: 1rem !important;
+            }
+        }
+
+        /* ===================================================================
+           PRINT STYLES
+           =================================================================== */
+
+        @media print {
+            .event {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+                page-break-inside: avoid !important;
+            }
+
+            .event a[href*="register"],
+            .event .register,
+            .event .btn {
+                display: none !important;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+    // Add a class to body for additional targeting if needed
+    document.body.classList.add('events-page-modernized');
+
+    console.log('Events page modernization styles applied');
+})();
+</script>
