@@ -103,6 +103,12 @@
         fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
         shadow.appendChild(fontLink);
 
+        // Load animation CSS from Vercel
+        const animationLink = document.createElement('link');
+        animationLink.rel = 'stylesheet';
+        animationLink.href = 'https://cra-github-hosted.vercel.app/cra-styles.css';
+        shadow.appendChild(animationLink);
+
         const style = document.createElement('style');
         style.textContent = `
             *, *::before, *::after {
@@ -115,6 +121,19 @@
                 text-decoration: none;
                 color: inherit;
             }
+
+            /* Slide-in animations (fallback if external CSS fails) */
+            @keyframes slideInLeft {
+                from { opacity: 0; transform: translateX(-60px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes slideInRight {
+                from { opacity: 0; transform: translateX(60px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            .cra-animate { opacity: 0; }
+            .cra-slide-left { animation: slideInLeft 0.8s ease-out forwards; }
+            .cra-slide-right { animation: slideInRight 0.8s ease-out forwards; }
 
             @media (max-width: 768px) {
                 .cra-hero {
@@ -1809,10 +1828,41 @@
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
         shadow.appendChild(createHero());
-        shadow.appendChild(createLocations(extractedImages));
-        shadow.appendChild(createActions());
-        shadow.appendChild(createPhotos(photoUrls));
-        shadow.appendChild(createFooter(footerData));
+
+        // Create sections with animation classes (alternating left/right)
+        const locationsSection = createLocations(extractedImages);
+        locationsSection.classList.add('cra-animate');
+        locationsSection.dataset.animation = 'left';
+        shadow.appendChild(locationsSection);
+
+        const actionsSection = createActions();
+        actionsSection.classList.add('cra-animate');
+        actionsSection.dataset.animation = 'right';
+        shadow.appendChild(actionsSection);
+
+        const photosSection = createPhotos(photoUrls);
+        photosSection.classList.add('cra-animate');
+        photosSection.dataset.animation = 'left';
+        shadow.appendChild(photosSection);
+
+        const footerSection = createFooter(footerData);
+        footerSection.classList.add('cra-animate');
+        footerSection.dataset.animation = 'right';
+        shadow.appendChild(footerSection);
+
+        // Set up Intersection Observer for scroll-triggered animations
+        const animatedSections = shadow.querySelectorAll('.cra-animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const direction = entry.target.dataset.animation;
+                    entry.target.classList.add(direction === 'left' ? 'cra-slide-left' : 'cra-slide-right');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        animatedSections.forEach(section => observer.observe(section));
 
         // Insert into page
         const bodyWrapper = document.querySelector('.body_wrapper');
