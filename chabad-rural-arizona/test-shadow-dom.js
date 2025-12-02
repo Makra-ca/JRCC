@@ -16,7 +16,7 @@
 (function() {
     'use strict';
 
-    console.log('🏜️ Chabad Rural Arizona v2 - Shadow DOM + Inline Styles');
+    // Debug logs cleaned up - only nav extraction logs remain
 
     // ===================================================================
     // CONFIGURATION
@@ -422,27 +422,11 @@
         let fallbackIndex = 0;
 
         const getImage = (key) => {
-            // Priority 1: Direct URL override
-            if (LOCATION_IMAGES[key]) {
-                console.log(`📍 Using URL override for ${key}`);
-                return LOCATION_IMAGES[key];
-            }
-            // Priority 2: Specific fallback index
+            if (LOCATION_IMAGES[key]) return LOCATION_IMAGES[key];
             const idx = LOCATION_IMAGE_INDEX[key];
-            if (typeof idx === 'number' && idx >= 0 && fallback[idx]) {
-                console.log(`📍 Using fallback[${idx}] for ${key}`);
-                return fallback[idx];
-            }
-            // Priority 3: Auto-detected mapped images
-            if (mapped[key]) {
-                console.log(`📍 Auto-detected image for ${key}`);
-                return mapped[key];
-            }
-            // Priority 4: Next sequential fallback
-            if (fallbackIndex < fallback.length) {
-                console.log(`📍 Using sequential fallback for ${key}`);
-                return fallback[fallbackIndex++];
-            }
+            if (typeof idx === 'number' && idx >= 0 && fallback[idx]) return fallback[idx];
+            if (mapped[key]) return mapped[key];
+            if (fallbackIndex < fallback.length) return fallback[fallbackIndex++];
             return null;
         };
 
@@ -484,8 +468,6 @@
                 image: getImage('request')
             }
         ];
-
-        console.log('🗺️ Location images mapped:', locations.map(l => ({ title: l.title, image: l.image })));
 
         locations.forEach(loc => {
             const card = document.createElement('a');
@@ -753,8 +735,6 @@
         const photos = [];
         const seen = new Set();
 
-        console.log('📸 Looking for Latest Photos section...');
-
         // Helper to extract background URL from style
         const extractBgUrl = (el) => {
             const style = el.getAttribute('style') || '';
@@ -772,7 +752,6 @@
 
         // Priority 1: Manual URL override
         if (PHOTO_GALLERY_URLS && Array.isArray(PHOTO_GALLERY_URLS)) {
-            console.log('📸 Using manual URL override');
             return PHOTO_GALLERY_URLS.slice(0, 8);
         }
 
@@ -786,14 +765,8 @@
             }
         });
 
-        console.log('📸 Total good background images found:', allBgImages.length);
-        allBgImages.forEach((url, i) => {
-            console.log(`📸 Image[${i}]:`, url.split('/').pop());
-        });
-
         // Priority 2: Manual index override
         if (PHOTO_GALLERY_INDICES && Array.isArray(PHOTO_GALLERY_INDICES)) {
-            console.log('📸 Using manual index override:', PHOTO_GALLERY_INDICES);
             PHOTO_GALLERY_INDICES.forEach(idx => {
                 if (allBgImages[idx]) {
                     photos.push(allBgImages[idx]);
@@ -817,47 +790,34 @@
             if (text === 'latest photos' && el.children.length <= 1) {
                 photoHeadingEl = el;
                 photoHeadingIndex = i;
-                console.log('📸 Found "Latest Photos" heading at DOM index:', i, el.tagName);
                 break;
             }
         }
 
         if (photoHeadingEl) {
-            // Now find bg images that come AFTER the heading in DOM order
-            // but BEFORE the next major section (footer, etc)
             let foundCount = 0;
             for (let i = photoHeadingIndex + 1; i < allElements.length && foundCount < 12; i++) {
                 const el = allElements[i];
-
-                // Stop if we hit footer or another major section
                 if (el.tagName === 'FOOTER' || el.id === 'footer' ||
                     el.className.includes('footer') || el.className.includes('cra-')) {
-                    console.log('📸 Stopped at footer/section:', el.tagName, el.className);
                     break;
                 }
-
                 const bgUrl = extractBgUrl(el);
                 if (bgUrl && isGoodPhoto(bgUrl) && !photos.includes(bgUrl)) {
                     photos.push(bgUrl);
                     foundCount++;
-                    console.log('📸 Found gallery photo:', bgUrl.split('/').pop());
                 }
             }
         }
 
         // Fallback: Use images after the location cards (indices 6+)
         if (photos.length < 4) {
-            console.log('📸 Fallback: Using images after location cards (index 6+)');
             const galleryPhotos = allBgImages.slice(6, 14);
             galleryPhotos.forEach(url => {
-                if (!photos.includes(url)) {
-                    photos.push(url);
-                    console.log('📸 Fallback photo:', url.split('/').pop());
-                }
+                if (!photos.includes(url)) photos.push(url);
             });
         }
 
-        console.log(`📸 Extracted ${photos.length} photos total`);
         return photos.slice(0, 8);
     }
 
@@ -1030,58 +990,127 @@
     }
 
     // ===================================================================
+    // EXTRACT NAVIGATION LINKS
+    // ===================================================================
+
+    function extractNavLinks() {
+        console.log('🧭 Extracting navigation links...');
+
+        const navLinks = [];
+        const seen = new Set();
+
+        // Chabad One structure (from DOM inspection):
+        // - span.parent contains the nav link
+        // - Sibling div.co_submenu_container contains the submenu
+        // - Inside: .wrapper > .column_wrapper > .co_column > a[data-menu-level="2"]
+        const parentSpans = document.querySelectorAll('span.parent');
+
+        parentSpans.forEach((span, index) => {
+            const link = span.querySelector('a');
+            if (!link) return;
+
+            const text = link.textContent.trim();
+            const href = link.getAttribute('href');
+
+            // Skip duplicates, Home, Donate (separate button), empty
+            if (!text || seen.has(text) || text.toLowerCase() === 'home' || text.toLowerCase() === 'donate') return;
+            seen.add(text);
+
+            const item = { text, href, submenu: [] };
+
+            // STRATEGY: Look for .co_submenu_container associated with this nav item
+            // The structure is: span.parent is in one element, co_submenu_container is in a sibling
+            // Check siblings at multiple levels up from span.parent
+            let searchEl = span;
+            for (let level = 0; level < 5 && searchEl && item.submenu.length === 0; level++) {
+                const parent = searchEl.parentElement;
+                if (!parent) break;
+
+                // Check all siblings of searchEl for co_submenu_container
+                const siblings = Array.from(parent.children).filter(c => c !== searchEl);
+                for (const sibling of siblings) {
+                    // Look for co_submenu_container within this sibling
+                    const submenuContainer = sibling.classList.contains('co_submenu_container')
+                        ? sibling
+                        : sibling.querySelector('.co_submenu_container');
+
+                    if (submenuContainer) {
+                        // Found submenu container - get all level-2 links inside it
+                        const submenuLinks = submenuContainer.querySelectorAll('a[data-menu-level="2"]');
+                        submenuLinks.forEach(subLink => {
+                            const subText = subLink.textContent.trim();
+                            const subHref = subLink.getAttribute('href');
+                            if (subText && subText !== text && !item.submenu.find(s => s.text === subText)) {
+                                item.submenu.push({ text: subText, href: subHref });
+                            }
+                        });
+                        break; // Found submenu, stop checking siblings
+                    }
+                }
+
+                if (item.submenu.length > 0) break; // Found submenu, stop going up
+                searchEl = parent;
+            }
+
+            // Debug: Log what we found for each nav item
+            if (item.submenu.length > 0) {
+                console.log(`🧭 Nav: "${text}" with ${item.submenu.length} submenu items:`, item.submenu.map(s => s.text));
+            } else {
+                console.log(`🧭 Nav: "${text}" (no submenu)`);
+            }
+
+            navLinks.push(item);
+        });
+
+        // Fallback if nothing found
+        if (navLinks.length === 0) {
+            console.warn('⚠️ No navigation items found, using fallback');
+            return [
+                { text: 'Adult Education', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm', submenu: [] },
+                { text: 'Events', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm', submenu: [] },
+                { text: 'Programs and Projects', href: '/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm', submenu: [] },
+                { text: 'Photos', href: '/templates/articlecco_cdo/aid/6531898/jewish/Photos.htm', submenu: [] },
+                { text: 'Get Involved', href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm', submenu: [] }
+            ];
+        }
+
+        console.log(`🧭 Extracted ${navLinks.length} navigation links total`);
+        return navLinks;
+    }
+
+    // ===================================================================
     // EXTRACT FOOTER DATA
     // ===================================================================
 
     function extractFooterData() {
-        console.log('🦶 Extracting footer data...');
-
         const footerData = {
-            contact: {
-                phone: null,
-                email: null,
-                address: null
-            },
+            contact: { phone: null, email: null, address: null },
             social: [],
             links: [],
             copyright: null
         };
 
-        // Find the original footer - try multiple selectors
         const footer = document.querySelector('#footer, footer, [id*="footer"], .footer');
         const footerText = footer ? footer.textContent : document.body.textContent;
 
-        console.log('🦶 Footer element found:', !!footer);
-
-        // Extract phone number - look for pattern in text first
+        // Extract phone number
         const phoneMatch = footerText.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
         if (phoneMatch) {
             const phoneNum = phoneMatch[0];
-            footerData.contact.phone = {
-                text: phoneNum,
-                href: 'tel:+1' + phoneNum.replace(/\D/g, '')
-            };
-            console.log('🦶 Found phone:', phoneNum);
+            footerData.contact.phone = { text: phoneNum, href: 'tel:+1' + phoneNum.replace(/\D/g, '') };
         }
 
-        // Extract email - look for pattern in text
+        // Extract email
         const emailMatch = footerText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         if (emailMatch) {
-            footerData.contact.email = {
-                text: emailMatch[0],
-                href: 'mailto:' + emailMatch[0]
-            };
-            console.log('🦶 Found email:', emailMatch[0]);
+            footerData.contact.email = { text: emailMatch[0], href: 'mailto:' + emailMatch[0] };
         }
 
-        // Extract address - look for street address pattern
+        // Extract address
         const addressMatch = footerText.match(/\d+\s+[A-Za-z].*?(?:Dr|Drive|St|Street|Ave|Avenue|Rd|Road|Blvd|Way|Lane|Ln)[.,]?\s*(?:\d{5})?/i);
-        if (addressMatch) {
-            footerData.contact.address = addressMatch[0].trim();
-            console.log('🦶 Found address:', footerData.contact.address);
-        }
+        if (addressMatch) footerData.contact.address = addressMatch[0].trim();
 
-        // Extract social links - search entire page for social links
+        // Extract social links
         const socialPatterns = [
             { pattern: /facebook\.com/i, icon: 'FB', name: 'Facebook' },
             { pattern: /instagram\.com/i, icon: 'IG', name: 'Instagram' },
@@ -1091,71 +1120,46 @@
             { pattern: /linkedin\.com/i, icon: 'LI', name: 'LinkedIn' }
         ];
 
-        // Look for social links anywhere on the page (they might be outside footer)
         document.querySelectorAll('a').forEach(link => {
             const href = link.getAttribute('href') || '';
             for (const social of socialPatterns) {
                 if (social.pattern.test(href) && !footerData.social.find(s => s.icon === social.icon)) {
-                    footerData.social.push({
-                        href: href,
-                        icon: social.icon,
-                        name: social.name
-                    });
-                    console.log('🦶 Found social:', social.name, href);
+                    footerData.social.push({ href, icon: social.icon, name: social.name });
                     break;
                 }
             }
         });
 
-        // Extract footer links from footer element
+        // Extract footer links
         if (footer) {
             footer.querySelectorAll('a').forEach(link => {
                 const href = link.getAttribute('href') || '';
                 const text = link.textContent.trim();
-
-                // Skip social, email, phone, chabad.org links
                 if (href.startsWith('tel:') || href.startsWith('mailto:') ||
                     href.includes('facebook') || href.includes('instagram') ||
                     href.includes('youtube') || href.includes('twitter') ||
                     href.includes('whatsapp') || href.includes('chabad.org') ||
-                    href.includes('subscribe') ||
-                    !text || text.length > 50 || text.length < 2) {
-                    return;
-                }
-
-                // Skip if already have this link
-                if (footerData.links.find(l => l.href === href || l.text === text)) {
-                    return;
-                }
-
+                    href.includes('subscribe') || !text || text.length > 50 || text.length < 2) return;
+                if (footerData.links.find(l => l.href === href || l.text === text)) return;
                 footerData.links.push({ text, href });
-                console.log('🦶 Found link:', text, href);
             });
         }
 
         // Extract nonprofit/EIN text
-        const einMatch = footerText.match(/501\(c\)\(3\)[^|]*EIN\s*\d{2}-?\d{7}/i) ||
-                        footerText.match(/EIN\s*\d{2}-?\d{7}/i);
+        const einMatch = footerText.match(/501\(c\)\(3\)[^|]*EIN\s*\d{2}-?\d{7}/i) || footerText.match(/EIN\s*\d{2}-?\d{7}/i);
         if (einMatch) {
-            // Get the full nonprofit line
             const fullMatch = footerText.match(/[^|]*501\(c\)\(3\)[^|]*/i);
             footerData.nonprofit = fullMatch ? fullMatch[0].trim() : einMatch[0].trim();
-            console.log('🦶 Found nonprofit info:', footerData.nonprofit);
         }
 
         // Extract privacy policy link
         if (footer) {
             const privacyLink = footer.querySelector('a[href*="privacy"], a[href*="Privacy"]');
             if (privacyLink) {
-                footerData.privacyPolicy = {
-                    text: privacyLink.textContent.trim(),
-                    href: privacyLink.getAttribute('href')
-                };
-                console.log('🦶 Found privacy policy:', footerData.privacyPolicy.href);
+                footerData.privacyPolicy = { text: privacyLink.textContent.trim(), href: privacyLink.getAttribute('href') };
             }
         }
 
-        console.log('🦶 Footer data extracted:', footerData);
         return footerData;
     }
 
@@ -1368,7 +1372,7 @@
     // CREATE HEADER (Inside Shadow DOM)
     // ===================================================================
 
-    function createHeader() {
+    function createHeader(extractedNavLinks) {
         const nav = document.createElement('nav');
         nav.style.cssText = `
             position: fixed;
@@ -1418,7 +1422,6 @@
             const img = document.querySelector(selector);
             if (img && img.src) {
                 foundLogo = img.src;
-                console.log('🖼️ Found logo at:', selector, foundLogo);
                 break;
             }
         }
@@ -1427,14 +1430,9 @@
             const logoImg = document.createElement('img');
             logoImg.src = foundLogo;
             logoImg.alt = 'Chabad Rural AZ';
-            logoImg.style.cssText = `
-                height: 65px;
-                width: auto;
-            `;
+            logoImg.style.cssText = `height: 65px; width: auto;`;
             logo.appendChild(logoImg);
         } else {
-            // Fallback: Create a styled logo circle if no image found
-            console.log('⚠️ No logo image found, using text fallback');
             const logoCircle = document.createElement('div');
             logoCircle.style.cssText = `
                 width: 55px;
@@ -1473,73 +1471,18 @@
             padding: 0;
         `;
 
-        // Links with dropdown submenus
-        const links = [
-            {
-                text: 'Classes',
-                href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm',
-                submenu: [
-                    { text: 'Adult Education', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm' },
-                    { text: 'Torah Classes', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm' },
-                    { text: 'Hebrew School', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm' }
-                ]
-            },
-            {
-                text: 'Events',
-                href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm',
-                submenu: [
-                    { text: 'Upcoming Events', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm' },
-                    { text: 'Holiday Programs', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm' },
-                    { text: 'Community Gatherings', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm' }
-                ]
-            },
-            {
-                text: 'Programs',
-                href: '/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm',
-                submenu: [
-                    { text: 'All Programs', href: '/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm' },
-                    { text: 'Youth Programs', href: '/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm' },
-                    { text: 'Senior Services', href: '/templates/articlecco_cdo/aid/6812918/jewish/Programs-and-Projects.htm' }
-                ]
-            },
-            {
-                text: 'Photos',
-                href: '/templates/articlecco_cdo/aid/6531898/jewish/Photos.htm'
-            },
-            {
-                text: 'Get Involved',
-                href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm',
-                submenu: [
-                    { text: 'Volunteer', href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm' },
-                    { text: 'Donate', href: '/4970020' },
-                    { text: 'Partner With Us', href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm' }
-                ]
-            },
-            {
-                text: 'About',
-                href: '/6532283',
-                submenu: [
-                    { text: 'Our Mission', href: '/6532283' },
-                    { text: 'Our Team', href: '/6532283' },
-                    { text: 'Locations', href: '/6532283' }
-                ]
-            },
-            {
-                text: 'Contact',
-                href: '/tools/feedback.asp'
-            }
-        ];
+        // Navigation links - dynamically extracted from original site
+        // Fallback is provided in extractNavLinks() if extraction fails
 
-        links.forEach(link => {
+        extractedNavLinks.forEach(link => {
             const li = document.createElement('li');
-            li.style.cssText = `
-                position: relative;
-            `;
+            li.style.cssText = `position: relative;`;
 
             const a = document.createElement('a');
             a.href = link.href;
+            const hasSubmenu = link.submenu && link.submenu.length > 0;
             // Add arrow indicator if has submenu
-            if (link.submenu) {
+            if (hasSubmenu) {
                 a.innerHTML = `${link.text} <span style="font-size: 0.7rem; margin-left: 4px;">▼</span>`;
             } else {
                 a.textContent = link.text;
@@ -1557,7 +1500,7 @@
 
             // Create dropdown if submenu exists
             let dropdown = null;
-            if (link.submenu) {
+            if (hasSubmenu) {
                 dropdown = document.createElement('div');
                 dropdown.style.cssText = `
                     position: absolute;
@@ -1693,8 +1636,8 @@
             gap: 0.5rem;
         `;
 
-        // Add links to mobile menu
-        links.forEach(link => {
+        // Add links to mobile menu (using same extracted links)
+        extractedNavLinks.forEach(link => {
             const a = document.createElement('a');
             a.href = link.href;
             a.textContent = link.text;
@@ -1871,8 +1814,6 @@
             'request': null
         };
 
-        console.log('🔍 Searching for location-specific images...');
-
         // Helper to check if URL is a good content image
         const isGoodImage = (url) => {
             if (!url) return false;
@@ -1914,17 +1855,14 @@
                         const bgUrl = extractBgUrl(el);
                         if (bgUrl && isGoodImage(bgUrl)) {
                             locationImages[loc.key] = bgUrl;
-                            console.log(`📍 Found ${loc.key}:`, bgUrl.split('/').pop());
                             break;
                         }
-                        // Also check siblings with background images
                         if (el.parentElement) {
                             const siblings = el.parentElement.querySelectorAll('[style*="url"]');
                             for (const sib of siblings) {
                                 const sibBg = extractBgUrl(sib);
                                 if (sibBg && isGoodImage(sibBg)) {
                                     locationImages[loc.key] = sibBg;
-                                    console.log(`📍 Found ${loc.key} (sibling):`, sibBg.split('/').pop());
                                     break;
                                 }
                             }
@@ -1941,13 +1879,10 @@
         document.querySelectorAll('[style*="url"]').forEach(el => {
             const bgUrl = extractBgUrl(el);
             if (!bgUrl || !isGoodImage(bgUrl)) return;
-
             const elText = el.textContent.toLowerCase();
-
             for (const loc of locationPatterns) {
                 if (loc.pattern.test(elText) && !locationImages[loc.key]) {
                     locationImages[loc.key] = bgUrl;
-                    console.log(`📍 Found ${loc.key} (backup):`, bgUrl.split('/').pop());
                 }
             }
         });
@@ -1955,7 +1890,6 @@
         // Collect ALL good images as fallback (in DOM order)
         const fallbackImages = [];
         const seen = new Set();
-
         document.querySelectorAll('[style*="url"]').forEach(el => {
             const bgUrl = extractBgUrl(el);
             if (bgUrl && isGoodImage(bgUrl) && !seen.has(bgUrl)) {
@@ -1963,18 +1897,6 @@
                 fallbackImages.push(bgUrl);
             }
         });
-
-        console.log('📷 Location mapping result:', locationImages);
-        console.log('📷 Fallback images total:', fallbackImages.length);
-
-        // Log which were found vs need fallback
-        for (const key of Object.keys(locationImages)) {
-            if (locationImages[key]) {
-                console.log(`✅ ${key}: auto-detected`);
-            } else {
-                console.log(`⚠️ ${key}: will use fallback index`);
-            }
-        }
 
         return {
             mapped: locationImages,
@@ -1987,19 +1909,13 @@
     // ===================================================================
 
     function init() {
-        console.log('🏜️ Initializing Shadow DOM redesign...');
-
-        // Load fonts
         loadFonts();
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
         extractedImages = extractOriginalImages();
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
-
-        console.log('📷 Extracted images:', extractedImages);
-        console.log('📸 Extracted photos:', photoUrls);
-        console.log('🦶 Extracted footer:', footerData);
+        const navLinks = extractNavLinks();
 
         // Hide CMS elements (header, footer, content)
         hideCMSElements();
@@ -2007,8 +1923,8 @@
         // Create shadow container
         const { host, shadow } = createShadowContainer();
 
-        // Build content inside shadow DOM - header first!
-        shadow.appendChild(createHeader());
+        // Build content inside shadow DOM
+        shadow.appendChild(createHeader(navLinks));
         shadow.appendChild(createHero());
         shadow.appendChild(createLocations(extractedImages));
         shadow.appendChild(createActions());
@@ -2022,9 +1938,6 @@
         } else {
             document.body.appendChild(host);
         }
-
-        console.log('✅ Shadow DOM redesign complete!');
-        console.log('📋 All content is isolated from CMS styles');
     }
 
     // Run
