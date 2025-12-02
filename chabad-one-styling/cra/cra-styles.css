@@ -1,0 +1,140 @@
+/* ===================================================================
+   CHABAD RURAL ARIZONA - Main Page Styles
+   ===================================================================
+
+   Reusable CSS classes for animations and common styles.
+   These can be applied to elements inside Shadow DOM.
+
+   =================================================================== */
+
+/* ===================================================================
+   SLIDE-IN ANIMATIONS
+   Apply to sections for scroll-triggered entrance effects
+   =================================================================== */
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hidden state before animation triggers */
+.cra-animate {
+    opacity: 0;
+}
+
+/* Animation classes - add via JS when element enters viewport */
+.cra-slide-left {
+    animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.cra-slide-right {
+    animation: slideInRight 0.8s ease-out forwards;
+}
+
+.cra-fade-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Animation delays for staggered effects */
+.cra-delay-100 { animation-delay: 0.1s; }
+.cra-delay-200 { animation-delay: 0.2s; }
+.cra-delay-300 { animation-delay: 0.3s; }
+.cra-delay-400 { animation-delay: 0.4s; }
+.cra-delay-500 { animation-delay: 0.5s; }
+
+/* ===================================================================
+   TYPEWRITER EFFECT
+   Apply to headings for character-by-character reveal
+   =================================================================== */
+
+@keyframes typewriter {
+    from {
+        max-width: 0;
+    }
+    to {
+        max-width: 100%;
+    }
+}
+
+@keyframes blinkCursor {
+    0%, 100% { border-color: currentColor; }
+    50% { border-color: transparent; }
+}
+
+.cra-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+    width: fit-content;
+    animation: typewriter 2.5s steps(30, end) forwards;
+}
+
+/* With blinking cursor */
+.cra-typewriter-cursor {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+    width: fit-content;
+    border-right: 3px solid currentColor;
+    animation:
+        typewriter 2.5s steps(30, end) forwards,
+        blinkCursor 0.75s step-end infinite;
+}
+
+/* Remove cursor after typing completes */
+.cra-typewriter-cursor.typing-done {
+    border-right: none;
+}
+
+/* Speed variations */
+.cra-typewriter-fast {
+    animation-duration: 1.5s;
+}
+
+.cra-typewriter-slow {
+    animation-duration: 4s;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .cra-animate,
+    .cra-slide-left,
+    .cra-slide-right,
+    .cra-fade-up,
+    .cra-typewriter,
+    .cra-typewriter-cursor {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        width: auto;
+        border-right: none;
+    }
+}
