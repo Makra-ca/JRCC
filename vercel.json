@@ -1,4 +1,7 @@
 {
   "buildCommand": null,
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/", "destination": "/pages/comprehensive-redesign-showcase.html" }
+  ]
 }
