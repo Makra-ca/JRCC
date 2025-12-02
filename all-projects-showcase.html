@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makra Web Development - Complete Portfolio Showcase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Title Slide */
+        .slide.title-slide {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .slide.title-slide h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #fbbf24;
+            text-shadow: 0 4px 20px rgba(251, 191, 36, 0.5);
+        }
+
+        .slide.title-slide h2 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            color: #e8dcc4;
+            margin-bottom: 2rem;
+        }
+
+        .slide.title-slide .subtitle {
+            font-size: 1.5rem;
+            color: #ffffff;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+        }
+
+        .slide.title-slide .project-list {
+            font-size: 1.3rem;
+            color: #a0a0a0;
+            line-height: 2;
+        }
+
+        /* Project Section Slides */
+        .slide.project-slide {
+            color: white;
+            text-align: center;
+        }
+
+        .slide.project-slide.jrcc {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+        }
+
+        .slide.project-slide.chabad-az {
+            background: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+        }
+
+        .slide.project-slide.paradise-valley {
+            background: linear-gradient(135deg, #2e8b57 0%, #3cb371 100%);
+        }
+
+        .slide.project-slide h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .slide.project-slide p {
+            font-size: 1.8rem;
+            opacity: 0.9;
+        }
+
+        .slide.project-slide .page-count {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+            opacity: 0.7;
+        }
+
+        /* Content Slides */
+        .slide.content-slide {
+            background: white;
+            padding: 0;
+        }
+
+        .slide-header {
+            width: 100%;
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .slide-header.before-header {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .slide-header.after-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .slide-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .slide-header h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+
+        .slide-header h4 {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 0.2rem;
+        }
+
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 140px);
+            margin-top: 140px;
+            background: white;
+            overflow: auto;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            min-height: 100%;
+            border: none;
+        }
+
+        /* Comparison Slide */
+        .slide.comparison-slide {
+            background: #f5f5f5;
+            padding: 0;
+        }
+
+        .comparison-header {
+            width: 100%;
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+
+        .comparison-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 0.3rem;
+        }
+
+        .comparison-header h3 {
+            font-size: 1.3rem;
+            color: white;
+            opacity: 0.9;
+        }
+
+        .comparison-container {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 120px);
+            margin-top: 120px;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .comparison-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .comparison-panel-header {
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .comparison-panel.before .comparison-panel-header {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .comparison-panel.after .comparison-panel-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .comparison-panel-content {
+            flex: 1;
+            overflow: auto;
+        }
+
+        .comparison-panel-content iframe {
+            width: 100%;
+            min-height: 100%;
+            border: none;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-button {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .slide-indicator {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        /* Table of Contents Button */
+        .toc-button {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .toc-button:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Table of Contents Overlay */
+        .toc-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .toc-overlay.active {
+            display: flex;
+        }
+
+        .toc-content {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .toc-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+            text-align: center;
+        }
+
+        .toc-project-section {
+            margin-bottom: 2rem;
+        }
+
+        .toc-project-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .toc-project-header.jrcc {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+        }
+
+        .toc-project-header.chabad-az {
+            background: linear-gradient(135deg, #8b4513 0%, #d2691e 100%);
+        }
+
+        .toc-project-header.paradise-valley {
+            background: linear-gradient(135deg, #2e8b57 0%, #3cb371 100%);
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            padding: 0.75rem 1rem;
+            margin: 0.3rem 0;
+            background: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .toc-item:hover {
+            background: #e5e5e5;
+            transform: translateX(5px);
+        }
+
+        .toc-item-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .toc-item-slides {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .toc-close {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 2rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .toc-close:hover {
+            background: #dc2626;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide.title-slide h1 {
+                font-size: 2.5rem;
+            }
+
+            .slide.title-slide h2 {
+                font-size: 1.8rem;
+            }
+
+            .slide.project-slide h2 {
+                font-size: 2.5rem;
+            }
+
+            .slide-header h2,
+            .comparison-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .comparison-container {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+
+            .toc-button,
+            .slide-indicator {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container" id="presentationContainer">
+        <!-- Slides will be generated by JavaScript -->
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-button" id="prevBtn" onclick="prevSlide()">← Previous</button>
+        <button class="nav-button" id="nextBtn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <!-- Slide Indicator -->
+    <div class="slide-indicator">
+        <span id="currentSlide">1</span> / <span id="totalSlides">0</span>
+    </div>
+
+    <!-- Table of Contents Button -->
+    <button class="toc-button" onclick="toggleTOC()">Menu</button>
+
+    <!-- Table of Contents Overlay -->
+    <div class="toc-overlay" id="tocOverlay">
+        <div class="toc-content">
+            <h2>Table of Contents</h2>
+            <div id="tocContainer"></div>
+            <button class="toc-close" onclick="toggleTOC()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Define all projects with their pages
+        const projects = [
+            {
+                id: "chabad-az",
+                name: "Chabad in Arizona",
+                description: "ChabadAZ.com - Statewide Events Platform",
+                slideClass: "chabad-az",
+                basePath: "embeddable-events/",
+                pages: [
+                    {
+                        name: "Chanukah Around the State",
+                        oldPath: "before/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：34：38 PM).html",
+                        newPath: "after/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：27：59 PM).html"
+                    }
+                ]
+            },
+            {
+                id: "paradise-valley",
+                name: "Paradise Valley",
+                description: "Chabad of Paradise Valley & Arcadia - Arizona",
+                slideClass: "paradise-valley",
+                basePath: "paradise-valley-events/",
+                pages: [
+                    {
+                        name: "Events Landing Page",
+                        oldPath: "Events-Landing-page before/Event Reservations - JewishParadiseValley.com (12_1_2025 6：45：33 PM).html",
+                        newPath: "Events-Landing-page after/Event Reservations - JewishParadiseValley.com (12_1_2025 6：48：22 PM).html"
+                    },
+                    {
+                        name: "Event Registration Page",
+                        oldPath: "Events-registration-before/An Evening with Hostage Survivor Omer Shem Tov ｜ Event Reservations ｜ Chabad of Paradise Valley & Arcadia (12_1_2025 6：45：53 PM).html",
+                        newPath: "Evenbts-registration-after/An Evening with Hostage Survivor Omer Shem Tov ｜ Event Reservations ｜ Chabad of Paradise Valley & Arcadia (12_1_2025 6：46：55 PM).html"
+                    }
+                ]
+            },
+            {
+                id: "jrcc",
+                name: "JRCC Website",
+                description: "Jewish Russian Community Center - Toronto",
+                slideClass: "jrcc",
+                basePath: "pages/",
+                pages: [
+                    {
+                        name: "Virtual Programs",
+                        oldPath: "virtual-programs/old-ui-site/ChabadOne _ Sites _ Preview.html",
+                        newPath: "virtual-programs/new-ui-site/Virtual Programs - Virtual Programs - JRCC.org.html"
+                    },
+                    {
+                        name: "Meir Shlomo Simcha Gmach",
+                        oldPath: "meir-shlomo-gmach/old-ui-site/ChabadOne _ Sites _ Preview.html",
+                        newPath: "meir-shlomo-gmach/new-ui-site/Meir Shlomo Simcha Gmach - JRCC.org.html"
+                    },
+                    {
+                        name: "Holiday Tickets",
+                        oldPath: "holiday-tickets/old-ui-site/Holiday Tickets - JRCC.org.html",
+                        newPath: "holiday-tickets/new-ui-site/Holiday Tickets - JRCC.org.html"
+                    },
+                    {
+                        name: "Jewish Identity Verification",
+                        oldPath: "jewish-identity/original-html-website/Jewish Identity Verification Service - JRCC.org.html",
+                        newPath: "jewish-identity/new-ui-site/Jewish Identity Verification Service - JRCC.org.html"
+                    },
+                    {
+                        name: "Newcomer Services",
+                        oldPath: "newcomer-services/old-ui-site/Newcomer Services - JRCC.org.html",
+                        newPath: "newcomer-services/new-ui-site/Newcomer Services - JRCC.org.html"
+                    },
+                    {
+                        name: "Sheitel Grant",
+                        oldPath: "sheitel-grant/old-ui-site/Sheitel Grant - JRCC.org.html",
+                        newPath: "sheitel-grant/new-ui-site/Sheitel Grant - JRCC.org.html"
+                    },
+                    {
+                        name: "Tefillin Bank",
+                        oldPath: "tefillin-bank/old-ui-site/Tefillin Bank - JRCC.org.html",
+                        newPath: "tefillin-bank/LIVE/tefillin-bank-template.html"
+                    },
+                    {
+                        name: "Community Supports",
+                        oldPath: "community-supports/old-ui-site/Community Supports - JRCC.org.html",
+                        newPath: "community-supports/new-ui-site/Community Supports - JRCC.org.html"
+                    },
+                    {
+                        name: "Kosher Grant",
+                        oldPath: "kosher-grant/old-ui-site/Kosher Grant - JRCC.org.html",
+                        newPath: "kosher-grant/new-ui-site/Kosher Grant - JRCC.org.html"
+                    },
+                    {
+                        name: "Seniors Night Out",
+                        oldPath: "Seniors-Night-out-form/old-ui-site/Seniors Night Out - Seniors Night Out - JRCC.org.html",
+                        newPath: "Seniors-Night-out-form/new-ui-site/Seniors Night Out - Seniors Night Out - JRCC.org.html"
+                    },
+                    {
+                        name: "JRCC Publications",
+                        oldPath: "jrcc-publications/old-ui-site/ChabadOne _ Sites _ Preview.html",
+                        newPath: "jrcc-publications/new-ui-site/JRCC Publications - JRCC.org.html"
+                    },
+                    {
+                        name: "Financial Assistance",
+                        oldPath: "financial-assistance/old-ui-site/Financial Assistance - JRCC.org.html",
+                        newPath: "financial-assistance/new-ui-site/Financial Assistance - JRCC.org.html"
+                    },
+                    {
+                        name: "Volunteer Form",
+                        oldPath: "Volunteer-form-page/old-ui-site/Volunteer - JRCC.org.html",
+                        newPath: "Volunteer-form-page/new-ui-site/Volunteer - JRCC.org.html"
+                    }
+                ]
+            }
+        ];
+
+        let slides = [];
+        let tocData = [];
+        let currentSlide = 1;
+        let totalSlides = 0;
+
+        function generateSlides() {
+            const container = document.getElementById('presentationContainer');
+            let slideNumber = 1;
+
+            // Calculate totals
+            const totalPages = projects.reduce((sum, p) => sum + p.pages.length, 0);
+
+            // Title slide
+            const titleSlide = document.createElement('div');
+            titleSlide.className = 'slide title-slide active';
+            titleSlide.setAttribute('data-slide', slideNumber++);
+            titleSlide.innerHTML = `
+                <h1>Makra Web Development</h1>
+                <h2>Complete Portfolio Showcase</h2>
+                <p class="subtitle">Before & After Comparison</p>
+                <div class="project-list">
+                    ${projects.map(p => `${p.name} (${p.pages.length} pages)`).join('<br>')}
+                </div>
+            `;
+            container.appendChild(titleSlide);
+
+            // Generate slides for each project
+            projects.forEach(project => {
+                const projectTocData = {
+                    id: project.id,
+                    name: project.name,
+                    slideClass: project.slideClass,
+                    introSlide: slideNumber,
+                    pages: []
+                };
+
+                // Project intro slide
+                const projectSlide = document.createElement('div');
+                projectSlide.className = `slide project-slide ${project.slideClass}`;
+                projectSlide.setAttribute('data-slide', slideNumber++);
+                projectSlide.innerHTML = `
+                    <h2>${project.name}</h2>
+                    <p>${project.description}</p>
+                    <p class="page-count">${project.pages.length} ${project.pages.length === 1 ? 'Page' : 'Pages'}</p>
+                `;
+                container.appendChild(projectSlide);
+
+                // Generate slides for each page
+                project.pages.forEach(page => {
+                    const startSlide = slideNumber;
+                    const oldPath = project.basePath + page.oldPath;
+                    const newPath = project.basePath + page.newPath;
+
+                    // Before slide
+                    const beforeSlide = document.createElement('div');
+                    beforeSlide.className = 'slide content-slide';
+                    beforeSlide.setAttribute('data-slide', slideNumber++);
+                    beforeSlide.innerHTML = `
+                        <div class="slide-header before-header">
+                            <h2>BEFORE</h2>
+                            <h3>${page.name}</h3>
+                            <h4>${project.name}</h4>
+                        </div>
+                        <div class="iframe-container">
+                            <iframe src="${oldPath}"></iframe>
+                        </div>
+                    `;
+                    container.appendChild(beforeSlide);
+
+                    // After slide
+                    const afterSlide = document.createElement('div');
+                    afterSlide.className = 'slide content-slide';
+                    afterSlide.setAttribute('data-slide', slideNumber++);
+                    afterSlide.innerHTML = `
+                        <div class="slide-header after-header">
+                            <h2>AFTER</h2>
+                            <h3>${page.name}</h3>
+                            <h4>${project.name}</h4>
+                        </div>
+                        <div class="iframe-container">
+                            <iframe src="${newPath}"></iframe>
+                        </div>
+                    `;
+                    container.appendChild(afterSlide);
+
+                    // Comparison slide
+                    const comparisonSlide = document.createElement('div');
+                    comparisonSlide.className = 'slide comparison-slide';
+                    comparisonSlide.setAttribute('data-slide', slideNumber++);
+                    comparisonSlide.innerHTML = `
+                        <div class="comparison-header">
+                            <h2>Side-by-Side</h2>
+                            <h3>${page.name} - ${project.name}</h3>
+                        </div>
+                        <div class="comparison-container">
+                            <div class="comparison-panel before">
+                                <div class="comparison-panel-header">BEFORE</div>
+                                <div class="comparison-panel-content">
+                                    <iframe src="${oldPath}"></iframe>
+                                </div>
+                            </div>
+                            <div class="comparison-panel after">
+                                <div class="comparison-panel-header">AFTER</div>
+                                <div class="comparison-panel-content">
+                                    <iframe src="${newPath}"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(comparisonSlide);
+
+                    projectTocData.pages.push({
+                        name: page.name,
+                        startSlide: startSlide,
+                        endSlide: slideNumber - 1
+                    });
+                });
+
+                tocData.push(projectTocData);
+            });
+
+            totalSlides = slideNumber - 1;
+            document.getElementById('totalSlides').textContent = totalSlides;
+            generateTOC();
+        }
+
+        function generateTOC() {
+            const tocContainer = document.getElementById('tocContainer');
+
+            tocData.forEach(project => {
+                const section = document.createElement('div');
+                section.className = 'toc-project-section';
+
+                const header = document.createElement('div');
+                header.className = `toc-project-header ${project.slideClass}`;
+                header.textContent = project.name;
+                header.style.cursor = 'pointer';
+                header.onclick = () => {
+                    goToSlide(project.introSlide);
+                    toggleTOC();
+                };
+                section.appendChild(header);
+
+                const list = document.createElement('ul');
+                list.className = 'toc-list';
+
+                project.pages.forEach(page => {
+                    const item = document.createElement('li');
+                    item.className = 'toc-item';
+                    item.innerHTML = `
+                        <div class="toc-item-title">${page.name}</div>
+                        <div class="toc-item-slides">Slides ${page.startSlide}-${page.endSlide}</div>
+                    `;
+                    item.onclick = () => {
+                        goToSlide(page.startSlide);
+                        toggleTOC();
+                    };
+                    list.appendChild(item);
+                });
+
+                section.appendChild(list);
+                tocContainer.appendChild(section);
+            });
+        }
+
+        function updateSlide() {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+            }
+
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        function goToSlide(slideNum) {
+            if (slideNum >= 1 && slideNum <= totalSlides) {
+                currentSlide = slideNum;
+                updateSlide();
+            }
+        }
+
+        function toggleTOC() {
+            const overlay = document.getElementById('tocOverlay');
+            overlay.classList.toggle('active');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Escape') {
+                const overlay = document.getElementById('tocOverlay');
+                if (overlay.classList.contains('active')) {
+                    toggleTOC();
+                }
+            }
+        });
+
+        // Initialize
+        generateSlides();
+        updateSlide();
+    </script>
+</body>
+</html>
