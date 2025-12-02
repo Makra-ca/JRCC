@@ -1820,8 +1820,34 @@
     // HIDE CMS ELEMENTS
     // ===================================================================
 
-    function hideCMSElements() {
-        const headerCSS = `
+    // Hide only header/footer (for subpages - keeps main content visible)
+    function hideHeaderFooterOnly() {
+        const css = `
+            #header {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+
+            body.cco_body {
+                padding-top: 0 !important;
+            }
+
+            #footer {
+                display: none !important;
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.id = 'cra-hide-header-footer';
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+
+    // Hide all CMS elements (for homepage - full redesign)
+    function hideAllCMSElements() {
+        const css = `
             #header {
                 display: none !important;
                 visibility: hidden !important;
@@ -1849,7 +1875,7 @@
 
         const style = document.createElement('style');
         style.id = 'cra-hide-cms';
-        style.textContent = headerCSS;
+        style.textContent = css;
         document.head.appendChild(style);
     }
 
@@ -1953,22 +1979,59 @@
     // INITIALIZE
     // ===================================================================
 
-    function init() {
-        // Only run on homepage - check URL path and body class
+    // Check if current page is the homepage
+    function isHomepageCheck() {
         const path = window.location.pathname;
         const isHomepage = path === '/' ||
                           path === '' ||
                           path.endsWith('/1331') ||
                           path.endsWith('/1331/');
-
-        // section_root class indicates homepage
         const hasRootClass = document.body.classList.contains('section_root');
+        return isHomepage || hasRootClass;
+    }
 
-        if (!isHomepage && !hasRootClass) {
-            console.log('CRA Redesign: Not homepage, skipping');
-            return;
+    // Initialize header/footer on ALL pages
+    function initGlobalElements() {
+        console.log('CRA: Initializing global header/footer');
+        loadFonts();
+
+        // Extract data needed for header/footer
+        const footerData = extractFooterData();
+        const navLinks = extractNavLinks();
+
+        // Hide original header/footer only
+        hideHeaderFooterOnly();
+
+        // Create shadow container for header/footer
+        const { host, shadow } = createShadowContainer();
+
+        // Add header
+        shadow.appendChild(createHeader(navLinks));
+
+        // Create a content slot for original page content
+        const contentSlot = document.createElement('div');
+        contentSlot.className = 'cra-content-slot';
+        contentSlot.style.cssText = `
+            min-height: 60vh;
+        `;
+        shadow.appendChild(contentSlot);
+
+        // Add footer
+        shadow.appendChild(createFooter(footerData));
+
+        // Insert shadow host at the beginning of body
+        document.body.insertBefore(host, document.body.firstChild);
+
+        // Move the original body_wrapper content into the slot
+        const bodyWrapper = document.querySelector('.body_wrapper');
+        if (bodyWrapper) {
+            bodyWrapper.style.display = 'block';
+            contentSlot.appendChild(bodyWrapper);
         }
+    }
 
+    // Initialize full homepage redesign
+    function initHomepage() {
         console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
@@ -1979,8 +2042,8 @@
         const footerData = extractFooterData();
         const navLinks = extractNavLinks();
 
-        // Hide CMS elements
-        hideCMSElements();
+        // Hide ALL CMS elements for full redesign
+        hideAllCMSElements();
 
         // Create shadow container
         const { host, shadow } = createShadowContainer();
@@ -2033,6 +2096,15 @@
         }
     }
 
+    // Main init - decides which version to run
+    function init() {
+        if (isHomepageCheck()) {
+            initHomepage();
+        } else {
+            initGlobalElements();
+        }
+    }
+
     // Wait for carousel to be ready (jQuery Cycle sets images after DOMContentLoaded)
     function waitForCarousel(callback, maxAttempts = 20) {
         let attempts = 0;
@@ -2051,11 +2123,21 @@
         check();
     }
 
-    // Run
+    // Run - homepage waits for carousel, subpages run immediately
+    function run() {
+        if (isHomepageCheck()) {
+            // Homepage: wait for carousel images to load
+            waitForCarousel(init);
+        } else {
+            // Subpages: run immediately
+            init();
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => waitForCarousel(init));
+        document.addEventListener('DOMContentLoaded', run);
     } else {
-        waitForCarousel(init);
+        run();
     }
 
 })();
