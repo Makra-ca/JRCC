@@ -1,0 +1,175 @@
+<script>
+  const ids = [7005052, '7005053', '7005054', '7005055', '7005056', '7005057'];
+  
+  if (ids.some(id => document.location.href.indexOf(id) > -1)) {
+  const style = document.createElement('style');
+      style.innerHTML = `
+          .cco_templateless_page #chabad_main_content {
+              background: url('https://jewishruralaz.org/media/images/1331/uXFz13317962.png') !important;
+              background-size: cover !important;
+              background-position: bottom !important;
+          }
+          .footer, .footer a {
+              background-color: #8a2425 !important;
+              color: white !important;
+          }
+          .chabad_header {
+              background: url('https://jewishruralaz.org/media/images/1331/pbRi13317988.png');
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              background-color: #8a2425;
+          }
+          .cco_templateless_page .chabad_header, .chabad_header {
+              background-blend-mode: normal !important;
+          }
+          .chabad_header div {
+              visibility: hidden;
+          }
+          div.chabad_left_column {
+              background: transparent;
+          }
+          .large_banner, .sPromo-wrap {
+              border: 2px solid #8a2425;
+          }
+          .large_banner .bannerCta button {
+              background: #8a2425;
+              border: 3px solid #8a2425;
+          }
+          .large_banner .big {
+              color: #8a2425;
+              font-weight: bold;
+          }
+          .large_banner .wrapper-message {
+              margin-block: 1.5em !important;
+          }
+          .sPromo-wrap .caption {
+              color: black !important;
+          }
+          .sPromo-wrap img {
+              border: 0px !important;
+          }
+          .custom_message .message {
+              color: black !important;
+          }
+          .custom_message .title {
+              color: #8a2425 !important;
+          }
+          .custom_message .read-more_link a {
+              color: #8a2425 !important;
+              border: 3px solid #8a2425 !important;
+          }
+          .custom_message .read-more_link a:hover {
+              background: #8a2425 !important;
+              color: white !important;
+          }
+          .prepResource-title, .co_calendar_head div, .features_title {
+              font-size: 25pt !important;
+              color: #8a2425 !important;
+          }
+          .prep-title, .feature_caption a {
+              color: #8a2425 !important;
+          }
+          .zmanim .zman-1, .zmanim .zman-2 {
+              border-radius: 10px !important;
+              background: #8a2425 !important;
+              margin: 5px 0px !important;
+          }
+          #co_calendar div.co_calendar_body .item.item.first,
+          #co_calendar div.co_calendar_body .item:nth-child(3),
+          #co_calendar div.co_calendar_body .item:nth-child(6),
+          #co_calendar div.co_calendar_body .item:nth-child(8) {
+              background: #8a2425;
+          }
+          #co_calendar div.co_calendar_body .item:nth-child(2),
+          #co_calendar div.co_calendar_body .item:nth-child(4),
+          #co_calendar div.co_calendar_body .item:nth-child(5),
+          #co_calendar div.co_calendar_body .item:nth-child(7) {
+              background: #8a2425;
+          }
+          .footer, .footer a {
+              background: #8a2425;
+              color: white !important;
+          }
+          .cco_templateless_template a,
+          .div#chabad_head .chabad_navigator_bar,
+          #menu .item,
+          #navigation,
+          #menu a {
+              background: #8a2425 !important;
+          }
+          #menu a {
+              color: white !important;
+              border: 0px !important;
+          }
+          .selected a {
+              text-decoration: underline !important;
+          }
+          #menu .item {
+              color: transparent !important;
+          }
+          .titleIcon img {
+              width: 125px !important;
+              display: none !important;
+          }
+          .co_calendar_head:before,
+          .pesach-resources .titleIcon {
+              display: none !important;
+          }
+          div#chabad_body_content {
+              background: transparent !important;
+          }
+          .co_calendar_text {
+              background-color: transparent !important;
+          }
+  
+          /* Icons */
+          .content-area-parent > .custom_message .title:before {
+              content: '';
+              background: url('https://jewishruralaz.org/media/images/1331/plDO13317971.png');
+              display: block;
+              width: 75px;
+              height: 75px;
+              background-size: contain;
+              filter: contrast(94%);
+              margin: 0 auto;
+          }
+          .content-area-parent > .custom_message.appeal .title:before {
+              display: none;
+          }
+          #co_calendar:before {
+              content: '';
+              background: url('https://jewishruralaz.org/media/images/1331/nnPP13317974.png');
+              display: block;
+              width: 75px;
+              height: 75px;
+              background-size: contain;
+              filter: contrast(94%);
+              margin: 0 auto;
+          }
+          .latest_features .features_title.titleIcon:before {
+              content: '';
+              background: url('https://jewishruralaz.org/media/images/1331/GVIh13317985.png');
+              display: block;
+              width: 75px;
+              height: 75px;
+              background-size: contain;
+              filter: contrast(94%);
+              margin: 0 auto;
+          }
+  
+          @media all and (max-width: 500px) {
+              .chabad_header {
+                  height: 200px !important;
+              }
+              .headerTitle {
+                  display: none;
+              }
+              .body.section_root .bh {
+                  right: 25px !important;
+                  color: white !important;
+              }
+          }
+      `;
+      document.head.appendChild(style);
+  }</script>
+  

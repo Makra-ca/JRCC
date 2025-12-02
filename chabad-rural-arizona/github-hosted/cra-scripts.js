@@ -5,8 +5,14 @@
    ===================================================================
 
    USAGE:
-   Add this script tag to the CMS:
-   <script src="https://makra-ca.github.io/JRCC/chabad-rural-arizona/github-hosted/cra-scripts.js"></script>
+   Add this script tag to the CMS custom footer code:
+
+   Option 1 - Vercel (instant updates):
+   <script src="https://cra-github-hosted.vercel.app/cra-scripts.js"></script>
+
+   Option 2 - jsDelivr CDN (cached, need to purge):
+   <script src="https://cdn.jsdelivr.net/gh/Makra-ca/JRCC@main/chabad-rural-arizona/github-hosted/cra-scripts.js"></script>
+   Purge: https://purge.jsdelivr.net/gh/Makra-ca/JRCC@main/chabad-rural-arizona/github-hosted/cra-scripts.js
 
    DYNAMIC EXTRACTION:
    - Navigation links extracted from span.parent elements
@@ -945,7 +951,8 @@
             const link = span.querySelector('a');
             if (!link) return;
 
-            const text = link.textContent.trim();
+            // Use innerText to preserve spaces between nested elements
+            const text = (link.innerText || link.textContent).replace(/\s+/g, ' ').trim();
             const href = link.getAttribute('href');
 
             if (!text || seen.has(text) || text.toLowerCase() === 'home' || text.toLowerCase() === 'donate') return;
