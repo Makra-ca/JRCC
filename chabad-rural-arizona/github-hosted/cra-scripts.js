@@ -6,7 +6,7 @@
 
    USAGE:
    Add this script tag to the CMS:
-   <script src="https://yourusername.github.io/repo/cra-scripts.js"></script>
+   <script src="https://makra-ca.github.io/JRCC/chabad-rural-arizona/github-hosted/cra-scripts.js"></script>
 
    DYNAMIC EXTRACTION:
    - Navigation links extracted from span.parent elements
@@ -37,7 +37,9 @@
     };
 
     // ===================================================================
-    // IMAGE CONFIGURATION - For maintainability
+    // MAIN/HOME PAGE - IMAGE CONFIGURATION
+    // Route: / (jewishruralaz.org homepage)
+    // For maintainability - configure location card images here
     // ===================================================================
 
     // Option A: Override with specific URLs (null = use auto-detect or fallback)
@@ -51,6 +53,7 @@
     };
 
     // Option B: If auto-detect fails, use these fallback image indices
+    // Run visual-debug.js in console to identify correct indices
     const LOCATION_IMAGE_INDEX = {
         'payson': null,
         'white mountains': null,
