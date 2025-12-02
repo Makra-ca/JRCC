@@ -458,8 +458,8 @@
 
         const btnPrimary = document.createElement('a');
         btnPrimary.className = 'cra-btn-primary';
-        btnPrimary.href = '#cra-locations';
-        btnPrimary.textContent = 'Find Your Location';
+        btnPrimary.href = '/tools/events/default.htm';
+        btnPrimary.textContent = 'Upcoming Events';
         btnPrimary.style.cssText = `
             background: ${COLORS.goldenSand};
             color: ${COLORS.darkBurgundy};

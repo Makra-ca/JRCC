@@ -204,15 +204,49 @@
     }
 
     // ===================================================================
+    // EXTRACT CAROUSEL IMAGES
+    // ===================================================================
+
+    function extractCarouselImages() {
+        const images = [];
+        const slider = document.querySelector('.promo_slider');
+
+        if (!slider) {
+            console.log('CRA: No .promo_slider found');
+            return images;
+        }
+
+        // Find all elements with background images inside the slider
+        slider.querySelectorAll('[style*="url"]').forEach(el => {
+            const style = el.getAttribute('style') || '';
+            const match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+            if (match && match[1]) {
+                const url = match[1];
+                // Filter out spacer.gif and other non-content images
+                if (!url.includes('spacer') &&
+                    !url.includes('logo') &&
+                    !url.includes('icon') &&
+                    (url.includes('chabad.org/media') || url.includes('fbcdn'))) {
+                    if (!images.includes(url)) {
+                        images.push(url);
+                    }
+                }
+            }
+        });
+
+        console.log(`CRA: Extracted ${images.length} carousel images`);
+        return images;
+    }
+
+    // ===================================================================
     // CREATE HERO SECTION
     // ===================================================================
 
-    function createHero() {
+    function createHero(carouselImages = []) {
         const hero = document.createElement('section');
         hero.className = 'cra-hero';
         hero.style.cssText = `
             min-height: 100vh;
-            background: linear-gradient(180deg, #E8A87C 0%, #D4956A 20%, #C38D94 40%, #A67580 60%, #8B5A62 80%, #722F37 100%);
             position: relative;
             display: flex;
             flex-direction: column;
@@ -224,53 +258,141 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        const sun = document.createElement('div');
-        sun.style.cssText = `
+        // Carousel container (behind content)
+        const carouselContainer = document.createElement('div');
+        carouselContainer.className = 'cra-carousel';
+        carouselContainer.style.cssText = `
             position: absolute;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(180deg, #FFE066 0%, #FFD93D 50%, #F4A340 100%);
-            border-radius: 50%;
-            box-shadow:
-                0 0 80px 40px rgba(255,217,61,0.35),
-                0 0 150px 80px rgba(244,163,64,0.15);
-            z-index: 0;
-        `;
-        hero.appendChild(sun);
-
-        const hills = document.createElement('div');
-        hills.style.cssText = `
-            position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
-            height: 180px;
-            background: ${COLORS.darkBurgundy};
-            clip-path: polygon(
-                0% 100%,
-                0% 75%,
-                8% 68%,
-                15% 58%,
-                22% 50%,
-                30% 45%,
-                38% 48%,
-                45% 55%,
-                50% 52%,
-                55% 55%,
-                62% 48%,
-                70% 45%,
-                78% 50%,
-                85% 58%,
-                92% 68%,
-                100% 75%,
-                100% 100%
+            bottom: 0;
+            z-index: 0;
+        `;
+
+        // Create slides
+        const slides = [];
+        const imagesToUse = carouselImages.length > 0 ? carouselImages : [];
+
+        // Fallback gradient if no images
+        if (imagesToUse.length === 0) {
+            const fallbackSlide = document.createElement('div');
+            fallbackSlide.style.cssText = `
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background: linear-gradient(180deg, #E8A87C 0%, #D4956A 20%, #C38D94 40%, #A67580 60%, #8B5A62 80%, #722F37 100%);
+            `;
+            carouselContainer.appendChild(fallbackSlide);
+        } else {
+            imagesToUse.forEach((imgUrl, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'cra-carousel-slide';
+                slide.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-image: url('${imgUrl}');
+                    background-size: cover;
+                    background-position: center;
+                    opacity: ${index === 0 ? '1' : '0'};
+                    transition: opacity 1s ease-in-out;
+                `;
+                slides.push(slide);
+                carouselContainer.appendChild(slide);
+            });
+        }
+
+        // Dark overlay for text readability
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(0,0,0,0.3) 0%,
+                rgba(0,0,0,0.4) 50%,
+                rgba(74,31,36,0.7) 100%
             );
             z-index: 1;
         `;
-        hero.appendChild(hills);
+        carouselContainer.appendChild(overlay);
+        hero.appendChild(carouselContainer);
+
+        // Carousel navigation dots
+        if (slides.length > 1) {
+            const dotsContainer = document.createElement('div');
+            dotsContainer.className = 'cra-carousel-dots';
+            dotsContainer.style.cssText = `
+                position: absolute;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 0.75rem;
+                z-index: 3;
+            `;
+
+            let currentSlide = 0;
+            let autoPlayInterval;
+
+            const goToSlide = (index) => {
+                slides[currentSlide].style.opacity = '0';
+                dots[currentSlide].style.background = 'rgba(255,255,255,0.4)';
+                currentSlide = index;
+                slides[currentSlide].style.opacity = '1';
+                dots[currentSlide].style.background = 'white';
+            };
+
+            const nextSlide = () => {
+                goToSlide((currentSlide + 1) % slides.length);
+            };
+
+            const dots = [];
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.style.cssText = `
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50%;
+                    border: 2px solid white;
+                    background: ${index === 0 ? 'white' : 'rgba(255,255,255,0.4)'};
+                    cursor: pointer;
+                    padding: 0;
+                    transition: all 0.3s ease;
+                `;
+                dot.addEventListener('click', () => {
+                    goToSlide(index);
+                    // Reset autoplay timer on manual navigation
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = setInterval(nextSlide, 5000);
+                });
+                dot.addEventListener('mouseenter', () => {
+                    if (index !== currentSlide) {
+                        dot.style.background = 'rgba(255,255,255,0.7)';
+                    }
+                });
+                dot.addEventListener('mouseleave', () => {
+                    if (index !== currentSlide) {
+                        dot.style.background = 'rgba(255,255,255,0.4)';
+                    }
+                });
+                dots.push(dot);
+                dotsContainer.appendChild(dot);
+            });
+
+            hero.appendChild(dotsContainer);
+
+            // Auto-rotate every 5 seconds
+            autoPlayInterval = setInterval(nextSlide, 5000);
+
+            // Pause on hover
+            hero.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+            hero.addEventListener('mouseleave', () => {
+                autoPlayInterval = setInterval(nextSlide, 5000);
+            });
+        }
 
         const content = document.createElement('div');
         content.style.cssText = `
@@ -300,9 +422,10 @@
             margin: 0 auto 1.5rem auto;
             padding: 0;
             line-height: 1.05;
-            letter-spacing: -2px;
+            letter-spacing: 4px;
             background: none;
             display: inline-block;
+            text-transform: uppercase;
         `;
         h1Wrapper.appendChild(h1);
         content.appendChild(h1Wrapper);
@@ -336,8 +459,8 @@
 
         const btnPrimary = document.createElement('a');
         btnPrimary.className = 'cra-btn-primary';
-        btnPrimary.href = '#cra-locations';
-        btnPrimary.textContent = 'Find Your Location';
+        btnPrimary.href = '/tools/events/default.htm';
+        btnPrimary.textContent = 'Upcoming Events';
         btnPrimary.style.cssText = `
             background: ${COLORS.goldenSand};
             color: ${COLORS.darkBurgundy};
@@ -1848,6 +1971,7 @@
         loadFonts();
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
+        const carouselImages = extractCarouselImages();
         extractedImages = extractOriginalImages();
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
@@ -1861,7 +1985,7 @@
 
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
-        shadow.appendChild(createHero());
+        shadow.appendChild(createHero(carouselImages));
 
         // Create sections with animation classes (alternating left/right)
         const locationsSection = createLocations(extractedImages);
