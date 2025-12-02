@@ -135,6 +135,25 @@
             .cra-slide-left { animation: slideInLeft 0.8s ease-out forwards; }
             .cra-slide-right { animation: slideInRight 0.8s ease-out forwards; }
 
+            /* Typewriter animation (fallback) */
+            @keyframes typewriter {
+                from { max-width: 0; }
+                to { max-width: 100%; }
+            }
+            @keyframes blinkCursor {
+                0%, 100% { border-color: currentColor; }
+                50% { border-color: transparent; }
+            }
+            .cra-typewriter-cursor {
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 0;
+                width: fit-content;
+                border-right: 3px solid currentColor;
+                animation: typewriter 2.5s steps(30, end) forwards, blinkCursor 0.75s step-end infinite;
+            }
+            .cra-typewriter-cursor.typing-done { border-right: none; }
+
             @media (max-width: 768px) {
                 .cra-hero {
                     padding: 5rem 1.5rem 3rem !important;
@@ -262,6 +281,7 @@
 
         const h1 = document.createElement('h1');
         h1.textContent = 'Chabad of Rural Arizona';
+        h1.className = 'cra-typewriter-cursor';
         h1.style.cssText = `
             font-family: 'Urbanist', sans-serif;
             font-size: clamp(4.5rem, 14vw, 9rem);
@@ -273,8 +293,12 @@
             line-height: 1.05;
             letter-spacing: -2px;
             background: none;
+            display: inline-block;
         `;
         content.appendChild(h1);
+
+        // Remove cursor after typewriter animation completes
+        setTimeout(() => h1.classList.add('typing-done'), 2600);
 
         const subtitle = document.createElement('p');
         subtitle.className = 'cra-hero-subtitle';

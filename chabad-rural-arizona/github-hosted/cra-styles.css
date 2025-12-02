@@ -70,14 +70,71 @@
 .cra-delay-400 { animation-delay: 0.4s; }
 .cra-delay-500 { animation-delay: 0.5s; }
 
+/* ===================================================================
+   TYPEWRITER EFFECT
+   Apply to headings for character-by-character reveal
+   =================================================================== */
+
+@keyframes typewriter {
+    from {
+        max-width: 0;
+    }
+    to {
+        max-width: 100%;
+    }
+}
+
+@keyframes blinkCursor {
+    0%, 100% { border-color: currentColor; }
+    50% { border-color: transparent; }
+}
+
+.cra-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+    width: fit-content;
+    animation: typewriter 2.5s steps(30, end) forwards;
+}
+
+/* With blinking cursor */
+.cra-typewriter-cursor {
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 0;
+    width: fit-content;
+    border-right: 3px solid currentColor;
+    animation:
+        typewriter 2.5s steps(30, end) forwards,
+        blinkCursor 0.75s step-end infinite;
+}
+
+/* Remove cursor after typing completes */
+.cra-typewriter-cursor.typing-done {
+    border-right: none;
+}
+
+/* Speed variations */
+.cra-typewriter-fast {
+    animation-duration: 1.5s;
+}
+
+.cra-typewriter-slow {
+    animation-duration: 4s;
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
     .cra-animate,
     .cra-slide-left,
     .cra-slide-right,
-    .cra-fade-up {
+    .cra-fade-up,
+    .cra-typewriter,
+    .cra-typewriter-cursor {
         animation: none;
         opacity: 1;
         transform: none;
+        width: auto;
+        border-right: none;
     }
 }
