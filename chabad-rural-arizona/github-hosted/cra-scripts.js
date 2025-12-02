@@ -415,16 +415,17 @@
         h1.className = 'cra-typewriter-cursor';
         h1.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(4.5rem, 14vw, 9rem);
+            font-size: clamp(2.2rem, 7vw, 5.5rem);
             font-weight: 600;
             color: white;
             text-shadow: 0 4px 30px rgba(0,0,0,0.3);
             margin: 0 auto 1.5rem auto;
             padding: 0;
-            line-height: 1.05;
-            letter-spacing: -2px;
+            line-height: 1.1;
+            letter-spacing: 0.12em;
             background: none;
             display: inline-block;
+            text-transform: uppercase;
         `;
         h1Wrapper.appendChild(h1);
         content.appendChild(h1Wrapper);
