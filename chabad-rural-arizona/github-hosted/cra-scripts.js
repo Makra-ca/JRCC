@@ -2030,11 +2030,29 @@
         }
     }
 
+    // Wait for carousel to be ready (jQuery Cycle sets images after DOMContentLoaded)
+    function waitForCarousel(callback, maxAttempts = 20) {
+        let attempts = 0;
+        const check = () => {
+            attempts++;
+            const slider = document.querySelector('.promo_slider');
+            const hasImages = slider && slider.querySelectorAll('[style*="url"]').length > 0;
+
+            if (hasImages || attempts >= maxAttempts) {
+                console.log(`CRA: Carousel ready after ${attempts} attempts, hasImages: ${hasImages}`);
+                callback();
+            } else {
+                setTimeout(check, 100); // Check every 100ms
+            }
+        };
+        check();
+    }
+
     // Run
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', () => waitForCarousel(init));
     } else {
-        init();
+        waitForCarousel(init);
     }
 
 })();
