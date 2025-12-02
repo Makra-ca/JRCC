@@ -974,7 +974,7 @@
                     if (submenuContainer) {
                         const submenuLinks = submenuContainer.querySelectorAll('a[data-menu-level="2"]');
                         submenuLinks.forEach(subLink => {
-                            const subText = subLink.textContent.trim();
+                            const subText = (subLink.innerText || subLink.textContent).replace(/\s+/g, ' ').trim();
                             const subHref = subLink.getAttribute('href');
                             if (subText && subText !== text && !item.submenu.find(s => s.text === subText)) {
                                 item.submenu.push({ text: subText, href: subHref });
@@ -1776,6 +1776,22 @@
     // ===================================================================
 
     function init() {
+        // Only run on homepage - check URL path and body class
+        const path = window.location.pathname;
+        const isHomepage = path === '/' ||
+                          path === '' ||
+                          path.endsWith('/1331') ||
+                          path.endsWith('/1331/');
+
+        // section_root class indicates homepage
+        const hasRootClass = document.body.classList.contains('section_root');
+
+        if (!isHomepage && !hasRootClass) {
+            console.log('CRA Redesign: Not homepage, skipping');
+            return;
+        }
+
+        console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
