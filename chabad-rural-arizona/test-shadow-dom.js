@@ -35,6 +35,42 @@
     };
 
     // ===================================================================
+    // IMAGE CONFIGURATION - For maintainability
+    // ===================================================================
+    //
+    // HOW IT WORKS:
+    // 1. Auto-detect: Script looks for elements with background image + location text
+    // 2. Fallback index: If auto-detect fails, uses the index from LOCATION_IMAGE_INDEX
+    // 3. URL override: If you set a URL in LOCATION_IMAGES, it always uses that
+    //
+    // Check console for: "📍 Found payson:" = auto-detected successfully
+    //                    "📍 Using fallback[X]" = using index from config below
+    //
+    // -------------------------------------------------------------------------
+
+    // Option A: Override with specific URLs (null = use auto-detect or fallback)
+    const LOCATION_IMAGES = {
+        'payson': null,
+        'white mountains': null,
+        'holbrook': null,
+        'globe': null,
+        'online': null,
+        'request': null
+    };
+
+    // Option B: If auto-detect fails, use these fallback image indices
+    // Look at console output "📷 Fallback[X]: filename" to find correct indices
+    // Set to null to disable fallback for that location
+    const LOCATION_IMAGE_INDEX = {
+        'payson': null,           // Auto-detect first, fallback if needed
+        'white mountains': null,
+        'holbrook': null,
+        'globe': null,
+        'online': null,
+        'request': null
+    };
+
+    // ===================================================================
     // LOAD GOOGLE FONTS
     // ===================================================================
 
@@ -97,10 +133,6 @@
                 .cra-hero-subtitle {
                     font-size: 1.15rem !important;
                 }
-                .cra-hero-tagline {
-                    font-size: 1rem !important;
-                    padding: 0.7rem 1.5rem !important;
-                }
                 .cra-btn-primary,
                 .cra-btn-secondary {
                     font-size: 1.05rem !important;
@@ -113,7 +145,11 @@
                     grid-template-columns: 1fr !important;
                 }
                 .cra-actions-grid {
-                    grid-template-columns: 1fr 1fr !important;
+                    grid-template-columns: 1fr !important;
+                    gap: 1.25rem !important;
+                }
+                .cra-photos-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
                 }
                 .cra-footer-main {
                     grid-template-columns: 1fr !important;
@@ -156,18 +192,55 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Cactus silhouette
-        const cactus = document.createElement('div');
-        cactus.style.cssText = `
+        // Sun - rising behind hills
+        const sun = document.createElement('div');
+        sun.style.cssText = `
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(180deg, #FFE066 0%, #FFD93D 50%, #F4A340 100%);
+            border-radius: 50%;
+            box-shadow:
+                0 0 80px 40px rgba(255,217,61,0.35),
+                0 0 150px 80px rgba(244,163,64,0.15);
+            z-index: 0;
+        `;
+        hero.appendChild(sun);
+
+        // Desert hills silhouette
+        const hills = document.createElement('div');
+        hills.style.cssText = `
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 200px;
+            height: 180px;
             background: ${COLORS.darkBurgundy};
-            clip-path: polygon(0% 100%, 0% 60%, 5% 55%, 5% 30%, 6% 30%, 6% 55%, 8% 50%, 10% 55%, 12% 50%, 15% 60%, 20% 55%, 25% 60%, 30% 50%, 30% 20%, 31% 20%, 31% 15%, 32% 15%, 32% 20%, 33% 20%, 33% 50%, 35% 55%, 40% 50%, 45% 55%, 50% 45%, 55% 50%, 60% 45%, 65% 55%, 70% 50%, 70% 25%, 71% 25%, 71% 50%, 73% 45%, 75% 50%, 80% 45%, 85% 55%, 90% 50%, 95% 60%, 100% 55%, 100% 100%);
+            clip-path: polygon(
+                0% 100%,
+                0% 75%,
+                8% 68%,
+                15% 58%,
+                22% 50%,
+                30% 45%,
+                38% 48%,
+                45% 55%,
+                50% 52%,
+                55% 55%,
+                62% 48%,
+                70% 45%,
+                78% 50%,
+                85% 58%,
+                92% 68%,
+                100% 75%,
+                100% 100%
+            );
+            z-index: 1;
         `;
-        hero.appendChild(cactus);
+        hero.appendChild(hills);
 
         // Hero content container
         const content = document.createElement('div');
@@ -176,25 +249,6 @@
             z-index: 2;
             max-width: 900px;
         `;
-
-        // Tagline badge
-        const tagline = document.createElement('div');
-        tagline.className = 'cra-hero-tagline';
-        tagline.textContent = 'Think Good and It Will Be Good';
-        tagline.style.cssText = `
-            background: ${COLORS.tealGreen};
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 12px;
-            font-size: 1.7rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            letter-spacing: 0.5px;
-            font-family: 'Urbanist', sans-serif;
-        `;
-        content.appendChild(tagline);
 
         // H1 Title - BIGGER but THINNER
         const h1 = document.createElement('h1');
@@ -256,7 +310,17 @@
             display: inline-block;
             font-family: 'Urbanist', sans-serif;
             cursor: pointer;
+            border: 2px solid ${COLORS.goldenSand};
         `;
+        // Hover: lift up with glow
+        btnPrimary.addEventListener('mouseenter', () => {
+            btnPrimary.style.transform = 'translateY(-4px) scale(1.02)';
+            btnPrimary.style.boxShadow = `0 12px 30px rgba(212, 168, 75, 0.5)`;
+        });
+        btnPrimary.addEventListener('mouseleave', () => {
+            btnPrimary.style.transform = 'translateY(0) scale(1)';
+            btnPrimary.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+        });
         cta.appendChild(btnPrimary);
 
         const btnSecondary = document.createElement('a');
@@ -277,6 +341,17 @@
             font-family: 'Urbanist', sans-serif;
             cursor: pointer;
         `;
+        // Hover: lift up with glow
+        btnSecondary.addEventListener('mouseenter', () => {
+            btnSecondary.style.transform = 'translateY(-4px) scale(1.02)';
+            btnSecondary.style.boxShadow = '0 12px 30px rgba(255, 255, 255, 0.3)';
+            btnSecondary.style.background = 'rgba(255, 255, 255, 0.1)';
+        });
+        btnSecondary.addEventListener('mouseleave', () => {
+            btnSecondary.style.transform = 'translateY(0) scale(1)';
+            btnSecondary.style.boxShadow = 'none';
+            btnSecondary.style.background = 'transparent';
+        });
         cta.appendChild(btnSecondary);
 
         content.appendChild(cta);
@@ -289,7 +364,7 @@
     // CREATE LOCATIONS SECTION
     // ===================================================================
 
-    function createLocations() {
+    function createLocations(imageData = { mapped: {}, fallback: [] }) {
         const section = document.createElement('section');
         section.id = 'cra-locations';
         section.className = 'cra-locations-section';
@@ -303,19 +378,19 @@
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
         `;
 
         const h2 = document.createElement('h2');
         h2.textContent = 'Areas We Currently Serve';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: ${COLORS.goldenSand};
-            margin: 0 0 0.75rem 0;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1rem 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 800;
+            letter-spacing: 4px;
+            font-weight: 600;
         `;
         header.appendChild(h2);
 
@@ -323,8 +398,9 @@
         subtext.textContent = 'Bringing Jewish life to communities across rural Arizona';
         subtext.style.cssText = `
             color: ${COLORS.dustyMauve};
-            font-size: 1.60rem;
+            font-size: 1.75rem;
             margin: 0;
+            font-weight: 300;
         `;
         header.appendChild(subtext);
         section.appendChild(header);
@@ -340,14 +416,76 @@
             margin: 0 auto;
         `;
 
+        // Helper to get image - first try manual config, then mapped, then fallback
+        const mapped = imageData.mapped || {};
+        const fallback = imageData.fallback || [];
+        let fallbackIndex = 0;
+
+        const getImage = (key) => {
+            // Priority 1: Direct URL override
+            if (LOCATION_IMAGES[key]) {
+                console.log(`📍 Using URL override for ${key}`);
+                return LOCATION_IMAGES[key];
+            }
+            // Priority 2: Specific fallback index
+            const idx = LOCATION_IMAGE_INDEX[key];
+            if (typeof idx === 'number' && idx >= 0 && fallback[idx]) {
+                console.log(`📍 Using fallback[${idx}] for ${key}`);
+                return fallback[idx];
+            }
+            // Priority 3: Auto-detected mapped images
+            if (mapped[key]) {
+                console.log(`📍 Auto-detected image for ${key}`);
+                return mapped[key];
+            }
+            // Priority 4: Next sequential fallback
+            if (fallbackIndex < fallback.length) {
+                console.log(`📍 Using sequential fallback for ${key}`);
+                return fallback[fallbackIndex++];
+            }
+            return null;
+        };
+
+        // Use extracted images from the original page, mapped by location
         const locations = [
-            { title: 'Payson / Rim Country', href: '/tools/feedback.asp' },
-            { title: 'The White Mountains', href: '/tools/feedback.asp' },
-            { title: 'Holbrook', href: '/templates/articlecco_cdo/aid/6532417/jewish/Jewish-Meetup-in-Holbrook.htm' },
-            { title: 'Globe / Miami', href: '/templates/articlecco_cdo/aid/6532429/jewish/Jewish-Meetup-in-GlobeMiami.htm' },
-            { title: 'Wherever You Are!', subtitle: 'Online Programs', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm', overlay: 'teal' },
-            { title: 'Request New Location', subtitle: 'Expand our reach', href: '/tools/feedback.asp', overlay: 'gold', isCta: true }
+            {
+                title: 'Payson / Rim Country',
+                href: '/tools/feedback.asp',
+                image: getImage('payson')
+            },
+            {
+                title: 'The White Mountains',
+                href: '/tools/feedback.asp',
+                image: getImage('white mountains')
+            },
+            {
+                title: 'Holbrook',
+                href: '/templates/articlecco_cdo/aid/6532417/jewish/Jewish-Meetup-in-Holbrook.htm',
+                image: getImage('holbrook')
+            },
+            {
+                title: 'Globe / Miami',
+                href: '/templates/articlecco_cdo/aid/6532429/jewish/Jewish-Meetup-in-GlobeMiami.htm',
+                image: getImage('globe')
+            },
+            {
+                title: 'Wherever You Are!',
+                subtitle: 'Online Programs',
+                href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm',
+                overlay: 'teal',
+                image: getImage('online')
+            },
+            {
+                title: 'Request New Location',
+                subtitle: 'Expand our reach',
+                href: '/tools/feedback.asp',
+                overlay: 'gold',
+                isCta: true,
+                image: getImage('request')
+            }
         ];
+
+        console.log('🗺️ Location images mapped:', locations.map(l => ({ title: l.title, image: l.image })));
 
         locations.forEach(loc => {
             const card = document.createElement('a');
@@ -363,31 +501,36 @@
                 display: block;
             `;
 
-            // Background
+            // Background - use image if available, otherwise gradient
             const bg = document.createElement('div');
-            let bgGradient = `linear-gradient(135deg, ${COLORS.dustyMauve}, ${COLORS.deepBurgundy})`;
-            bg.style.cssText = `
-                position: absolute;
-                top: 0; left: 0; width: 100%; height: 100%;
-                background: ${bgGradient};
-                transition: transform 0.5s ease;
-            `;
+            let bgStyle = '';
+            if (loc.image) {
+                bgStyle = `
+                    position: absolute;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background-image: url('${loc.image}');
+                    background-size: cover;
+                    background-position: center;
+                    transition: transform 0.5s ease;
+                `;
+            } else {
+                bgStyle = `
+                    position: absolute;
+                    top: 0; left: 0; width: 100%; height: 100%;
+                    background: linear-gradient(135deg, ${COLORS.dustyMauve}, ${COLORS.deepBurgundy});
+                    transition: transform 0.5s ease;
+                `;
+            }
+            bg.style.cssText = bgStyle;
             card.appendChild(bg);
 
-            // Overlay
+            // Overlay - just a subtle dark gradient at bottom for text readability
             const overlay = document.createElement('div');
-            let overlayBg = `linear-gradient(180deg, rgba(114,47,55,0.2) 0%, rgba(114,47,55,0.8) 100%)`;
-            if (loc.overlay === 'teal') {
-                overlayBg = `linear-gradient(180deg, rgba(45,90,90,0.3) 0%, rgba(45,90,90,0.9) 100%)`;
-            } else if (loc.overlay === 'gold') {
-                overlayBg = `linear-gradient(135deg, ${COLORS.goldenSand} 0%, ${COLORS.sunsetOrange} 100%)`;
-            }
             overlay.style.cssText = `
                 position: absolute;
                 top: 0; left: 0; width: 100%; height: 100%;
-                background: ${overlayBg};
+                background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0,0,0,0.6) 100%);
                 transition: opacity 0.3s ease;
-                ${loc.overlay === 'gold' ? 'opacity: 0.95;' : ''}
             `;
             card.appendChild(overlay);
 
@@ -396,18 +539,18 @@
             content.style.cssText = `
                 position: absolute;
                 bottom: 0; left: 0; right: 0;
-                padding: 1.5rem;
+                padding: 2rem;
                 z-index: 2;
             `;
 
             const title = document.createElement('h3');
             title.textContent = loc.title;
             title.style.cssText = `
-                font-size: 1.35rem;
-                font-weight: 700;
-                color: ${loc.isCta ? COLORS.darkBurgundy : 'white'};
-                margin: 0 0 0.25rem 0;
-                text-shadow: ${loc.isCta ? 'none' : '0 2px 10px rgba(0,0,0,0.3)'};
+                font-size: 1.75rem;
+                font-weight: 600;
+                color: white;
+                margin: 0 0 0.35rem 0;
+                text-shadow: 0 2px 15px rgba(0,0,0,0.5);
                 font-family: 'Urbanist', sans-serif;
             `;
             content.appendChild(title);
@@ -416,10 +559,12 @@
                 const sub = document.createElement('p');
                 sub.textContent = loc.subtitle;
                 sub.style.cssText = `
-                    font-size: 0.9rem;
+                    font-size: 1.1rem;
                     opacity: 0.9;
                     margin: 0;
-                    color: ${loc.isCta ? COLORS.darkBurgundy : 'white'};
+                    font-weight: 400;
+                    color: white;
+                    text-shadow: 0 1px 8px rgba(0,0,0,0.4);
                 `;
                 content.appendChild(sub);
             }
@@ -428,13 +573,13 @@
             arrow.textContent = '→';
             arrow.style.cssText = `
                 position: absolute;
-                bottom: 1.5rem;
-                right: 1.5rem;
-                font-size: 1.5rem;
-                font-weight: 700;
+                bottom: 2rem;
+                right: 2rem;
+                font-size: 1.75rem;
+                font-weight: 600;
                 opacity: 0.7;
                 transition: all 0.3s ease;
-                color: ${loc.isCta ? COLORS.darkBurgundy : 'white'};
+                color: white;
             `;
             card.appendChild(arrow);
 
@@ -450,7 +595,7 @@
             });
             card.addEventListener('mouseleave', () => {
                 bg.style.transform = 'scale(1)';
-                overlay.style.opacity = loc.overlay === 'gold' ? '0.95' : '1';
+                overlay.style.opacity = '1';
                 arrow.style.transform = 'translateX(0)';
                 arrow.style.opacity = '0.7';
             });
@@ -469,7 +614,7 @@
         section.className = 'cra-actions';
         section.style.cssText = `
             padding: 5rem 2rem;
-            background: ${COLORS.deepBurgundy};
+            background: ${COLORS.lightCream};
             font-family: 'Urbanist', sans-serif;
         `;
 
@@ -481,72 +626,63 @@
         `;
 
         const h2 = document.createElement('h2');
-        h2.textContent = 'I Would Like To...';
+        h2.textContent = 'Get Started';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
             font-size: clamp(2rem, 5vw, 3rem);
-            color: white;
+            color: ${COLORS.deepBurgundy};
             margin: 0 0 0.75rem 0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-weight: 800;
+            font-weight: 700;
         `;
         header.appendChild(h2);
 
         const subtext = document.createElement('p');
-        subtext.textContent = 'How can we help you today?';
+        subtext.textContent = 'Join our community and make a difference';
         subtext.style.cssText = `
-            color: ${COLORS.sunsetPeach};
+            color: ${COLORS.dustyMauve};
             font-size: 1.15rem;
             margin: 0;
         `;
         header.appendChild(subtext);
         section.appendChild(header);
 
-        // Actions grid
+        // Actions grid - 2x2 layout
         const grid = document.createElement('div');
         grid.className = 'cra-actions-grid';
         grid.style.cssText = `
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             max-width: 1000px;
             margin: 0 auto;
         `;
 
         const actions = [
-            { icon: '❤️', title: 'Donate', desc: 'Support our mission across rural Arizona', href: '/4970020' },
-            { icon: '🤝', title: 'Connect', desc: 'Get in touch with Rabbi Yaakov', href: '/tools/feedback.asp' },
-            { icon: '✨', title: 'Get Involved', desc: 'Volunteer and make a difference', href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm' },
-            { icon: '📚', title: 'Learn Online', desc: 'Torah classes & Jewish education', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm' }
+            { title: 'Donate', desc: 'Support our mission across rural Arizona', href: '/4970020' },
+            { title: 'Connect', desc: 'Get in touch with Rabbi Yaakov', href: '/tools/feedback.asp' },
+            { title: 'Get Involved', desc: 'Volunteer and make a difference', href: '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm' },
+            { title: 'Learn Online', desc: 'Torah classes & Jewish education', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm' }
         ];
 
-        actions.forEach(action => {
+        actions.forEach((action) => {
             const card = document.createElement('a');
             card.href = action.href;
             card.style.cssText = `
-                background: rgba(255,255,255,0.1);
-                border: 2px solid rgba(255,255,255,0.2);
+                background: white;
                 border-radius: 16px;
-                padding: 2rem;
-                text-align: center;
+                padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.5rem);
                 text-decoration: none;
-                color: white;
-                transition: all 0.3s ease;
                 display: block;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             `;
-
-            const icon = document.createElement('div');
-            icon.textContent = action.icon;
-            icon.style.cssText = `font-size: 3rem; margin-bottom: 1rem;`;
-            card.appendChild(icon);
 
             const title = document.createElement('h3');
             title.textContent = action.title;
             title.style.cssText = `
-                font-size: 1.3rem;
-                margin: 0 0 0.5rem 0;
-                color: white;
+                font-size: clamp(1.75rem, 3vw, 2.5rem);
+                margin: 0 0 1rem 0;
+                color: ${COLORS.deepBurgundy};
                 font-family: 'Urbanist', sans-serif;
                 font-weight: 700;
             `;
@@ -554,16 +690,34 @@
 
             const desc = document.createElement('p');
             desc.textContent = action.desc;
-            desc.style.cssText = `font-size: 0.9rem; opacity: 0.8; margin: 0;`;
+            desc.style.cssText = `
+                font-size: clamp(1.1rem, 2vw, 1.5rem);
+                color: ${COLORS.dustyMauve};
+                margin: 0 0 1.5rem 0;
+                line-height: 1.6;
+            `;
             card.appendChild(desc);
 
+            const arrow = document.createElement('span');
+            arrow.textContent = '→';
+            arrow.style.cssText = `
+                font-size: clamp(1.5rem, 2.5vw, 2rem);
+                color: ${COLORS.tealGreen};
+                font-weight: 600;
+                transition: transform 0.3s ease;
+                display: inline-block;
+            `;
+            card.appendChild(arrow);
+
             card.addEventListener('mouseenter', () => {
-                card.style.background = 'rgba(255,255,255,0.2)';
-                card.style.transform = 'translateY(-5px)';
+                card.style.transform = 'translateY(-6px)';
+                card.style.boxShadow = '0 12px 35px rgba(0,0,0,0.15)';
+                arrow.style.transform = 'translateX(8px)';
             });
             card.addEventListener('mouseleave', () => {
-                card.style.background = 'rgba(255,255,255,0.1)';
                 card.style.transform = 'translateY(0)';
+                card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                arrow.style.transform = 'translateX(0)';
             });
 
             grid.appendChild(card);
@@ -574,46 +728,442 @@
     }
 
     // ===================================================================
-    // CREATE MOTTO SECTION
+    // CREATE PHOTOS SECTION
     // ===================================================================
 
-    function createMotto() {
+    // ===================================================================
+    // PHOTO CONFIGURATION - Same pattern as location images
+    // ===================================================================
+    //
+    // The gallery photos start after the 6 location card images.
+    // If auto-detect fails, you can manually set which image indices to use.
+    //
+    // Run visual-debug.js in console to see all images with their indices.
+    // -------------------------------------------------------------------------
+
+    // Option A: Override with specific URLs (null = use auto-detect)
+    const PHOTO_GALLERY_URLS = null;  // Set to array of URLs to override
+
+    // Option B: Specify which fallback image indices are gallery photos
+    // These are the indices AFTER filtering (good images only)
+    // Set to null to use auto-detect, or array like [6, 7, 8, 9, 10, 11, 12, 13]
+    const PHOTO_GALLERY_INDICES = null;
+
+    function extractPhotos() {
+        const photos = [];
+        const seen = new Set();
+
+        console.log('📸 Looking for Latest Photos section...');
+
+        // Helper to extract background URL from style
+        const extractBgUrl = (el) => {
+            const style = el.getAttribute('style') || '';
+            const match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+            return match ? match[1] : null;
+        };
+
+        // Helper to check if URL is a good photo
+        const isGoodPhoto = (url) => {
+            if (!url) return false;
+            return (url.includes('chabad.org/media/images') || url.includes('fbcdn.net')) &&
+                   !url.includes('spacer') && !url.includes('logo') && !url.includes('icon') &&
+                   !url.includes('button') && !url.includes('arrow');
+        };
+
+        // Priority 1: Manual URL override
+        if (PHOTO_GALLERY_URLS && Array.isArray(PHOTO_GALLERY_URLS)) {
+            console.log('📸 Using manual URL override');
+            return PHOTO_GALLERY_URLS.slice(0, 8);
+        }
+
+        // Collect ALL good background images with their indices for reference
+        const allBgImages = [];
+        document.querySelectorAll('[style*="url"]').forEach(el => {
+            const bgUrl = extractBgUrl(el);
+            if (bgUrl && isGoodPhoto(bgUrl) && !seen.has(bgUrl)) {
+                seen.add(bgUrl);
+                allBgImages.push(bgUrl);
+            }
+        });
+
+        console.log('📸 Total good background images found:', allBgImages.length);
+        allBgImages.forEach((url, i) => {
+            console.log(`📸 Image[${i}]:`, url.split('/').pop());
+        });
+
+        // Priority 2: Manual index override
+        if (PHOTO_GALLERY_INDICES && Array.isArray(PHOTO_GALLERY_INDICES)) {
+            console.log('📸 Using manual index override:', PHOTO_GALLERY_INDICES);
+            PHOTO_GALLERY_INDICES.forEach(idx => {
+                if (allBgImages[idx]) {
+                    photos.push(allBgImages[idx]);
+                }
+            });
+            return photos.slice(0, 8);
+        }
+
+        // Priority 3: Auto-detect using DOM order
+        // Find the "Latest Photos" heading, then get all bg images that come AFTER it
+        let photoHeadingEl = null;
+        let photoHeadingIndex = -1;
+
+        // Get all elements in DOM order
+        const allElements = Array.from(document.querySelectorAll('*'));
+
+        // Find the "Latest Photos" heading
+        for (let i = 0; i < allElements.length; i++) {
+            const el = allElements[i];
+            const text = el.textContent.trim().toLowerCase();
+            if (text === 'latest photos' && el.children.length <= 1) {
+                photoHeadingEl = el;
+                photoHeadingIndex = i;
+                console.log('📸 Found "Latest Photos" heading at DOM index:', i, el.tagName);
+                break;
+            }
+        }
+
+        if (photoHeadingEl) {
+            // Now find bg images that come AFTER the heading in DOM order
+            // but BEFORE the next major section (footer, etc)
+            let foundCount = 0;
+            for (let i = photoHeadingIndex + 1; i < allElements.length && foundCount < 12; i++) {
+                const el = allElements[i];
+
+                // Stop if we hit footer or another major section
+                if (el.tagName === 'FOOTER' || el.id === 'footer' ||
+                    el.className.includes('footer') || el.className.includes('cra-')) {
+                    console.log('📸 Stopped at footer/section:', el.tagName, el.className);
+                    break;
+                }
+
+                const bgUrl = extractBgUrl(el);
+                if (bgUrl && isGoodPhoto(bgUrl) && !photos.includes(bgUrl)) {
+                    photos.push(bgUrl);
+                    foundCount++;
+                    console.log('📸 Found gallery photo:', bgUrl.split('/').pop());
+                }
+            }
+        }
+
+        // Fallback: Use images after the location cards (indices 6+)
+        if (photos.length < 4) {
+            console.log('📸 Fallback: Using images after location cards (index 6+)');
+            const galleryPhotos = allBgImages.slice(6, 14);
+            galleryPhotos.forEach(url => {
+                if (!photos.includes(url)) {
+                    photos.push(url);
+                    console.log('📸 Fallback photo:', url.split('/').pop());
+                }
+            });
+        }
+
+        console.log(`📸 Extracted ${photos.length} photos total`);
+        return photos.slice(0, 8);
+    }
+
+    function createPhotos(photoUrls = []) {
         const section = document.createElement('section');
+        section.className = 'cra-photos';
         section.style.cssText = `
-            background: ${COLORS.tealGreen};
-            padding: 4rem 2rem;
-            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
             font-family: 'Urbanist', sans-serif;
+        `;
+
+        // Header
+        const header = document.createElement('div');
+        header.style.cssText = `
+            text-align: center;
+            margin-bottom: 3rem;
         `;
 
         const h2 = document.createElement('h2');
-        h2.textContent = '"Think Good and It Will Be Good"';
+        h2.textContent = 'Latest Photos';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 0.75rem 0;
             font-weight: 700;
-            color: white;
-            margin: 0 0 1rem 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         `;
-        section.appendChild(h2);
+        header.appendChild(h2);
 
-        const p = document.createElement('p');
-        p.textContent = 'A message of hope and positivity from the Rebbe';
-        p.style.cssText = `
-            color: ${COLORS.warmCream};
-            font-size: 1.2rem;
+        const subtext = document.createElement('p');
+        subtext.textContent = 'Moments from our community';
+        subtext.style.cssText = `
+            color: ${COLORS.dustyMauve};
+            font-size: 1.15rem;
             margin: 0;
         `;
-        section.appendChild(p);
+        header.appendChild(subtext);
+        section.appendChild(header);
+
+        // Photo grid - 4 columns, 2 rows
+        const grid = document.createElement('div');
+        grid.className = 'cra-photos-grid';
+        grid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        `;
+
+        // Use extracted photos or placeholders
+        const photosToShow = photoUrls.length > 0 ? photoUrls : [];
+
+        if (photosToShow.length === 0) {
+            // No photos found message
+            const noPhotos = document.createElement('p');
+            noPhotos.textContent = 'Photos loading...';
+            noPhotos.style.cssText = `
+                grid-column: 1 / -1;
+                text-align: center;
+                color: ${COLORS.dustyMauve};
+                padding: 3rem;
+            `;
+            grid.appendChild(noPhotos);
+        } else {
+            photosToShow.forEach((photoUrl) => {
+                const photoCard = document.createElement('div');
+                photoCard.style.cssText = `
+                    aspect-ratio: 1;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    cursor: pointer;
+                    position: relative;
+                `;
+
+                const img = document.createElement('div');
+                img.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    background-image: url('${photoUrl}');
+                    background-size: cover;
+                    background-position: center;
+                    transition: transform 0.4s ease;
+                `;
+                photoCard.appendChild(img);
+
+                // Hover overlay
+                const overlay = document.createElement('div');
+                overlay.style.cssText = `
+                    position: absolute;
+                    top: 0; left: 0; right: 0; bottom: 0;
+                    background: rgba(114,47,55,0);
+                    transition: background 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                `;
+
+                const zoomIcon = document.createElement('span');
+                zoomIcon.textContent = '+';
+                zoomIcon.style.cssText = `
+                    font-size: 3rem;
+                    color: white;
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                    font-weight: 300;
+                `;
+                overlay.appendChild(zoomIcon);
+                photoCard.appendChild(overlay);
+
+                photoCard.addEventListener('mouseenter', () => {
+                    img.style.transform = 'scale(1.1)';
+                    overlay.style.background = 'rgba(114,47,55,0.4)';
+                    zoomIcon.style.opacity = '1';
+                });
+                photoCard.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1)';
+                    overlay.style.background = 'rgba(114,47,55,0)';
+                    zoomIcon.style.opacity = '0';
+                });
+
+                // Click to open full image
+                photoCard.addEventListener('click', () => {
+                    window.open(photoUrl, '_blank');
+                });
+
+                grid.appendChild(photoCard);
+            });
+        }
+
+        section.appendChild(grid);
+
+        // See More Button
+        const btnWrap = document.createElement('div');
+        btnWrap.style.cssText = `text-align: center;`;
+
+        const btn = document.createElement('a');
+        btn.href = '/templates/articlecco_cdo/aid/6531898/jewish/Photos.htm';
+        btn.textContent = 'See More Photos';
+        btn.style.cssText = `
+            display: inline-block;
+            background: transparent;
+            color: ${COLORS.deepBurgundy};
+            border: 2px solid ${COLORS.deepBurgundy};
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = COLORS.deepBurgundy;
+            btn.style.color = 'white';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'transparent';
+            btn.style.color = COLORS.deepBurgundy;
+        });
+
+        btnWrap.appendChild(btn);
+        section.appendChild(btnWrap);
 
         return section;
+    }
+
+    // ===================================================================
+    // EXTRACT FOOTER DATA
+    // ===================================================================
+
+    function extractFooterData() {
+        console.log('🦶 Extracting footer data...');
+
+        const footerData = {
+            contact: {
+                phone: null,
+                email: null,
+                address: null
+            },
+            social: [],
+            links: [],
+            copyright: null
+        };
+
+        // Find the original footer - try multiple selectors
+        const footer = document.querySelector('#footer, footer, [id*="footer"], .footer');
+        const footerText = footer ? footer.textContent : document.body.textContent;
+
+        console.log('🦶 Footer element found:', !!footer);
+
+        // Extract phone number - look for pattern in text first
+        const phoneMatch = footerText.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+        if (phoneMatch) {
+            const phoneNum = phoneMatch[0];
+            footerData.contact.phone = {
+                text: phoneNum,
+                href: 'tel:+1' + phoneNum.replace(/\D/g, '')
+            };
+            console.log('🦶 Found phone:', phoneNum);
+        }
+
+        // Extract email - look for pattern in text
+        const emailMatch = footerText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        if (emailMatch) {
+            footerData.contact.email = {
+                text: emailMatch[0],
+                href: 'mailto:' + emailMatch[0]
+            };
+            console.log('🦶 Found email:', emailMatch[0]);
+        }
+
+        // Extract address - look for street address pattern
+        const addressMatch = footerText.match(/\d+\s+[A-Za-z].*?(?:Dr|Drive|St|Street|Ave|Avenue|Rd|Road|Blvd|Way|Lane|Ln)[.,]?\s*(?:\d{5})?/i);
+        if (addressMatch) {
+            footerData.contact.address = addressMatch[0].trim();
+            console.log('🦶 Found address:', footerData.contact.address);
+        }
+
+        // Extract social links - search entire page for social links
+        const socialPatterns = [
+            { pattern: /facebook\.com/i, icon: 'FB', name: 'Facebook' },
+            { pattern: /instagram\.com/i, icon: 'IG', name: 'Instagram' },
+            { pattern: /youtube\.com|youtu\.be/i, icon: 'YT', name: 'YouTube' },
+            { pattern: /whatsapp\.com|wa\.me/i, icon: 'WA', name: 'WhatsApp' },
+            { pattern: /twitter\.com|x\.com/i, icon: 'X', name: 'Twitter' },
+            { pattern: /linkedin\.com/i, icon: 'LI', name: 'LinkedIn' }
+        ];
+
+        // Look for social links anywhere on the page (they might be outside footer)
+        document.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href') || '';
+            for (const social of socialPatterns) {
+                if (social.pattern.test(href) && !footerData.social.find(s => s.icon === social.icon)) {
+                    footerData.social.push({
+                        href: href,
+                        icon: social.icon,
+                        name: social.name
+                    });
+                    console.log('🦶 Found social:', social.name, href);
+                    break;
+                }
+            }
+        });
+
+        // Extract footer links from footer element
+        if (footer) {
+            footer.querySelectorAll('a').forEach(link => {
+                const href = link.getAttribute('href') || '';
+                const text = link.textContent.trim();
+
+                // Skip social, email, phone, chabad.org links
+                if (href.startsWith('tel:') || href.startsWith('mailto:') ||
+                    href.includes('facebook') || href.includes('instagram') ||
+                    href.includes('youtube') || href.includes('twitter') ||
+                    href.includes('whatsapp') || href.includes('chabad.org') ||
+                    href.includes('subscribe') ||
+                    !text || text.length > 50 || text.length < 2) {
+                    return;
+                }
+
+                // Skip if already have this link
+                if (footerData.links.find(l => l.href === href || l.text === text)) {
+                    return;
+                }
+
+                footerData.links.push({ text, href });
+                console.log('🦶 Found link:', text, href);
+            });
+        }
+
+        // Extract nonprofit/EIN text
+        const einMatch = footerText.match(/501\(c\)\(3\)[^|]*EIN\s*\d{2}-?\d{7}/i) ||
+                        footerText.match(/EIN\s*\d{2}-?\d{7}/i);
+        if (einMatch) {
+            // Get the full nonprofit line
+            const fullMatch = footerText.match(/[^|]*501\(c\)\(3\)[^|]*/i);
+            footerData.nonprofit = fullMatch ? fullMatch[0].trim() : einMatch[0].trim();
+            console.log('🦶 Found nonprofit info:', footerData.nonprofit);
+        }
+
+        // Extract privacy policy link
+        if (footer) {
+            const privacyLink = footer.querySelector('a[href*="privacy"], a[href*="Privacy"]');
+            if (privacyLink) {
+                footerData.privacyPolicy = {
+                    text: privacyLink.textContent.trim(),
+                    href: privacyLink.getAttribute('href')
+                };
+                console.log('🦶 Found privacy policy:', footerData.privacyPolicy.href);
+            }
+        }
+
+        console.log('🦶 Footer data extracted:', footerData);
+        return footerData;
     }
 
     // ===================================================================
     // CREATE FOOTER
     // ===================================================================
 
-    function createFooter() {
+    function createFooter(footerData = {}) {
         const footer = document.createElement('footer');
         footer.className = 'cra-footer';
         footer.style.cssText = `
@@ -655,17 +1205,29 @@
         social.className = 'cra-footer-social';
         social.style.cssText = `display: flex; gap: 1rem;`;
 
-        const socialLinks = [
+        // Use extracted social links or defaults
+        const socialLinks = (footerData.social && footerData.social.length > 0) ? footerData.social : [
             { href: 'https://www.facebook.com/JewishRuralAZ', icon: 'FB' },
             { href: 'https://www.instagram.com/jewishruralaz', icon: 'IG' },
             { href: 'https://www.youtube.com/@jewishruralaz', icon: 'YT' }
         ];
 
+        // SVG icons for social platforms
+        const socialIcons = {
+            FB: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
+            IG: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
+            YT: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`,
+            WA: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+            X: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+            LI: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`
+        };
+
         socialLinks.forEach(s => {
             const link = document.createElement('a');
             link.href = s.href;
             link.target = '_blank';
-            link.textContent = s.icon;
+            link.innerHTML = socialIcons[s.icon] || s.icon;
+            link.title = s.name || s.icon;
             link.style.cssText = `
                 display: flex;
                 align-items: center;
@@ -677,8 +1239,6 @@
                 color: ${COLORS.warmCream};
                 transition: all 0.3s ease;
                 text-decoration: none;
-                font-weight: 600;
-                font-size: 0.8rem;
             `;
             link.addEventListener('mouseenter', () => {
                 link.style.background = COLORS.goldenSand;
@@ -700,11 +1260,27 @@
         contactTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
         contact.appendChild(contactTitle);
 
-        const contactInfo = [
-            { text: '(970) 852-5416', href: 'tel:+19708525416' },
-            { text: 'RabbiYaakov@JewishRuralAZ.org', href: 'mailto:RabbiYaakov@JewishRuralAZ.org' },
-            { text: '6548 E. Sharon Dr, 85254' }
-        ];
+        // Use extracted contact info or defaults
+        const contactInfo = [];
+        const c = footerData.contact || {};
+
+        if (c.phone) {
+            contactInfo.push({ text: c.phone.text, href: c.phone.href });
+        } else {
+            contactInfo.push({ text: '(970) 852-5416', href: 'tel:+19708525416' });
+        }
+
+        if (c.email) {
+            contactInfo.push({ text: c.email.text, href: c.email.href });
+        } else {
+            contactInfo.push({ text: 'RabbiYaakov@JewishRuralAZ.org', href: 'mailto:RabbiYaakov@JewishRuralAZ.org' });
+        }
+
+        if (c.address) {
+            contactInfo.push({ text: c.address });
+        } else {
+            contactInfo.push({ text: '6548 E. Sharon Dr, 85254' });
+        }
 
         contactInfo.forEach(info => {
             const p = document.createElement('p');
@@ -729,7 +1305,8 @@
         linksTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
         links.appendChild(linksTitle);
 
-        const quickLinks = [
+        // Use extracted links or defaults
+        const quickLinks = (footerData.links && footerData.links.length > 0) ? footerData.links.slice(0, 6) : [
             { text: 'About', href: '/6532283' },
             { text: 'Events', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm' },
             { text: 'Donate', href: '/4970020' },
@@ -766,13 +1343,18 @@
         const bottom = document.createElement('div');
         bottom.style.cssText = `text-align: center;`;
         const copyright = document.createElement('p');
-        copyright.textContent = 'Chabad of Rural Arizona is a 501(c)(3) nonprofit organization, EIN 86-3663272 | Donations are tax-deductible';
+
+        // Use extracted nonprofit info or default
+        const nonprofitText = footerData.nonprofit ||
+            'Chabad of Rural Arizona is a 501(c)(3) nonprofit organization, EIN 86-3663272 | Donations are tax-deductible';
+        copyright.textContent = nonprofitText;
         copyright.style.cssText = `font-size: 0.85rem; opacity: 0.6; margin-bottom: 0.5rem;`;
         bottom.appendChild(copyright);
 
+        // Use extracted privacy policy or default
         const privacy = document.createElement('a');
-        privacy.href = '/4026210';
-        privacy.textContent = 'Privacy Policy';
+        privacy.href = footerData.privacyPolicy?.href || '/4026210';
+        privacy.textContent = footerData.privacyPolicy?.text || 'Privacy Policy';
         privacy.style.cssText = `color: ${COLORS.warmCream}; opacity: 0.6; text-decoration: none;`;
         bottom.appendChild(privacy);
 
@@ -1274,6 +1856,133 @@
     }
 
     // ===================================================================
+    // EXTRACT IMAGES FROM ORIGINAL PAGE - MAPPED TO LOCATIONS
+    // ===================================================================
+
+    let extractedImages = {};
+
+    function extractOriginalImages() {
+        const locationImages = {
+            'payson': null,
+            'white mountains': null,
+            'holbrook': null,
+            'globe': null,
+            'online': null,
+            'request': null
+        };
+
+        console.log('🔍 Searching for location-specific images...');
+
+        // Helper to check if URL is a good content image
+        const isGoodImage = (url) => {
+            if (!url) return false;
+            return (url.includes('chabad.org/media/images') || url.includes('fbcdn.net')) &&
+                   !url.includes('spacer') && !url.includes('logo') && !url.includes('icon');
+        };
+
+        // Helper to extract background URL from style
+        const extractBgUrl = (el) => {
+            const style = el.getAttribute('style') || '';
+            const match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
+            return match ? match[1] : null;
+        };
+
+        // STRATEGY: Find links/cards that contain location text, then find their background image
+        // The original page has clickable cards with bg images and text overlays
+        const locationPatterns = [
+            { key: 'payson', pattern: /payson|rim\s*country/i },
+            { key: 'white mountains', pattern: /white\s*mountain/i },
+            { key: 'holbrook', pattern: /holbrook/i },
+            { key: 'globe', pattern: /globe|miami/i },
+            { key: 'online', pattern: /wherever\s*you|online|virtual/i },
+            { key: 'request', pattern: /request\s*(a\s*)?new\s*location|new\s*location|expand/i }
+        ];
+
+        // First, find all clickable elements (links) that might be location cards
+        const allLinks = document.querySelectorAll('a');
+
+        allLinks.forEach(link => {
+            const linkText = link.textContent.trim().toLowerCase();
+
+            // Check if this link contains a location name
+            for (const loc of locationPatterns) {
+                if (loc.pattern.test(linkText) && !locationImages[loc.key]) {
+                    // Found a location link! Now find its background image
+                    // Check the link itself, then parent elements up to 5 levels
+                    let el = link;
+                    for (let i = 0; i < 6 && el; i++) {
+                        const bgUrl = extractBgUrl(el);
+                        if (bgUrl && isGoodImage(bgUrl)) {
+                            locationImages[loc.key] = bgUrl;
+                            console.log(`📍 Found ${loc.key}:`, bgUrl.split('/').pop());
+                            break;
+                        }
+                        // Also check siblings with background images
+                        if (el.parentElement) {
+                            const siblings = el.parentElement.querySelectorAll('[style*="url"]');
+                            for (const sib of siblings) {
+                                const sibBg = extractBgUrl(sib);
+                                if (sibBg && isGoodImage(sibBg)) {
+                                    locationImages[loc.key] = sibBg;
+                                    console.log(`📍 Found ${loc.key} (sibling):`, sibBg.split('/').pop());
+                                    break;
+                                }
+                            }
+                            if (locationImages[loc.key]) break;
+                        }
+                        el = el.parentElement;
+                    }
+                    break;
+                }
+            }
+        });
+
+        // BACKUP: Look for elements with background images that contain location text
+        document.querySelectorAll('[style*="url"]').forEach(el => {
+            const bgUrl = extractBgUrl(el);
+            if (!bgUrl || !isGoodImage(bgUrl)) return;
+
+            const elText = el.textContent.toLowerCase();
+
+            for (const loc of locationPatterns) {
+                if (loc.pattern.test(elText) && !locationImages[loc.key]) {
+                    locationImages[loc.key] = bgUrl;
+                    console.log(`📍 Found ${loc.key} (backup):`, bgUrl.split('/').pop());
+                }
+            }
+        });
+
+        // Collect ALL good images as fallback (in DOM order)
+        const fallbackImages = [];
+        const seen = new Set();
+
+        document.querySelectorAll('[style*="url"]').forEach(el => {
+            const bgUrl = extractBgUrl(el);
+            if (bgUrl && isGoodImage(bgUrl) && !seen.has(bgUrl)) {
+                seen.add(bgUrl);
+                fallbackImages.push(bgUrl);
+            }
+        });
+
+        console.log('📷 Location mapping result:', locationImages);
+        console.log('📷 Fallback images total:', fallbackImages.length);
+
+        // Log which were found vs need fallback
+        for (const key of Object.keys(locationImages)) {
+            if (locationImages[key]) {
+                console.log(`✅ ${key}: auto-detected`);
+            } else {
+                console.log(`⚠️ ${key}: will use fallback index`);
+            }
+        }
+
+        return {
+            mapped: locationImages,
+            fallback: fallbackImages
+        };
+    }
+
+    // ===================================================================
     // INITIALIZE
     // ===================================================================
 
@@ -1282,6 +1991,15 @@
 
         // Load fonts
         loadFonts();
+
+        // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
+        extractedImages = extractOriginalImages();
+        const photoUrls = extractPhotos();
+        const footerData = extractFooterData();
+
+        console.log('📷 Extracted images:', extractedImages);
+        console.log('📸 Extracted photos:', photoUrls);
+        console.log('🦶 Extracted footer:', footerData);
 
         // Hide CMS elements (header, footer, content)
         hideCMSElements();
@@ -1292,10 +2010,10 @@
         // Build content inside shadow DOM - header first!
         shadow.appendChild(createHeader());
         shadow.appendChild(createHero());
-        shadow.appendChild(createLocations());
+        shadow.appendChild(createLocations(extractedImages));
         shadow.appendChild(createActions());
-        shadow.appendChild(createMotto());
-        shadow.appendChild(createFooter());
+        shadow.appendChild(createPhotos(photoUrls));
+        shadow.appendChild(createFooter(footerData));
 
         // Insert into page
         const bodyWrapper = document.querySelector('.body_wrapper');
