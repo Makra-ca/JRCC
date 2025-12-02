@@ -2,6 +2,7 @@
   "buildCommand": null,
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/", "destination": "/pages/comprehensive-redesign-showcase.html" }
+    { "source": "/", "destination": "/pages/comprehensive-redesign-showcase.html" },
+    { "source": "/jrcc", "destination": "/pages/jrcc-redesign-showcase.html" }
   ]
 }
