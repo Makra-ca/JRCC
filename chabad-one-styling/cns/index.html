@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chabad North Shore Events</title>
+
+    <!-- Google Fonts - Urbanist -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================
+           CHABAD NORTH SHORE EVENTS WIDGET
+           A Makra Prototype - Powered by Google Sheets
+           Red & Orange Theme
+           ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            font-family: 'Urbanist', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header - Red to Orange Gradient */
+        .events-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding: 2rem 1rem;
+        }
+
+        .events-header h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #C62828 0%, #D32F2F 30%, #FF5722 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+
+        .events-header p {
+            color: #5a6a7a;
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            font-weight: 500;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+            padding: 0 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #2D2D2D;
+            margin-right: 0.25rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #C62828;
+            border-radius: 25px;
+            background: white;
+            color: #C62828;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #ffebee;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #C62828 0%, #D32F2F 100%);
+            color: white;
+        }
+
+        /* Mobile filter dropdowns */
+        .filters-mobile {
+            display: none;
+        }
+
+        .filter-select {
+            padding: 0.75rem 2.5rem 0.75rem 1rem;
+            border: 2px solid #C62828;
+            border-radius: 12px;
+            background: white;
+            color: #C62828;
+            font-family: 'Urbanist', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23C62828' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 18px;
+            min-width: 140px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #FF5722;
+            box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.15);
+        }
+
+        /* Mobile: Show dropdowns, hide buttons */
+        @media (max-width: 768px) {
+            .filters {
+                display: none;
+            }
+
+            .filters-mobile {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+
+            .filter-row {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.75rem;
+            }
+
+            .filter-row .filter-label {
+                min-width: 50px;
+            }
+
+            .filter-select {
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Event Card - Chabad North Shore Theme */
+        .event-card {
+            background: linear-gradient(145deg, #ffffff 0%, #fff5f5 100%);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(198, 40, 40, 0.15);
+        }
+
+        .event-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(198, 40, 40, 0.15);
+            border-color: rgba(198, 40, 40, 0.3);
+        }
+
+        .event-card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Event Title */
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2D2D2D;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        /* Tags - Red Theme */
+        .event-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.35rem 0.85rem;
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #C62828;
+            border: 1px solid rgba(198, 40, 40, 0.15);
+        }
+
+        .event-tag svg {
+            width: 14px;
+            height: 14px;
+            color: #C62828;
+        }
+
+        /* Description - Red Accent */
+        .event-description {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffebee 100%);
+            border-radius: 10px;
+            border-left: 3px solid #C62828;
+        }
+
+        .event-description svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            color: #C62828;
+            margin-top: 2px;
+        }
+
+        .event-description p {
+            color: #3d4a5c;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Event Details */
+        .event-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .event-detail svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            color: #C62828;
+            margin-top: 2px;
+        }
+
+        .event-detail span {
+            color: #2d3a4a;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* CTA Button - Red to Orange Gradient */
+        .event-cta {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #C62828 0%, #D32F2F 50%, #FF5722 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .event-cta:hover::before {
+            left: 100%;
+        }
+
+        .event-cta:hover {
+            background: linear-gradient(135deg, #B71C1C 0%, #C62828 50%, #F4511E 100%);
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+        }
+
+        .event-cta svg {
+            display: inline;
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #5a6a7a;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(198, 40, 40, 0.1);
+            border-top-color: #C62828;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 2rem;
+            background: #fff5f5;
+            border-radius: 12px;
+            color: #c0392b;
+            border: 1px solid rgba(192, 57, 43, 0.2);
+        }
+
+        /* No Events */
+        .no-events {
+            text-align: center;
+            padding: 3rem;
+            color: #5a6a7a;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .events-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card-content {
+                padding: 1.25rem;
+            }
+        }
+
+        /* Designed by credit */
+        .designed-by {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding: 1rem;
+            color: #8a8a8a;
+            font-size: 0.85rem;
+        }
+
+        .designed-by a {
+            color: #C62828;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .designed-by a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="events-container">
+        <header class="events-header">
+            <h1>Upcoming Events</h1>
+            <p>Join us for community programs and celebrations</p>
+        </header>
+
+        <!-- Desktop: Pill Buttons -->
+        <div id="filters" class="filters">
+            <div class="filter-group" id="age-filter-group">
+                <span class="filter-label">Age:</span>
+                <button class="filter-btn active" data-filter="age" data-value="all">All</button>
+                <!-- Age buttons populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Mobile: Dropdown Selects -->
+        <div class="filters-mobile">
+            <div class="filter-row">
+                <span class="filter-label">Age:</span>
+                <select id="age-select" class="filter-select">
+                    <option value="all">All Ages</option>
+                    <!-- Age options populated dynamically -->
+                </select>
+            </div>
+        </div>
+
+        <div id="events-grid" class="events-grid">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading events...</p>
+            </div>
+        </div>
+
+        <p class="designed-by">This page was designed by <a href="https://makra.ca" target="_blank">Makra.ca</a></p>
+    </div>
+
+    <script>
+        /* ========================================
+           CONFIGURATION
+           ======================================== */
+
+        // Enable debug mode by adding ?debug=true to the URL
+        const DEBUG_MODE = new URLSearchParams(window.location.search).get('debug') === 'true';
+
+        // Google Sheet CSV URL - REPLACE THIS WITH YOUR PUBLISHED SHEET URL
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRQpEmboIJxUhrm62U8Sw3cXcLxFzbn1C30weLEhhKfTi2yItzHyxXI72A_ck_1yFh9Utd95wT57ZCb/pub?output=csv';
+
+        /* ========================================
+           DEBUG UTILITIES
+           ======================================== */
+        function debug(...args) {
+            if (DEBUG_MODE) {
+                console.log('%c[DEBUG]', 'color: #C62828; font-weight: bold;', ...args);
+            }
+        }
+
+        function debugTable(label, data) {
+            if (DEBUG_MODE) {
+                console.log('%c[DEBUG] ' + label, 'color: #C62828; font-weight: bold;');
+                console.table(data);
+            }
+        }
+
+        function debugGroup(label) {
+            if (DEBUG_MODE) console.group('%c[DEBUG] ' + label, 'color: #C62828; font-weight: bold;');
+        }
+
+        function debugGroupEnd() {
+            if (DEBUG_MODE) console.groupEnd();
+        }
+
+        /* ========================================
+           URL HELPER
+           ======================================== */
+        function ensureHttps(url) {
+            if (!url) return '';
+            url = url.trim();
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url;
+            }
+            return 'https://' + url;
+        }
+
+        /* ========================================
+           ICONS (SVG)
+           ======================================== */
+        const icons = {
+            users: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            info: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>',
+            calendar: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            clock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+            mapPin: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+            phone: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+            mail: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+        };
+
+        /* ========================================
+           RENDER EVENT CARD
+           ======================================== */
+        function renderEventCard(event) {
+            const timeDisplay = event.endTime
+                ? `${event.startTime} - ${event.endTime}`
+                : event.startTime;
+
+            return `
+                <article class="event-card" data-age="${event.ageGroup || ''}">
+                    <div class="event-card-content">
+                        <h2 class="event-title">${event.title}</h2>
+
+                        <div class="event-tags">
+                            <span class="event-tag">
+                                ${icons.users}
+                                ${event.ageGroup || 'All Ages'}
+                            </span>
+                        </div>
+
+                        ${event.description ? `
+                        <div class="event-description">
+                            ${icons.info}
+                            <p>${event.description}</p>
+                        </div>
+                        ` : ''}
+
+                        <div class="event-details">
+                            ${event.date ? `
+                            <div class="event-detail">
+                                ${icons.calendar}
+                                <span>${event.date}</span>
+                            </div>
+                            ` : ''}
+
+                            ${event.startTime ? `
+                            <div class="event-detail">
+                                ${icons.clock}
+                                <span>${timeDisplay}</span>
+                            </div>
+                            ` : ''}
+
+                            ${event.location ? `
+                            <div class="event-detail">
+                                ${icons.mapPin}
+                                <span>${event.location}</span>
+                            </div>
+                            ` : ''}
+                        </div>
+
+                    </div>
+
+                    ${event.website ? `
+                    <a href="${ensureHttps(event.website)}" target="_blank" class="event-cta">
+                        ${icons.globe}
+                        Visit Website
+                    </a>
+                    ` : ''}
+                </article>
+            `;
+        }
+
+        /* ========================================
+           CSV PARSER
+           ======================================== */
+        function parseCSV(csv) {
+            debugGroup('CSV PARSING');
+            debug('Raw CSV length:', csv.length, 'characters');
+
+            csv = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+            function parseCSVLine(line) {
+                const result = [];
+                let current = '';
+                let inQuotes = false;
+                let i = 0;
+
+                while (i < line.length) {
+                    const char = line[i];
+
+                    if (inQuotes) {
+                        if (char === '"') {
+                            if (i + 1 < line.length && line[i + 1] === '"') {
+                                current += '"';
+                                i += 2;
+                                continue;
+                            } else {
+                                inQuotes = false;
+                                i++;
+                                continue;
+                            }
+                        } else {
+                            current += char;
+                            i++;
+                        }
+                    } else {
+                        if (char === '"') {
+                            inQuotes = true;
+                            i++;
+                        } else if (char === ',') {
+                            result.push(current);
+                            current = '';
+                            i++;
+                        } else {
+                            current += char;
+                            i++;
+                        }
+                    }
+                }
+
+                result.push(current);
+                return result;
+            }
+
+            function splitCSVIntoLines(csv) {
+                const lines = [];
+                let currentLine = '';
+                let inQuotes = false;
+
+                for (let i = 0; i < csv.length; i++) {
+                    const char = csv[i];
+
+                    if (char === '"') {
+                        if (inQuotes && i + 1 < csv.length && csv[i + 1] === '"') {
+                            currentLine += '""';
+                            i++;
+                            continue;
+                        }
+                        inQuotes = !inQuotes;
+                        currentLine += char;
+                    } else if (char === '\n' && !inQuotes) {
+                        if (currentLine.trim()) {
+                            lines.push(currentLine);
+                        }
+                        currentLine = '';
+                    } else {
+                        currentLine += char;
+                    }
+                }
+
+                if (currentLine.trim()) {
+                    lines.push(currentLine);
+                }
+
+                return lines;
+            }
+
+            const lines = splitCSVIntoLines(csv);
+            debug('Total lines found:', lines.length);
+
+            if (lines.length === 0) {
+                debug('ERROR: No lines found in CSV');
+                debugGroupEnd();
+                return [];
+            }
+
+            const headers = parseCSVLine(lines[0]);
+            debug('Headers found:', headers);
+
+            const headerMap = {
+                'title': 'title',
+                'agegroup': 'ageGroup',
+                'age group': 'ageGroup',
+                'description': 'description',
+                'date': 'date',
+                'starttime': 'startTime',
+                'start time': 'startTime',
+                'endtime': 'endTime',
+                'end time': 'endTime',
+                'location': 'location',
+                'contactname': 'contactName',
+                'contact name': 'contactName',
+                'phone': 'phone',
+                'email': 'email',
+                'website': 'website',
+                'url': 'website'
+            };
+
+            const events = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                const event = {};
+
+                headers.forEach((header, index) => {
+                    const cleanHeader = header.replace(/"/g, '').trim().toLowerCase();
+                    const mappedHeader = headerMap[cleanHeader] || cleanHeader;
+                    const value = values[index] !== undefined ? values[index].trim() : '';
+                    event[mappedHeader] = value;
+                });
+
+                if (event.title && event.title.trim()) {
+                    events.push(event);
+                    debug(`Event ${events.length}: "${event.title}"`);
+                }
+            }
+
+            debug('Total events parsed:', events.length);
+            debugTable('All Events', events);
+            debugGroupEnd();
+
+            return events;
+        }
+
+        /* ========================================
+           FILTERING SYSTEM
+           ======================================== */
+        let allEvents = [];
+        let currentFilters = {
+            age: 'all'
+        };
+
+        function populateAgeFilters(events) {
+            const ageGroups = new Set();
+            events.forEach(event => {
+                if (event.ageGroup && event.ageGroup.trim()) {
+                    ageGroups.add(event.ageGroup.trim());
+                }
+            });
+
+            const sortedAges = Array.from(ageGroups).sort();
+
+            const ageFilterGroup = document.getElementById('age-filter-group');
+            if (ageFilterGroup && ageGroups.size > 0) {
+                sortedAges.forEach(age => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn';
+                    btn.dataset.filter = 'age';
+                    btn.dataset.value = age;
+                    btn.textContent = age;
+                    ageFilterGroup.appendChild(btn);
+                });
+            }
+
+            const ageSelect = document.getElementById('age-select');
+            if (ageSelect && ageGroups.size > 0) {
+                sortedAges.forEach(age => {
+                    const option = document.createElement('option');
+                    option.value = age;
+                    option.textContent = age;
+                    ageSelect.appendChild(option);
+                });
+            }
+        }
+
+        function filterEvents() {
+            const container = document.getElementById('events-grid');
+
+            let filtered = allEvents.filter(event => {
+                if (currentFilters.age !== 'all') {
+                    if (!event.ageGroup || event.ageGroup.trim() !== currentFilters.age) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-events"><p>No events match your filters.</p></div>';
+            } else {
+                container.innerHTML = filtered.map(renderEventCard).join('');
+            }
+        }
+
+        function setupFilterListeners() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filterType = this.dataset.filter;
+                    const filterValue = this.dataset.value;
+
+                    document.querySelectorAll(`.filter-btn[data-filter="${filterType}"]`).forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    const selectId = 'age-select';
+                    const select = document.getElementById(selectId);
+                    if (select) select.value = filterValue;
+
+                    currentFilters[filterType] = filterValue;
+                    filterEvents();
+                });
+            });
+
+            const ageSelect = document.getElementById('age-select');
+            if (ageSelect) {
+                ageSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+
+                    document.querySelectorAll('.filter-btn[data-filter="age"]').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.value === filterValue) {
+                            b.classList.add('active');
+                        }
+                    });
+
+                    currentFilters.age = filterValue;
+                    filterEvents();
+                });
+            }
+        }
+
+        /* ========================================
+           DEMO DATA
+           ======================================== */
+        const DEMO_DATA = [
+            {
+                title: 'Shabbat Dinner',
+                ageGroup: 'All Ages',
+                description: 'Join us for a warm and welcoming Shabbat dinner with the community',
+                date: 'Friday, December 13, 2024',
+                startTime: '7:00 PM',
+                endTime: '9:00 PM',
+                location: 'Chabad North Shore',
+                website: 'https://example.com'
+            },
+            {
+                title: 'Torah Study',
+                ageGroup: 'Adults',
+                description: 'Weekly Torah study and discussion group',
+                date: 'Sunday, December 15, 2024',
+                startTime: '10:00 AM',
+                endTime: '11:30 AM',
+                location: 'Chabad North Shore',
+                website: 'https://example.com'
+            },
+            {
+                title: 'Kids Club',
+                ageGroup: 'Kids 5-12',
+                description: 'Fun activities, games, and Jewish learning for children',
+                date: 'Sunday, December 15, 2024',
+                startTime: '2:00 PM',
+                endTime: '4:00 PM',
+                location: 'Chabad North Shore',
+                website: 'https://example.com'
+            }
+        ];
+
+        /* ========================================
+           LOAD AND RENDER EVENTS
+           ======================================== */
+        async function loadEvents() {
+            const container = document.getElementById('events-grid');
+
+            try {
+                let events;
+
+                if (GOOGLE_SHEET_CSV_URL && GOOGLE_SHEET_CSV_URL !== 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') {
+                    const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                    if (!response.ok) throw new Error('Failed to fetch data');
+                    const csv = await response.text();
+                    events = parseCSV(csv);
+                } else {
+                    console.log('Using demo data. Replace GOOGLE_SHEET_CSV_URL with your published Google Sheet CSV URL.');
+                    events = DEMO_DATA;
+                }
+
+                if (events.length === 0) {
+                    container.innerHTML = '<div class="no-events"><p>No upcoming events at this time.</p></div>';
+                    return;
+                }
+
+                allEvents = events;
+                populateAgeFilters(events);
+                setupFilterListeners();
+                container.innerHTML = events.map(renderEventCard).join('');
+
+            } catch (error) {
+                console.error('Error loading events:', error);
+                container.innerHTML = `
+                    <div class="error">
+                        <p>Unable to load events. Please try again later.</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEvents);
+
+        /* ========================================
+           IFRAME AUTO-RESIZE
+           ======================================== */
+        function sendHeightToParent() {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ type: 'resize', height: height }, '*');
+        }
+
+        const resizeObserver = new ResizeObserver(() => {
+            sendHeightToParent();
+        });
+        resizeObserver.observe(document.body);
+
+        window.addEventListener('load', () => {
+            sendHeightToParent();
+            setTimeout(sendHeightToParent, 500);
+        });
+    </script>
+</body>
+</html>

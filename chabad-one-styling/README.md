@@ -6,12 +6,14 @@ Central hosting for all Chabad One CMS custom styling files.
 - `cra/` - Chabad Rural Arizona
 - `pv/` - Paradise Valley Events
 - `jrcc/` - JRCC
+- `cns/` - Chabad North Shore (Events Widget)
 
 ## URLs
 After deploying to Vercel (`chabad-one-styling.vercel.app`):
 - `https://chabad-one-styling.vercel.app/cra/cra-scripts.js`
 - `https://chabad-one-styling.vercel.app/pv/pv-events-scripts.js`
 - `https://chabad-one-styling.vercel.app/jrcc/jrcc-scripts.js`
+- `https://chabad-one-styling.vercel.app/cns/` (Events Widget - standalone HTML page)
 
 ## Deploy
 ```bash
