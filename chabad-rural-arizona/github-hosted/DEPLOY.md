@@ -5,7 +5,7 @@
 cd chabad-rural-arizona/github-hosted/
 npx vercel
 # When prompted for project name, use: cra-github-hosted
-npx vercel --prod
+Chabad YJP Cincinnati
 ```
 
 ## After editing `cra-styles.css` or `cra-scripts.js`:

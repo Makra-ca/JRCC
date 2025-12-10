@@ -52,3 +52,29 @@ When redesigning Chabad One sites, extract data dynamically from the existing pa
 ### Critical Pattern
 Always extract data BEFORE calling `hideCMSElements()` - once hidden, the original content is no longer accessible for extraction.
 
+### Page-Specific Script Execution
+Since custom header/footer code runs on ALL pages, always add a page check at the start of `init()`:
+
+```javascript
+function init() {
+    // Only run on homepage
+    const path = window.location.pathname;
+    const isHomepage = path === '/' ||
+                      path === '' ||
+                      path.endsWith('/SITE_ID') ||
+                      path.endsWith('/SITE_ID/');
+    const hasRootClass = document.body.classList.contains('section_root');
+
+    if (!isHomepage && !hasRootClass) {
+        console.log('Redesign: Not target page, skipping');
+        return;
+    }
+    // ... rest of code
+}
+```
+
+**Detection methods:**
+- **Homepage**: `section_root` body class, or path ends with site ID (e.g., `/1331`)
+- **Subpages**: Check URL for specific page IDs (e.g., `ids.some(id => location.href.includes(id))`)
+- Always `return` early if not on target page to prevent styles/scripts affecting other pages
+

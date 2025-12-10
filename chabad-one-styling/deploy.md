@@ -1,0 +1,1 @@
+go to the dir and npx vercel --prod

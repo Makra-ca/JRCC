@@ -178,3 +178,13 @@ For questions or customization requests, contact [Makra.ca](https://makra.ca).
 
 link to excel file editing
 https://docs.google.com/spreadsheets/d/1ukVFZ-CWXsEqGEgoSg4c423Xc-jN3wn3rszc5F_GIjw/edit?usp=sharing
+
+
+iframe
+<iframe
+    src="https://chabad-one-styling.vercel.app/cns/"
+    width="100%"
+    height="800"
+    frameborder="0"
+    style="border: none; min-height: 600px;">
+</iframe>

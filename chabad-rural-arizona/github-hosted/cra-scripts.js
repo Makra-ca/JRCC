@@ -1990,6 +1990,76 @@
         return isHomepage || hasRootClass;
     }
 
+    // Create a minimal shadow container for header only
+    function createHeaderShadowContainer() {
+        const host = document.createElement('div');
+        host.id = 'cra-header-host';
+        host.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        `;
+
+        const shadow = host.attachShadow({ mode: 'open' });
+
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
+        shadow.appendChild(fontLink);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+        `;
+        shadow.appendChild(style);
+
+        return { host, shadow };
+    }
+
+    // Create a minimal shadow container for footer only
+    function createFooterShadowContainer() {
+        const host = document.createElement('div');
+        host.id = 'cra-footer-host';
+        host.style.cssText = `
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        `;
+
+        const shadow = host.attachShadow({ mode: 'open' });
+
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
+        shadow.appendChild(fontLink);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+        `;
+        shadow.appendChild(style);
+
+        return { host, shadow };
+    }
+
     // Initialize header/footer on ALL pages
     function initGlobalElements() {
         console.log('CRA: Initializing global header/footer');
@@ -2002,32 +2072,27 @@
         // Hide original header/footer only
         hideHeaderFooterOnly();
 
-        // Create shadow container for header/footer
-        const { host, shadow } = createShadowContainer();
+        // Create SEPARATE shadow containers for header and footer
+        // This keeps the original body content in the main DOM with its CMS styles intact
 
-        // Add header
-        shadow.appendChild(createHeader(navLinks));
+        // Header shadow container
+        const headerContainer = createHeaderShadowContainer();
+        headerContainer.shadow.appendChild(createHeader(navLinks));
+        document.body.insertBefore(headerContainer.host, document.body.firstChild);
 
-        // Create a content slot for original page content
-        const contentSlot = document.createElement('div');
-        contentSlot.className = 'cra-content-slot';
-        contentSlot.style.cssText = `
-            min-height: 60vh;
+        // Footer shadow container - append at end of body
+        const footerContainer = createFooterShadowContainer();
+        footerContainer.shadow.appendChild(createFooter(footerData));
+        document.body.appendChild(footerContainer.host);
+
+        // Add padding to body to account for fixed header
+        const addBodyPadding = document.createElement('style');
+        addBodyPadding.textContent = `
+            body {
+                padding-top: 90px !important;
+            }
         `;
-        shadow.appendChild(contentSlot);
-
-        // Add footer
-        shadow.appendChild(createFooter(footerData));
-
-        // Insert shadow host at the beginning of body
-        document.body.insertBefore(host, document.body.firstChild);
-
-        // Move the original body_wrapper content into the slot
-        const bodyWrapper = document.querySelector('.body_wrapper');
-        if (bodyWrapper) {
-            bodyWrapper.style.display = 'block';
-            contentSlot.appendChild(bodyWrapper);
-        }
+        document.head.appendChild(addBodyPadding);
     }
 
     // Initialize full homepage redesign
