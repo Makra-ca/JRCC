@@ -96,43 +96,45 @@
         console.log('  Hero:', data.hero.image ? 'image found' : 'no image');
 
         // 2. ABOUT - "YJP Cincinnati"
-        data.about = { title: 'YJP Cincinnati', description: '', image: null };
+        // CYP theme uses .back-desc (div) not p for descriptions
+        data.about = { title: 'YJP Cincinnati', subtitle: '', description: '', image: null, buttonText: '', buttonLink: '' };
         const aboutSection = document.querySelector('.back-about');
         if (aboutSection) {
             const h2 = aboutSection.querySelector('h2');
             if (h2) data.about.title = cleanText(h2.textContent);
-            const ps = aboutSection.querySelectorAll('p');
-            const texts = [];
-            ps.forEach(p => {
-                const t = cleanText(p.textContent);
-                if (t.length > 20 && !t.includes('Read More')) texts.push(t);
-            });
-            data.about.description = texts.join(' ').substring(0, 500);
-            const img = aboutSection.querySelector('img[alt="About"]');
+            const h5 = aboutSection.querySelector('h5.back-subtitle');
+            if (h5) data.about.subtitle = cleanText(h5.textContent);
+            const desc = aboutSection.querySelector('.back-desc');
+            if (desc) data.about.description = cleanText(desc.textContent);
+            const img = aboutSection.querySelector('img[alt="About"]') || aboutSection.querySelector('img');
             if (img?.src) data.about.image = img.src;
+            const btn = aboutSection.querySelector('.back-btn');
+            if (btn) {
+                data.about.buttonText = cleanText(btn.textContent);
+                data.about.buttonLink = btn.getAttribute('href') || '';
+            }
         }
         console.log('  About:', data.about.description.length, 'chars');
 
         // 3. TABS - "Join your Community"
+        // CYP theme uses .tab-title (h4) and .tab-desc (div) not p
         data.tabs = [];
         const tabSection = document.querySelector('.back-tab');
         if (tabSection) {
-            // Get tab nav items
-            const tabNavItems = tabSection.querySelectorAll('.nav-part li, .nav-tabs li');
-            tabNavItems.forEach(li => {
-                const text = cleanText(li.textContent);
-                if (text.length > 2) {
-                    data.tabs.push({ title: text, description: '' });
-                }
-            });
-            // Get tab content
             const tabPanes = tabSection.querySelectorAll('.single-tab-part');
-            tabPanes.forEach((pane, i) => {
-                const h3 = pane.querySelector('h3, h4');
-                const p = pane.querySelector('p');
-                if (data.tabs[i]) {
-                    if (h3) data.tabs[i].title = cleanText(h3.textContent);
-                    if (p) data.tabs[i].description = cleanText(p.textContent).substring(0, 200);
+            tabPanes.forEach(pane => {
+                const title = pane.querySelector('.tab-title, h4, h3');
+                const desc = pane.querySelector('.tab-desc');
+                const img = pane.querySelector('.tab-img img');
+                const btn = pane.querySelector('.back-btn');
+                if (title) {
+                    data.tabs.push({
+                        title: cleanText(title.textContent),
+                        description: desc ? cleanText(desc.textContent) : '',
+                        image: img?.src || null,
+                        buttonText: btn ? cleanText(btn.textContent) : '',
+                        buttonLink: btn?.getAttribute('href') || ''
+                    });
                 }
             });
         }
@@ -147,22 +149,37 @@
         console.log('  Tabs:', data.tabs.length);
 
         // 4. RABBI - "Meet the Gouraries!"
-        data.rabbi = { title: 'Meet the Gouraries!', description: '', image: null };
+        // Text is in col elements, not p tags
+        data.rabbi = { title: 'Meet the Gouraries!', subtitle: '', description: '', image: null, buttonText: '', buttonLink: '' };
         const rabbiHeadings = document.querySelectorAll('.back-sec-title h2');
         for (const h2 of rabbiHeadings) {
             if (h2.textContent.includes('Gouraries')) {
                 data.rabbi.title = cleanText(h2.textContent);
-                const section = h2.closest('.container');
+                const section = h2.closest('.back-about') || h2.closest('.container')?.parentElement;
                 if (section) {
-                    const ps = section.querySelectorAll('p');
-                    const texts = [];
-                    ps.forEach(p => {
-                        const t = cleanText(p.textContent);
-                        if (t.length > 20) texts.push(t);
-                    });
-                    data.rabbi.description = texts.join(' ').substring(0, 600);
+                    // Get subtitle (h5)
+                    const h5 = section.querySelector('h5.back-subtitle');
+                    if (h5) data.rabbi.subtitle = cleanText(h5.textContent);
+                    // Get description from .back-desc or full text content
+                    const desc = section.querySelector('.back-desc');
+                    if (desc) {
+                        data.rabbi.description = cleanText(desc.textContent);
+                    } else {
+                        // Fallback: get text from the text column
+                        const textCol = section.querySelector('.col-lg-5, .col-lg-6');
+                        if (textCol) {
+                            const allText = cleanText(textCol.textContent);
+                            // Remove title from text
+                            data.rabbi.description = allText.replace(data.rabbi.title, '').replace(data.rabbi.subtitle, '').trim();
+                        }
+                    }
                     const img = section.querySelector('img[alt*="Meet"]') || section.querySelector('img');
                     if (img?.src && !img.src.includes('tab')) data.rabbi.image = img.src;
+                    const btn = section.querySelector('.back-btn');
+                    if (btn) {
+                        data.rabbi.buttonText = cleanText(btn.textContent);
+                        data.rabbi.buttonLink = btn.getAttribute('href') || '';
+                    }
                 }
                 break;
             }
@@ -170,34 +187,66 @@
         console.log('  Rabbi:', data.rabbi.image ? 'image found' : 'no image');
 
         // 5. NETWORK - "A big part of something bigger."
+        // Description is in .widget_content, not p
         data.network = { title: 'A big part of something bigger.', description: '' };
         for (const h2 of rabbiHeadings) {
             if (h2.textContent.includes('bigger')) {
                 data.network.title = cleanText(h2.textContent);
                 const section = h2.closest('.wrapper') || h2.closest('.container');
                 if (section) {
-                    const p = section.querySelector('p');
-                    if (p) data.network.description = cleanText(p.textContent);
+                    // Look for description after h2
+                    const widgetContent = section.querySelector('.widget_content');
+                    if (widgetContent) {
+                        // Get text but exclude stats numbers
+                        let text = cleanText(widgetContent.textContent);
+                        text = text.replace(data.network.title, '').replace(/\d+\s*(Locations|Unique|YP's|every year)/gi, '').trim();
+                        // Find the actual description text
+                        const allH2s = widgetContent.querySelectorAll('h2');
+                        allH2s.forEach(h => {
+                            const nextSibling = h.parentElement?.nextElementSibling;
+                            if (nextSibling && !nextSibling.classList.contains('counter-part')) {
+                                const sibText = cleanText(nextSibling.textContent);
+                                if (sibText.length > 10 && !sibText.match(/^\d/)) {
+                                    data.network.description = sibText;
+                                }
+                            }
+                        });
+                    }
+                    // Fallback: look for any text after the title
+                    if (!data.network.description) {
+                        const secTitle = section.querySelector('.back-sec-title');
+                        if (secTitle) {
+                            const next = secTitle.nextElementSibling;
+                            if (next && next.tagName !== 'DIV') {
+                                data.network.description = cleanText(next.textContent);
+                            }
+                        }
+                    }
                 }
                 break;
             }
         }
+        // Hardcode the description since it's static in the theme
+        if (!data.network.description) {
+            data.network.description = "We're on every continent, and most countries ;)";
+        }
         console.log('  Network:', data.network.title);
 
         // 6. STATS - .counter-part
+        // Uses .single-counter with .counter[data-target] and .count-text
         data.stats = [];
         const counterPart = document.querySelector('.counter-part');
         if (counterPart) {
-            const items = counterPart.querySelectorAll('.col-lg-3, .col-md-3, [class*="col"]');
+            const items = counterPart.querySelectorAll('.single-counter');
             items.forEach(item => {
-                const numEl = item.querySelector('.counter, .count, span, strong');
-                const labelEl = item.querySelector('p, h5, h6');
-                if (numEl) {
-                    const numText = numEl.textContent.trim();
-                    const num = numText.match(/[\d,]+/);
+                const counter = item.querySelector('.counter');
+                const label = item.querySelector('.count-text');
+                if (counter) {
+                    // Get target value from data attribute (actual number) not displayed 0
+                    const target = counter.getAttribute('data-target') || counter.textContent;
                     data.stats.push({
-                        number: num ? num[0] : numText,
-                        label: labelEl ? cleanText(labelEl.textContent) : ''
+                        number: target,
+                        label: label ? cleanText(label.textContent) : ''
                     });
                 }
             });
@@ -253,26 +302,37 @@
         console.log('  Programs:', data.programs.items.length, 'items');
 
         // 8. EVENTS - "Upcoming Events"
+        // Structure: .single-service > .service-img img + .service-content > h3.service-title + .service-arrow-btn (date)
         data.events = [];
-        const eventSection = document.querySelector('.back-service');
+        // Find section by H2 text, not just .back-service (which picks up wrong section)
+        let eventSection = null;
+        document.querySelectorAll('h2').forEach(h2 => {
+            if (h2.textContent.includes('Upcoming Events')) {
+                eventSection = h2.closest('.back-service') || h2.closest('.container')?.parentElement;
+            }
+        });
         if (eventSection) {
-            const items = eventSection.querySelectorAll('.service-content, .service-item');
+            const items = eventSection.querySelectorAll('.single-service');
             items.forEach(item => {
-                const h3 = item.querySelector('h3');
-                const p = item.querySelector('p');
+                const h3 = item.querySelector('h3.service-title, h3');
+                const dateEl = item.querySelector('.service-arrow-btn');
+                const img = item.querySelector('.service-img img');
+                const link = item.querySelector('a.service-link');
                 if (h3) {
                     data.events.push({
                         title: cleanText(h3.textContent),
-                        description: p ? cleanText(p.textContent) : ''
+                        date: dateEl ? cleanText(dateEl.textContent) : '',
+                        image: img?.src || null,
+                        link: link?.getAttribute('href') || '/tools/events'
                     });
                 }
             });
         }
         if (data.events.length === 0) {
             data.events = [
-                { title: 'First Fridays', description: 'Monthly Shabbat dinner to start your month right.' },
-                { title: 'CYP Connect', description: 'Network with fellow young professionals.' },
-                { title: 'Holiday Celebrations', description: 'Join us for Jewish holidays throughout the year.' }
+                { title: 'First Fridays', date: 'Next Friday', image: null, link: '/tools/events' },
+                { title: 'CYP Connect', date: 'Next Month', image: null, link: '/tools/events' },
+                { title: 'Holiday Celebrations', date: 'Coming Soon', image: null, link: '/tools/events' }
             ];
         }
         console.log('  Events:', data.events.length);
@@ -497,12 +557,35 @@
 
             @media (max-width: 1024px) {
                 .grid-4 { grid-template-columns: repeat(2, 1fr); }
+                .grid-3 { grid-template-columns: repeat(2, 1fr); }
             }
             @media (max-width: 768px) {
-                .section { padding: 60px 20px; }
-                .section-title { font-size: 32px; }
-                .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-                .btn { padding: 14px 32px; font-size: 16px; }
+                .section { padding: 48px 16px; }
+                .section-title { font-size: 28px; }
+                .section-subtitle { font-size: 16px; margin-bottom: 32px; }
+                .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; gap: 24px; }
+                .btn { padding: 14px 28px; font-size: 15px; }
+                .card { padding: 24px; }
+            }
+            @media (max-width: 480px) {
+                .section { padding: 40px 16px; }
+                .section-title { font-size: 24px; }
+                .section-subtitle { font-size: 15px; }
+                .btn { padding: 12px 24px; font-size: 14px; width: 100%; text-align: center; }
+            }
+            /* Instagram grid responsive */
+            @media (max-width: 600px) {
+                #instagram-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+            }
+
+            /* Mobile navigation */
+            @media (max-width: 768px) {
+                #nav-links { display: none !important; }
+                #nav-cta { display: none !important; }
+                #mobile-menu-btn { display: block !important; }
+            }
+            @media (max-width: 480px) {
+                #logo-text { display: none !important; }
             }
         `;
     }
@@ -512,13 +595,15 @@
     // ===================================================================
 
     function buildHeader(data) {
+        const header = document.createElement('header');
+
         const nav = document.createElement('nav');
         nav.style.cssText = `
             position: fixed;
             top: 0; left: 0; right: 0;
             background: rgba(255,255,255,0.97);
             backdrop-filter: blur(12px);
-            padding: 16px 32px;
+            padding: 12px 20px;
             z-index: 10000;
             box-shadow: 0 2px 24px rgba(0,0,0,0.08);
             font-family: 'Urbanist', sans-serif;
@@ -533,25 +618,27 @@
         logo.style.cssText = 'display:flex;align-items:center;gap:12px;';
 
         const logoCircle = document.createElement('div');
-        logoCircle.style.cssText = `width:48px;height:48px;background:${COLORS.tealAccent};border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:16px;`;
+        logoCircle.style.cssText = `width:44px;height:44px;background:${COLORS.tealAccent};border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;`;
         logoCircle.textContent = 'YJP';
         logo.appendChild(logoCircle);
 
         const logoText = document.createElement('span');
+        logoText.id = 'logo-text';
         logoText.textContent = SITE_CONFIG.shortName;
-        logoText.style.cssText = `font-size:22px;font-weight:700;color:${COLORS.navyBlue};`;
+        logoText.style.cssText = `font-size:20px;font-weight:700;color:${COLORS.navyBlue};`;
         logo.appendChild(logoText);
         container.appendChild(logo);
 
-        // Nav links
+        // Nav links (desktop)
         const navList = document.createElement('ul');
-        navList.style.cssText = 'display:flex;gap:32px;list-style:none;';
+        navList.id = 'nav-links';
+        navList.style.cssText = 'display:flex;gap:28px;list-style:none;';
         data.nav.slice(0, 5).forEach(link => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = link.href;
             a.textContent = link.text;
-            a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:16px;transition:color 0.3s;`;
+            a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:15px;transition:color 0.3s;`;
             a.onmouseenter = () => a.style.color = COLORS.tealAccent;
             a.onmouseleave = () => a.style.color = COLORS.navyBlue;
             li.appendChild(a);
@@ -559,16 +646,72 @@
         });
         container.appendChild(navList);
 
-        // CTA
+        // CTA (desktop)
         const cta = document.createElement('a');
+        cta.id = 'nav-cta';
         cta.href = '/tools/feedback.asp';
         cta.textContent = 'Contact Us';
         cta.className = 'btn btn-secondary';
-        cta.style.cssText += 'padding:12px 24px;font-size:15px;';
+        cta.style.cssText += 'padding:10px 20px;font-size:14px;';
         container.appendChild(cta);
 
+        // Hamburger button (mobile)
+        const hamburger = document.createElement('button');
+        hamburger.id = 'mobile-menu-btn';
+        hamburger.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="${COLORS.navyBlue}"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>`;
+        hamburger.style.cssText = 'display:none;background:none;border:none;cursor:pointer;padding:8px;';
+        container.appendChild(hamburger);
+
         nav.appendChild(container);
-        return nav;
+        header.appendChild(nav);
+
+        // Mobile menu dropdown
+        const mobileMenu = document.createElement('div');
+        mobileMenu.id = 'mobile-menu';
+        mobileMenu.style.cssText = `
+            display: none;
+            position: fixed;
+            top: 68px;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            z-index: 9999;
+            flex-direction: column;
+            gap: 16px;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        // Mobile nav links
+        data.nav.slice(0, 5).forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.textContent = link.text;
+            a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:16px;padding:12px 0;border-bottom:1px solid ${COLORS.lightGray};display:block;`;
+            mobileMenu.appendChild(a);
+        });
+
+        // Mobile CTA
+        const mobileCta = document.createElement('a');
+        mobileCta.href = '/tools/feedback.asp';
+        mobileCta.textContent = 'Contact Us';
+        mobileCta.className = 'btn btn-secondary';
+        mobileCta.style.cssText = 'text-align:center;padding:14px 24px;font-size:15px;margin-top:8px;';
+        mobileMenu.appendChild(mobileCta);
+
+        header.appendChild(mobileMenu);
+
+        // Toggle mobile menu
+        hamburger.onclick = () => {
+            const isOpen = mobileMenu.style.display === 'flex';
+            mobileMenu.style.display = isOpen ? 'none' : 'flex';
+            hamburger.innerHTML = isOpen
+                ? `<svg width="24" height="24" viewBox="0 0 24 24" fill="${COLORS.navyBlue}"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>`
+                : `<svg width="24" height="24" viewBox="0 0 24 24" fill="${COLORS.navyBlue}"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+        };
+
+        return header;
     }
 
     function buildHero(data) {
@@ -623,7 +766,7 @@
 
         const subtitle = document.createElement('p');
         subtitle.textContent = 'Good food, good people, good vibes — Jewish style.';
-        subtitle.style.cssText = `font-size:22px;color:${COLORS.warmCream};margin-bottom:48px;font-weight:300;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5;`;
+        subtitle.style.cssText = `font-size:clamp(16px, 4vw, 22px);color:${COLORS.warmCream};margin-bottom:48px;font-weight:300;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.5;`;
         content.appendChild(subtitle);
 
         const buttons = document.createElement('div');
@@ -670,6 +813,14 @@
         // Text
         const textWrap = document.createElement('div');
 
+        // Subtitle (small text above title)
+        if (data.about.subtitle) {
+            const subtitle = document.createElement('p');
+            subtitle.textContent = data.about.subtitle;
+            subtitle.style.cssText = `font-size:14px;color:${COLORS.tealAccent};font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;`;
+            textWrap.appendChild(subtitle);
+        }
+
         const h2 = document.createElement('h2');
         h2.className = 'section-title';
         h2.style.textAlign = 'left';
@@ -678,12 +829,12 @@
 
         const p = document.createElement('p');
         p.textContent = data.about.description || 'Young Jewish Professionals (YJP) is a community for Jews in their 20s and 30s to connect, learn, and celebrate together. Whether you\'re new to Cincinnati or have been here your whole life, YJP is your home for meaningful Jewish experiences.';
-        p.style.cssText = `font-size:18px;color:${COLORS.textMuted};line-height:1.8;margin-bottom:32px;`;
+        p.style.cssText = `font-size:clamp(15px, 3.5vw, 18px);color:${COLORS.textMuted};line-height:1.8;margin-bottom:32px;`;
         textWrap.appendChild(p);
 
         const btn = document.createElement('a');
-        btn.href = '#';
-        btn.textContent = 'Learn More';
+        btn.href = data.about.buttonLink || '/tools/feedback';
+        btn.textContent = data.about.buttonText || 'Find Out More';
         btn.className = 'btn btn-secondary';
         textWrap.appendChild(btn);
 
@@ -717,24 +868,45 @@
         data.tabs.slice(0, 3).forEach((tab, i) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.style.textAlign = 'center';
+            card.style.cssText = 'overflow:hidden;padding:0;';
 
-            const icon = document.createElement('div');
-            icon.style.cssText = `width:80px;height:80px;background:${COLORS.tealAccent};border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;`;
-            const icons = ['👥', '🎉', '📚'];
-            icon.innerHTML = `<span style="font-size:36px;">${icons[i] || '✨'}</span>`;
-            card.appendChild(icon);
+            // Tab image if available
+            if (tab.image) {
+                const imgWrap = document.createElement('div');
+                imgWrap.style.cssText = 'height:180px;overflow:hidden;';
+                const img = document.createElement('img');
+                img.src = tab.image;
+                img.alt = tab.title;
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;';
+                imgWrap.appendChild(img);
+                card.appendChild(imgWrap);
+            }
+
+            const content = document.createElement('div');
+            content.style.cssText = 'padding:24px;text-align:center;';
 
             const h3 = document.createElement('h3');
             h3.textContent = tab.title;
-            h3.style.cssText = `font-size:24px;color:${COLORS.navyBlue};margin-bottom:16px;font-weight:700;`;
-            card.appendChild(h3);
+            h3.style.cssText = `font-size:clamp(18px, 4vw, 22px);color:${COLORS.navyBlue};margin-bottom:12px;font-weight:700;`;
+            content.appendChild(h3);
 
-            const p = document.createElement('p');
-            p.textContent = tab.description;
-            p.style.cssText = `color:${COLORS.textMuted};line-height:1.7;font-size:16px;`;
-            card.appendChild(p);
+            if (tab.description) {
+                const p = document.createElement('p');
+                p.textContent = tab.description;
+                p.style.cssText = `color:${COLORS.textMuted};line-height:1.7;font-size:15px;margin-bottom:16px;`;
+                content.appendChild(p);
+            }
 
+            // Button if available
+            if (tab.buttonText) {
+                const btn = document.createElement('a');
+                btn.href = tab.buttonLink || '/tools/feedback';
+                btn.textContent = tab.buttonText;
+                btn.style.cssText = `display:inline-block;color:${COLORS.tealAccent};font-weight:600;font-size:14px;`;
+                content.appendChild(btn);
+            }
+
+            card.appendChild(content);
             grid.appendChild(card);
         });
 
@@ -755,6 +927,14 @@
         // Text first
         const textWrap = document.createElement('div');
 
+        // Subtitle
+        if (data.rabbi.subtitle) {
+            const subtitle = document.createElement('p');
+            subtitle.textContent = data.rabbi.subtitle;
+            subtitle.style.cssText = `font-size:14px;color:${COLORS.tealAccent};font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;`;
+            textWrap.appendChild(subtitle);
+        }
+
         const h2 = document.createElement('h2');
         h2.className = 'section-title';
         h2.style.textAlign = 'left';
@@ -763,8 +943,17 @@
 
         const p = document.createElement('p');
         p.textContent = data.rabbi.description || 'Rabbi and Mrs. Gourarie are dedicated to creating a warm, welcoming environment for young Jewish professionals in Cincinnati. Their home is always open for Shabbat dinners, holiday celebrations, and meaningful conversations.';
-        p.style.cssText = `font-size:18px;color:${COLORS.textMuted};line-height:1.8;margin-bottom:32px;`;
+        p.style.cssText = `font-size:clamp(15px, 3.5vw, 18px);color:${COLORS.textMuted};line-height:1.8;margin-bottom:32px;`;
         textWrap.appendChild(p);
+
+        // Button
+        if (data.rabbi.buttonText) {
+            const btn = document.createElement('a');
+            btn.href = data.rabbi.buttonLink || '/tools/feedback';
+            btn.textContent = data.rabbi.buttonText;
+            btn.className = 'btn btn-secondary';
+            textWrap.appendChild(btn);
+        }
 
         container.appendChild(textWrap);
 
@@ -793,12 +982,12 @@
 
         const h2 = document.createElement('h2');
         h2.textContent = data.network.title;
-        h2.style.cssText = 'font-size:42px;font-weight:700;color:white;margin-bottom:16px;';
+        h2.style.cssText = 'font-size:clamp(28px, 6vw, 42px);font-weight:700;color:white;margin-bottom:16px;';
         container.appendChild(h2);
 
         const p = document.createElement('p');
         p.textContent = data.network.description || 'YJP Cincinnati is part of the global Chabad Young Professionals network, connecting thousands of young Jews worldwide.';
-        p.style.cssText = 'font-size:20px;opacity:0.9;max-width:700px;margin:0 auto 32px;line-height:1.7;';
+        p.style.cssText = 'font-size:clamp(16px, 4vw, 20px);opacity:0.9;max-width:700px;margin:0 auto 32px;line-height:1.7;';
         container.appendChild(p);
 
         // Stats
@@ -812,7 +1001,7 @@
 
                 const num = document.createElement('div');
                 num.textContent = stat.number;
-                num.style.cssText = `font-size:48px;font-weight:800;color:${COLORS.warmGold};margin-bottom:8px;`;
+                num.style.cssText = `font-size:clamp(32px, 8vw, 48px);font-weight:800;color:${COLORS.warmGold};margin-bottom:8px;`;
                 statItem.appendChild(num);
 
                 const label = document.createElement('p');
@@ -870,7 +1059,7 @@
 
             const h3 = document.createElement('h3');
             h3.textContent = item.title;
-            h3.style.cssText = `font-size:28px;color:${COLORS.navyBlue};margin-bottom:16px;font-weight:700;`;
+            h3.style.cssText = `font-size:clamp(22px, 5vw, 28px);color:${COLORS.navyBlue};margin-bottom:16px;font-weight:700;`;
             card.appendChild(h3);
 
             const p = document.createElement('p');
@@ -909,24 +1098,40 @@
         grid.className = 'grid-3';
 
         data.events.slice(0, 3).forEach(event => {
-            const card = document.createElement('div');
+            const card = document.createElement('a');
+            card.href = event.link || '/tools/events';
             card.className = 'card';
+            card.style.cssText = 'display:block;text-decoration:none;overflow:hidden;padding:0;';
 
-            const tag = document.createElement('span');
-            tag.textContent = 'UPCOMING';
-            tag.style.cssText = `display:inline-block;background:${COLORS.tealAccent};color:white;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:16px;`;
-            card.appendChild(tag);
+            // Event image
+            if (event.image) {
+                const imgWrap = document.createElement('div');
+                imgWrap.style.cssText = 'height:180px;overflow:hidden;';
+                const img = document.createElement('img');
+                img.src = event.image;
+                img.alt = event.title;
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;transition:transform 0.3s;';
+                imgWrap.appendChild(img);
+                card.appendChild(imgWrap);
+            }
+
+            const content = document.createElement('div');
+            content.style.cssText = 'padding:24px;';
+
+            // Date tag
+            if (event.date) {
+                const tag = document.createElement('span');
+                tag.textContent = event.date;
+                tag.style.cssText = `display:inline-block;background:${COLORS.tealAccent};color:white;font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;margin-bottom:12px;`;
+                content.appendChild(tag);
+            }
 
             const h3 = document.createElement('h3');
             h3.textContent = event.title;
-            h3.style.cssText = `font-size:22px;color:${COLORS.navyBlue};margin-bottom:12px;font-weight:700;`;
-            card.appendChild(h3);
+            h3.style.cssText = `font-size:22px;color:${COLORS.navyBlue};margin-bottom:8px;font-weight:700;`;
+            content.appendChild(h3);
 
-            const p = document.createElement('p');
-            p.textContent = event.description;
-            p.style.cssText = `color:${COLORS.textMuted};line-height:1.6;font-size:15px;`;
-            card.appendChild(p);
-
+            card.appendChild(content);
             grid.appendChild(card);
         });
 
@@ -1000,6 +1205,290 @@
         return section;
     }
 
+    async function fetchEvents() {
+        // Fetch actual events from the events page
+        try {
+            const response = await fetch('/tools/events/default.htm');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const events = [];
+            const eventEls = doc.querySelectorAll('.event');
+
+            eventEls.forEach(el => {
+                const titleEl = el.querySelector('h2 a');
+                const descEl = el.querySelector('.bottom_padding');
+                const dateEl = el.querySelector('.performance__date');
+                const linkEl = el.querySelector('h2 a');
+
+                if (titleEl) {
+                    events.push({
+                        title: titleEl.textContent.trim(),
+                        description: descEl ? descEl.textContent.trim() : '',
+                        date: dateEl ? dateEl.textContent.trim() : '',
+                        link: linkEl ? linkEl.getAttribute('href') : '/tools/events/default.htm'
+                    });
+                }
+            });
+
+            console.log('YJP: Fetched', events.length, 'events from events page');
+            return events;
+        } catch (error) {
+            console.error('YJP: Failed to fetch events:', error);
+            return [];
+        }
+    }
+
+    function buildEventsSection(events) {
+        const section = document.createElement('section');
+        section.className = 'section';
+        section.style.background = COLORS.lightGray;
+
+        const container = document.createElement('div');
+        container.className = 'container';
+
+        const h2 = document.createElement('h2');
+        h2.className = 'section-title';
+        h2.textContent = 'Upcoming Events';
+        container.appendChild(h2);
+
+        const subtitle = document.createElement('p');
+        subtitle.className = 'section-subtitle';
+        subtitle.textContent = 'Join us for food, friends, and meaningful connections';
+        container.appendChild(subtitle);
+
+        if (events.length === 0) {
+            const noEvents = document.createElement('p');
+            noEvents.textContent = 'No upcoming events at this time. Check back soon!';
+            noEvents.style.cssText = `text-align:center;color:${COLORS.textMuted};font-size:18px;`;
+            container.appendChild(noEvents);
+        } else {
+            const grid = document.createElement('div');
+            grid.className = 'grid-2';
+            grid.style.gap = '24px';
+
+            events.slice(0, 4).forEach(event => {
+                const card = document.createElement('a');
+                card.href = event.link;
+                card.className = 'card';
+                card.style.cssText = 'display:block;text-decoration:none;padding:32px;';
+
+                // Date badge
+                if (event.date) {
+                    const dateBadge = document.createElement('span');
+                    dateBadge.textContent = event.date;
+                    dateBadge.style.cssText = `display:inline-block;background:${COLORS.tealAccent};color:white;font-size:13px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:16px;`;
+                    card.appendChild(dateBadge);
+                }
+
+                const title = document.createElement('h3');
+                title.textContent = event.title;
+                title.style.cssText = `font-size:clamp(18px, 4.5vw, 24px);color:${COLORS.navyBlue};margin-bottom:12px;font-weight:700;`;
+                card.appendChild(title);
+
+                if (event.description) {
+                    const desc = document.createElement('p');
+                    desc.textContent = event.description.length > 150 ? event.description.substring(0, 150) + '...' : event.description;
+                    desc.style.cssText = `color:${COLORS.textMuted};line-height:1.6;font-size:15px;margin-bottom:16px;`;
+                    card.appendChild(desc);
+                }
+
+                const registerBtn = document.createElement('span');
+                registerBtn.textContent = 'Register →';
+                registerBtn.style.cssText = `color:${COLORS.tealAccent};font-weight:600;font-size:15px;`;
+                card.appendChild(registerBtn);
+
+                grid.appendChild(card);
+            });
+
+            container.appendChild(grid);
+        }
+
+        // View all events button
+        const btnWrap = document.createElement('div');
+        btnWrap.style.cssText = 'text-align:center;margin-top:40px;';
+        const btn = document.createElement('a');
+        btn.href = '/tools/events/default.htm';
+        btn.textContent = 'View All Events';
+        btn.className = 'btn btn-secondary';
+        btnWrap.appendChild(btn);
+        container.appendChild(btnWrap);
+
+        section.appendChild(container);
+        return section;
+    }
+
+    async function fetchInstagramPosts() {
+        // Fetch Instagram posts from Behold JSON feed
+        const BEHOLD_FEED_URL = 'https://feeds.behold.so/mzmKL8mNkQiVvVAuo9hY';
+
+        try {
+            const response = await fetch(BEHOLD_FEED_URL);
+            const data = await response.json();
+
+            const posts = data.posts.slice(0, 6).map(post => ({
+                id: post.id,
+                image: post.sizes?.medium?.mediaUrl || post.mediaUrl,
+                link: post.permalink,
+                caption: post.prunedCaption || post.caption || '',
+                type: post.mediaType
+            }));
+
+            console.log('YJP: Fetched', posts.length, 'Instagram posts from Behold');
+            return posts;
+        } catch (error) {
+            console.error('YJP: Failed to fetch Instagram posts:', error);
+            return [];
+        }
+    }
+
+    function buildSocialSection(instagramPosts = []) {
+        // Instagram section - returns a placeholder in Shadow DOM
+        // Actual embeds are injected into main document (see injectInstagramEmbeds)
+        const INSTAGRAM_POSTS = instagramPosts;
+
+        const section = document.createElement('section');
+        section.className = 'section';
+        section.style.cssText = `background:white;text-align:center;padding:80px 24px;`;
+
+        const container = document.createElement('div');
+        container.className = 'container';
+
+        const h2 = document.createElement('h2');
+        h2.className = 'section-title';
+        h2.textContent = 'Follow Us on Instagram';
+        container.appendChild(h2);
+
+        const subtitle = document.createElement('p');
+        subtitle.className = 'section-subtitle';
+        subtitle.innerHTML = `<a href="https://instagram.com/yjp_cincinnati" target="_blank" style="color:${COLORS.tealAccent};text-decoration:none;font-weight:600;">@yjp_cincinnati</a>`;
+        container.appendChild(subtitle);
+
+        // Placeholder for Instagram embeds - actual embeds go in main DOM
+        const feedContainer = document.createElement('div');
+        feedContainer.id = 'yjp-instagram-placeholder';
+        feedContainer.style.cssText = 'margin:40px 0;min-height:400px;';
+
+        // Show loading state
+        feedContainer.innerHTML = `<p style="color:${COLORS.textMuted};">Loading Instagram posts...</p>`;
+        container.appendChild(feedContainer);
+
+        // Follow button
+        const igBtn = document.createElement('a');
+        igBtn.href = 'https://instagram.com/yjp_cincinnati';
+        igBtn.target = '_blank';
+        igBtn.innerHTML = `<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:8px;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>Follow @yjp_cincinnati`;
+        igBtn.className = 'btn btn-secondary';
+        container.appendChild(igBtn);
+
+        section.appendChild(container);
+
+        // Store posts for later injection into main DOM
+        section._instagramPosts = INSTAGRAM_POSTS;
+
+        return section;
+    }
+
+    function injectInstagramEmbeds(instagramPosts, shadowHost) {
+        // Display Instagram posts using Behold images (no embed issues)
+
+        const placeholder = shadowHost.shadowRoot.querySelector('#yjp-instagram-placeholder');
+        if (!placeholder) return;
+
+        if (!instagramPosts || instagramPosts.length === 0) {
+            placeholder.innerHTML = `
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:600px;margin:0 auto;">
+                    ${[1,2,3].map(() => `
+                        <a href="https://instagram.com/yjp_cincinnati" target="_blank" style="display:flex;aspect-ratio:1;background:linear-gradient(45deg, ${COLORS.lightGray}, #e8e8e8);border-radius:12px;align-items:center;justify-content:center;transition:transform 0.3s;text-decoration:none;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+                            <svg width="48" height="48" fill="${COLORS.textMuted}" viewBox="0 0 24 24" opacity="0.4"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    `).join('')}
+                </div>
+                <p style="color:${COLORS.textMuted};font-size:14px;margin-top:20px;">Visit our Instagram to see the latest posts</p>
+            `;
+            return;
+        }
+
+        // Build grid with actual post images from Behold
+        const grid = document.createElement('div');
+        grid.id = 'instagram-grid';
+        grid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 900px;
+            margin: 0 auto;
+        `;
+
+        instagramPosts.forEach(post => {
+            const card = document.createElement('a');
+            card.href = post.link;
+            card.target = '_blank';
+            card.rel = 'noopener noreferrer';
+            card.style.cssText = `
+                display: block;
+                position: relative;
+                border-radius: 12px;
+                overflow: hidden;
+                aspect-ratio: 1;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            `;
+            card.onmouseenter = function() {
+                this.style.transform = 'scale(1.03)';
+                this.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+            };
+            card.onmouseleave = function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+            };
+
+            const img = document.createElement('img');
+            img.src = post.image;
+            img.alt = post.caption.substring(0, 50) || 'Instagram post';
+            img.style.cssText = `
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            `;
+            card.appendChild(img);
+
+            // Overlay on hover
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: absolute;
+                inset: 0;
+                background: rgba(0,0,0,0.4);
+                opacity: 0;
+                transition: opacity 0.3s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            overlay.innerHTML = `<svg width="32" height="32" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`;
+            card.appendChild(overlay);
+
+            card.onmouseenter = function() {
+                this.style.transform = 'scale(1.03)';
+                this.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+                overlay.style.opacity = '1';
+            };
+            card.onmouseleave = function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                overlay.style.opacity = '0';
+            };
+
+            grid.appendChild(card);
+        });
+
+        placeholder.innerHTML = '';
+        placeholder.style.minHeight = 'auto';
+        placeholder.appendChild(grid);
+    }
+
     function buildFinalCTA(data) {
         const section = document.createElement('section');
         section.className = 'section';
@@ -1010,7 +1499,7 @@
 
         const h2 = document.createElement('h2');
         h2.textContent = data.finalCTA.title;
-        h2.style.cssText = `font-size:36px;font-weight:700;color:${COLORS.deepNavy};margin-bottom:32px;`;
+        h2.style.cssText = `font-size:clamp(24px, 5vw, 36px);font-weight:700;color:${COLORS.deepNavy};margin-bottom:32px;`;
         container.appendChild(h2);
 
         const btn = document.createElement('a');
@@ -1038,7 +1527,7 @@
         const brand = document.createElement('div');
         const brandTitle = document.createElement('h3');
         brandTitle.textContent = SITE_CONFIG.name;
-        brandTitle.style.cssText = 'font-size:24px;font-weight:700;margin-bottom:8px;color:white;';
+        brandTitle.style.cssText = 'font-size:clamp(20px, 4vw, 24px);font-weight:700;margin-bottom:8px;color:white;';
         brand.appendChild(brandTitle);
 
         const tagline = document.createElement('p');
@@ -1053,7 +1542,15 @@
             FB: '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>',
             IG: '<svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>'
         };
-        (data.footer.social.length > 0 ? data.footer.social : [{ icon: 'FB', href: '#' }, { icon: 'IG', href: '#' }]).forEach(s => {
+        // Hardcoded social links per customer
+        const socialLinks = [
+            { icon: 'IG', href: 'https://instagram.com/yjp_cincinnati' }
+        ];
+        // Add any extracted FB link
+        const fbLink = data.footer.social.find(s => s.icon === 'FB');
+        if (fbLink) socialLinks.unshift(fbLink);
+
+        socialLinks.forEach(s => {
             const a = document.createElement('a');
             a.href = s.href;
             a.target = '_blank';
@@ -1152,7 +1649,7 @@
     // INIT
     // ===================================================================
 
-    function init() {
+    async function init() {
         console.log('YJP Cincinnati: Starting redesign...');
         loadFonts();
 
@@ -1166,24 +1663,27 @@
         // Hide CMS
         hideCMS();
 
-        // Build sections in correct order
+        // Build sections - SIMPLIFIED per customer request
+        // Hero, About, Events (fetched), Social, Footer
         shadow.appendChild(buildHeader(data));
         shadow.appendChild(buildHero(data));
         shadow.appendChild(buildAbout(data));
-        shadow.appendChild(buildTabs(data));
-        shadow.appendChild(buildRabbi(data));
-        shadow.appendChild(buildNetwork(data));
 
-        const programs = buildPrograms(data);
-        if (programs) shadow.appendChild(programs);
+        // Fetch and display real events
+        console.log('YJP: Fetching events...');
+        const events = await fetchEvents();
+        shadow.appendChild(buildEventsSection(events));
 
-        shadow.appendChild(buildEvents(data));
+        // Fetch and display Instagram posts from Google Sheet
+        console.log('YJP: Fetching Instagram posts...');
+        const instagramPosts = await fetchInstagramPosts();
+        shadow.appendChild(buildSocialSection(instagramPosts));
 
-        const testimonials = buildTestimonials(data);
-        if (testimonials) shadow.appendChild(testimonials);
-
-        shadow.appendChild(buildFinalCTA(data));
         shadow.appendChild(buildFooter(data));
+
+        // Inject Instagram embeds into main DOM (Shadow DOM doesn't support Instagram embeds)
+        console.log('YJP: Injecting Instagram embeds...');
+        injectInstagramEmbeds(instagramPosts, host);
 
         console.log('YJP Cincinnati: Redesign complete!');
     }

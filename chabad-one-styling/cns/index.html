@@ -244,6 +244,16 @@
             color: #C62828;
         }
 
+        .event-tag.night-tag {
+            background: linear-gradient(135deg, #FF5722 0%, #F4511E 100%);
+            color: white;
+            border: none;
+        }
+
+        .event-tag.night-tag svg {
+            color: white;
+        }
+
         /* Description - Red Accent */
         .event-description {
             display: flex;
@@ -433,6 +443,24 @@
 
         <!-- Desktop: Pill Buttons -->
         <div id="filters" class="filters">
+            <div class="filter-group">
+                <span class="filter-label">Night:</span>
+                <button class="filter-btn active" data-filter="night" data-value="all">All</button>
+                <button class="filter-btn" data-filter="night" data-value="0">Pre-Chanukah</button>
+                <button class="filter-btn" data-filter="night" data-value="1">1</button>
+                <button class="filter-btn" data-filter="night" data-value="2">2</button>
+                <button class="filter-btn" data-filter="night" data-value="3">3</button>
+                <button class="filter-btn" data-filter="night" data-value="4">4</button>
+                <button class="filter-btn" data-filter="night" data-value="5">5</button>
+                <button class="filter-btn" data-filter="night" data-value="6">6</button>
+                <button class="filter-btn" data-filter="night" data-value="7">7</button>
+                <button class="filter-btn" data-filter="night" data-value="8">8</button>
+            </div>
+            <div class="filter-group" id="chabadhouse-filter-group">
+                <span class="filter-label">Chabad:</span>
+                <button class="filter-btn active" data-filter="chabadhouse" data-value="all">All</button>
+                <!-- Chabad House buttons populated dynamically -->
+            </div>
             <div class="filter-group" id="age-filter-group">
                 <span class="filter-label">Age:</span>
                 <button class="filter-btn active" data-filter="age" data-value="all">All</button>
@@ -442,6 +470,28 @@
 
         <!-- Mobile: Dropdown Selects -->
         <div class="filters-mobile">
+            <div class="filter-row">
+                <span class="filter-label">Night:</span>
+                <select id="night-select" class="filter-select">
+                    <option value="all">All Nights</option>
+                    <option value="0">Pre-Chanukah</option>
+                    <option value="1">Night 1</option>
+                    <option value="2">Night 2</option>
+                    <option value="3">Night 3</option>
+                    <option value="4">Night 4</option>
+                    <option value="5">Night 5</option>
+                    <option value="6">Night 6</option>
+                    <option value="7">Night 7</option>
+                    <option value="8">Night 8</option>
+                </select>
+            </div>
+            <div class="filter-row">
+                <span class="filter-label">Chabad:</span>
+                <select id="chabadhouse-select" class="filter-select">
+                    <option value="all">All Chabad Houses</option>
+                    <!-- Chabad House options populated dynamically -->
+                </select>
+            </div>
             <div class="filter-row">
                 <span class="filter-label">Age:</span>
                 <select id="age-select" class="filter-select">
@@ -519,8 +569,29 @@
             mapPin: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
             phone: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
             mail: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
-            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+            flame: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>'
         };
+
+        /* ========================================
+           HELPER: Parse night number from various formats
+           ======================================== */
+        function parseNightNumber(nightValue) {
+            if (nightValue === null || nightValue === undefined || nightValue === '') return null;
+            const strValue = nightValue.toString().trim().toLowerCase();
+
+            // Check for pre-Chanukah variations
+            if (strValue === 'pre' || strValue === 'pre-chanukah' || strValue === 'prechanukah' || strValue === 'before') {
+                return 0;
+            }
+
+            const match = strValue.match(/(\d+)/);
+            if (match) {
+                const num = parseInt(match[1], 10);
+                if (num >= 0 && num <= 8) return num;
+            }
+            return null;
+        }
 
         /* ========================================
            RENDER EVENT CARD
@@ -530,12 +601,20 @@
                 ? `${event.startTime} - ${event.endTime}`
                 : event.startTime;
 
+            const nightNum = parseNightNumber(event.chanukahNight);
+
             return `
-                <article class="event-card" data-age="${event.ageGroup || ''}">
+                <article class="event-card" data-night="${nightNum !== null ? nightNum : ''}" data-age="${event.ageGroup || ''}">
                     <div class="event-card-content">
                         <h2 class="event-title">${event.title}</h2>
 
                         <div class="event-tags">
+                            ${nightNum !== null ? `
+                            <span class="event-tag night-tag">
+                                ${icons.flame}
+                                ${nightNum === 0 ? 'Pre-Chanukah' : `Night ${nightNum}`}
+                            </span>
+                            ` : ''}
                             <span class="event-tag">
                                 ${icons.users}
                                 ${event.ageGroup || 'All Ages'}
@@ -577,7 +656,7 @@
                     ${event.website ? `
                     <a href="${ensureHttps(event.website)}" target="_blank" class="event-cta">
                         ${icons.globe}
-                        Visit Website
+                        ${event.buttonText || 'Visit Website'}
                     </a>
                     ` : ''}
                 </article>
@@ -697,7 +776,28 @@
                 'phone': 'phone',
                 'email': 'email',
                 'website': 'website',
-                'url': 'website'
+                'url': 'website',
+                'night': 'chanukahNight',
+                'chanukahnight': 'chanukahNight',
+                'chanukah night': 'chanukahNight',
+                'day': 'chanukahNight',
+                'nightofchanukah': 'chanukahNight',
+                'night of chanukah': 'chanukahNight',
+                'buttontext': 'buttonText',
+                'button text': 'buttonText',
+                'button': 'buttonText',
+                'cta': 'buttonText',
+                'pagetitle': 'pageTitle',
+                'page title': 'pageTitle',
+                'pagesubtitle': 'pageSubtitle',
+                'page subtitle': 'pageSubtitle',
+                'subtitle': 'pageSubtitle',
+                'chabadhouse': 'chabadHouse',
+                'chabad house': 'chabadHouse',
+                'chabad': 'chabadHouse',
+                'organization': 'chabadHouse',
+                'org': 'chabadHouse',
+                'host': 'chabadHouse'
             };
 
             const events = [];
@@ -730,19 +830,27 @@
            ======================================== */
         let allEvents = [];
         let currentFilters = {
+            night: 'all',
+            chabadhouse: 'all',
             age: 'all'
         };
 
-        function populateAgeFilters(events) {
+        function populateDynamicFilters(events) {
+            // Collect unique values for each filter type
             const ageGroups = new Set();
+            const chabadHouses = new Set();
+
             events.forEach(event => {
                 if (event.ageGroup && event.ageGroup.trim()) {
                     ageGroups.add(event.ageGroup.trim());
                 }
+                if (event.chabadHouse && event.chabadHouse.trim()) {
+                    chabadHouses.add(event.chabadHouse.trim());
+                }
             });
 
+            // Populate Age filters
             const sortedAges = Array.from(ageGroups).sort();
-
             const ageFilterGroup = document.getElementById('age-filter-group');
             if (ageFilterGroup && ageGroups.size > 0) {
                 sortedAges.forEach(age => {
@@ -754,7 +862,6 @@
                     ageFilterGroup.appendChild(btn);
                 });
             }
-
             const ageSelect = document.getElementById('age-select');
             if (ageSelect && ageGroups.size > 0) {
                 sortedAges.forEach(age => {
@@ -764,12 +871,52 @@
                     ageSelect.appendChild(option);
                 });
             }
+
+            // Populate Chabad House filters
+            const sortedChabadHouses = Array.from(chabadHouses).sort();
+            const chabadFilterGroup = document.getElementById('chabadhouse-filter-group');
+            if (chabadFilterGroup && chabadHouses.size > 0) {
+                sortedChabadHouses.forEach(house => {
+                    const btn = document.createElement('button');
+                    btn.className = 'filter-btn';
+                    btn.dataset.filter = 'chabadhouse';
+                    btn.dataset.value = house;
+                    btn.textContent = house;
+                    chabadFilterGroup.appendChild(btn);
+                });
+            }
+            const chabadSelect = document.getElementById('chabadhouse-select');
+            if (chabadSelect && chabadHouses.size > 0) {
+                sortedChabadHouses.forEach(house => {
+                    const option = document.createElement('option');
+                    option.value = house;
+                    option.textContent = house;
+                    chabadSelect.appendChild(option);
+                });
+            }
+
         }
 
         function filterEvents() {
             const container = document.getElementById('events-grid');
 
             let filtered = allEvents.filter(event => {
+                // Night filter
+                if (currentFilters.night !== 'all') {
+                    const eventNight = parseNightNumber(event.chanukahNight);
+                    if (eventNight === null || eventNight.toString() !== currentFilters.night) {
+                        return false;
+                    }
+                }
+
+                // Chabad House filter
+                if (currentFilters.chabadhouse !== 'all') {
+                    if (!event.chabadHouse || event.chabadHouse.trim() !== currentFilters.chabadhouse) {
+                        return false;
+                    }
+                }
+
+                // Age filter
                 if (currentFilters.age !== 'all') {
                     if (!event.ageGroup || event.ageGroup.trim() !== currentFilters.age) {
                         return false;
@@ -786,6 +933,7 @@
         }
 
         function setupFilterListeners() {
+            // Desktop: Button click handlers
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const filterType = this.dataset.filter;
@@ -796,8 +944,13 @@
                     });
                     this.classList.add('active');
 
-                    const selectId = 'age-select';
-                    const select = document.getElementById(selectId);
+                    // Sync mobile dropdown
+                    const selectMap = {
+                        'night': 'night-select',
+                        'chabadhouse': 'chabadhouse-select',
+                        'age': 'age-select'
+                    };
+                    const select = document.getElementById(selectMap[filterType]);
                     if (select) select.value = filterValue;
 
                     currentFilters[filterType] = filterValue;
@@ -805,11 +958,43 @@
                 });
             });
 
+            // Mobile: Night dropdown
+            const nightSelect = document.getElementById('night-select');
+            if (nightSelect) {
+                nightSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+                    document.querySelectorAll('.filter-btn[data-filter="night"]').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.value === filterValue) {
+                            b.classList.add('active');
+                        }
+                    });
+                    currentFilters.night = filterValue;
+                    filterEvents();
+                });
+            }
+
+            // Mobile: Chabad House dropdown
+            const chabadSelect = document.getElementById('chabadhouse-select');
+            if (chabadSelect) {
+                chabadSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+                    document.querySelectorAll('.filter-btn[data-filter="chabadhouse"]').forEach(b => {
+                        b.classList.remove('active');
+                        if (b.dataset.value === filterValue) {
+                            b.classList.add('active');
+                        }
+                    });
+                    currentFilters.chabadhouse = filterValue;
+                    filterEvents();
+                });
+            }
+
+            // Mobile: Age dropdown
             const ageSelect = document.getElementById('age-select');
             if (ageSelect) {
                 ageSelect.addEventListener('change', function() {
                     const filterValue = this.value;
-
                     document.querySelectorAll('.filter-btn[data-filter="age"]').forEach(b => {
                         b.classList.remove('active');
                         if (b.dataset.value === filterValue) {
@@ -883,8 +1068,20 @@
                     return;
                 }
 
+                // Update page title and subtitle from first event row (if provided)
+                if (events[0]) {
+                    if (events[0].pageTitle) {
+                        const titleEl = document.querySelector('.events-header h1');
+                        if (titleEl) titleEl.textContent = events[0].pageTitle;
+                    }
+                    if (events[0].pageSubtitle) {
+                        const subtitleEl = document.querySelector('.events-header p');
+                        if (subtitleEl) subtitleEl.textContent = events[0].pageSubtitle;
+                    }
+                }
+
                 allEvents = events;
-                populateAgeFilters(events);
+                populateDynamicFilters(events);
                 setupFilterListeners();
                 container.innerHTML = events.map(renderEventCard).join('');
 
