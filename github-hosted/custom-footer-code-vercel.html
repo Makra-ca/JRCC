@@ -1,5 +1,17 @@
 <!-- JRCC Custom Footer - Vercel Hosted Version -->
 <!-- Instant updates (~5 seconds after git push) -->
 
-<!-- External JavaScript from Vercel (instant updates) -->
+<!-- External JavaScript from Vercel -->
 <script src="https://chabad-one-styling.vercel.app/jrcc/jrcc-scripts.js"></script>
+<script src="https://chabad-one-styling.vercel.app/jrcc/jrcc-form-styles-all-complete-fixed.js"></script>
+
+<script>
+// Initialize form styles after load
+window.addEventListener('load', function() {
+    if (typeof initializeFormStyles === 'function') {
+        initializeFormStyles();
+        console.log('JRCC: Form styles initialized');
+    }
+    console.log('JRCC: All scripts loaded from Vercel');
+});
+</script>
