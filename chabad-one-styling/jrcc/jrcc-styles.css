@@ -1034,15 +1034,16 @@ body.volunteer-form-page span[style*="color:red"] {
 /* ========================================
      JRCC MODERN SIDEBAR
      Desktop sidebar is fully controlled by JavaScript in custom-footer-code.html
+     NOTE: These rules apply globally EXCEPT on homepage (section_root)
      ======================================== */
 
-/* Hide search sidebar on all screen sizes */
-.cco_search_form,
-.cco_search_header form,
-div[class*="search-trigger"],
-div[class*="search_header"],
-.co_search_header,
-#cco_search_header {
+/* Hide search elements ONLY inside sidebar (.g260), not navbar */
+.g260 .cco_search_form,
+.g260 .cco_search_header form,
+.g260 div[class*="search-trigger"],
+.g260 div[class*="search_header"],
+.g260 .co_search_header,
+.g260 #cco_search_header {
     display: none !important;
 }
 
@@ -1078,15 +1079,10 @@ div[class*="search_header"],
 /* Mobile - Hide original sidebar (custom one created via footer JS) */
 /* Don't use display:none - CMS won't populate content if it thinks sidebar is hidden */
 /* Instead, move it off-screen so CMS still loads navigation, then we clone it */
+/* NOTE: Applies globally EXCEPT on homepage (section_root) */
 @media (max-width: 768px) {
-    body div.g260,
-    body .g260,
-    html body div.g260,
-    div.g260.no_margin,
-    .g260.cco_search_header,
-    div.g260.cco_search_header,
-    body div.g260.no_margin.cco_search_header,
-    body div.g260.no_margin.cco_search_header.float_right {
+    body:not(.section_root) div.g260,
+    body:not(.section_root) .g260 {
         position: fixed !important;
         left: -9999px !important;
         top: -9999px !important;

@@ -6,6 +6,17 @@
 /* ======================================== */
 
 (function() {
+    // Skip sidebar modifications on homepage only - apply to all other pages
+    var isHomepage = document.body.classList.contains('section_root') ||
+                     window.location.pathname === '/' ||
+                     window.location.pathname === '' ||
+                     /\/\d+\/?$/.test(window.location.pathname); // ends with site ID like /1331
+
+    if (isHomepage) {
+        console.log('JRCC: Homepage detected, skipping sidebar modifications');
+        return; // Exit - don't modify sidebar on homepage
+    }
+
     // DESKTOP SIDEBAR REDESIGN
     if (window.innerWidth > 768) {
         var desktopInitialized = false;
