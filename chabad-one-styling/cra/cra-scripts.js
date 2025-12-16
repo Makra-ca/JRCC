@@ -26,6 +26,10 @@
 (function() {
     'use strict';
 
+    // VERSION CHECK - helps verify correct script is running
+    const SCRIPT_VERSION = '2.5-shop-mobile';
+    console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
+
     // ===================================================================
     // CONFIGURATION
     // ===================================================================
@@ -860,6 +864,530 @@
         });
 
         section.appendChild(grid);
+        return section;
+    }
+
+    // ===================================================================
+    // FETCH EVENTS FROM EVENTS PAGE
+    // ===================================================================
+
+    async function fetchEvents() {
+        try {
+            const response = await fetch('/tools/events/default.htm');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const events = [];
+            const eventEls = doc.querySelectorAll('.event');
+
+            eventEls.forEach(el => {
+                const titleEl = el.querySelector('h2 a');
+                const descEl = el.querySelector('.bottom_padding');
+                const dateEl = el.querySelector('.performance__date');
+                const linkEl = el.querySelector('h2 a');
+
+                if (titleEl) {
+                    events.push({
+                        title: titleEl.textContent.trim(),
+                        description: descEl ? descEl.textContent.trim() : '',
+                        date: dateEl ? dateEl.textContent.trim() : '',
+                        link: linkEl ? linkEl.getAttribute('href') : '/tools/events/default.htm'
+                    });
+                }
+            });
+
+            console.log('CRA: Fetched', events.length, 'events from events page');
+            return events;
+        } catch (error) {
+            console.error('CRA: Failed to fetch events:', error);
+            return [];
+        }
+    }
+
+    // ===================================================================
+    // CREATE ABOUT SECTION
+    // ===================================================================
+
+    function createAbout() {
+        const section = document.createElement('section');
+        section.className = 'cra-about';
+        section.style.cssText = `
+            padding: 5rem 2rem;
+            background: white;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        `;
+
+        const h2 = document.createElement('h2');
+        h2.textContent = 'About Us';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1.5rem 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        `;
+        container.appendChild(h2);
+
+        const text = document.createElement('p');
+        text.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride. We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally. From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
+        text.style.cssText = `
+            font-size: clamp(18px, 2.5vw, 24px);
+            line-height: 1.9;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 2.5rem 0;
+            font-weight: 400;
+        `;
+        container.appendChild(text);
+
+        const btn = document.createElement('a');
+        btn.href = '/about';
+        btn.textContent = 'Learn More About Us';
+        btn.style.cssText = `
+            display: inline-block;
+            background: transparent;
+            color: ${COLORS.deepBurgundy};
+            border: 2px solid ${COLORS.deepBurgundy};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = COLORS.deepBurgundy;
+            btn.style.color = 'white';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'transparent';
+            btn.style.color = COLORS.deepBurgundy;
+        });
+
+        container.appendChild(btn);
+        section.appendChild(container);
+
+        return section;
+    }
+
+    // ===================================================================
+    // CREATE EVENTS SECTION
+    // ===================================================================
+
+    function createEvents(events = []) {
+        const section = document.createElement('section');
+        section.className = 'cra-events';
+        section.style.cssText = `
+            padding: 5rem 2rem;
+            background: ${COLORS.lightCream};
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 1200px;
+            margin: 0 auto;
+        `;
+
+        // Section title
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Upcoming Events';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            text-align: center;
+        `;
+        container.appendChild(h2);
+
+        // Subtitle
+        const subtitle = document.createElement('p');
+        subtitle.textContent = 'Join us for meaningful Jewish experiences across Rural Arizona';
+        subtitle.style.cssText = `
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: ${COLORS.darkBurgundy};
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        `;
+        container.appendChild(subtitle);
+
+        if (events.length === 0) {
+            // No events message
+            const noEvents = document.createElement('p');
+            noEvents.textContent = 'No upcoming events at this time. Check back soon!';
+            noEvents.style.cssText = `
+                text-align: center;
+                color: ${COLORS.darkBurgundy};
+                font-size: 18px;
+                padding: 2rem;
+            `;
+            container.appendChild(noEvents);
+        } else {
+            // Events grid
+            const grid = document.createElement('div');
+            grid.style.cssText = `
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            `;
+
+            // Show up to 4 events
+            events.slice(0, 4).forEach(event => {
+                const card = document.createElement('a');
+                card.href = event.link;
+                card.style.cssText = `
+                    display: block;
+                    background: white;
+                    border-radius: 16px;
+                    padding: 28px;
+                    text-decoration: none;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                `;
+
+                // Date badge
+                if (event.date) {
+                    const dateBadge = document.createElement('span');
+                    dateBadge.textContent = event.date;
+                    dateBadge.style.cssText = `
+                        display: inline-block;
+                        background: ${COLORS.tealGreen};
+                        color: white;
+                        font-size: 13px;
+                        font-weight: 600;
+                        padding: 6px 14px;
+                        border-radius: 20px;
+                        margin-bottom: 16px;
+                    `;
+                    card.appendChild(dateBadge);
+                }
+
+                // Event title
+                const title = document.createElement('h3');
+                title.textContent = event.title;
+                title.style.cssText = `
+                    font-size: clamp(18px, 3vw, 24px);
+                    color: ${COLORS.deepBurgundy};
+                    margin: 0 0 12px 0;
+                    font-weight: 700;
+                `;
+                card.appendChild(title);
+
+                // Event description
+                if (event.description) {
+                    const desc = document.createElement('p');
+                    desc.textContent = event.description.length > 120
+                        ? event.description.substring(0, 120) + '...'
+                        : event.description;
+                    desc.style.cssText = `
+                        color: ${COLORS.darkBurgundy};
+                        line-height: 1.6;
+                        font-size: 15px;
+                        margin: 0 0 16px 0;
+                        opacity: 0.85;
+                    `;
+                    card.appendChild(desc);
+                }
+
+                // Register link
+                const registerLink = document.createElement('span');
+                registerLink.textContent = 'Learn More →';
+                registerLink.style.cssText = `
+                    color: ${COLORS.sunsetPeach};
+                    font-weight: 600;
+                    font-size: 15px;
+                `;
+                card.appendChild(registerLink);
+
+                // Hover effects
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-6px)';
+                    card.style.boxShadow = '0 12px 35px rgba(0,0,0,0.12)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                });
+
+                grid.appendChild(card);
+            });
+
+            // Responsive grid for mobile
+            const styleTag = document.createElement('style');
+            styleTag.textContent = `
+                @media (max-width: 768px) {
+                    .cra-events > div > div {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `;
+            section.appendChild(styleTag);
+
+            container.appendChild(grid);
+        }
+
+        // View all events button
+        const btnWrap = document.createElement('div');
+        btnWrap.style.cssText = 'text-align: center; margin-top: 2.5rem;';
+
+        const btn = document.createElement('a');
+        btn.href = '/tools/events/default.htm';
+        btn.textContent = 'View All Events';
+        btn.style.cssText = `
+            display: inline-block;
+            background: ${COLORS.deepBurgundy};
+            color: ${COLORS.warmCream};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'translateY(-3px)';
+            btn.style.boxShadow = '0 10px 30px rgba(114, 47, 55, 0.3)';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translateY(0)';
+            btn.style.boxShadow = 'none';
+        });
+
+        btnWrap.appendChild(btn);
+        container.appendChild(btnWrap);
+
+        section.appendChild(container);
+        return section;
+    }
+
+    // ===================================================================
+    // CREATE SHOP SECTION (iframe embed)
+    // ===================================================================
+
+    function createShop() {
+        const section = document.createElement('section');
+        section.className = 'cra-shop';
+        section.style.cssText = `
+            padding: 5rem 2rem;
+            background: white;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 1200px;
+            margin: 0 auto;
+        `;
+
+        // Section title
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Shop Judaica';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            text-align: center;
+        `;
+        container.appendChild(h2);
+
+        // Subtitle
+        const subtitle = document.createElement('p');
+        subtitle.textContent = 'Browse our selection of Judaica items from our partner store';
+        subtitle.style.cssText = `
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: ${COLORS.darkBurgundy};
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        `;
+        container.appendChild(subtitle);
+
+        const shopUrl = 'https://www.chabadofrara.org/templates/articlecco_cdo/aid/5801302/jewish/Shop.htm';
+        const isMobile = window.innerWidth < 768;
+
+        if (isMobile) {
+            // Mobile: Show promotional card instead of iframe (no scroll issues)
+            const promoCard = document.createElement('div');
+            promoCard.style.cssText = `
+                background: linear-gradient(135deg, ${COLORS.lightCream} 0%, ${COLORS.warmCream} 100%);
+                border-radius: 16px;
+                padding: 3rem 2rem;
+                text-align: center;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            `;
+
+            // Shop icon
+            const icon = document.createElement('div');
+            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="${COLORS.deepBurgundy}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
+            icon.style.cssText = 'margin-bottom: 1.5rem;';
+            promoCard.appendChild(icon);
+
+            const promoText = document.createElement('p');
+            promoText.textContent = 'Discover beautiful Judaica items including menorahs, mezuzahs, Shabbat candlesticks, and more.';
+            promoText.style.cssText = `
+                color: ${COLORS.darkBurgundy};
+                font-size: 18px;
+                line-height: 1.7;
+                margin-bottom: 2rem;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            `;
+            promoCard.appendChild(promoText);
+
+            const shopBtn = document.createElement('a');
+            shopBtn.href = shopUrl;
+            shopBtn.target = '_blank';
+            shopBtn.textContent = 'Browse Shop →';
+            shopBtn.style.cssText = `
+                display: inline-block;
+                background: ${COLORS.deepBurgundy};
+                color: white;
+                padding: 18px 48px;
+                border-radius: 50px;
+                font-size: 18px;
+                font-weight: 600;
+                text-decoration: none;
+                font-family: 'Urbanist', sans-serif;
+                box-shadow: 0 4px 15px rgba(114, 47, 55, 0.3);
+            `;
+            promoCard.appendChild(shopBtn);
+
+            container.appendChild(promoCard);
+        } else {
+            // Desktop: Show iframe with deferred loading
+            // Add spinner keyframes animation
+            const styleTag = document.createElement('style');
+            styleTag.textContent = `@keyframes cra-spin { to { transform: rotate(360deg); } }`;
+            section.appendChild(styleTag);
+
+            // Iframe container
+            const iframeWrap = document.createElement('div');
+            iframeWrap.style.cssText = `
+                position: relative;
+                width: 100%;
+                min-height: 600px;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                background: ${COLORS.lightCream};
+            `;
+
+            // Loading spinner (shown while iframe loads)
+            const loader = document.createElement('div');
+            loader.className = 'cra-shop-loader';
+            loader.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                z-index: 1;
+            `;
+            loader.innerHTML = `
+                <div style="
+                    width: 50px;
+                    height: 50px;
+                    border: 4px solid ${COLORS.warmCream};
+                    border-top: 4px solid ${COLORS.deepBurgundy};
+                    border-radius: 50%;
+                    animation: cra-spin 1s linear infinite;
+                    margin: 0 auto 16px;
+                "></div>
+                <p style="color:${COLORS.darkBurgundy};font-size:16px;font-family:'Urbanist',sans-serif;">Loading shop...</p>
+            `;
+            iframeWrap.appendChild(loader);
+
+            // Iframe (src deferred until section is visible)
+            const iframe = document.createElement('iframe');
+            iframe.dataset.src = shopUrl;
+            iframe.style.cssText = `
+                width: 100%;
+                height: 700px;
+                border: none;
+                border-radius: 16px;
+                position: relative;
+                z-index: 2;
+            `;
+            iframe.setAttribute('title', 'Judaica Shop');
+
+            // Hide loader when iframe finishes loading
+            iframe.onload = () => {
+                loader.style.display = 'none';
+            };
+
+            // Fallback if iframe fails to load
+            iframe.onerror = () => {
+                iframeWrap.innerHTML = `
+                    <div style="text-align:center;padding:3rem;">
+                        <p style="color:${COLORS.darkBurgundy};margin-bottom:1rem;">
+                            Shop not available for embedding.
+                        </p>
+                        <a href="${shopUrl}"
+                           target="_blank"
+                           style="display:inline-block;background:${COLORS.deepBurgundy};color:white;padding:16px 40px;border-radius:50px;text-decoration:none;font-weight:600;">
+                            Visit Shop →
+                        </a>
+                    </div>
+                `;
+            };
+
+            iframeWrap.appendChild(iframe);
+            container.appendChild(iframeWrap);
+
+            // "Visit Full Store" button (desktop only)
+            const btnWrap = document.createElement('div');
+            btnWrap.style.cssText = 'text-align: center; margin-top: 2rem;';
+
+            const btn = document.createElement('a');
+            btn.href = shopUrl;
+            btn.target = '_blank';
+            btn.textContent = 'Visit Full Store';
+            btn.style.cssText = `
+                display: inline-block;
+                background: transparent;
+                color: ${COLORS.deepBurgundy};
+                border: 2px solid ${COLORS.deepBurgundy};
+                padding: 14px 36px;
+                border-radius: 50px;
+                font-size: 16px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                font-family: 'Urbanist', sans-serif;
+            `;
+
+            btn.addEventListener('mouseenter', () => {
+                btn.style.background = COLORS.deepBurgundy;
+                btn.style.color = 'white';
+            });
+            btn.addEventListener('mouseleave', () => {
+                btn.style.background = 'transparent';
+                btn.style.color = COLORS.deepBurgundy;
+            });
+
+            btnWrap.appendChild(btn);
+            container.appendChild(btnWrap);
+        }
+
+        section.appendChild(container);
         return section;
     }
 
@@ -2096,7 +2624,7 @@
     }
 
     // Initialize full homepage redesign
-    function initHomepage() {
+    async function initHomepage() {
         console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
@@ -2106,6 +2634,10 @@
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
         const navLinks = extractNavLinks();
+
+        // Fetch events from events page
+        console.log('CRA: Fetching events...');
+        const events = await fetchEvents();
 
         // Hide ALL CMS elements for full redesign
         hideAllCMSElements();
@@ -2117,25 +2649,43 @@
         shadow.appendChild(createHeader(navLinks));
         shadow.appendChild(createHero(carouselImages));
 
+        // About section (with animation)
+        const aboutSection = createAbout();
+        aboutSection.classList.add('cra-animate');
+        aboutSection.dataset.animation = 'left';
+        shadow.appendChild(aboutSection);
+
         // Create sections with animation classes (alternating left/right)
         const locationsSection = createLocations(extractedImages);
         locationsSection.classList.add('cra-animate');
-        locationsSection.dataset.animation = 'left';
+        locationsSection.dataset.animation = 'right';
         shadow.appendChild(locationsSection);
 
         const actionsSection = createActions();
         actionsSection.classList.add('cra-animate');
-        actionsSection.dataset.animation = 'right';
+        actionsSection.dataset.animation = 'left';
         shadow.appendChild(actionsSection);
+
+        // Events section (fetched from events page)
+        const eventsSection = createEvents(events);
+        eventsSection.classList.add('cra-animate');
+        eventsSection.dataset.animation = 'right';
+        shadow.appendChild(eventsSection);
+
+        // Shop section (iframe embed from partner store)
+        const shopSection = createShop();
+        shopSection.classList.add('cra-animate');
+        shopSection.dataset.animation = 'left';
+        shadow.appendChild(shopSection);
 
         const photosSection = createPhotos(photoUrls);
         photosSection.classList.add('cra-animate');
-        photosSection.dataset.animation = 'left';
+        photosSection.dataset.animation = 'right';
         shadow.appendChild(photosSection);
 
         const footerSection = createFooter(footerData);
         footerSection.classList.add('cra-animate');
-        footerSection.dataset.animation = 'right';
+        footerSection.dataset.animation = 'left';
         shadow.appendChild(footerSection);
 
         // Set up Intersection Observer for scroll-triggered animations
@@ -2152,6 +2702,25 @@
 
         animatedSections.forEach(section => observer.observe(section));
 
+        // Deferred loading for shop iframe (load when section scrolls into view)
+        const shopIframe = shopSection.querySelector('iframe');
+        if (shopIframe && shopIframe.dataset.src) {
+            const shopObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const iframe = entry.target.querySelector('iframe');
+                        if (iframe && iframe.dataset.src && !iframe.src) {
+                            iframe.src = iframe.dataset.src;
+                            console.log('CRA: Loading shop iframe (scrolled into view)');
+                        }
+                        shopObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '200px' }); // Start loading 200px before visible
+
+            shopObserver.observe(shopSection);
+        }
+
         // Insert into page
         const bodyWrapper = document.querySelector('.body_wrapper');
         if (bodyWrapper) {
@@ -2159,6 +2728,8 @@
         } else {
             document.body.appendChild(host);
         }
+
+        console.log('CRA Redesign: Homepage complete');
     }
 
     // Main init - decides which version to run
