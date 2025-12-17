@@ -27,7 +27,7 @@
     'use strict';
 
     // VERSION CHECK - helps verify correct script is running
-    const SCRIPT_VERSION = '2.5-shop-mobile';
+    const SCRIPT_VERSION = '3.2-hero-mobile-wrap';
     console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
 
     // ===================================================================
@@ -243,10 +243,86 @@
     }
 
     // ===================================================================
+    // EXTRACT ALL HERO SLIDES FROM CMS SLIDER
+    // ===================================================================
+
+    function extractAllHeroSlides() {
+        const slides = [];
+
+        const slider = document.querySelector('.promo_slider');
+        if (!slider) {
+            console.log('CRA: No .promo_slider found for text extraction');
+            return slides;
+        }
+
+        // Chabad One uses li.cycle-html-caption for each slide's caption
+        const captions = slider.querySelectorAll('li.cycle-html-caption');
+
+        captions.forEach((caption, index) => {
+            const slideData = {
+                title: null,
+                subtitle: null,
+                ctaText: null,
+                ctaLink: null
+            };
+
+            // Extract title from <big> tag
+            const bigEl = caption.querySelector('big');
+            if (bigEl) {
+                slideData.title = bigEl.textContent.trim();
+            }
+
+            // Extract subtitle - text content excluding the <big> element
+            const spanEl = caption.querySelector('span');
+            if (spanEl) {
+                // Clone the span and remove the big element to get just subtitle
+                const spanClone = spanEl.cloneNode(true);
+                const bigInClone = spanClone.querySelector('big');
+                if (bigInClone) {
+                    bigInClone.remove();
+                }
+                // Get remaining text, clean up whitespace
+                let subtitleText = spanClone.textContent.trim();
+                // Clean up multiple spaces/newlines
+                subtitleText = subtitleText.replace(/\s+/g, ' ').trim();
+                if (subtitleText) {
+                    slideData.subtitle = subtitleText;
+                }
+            }
+
+            // Extract CTA button
+            const ctaEl = caption.querySelector('a.readMore, a[class*="btn"], a[class*="cta"]');
+            if (ctaEl) {
+                slideData.ctaText = ctaEl.textContent.trim();
+                slideData.ctaLink = ctaEl.getAttribute('href');
+                // Make relative links absolute
+                if (slideData.ctaLink && !slideData.ctaLink.startsWith('http')) {
+                    slideData.ctaLink = slideData.ctaLink.startsWith('/') ? slideData.ctaLink : '/' + slideData.ctaLink;
+                }
+            }
+
+            slides.push(slideData);
+            console.log(`CRA: Slide ${index + 1}:`, slideData);
+        });
+
+        console.log(`CRA: Extracted ${slides.length} hero slides`);
+        return slides;
+    }
+
+    // Legacy function for backwards compatibility
+    function extractHeroText() {
+        const slides = extractAllHeroSlides();
+        if (slides.length > 0) {
+            return { title: slides[0].title, subtitle: slides[0].subtitle };
+        }
+        return { title: null, subtitle: null };
+    }
+
+    // ===================================================================
     // CREATE HERO SECTION
     // ===================================================================
 
-    function createHero(carouselImages = []) {
+    function createHero(carouselImages = [], heroSlides = []) {
         const hero = document.createElement('section');
         hero.className = 'cra-hero';
         hero.style.cssText = `
@@ -324,7 +400,107 @@
         carouselContainer.appendChild(overlay);
         hero.appendChild(carouselContainer);
 
-        // Carousel navigation dots
+        // Content container (will hold text that transitions)
+        const content = document.createElement('div');
+        content.style.cssText = `
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        `;
+
+        // H1 wrapper to allow typewriter to extend beyond content max-width
+        const h1Wrapper = document.createElement('div');
+        h1Wrapper.style.cssText = `
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            text-align: center;
+            overflow: visible;
+        `;
+
+        // Get initial text from first slide or use defaults
+        const firstSlide = heroSlides[0] || {};
+        const defaultTitle = 'Chabad of Rural Arizona';
+        const defaultSubtitle = 'Bringing Jewish life, learning, and warmth to every corner of the Arizona desert';
+
+        const h1 = document.createElement('h1');
+        h1.textContent = firstSlide.title || defaultTitle;
+        h1.className = 'cra-typewriter-cursor';
+        h1.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(1.5rem, 6vw, 4rem);
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+            margin: 0 auto 1rem auto;
+            padding: 0 1rem;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            background: none;
+            display: block;
+            text-transform: uppercase;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            max-width: 90%;
+            transition: opacity 0.5s ease;
+        `;
+        h1Wrapper.appendChild(h1);
+        content.appendChild(h1Wrapper);
+
+        // Remove cursor after typewriter animation completes
+        setTimeout(() => h1.classList.add('typing-done'), 2600);
+
+        const subtitle = document.createElement('p');
+        subtitle.className = 'cra-hero-subtitle';
+        subtitle.textContent = firstSlide.subtitle || defaultSubtitle;
+        subtitle.style.cssText = `
+            font-size: clamp(0.95rem, 4vw, 1.35rem);
+            color: ${COLORS.warmCream};
+            margin: 0 0 1.5rem 0;
+            padding: 0 1.5rem;
+            font-weight: 400;
+            max-width: 700px;
+            line-height: 1.5;
+            font-family: 'Urbanist', sans-serif;
+            transition: opacity 0.5s ease;
+        `;
+        content.appendChild(subtitle);
+
+        // Dynamic CTA button (changes per slide)
+        const slideCta = document.createElement('a');
+        slideCta.className = 'cra-slide-cta';
+        if (firstSlide.ctaText && firstSlide.ctaLink) {
+            slideCta.textContent = firstSlide.ctaText;
+            slideCta.href = firstSlide.ctaLink;
+            slideCta.style.cssText = `
+                display: inline-block;
+                background: ${COLORS.goldenSand};
+                color: ${COLORS.darkBurgundy};
+                padding: 1.25rem 3rem;
+                border-radius: 50px;
+                font-weight: 600;
+                font-size: 1.4rem;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                font-family: 'Urbanist', sans-serif;
+                margin-top: 1rem;
+                border: 2px solid ${COLORS.goldenSand};
+            `;
+        } else {
+            slideCta.style.display = 'none';
+        }
+        slideCta.addEventListener('mouseenter', () => {
+            slideCta.style.transform = 'translateY(-4px) scale(1.02)';
+            slideCta.style.boxShadow = '0 12px 30px rgba(212, 168, 75, 0.5)';
+        });
+        slideCta.addEventListener('mouseleave', () => {
+            slideCta.style.transform = 'translateY(0) scale(1)';
+            slideCta.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+        });
+        content.appendChild(slideCta);
+
+        // Carousel navigation dots and text sync
         if (slides.length > 1) {
             const dotsContainer = document.createElement('div');
             dotsContainer.className = 'cra-carousel-dots';
@@ -341,12 +517,45 @@
             let currentSlide = 0;
             let autoPlayInterval;
 
+            // Function to update text content with fade effect
+            const updateText = (index) => {
+                const slideData = heroSlides[index] || {};
+
+                // Fade out
+                h1.style.opacity = '0';
+                subtitle.style.opacity = '0';
+                slideCta.style.opacity = '0';
+
+                setTimeout(() => {
+                    // Update content
+                    h1.textContent = slideData.title || defaultTitle;
+                    subtitle.textContent = slideData.subtitle || defaultSubtitle;
+
+                    // Update CTA
+                    if (slideData.ctaText && slideData.ctaLink) {
+                        slideCta.textContent = slideData.ctaText;
+                        slideCta.href = slideData.ctaLink;
+                        slideCta.style.display = 'inline-block';
+                    } else {
+                        slideCta.style.display = 'none';
+                    }
+
+                    // Fade in
+                    h1.style.opacity = '1';
+                    subtitle.style.opacity = '1';
+                    slideCta.style.opacity = '1';
+                }, 500);
+            };
+
             const goToSlide = (index) => {
                 slides[currentSlide].style.opacity = '0';
                 dots[currentSlide].style.background = 'rgba(255,255,255,0.4)';
                 currentSlide = index;
                 slides[currentSlide].style.opacity = '1';
                 dots[currentSlide].style.background = 'white';
+
+                // Sync text with image
+                updateText(index);
             };
 
             const nextSlide = () => {
@@ -398,131 +607,6 @@
             });
         }
 
-        const content = document.createElement('div');
-        content.style.cssText = `
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        `;
-
-        // H1 wrapper to allow typewriter to extend beyond content max-width
-        const h1Wrapper = document.createElement('div');
-        h1Wrapper.style.cssText = `
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
-            text-align: center;
-            overflow: visible;
-        `;
-
-        const h1 = document.createElement('h1');
-        h1.textContent = 'Chabad of Rural Arizona';
-        h1.className = 'cra-typewriter-cursor';
-        h1.style.cssText = `
-            font-family: 'Urbanist', sans-serif;
-            font-size: clamp(1.8rem, 6vw, 7rem);
-            font-weight: 600;
-            color: white;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
-            margin: 0 auto 1.5rem auto;
-            padding: 0 1rem;
-            line-height: 1.1;
-            letter-spacing: 0.08em;
-            background: none;
-            display: inline-block;
-            text-transform: uppercase;
-            word-wrap: break-word;
-            max-width: 100%;
-        `;
-        h1Wrapper.appendChild(h1);
-        content.appendChild(h1Wrapper);
-
-        // Remove cursor after typewriter animation completes
-        setTimeout(() => h1.classList.add('typing-done'), 2600);
-
-        const subtitle = document.createElement('p');
-        subtitle.className = 'cra-hero-subtitle';
-        subtitle.textContent = 'Bringing Jewish life, learning, and warmth to every corner of the Arizona desert';
-        subtitle.style.cssText = `
-            font-size: 2.1rem;
-            color: ${COLORS.warmCream};
-            margin: 0 0 3rem 0;
-            font-weight: 300;
-            max-width: 900px;
-            line-height: 1.5;
-            font-family: 'Urbanist', sans-serif;
-        `;
-        content.appendChild(subtitle);
-
-        const cta = document.createElement('div');
-        cta.className = 'cra-hero-cta';
-        cta.style.cssText = `
-            display: inline-flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 0.5rem;
-        `;
-
-        const btnPrimary = document.createElement('a');
-        btnPrimary.className = 'cra-btn-primary';
-        btnPrimary.href = '/tools/events/default.htm';
-        btnPrimary.textContent = 'Upcoming Events';
-        btnPrimary.style.cssText = `
-            background: ${COLORS.goldenSand};
-            color: ${COLORS.darkBurgundy};
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: inline-block;
-            font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
-            border: 2px solid ${COLORS.goldenSand};
-        `;
-        btnPrimary.addEventListener('mouseenter', () => {
-            btnPrimary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnPrimary.style.boxShadow = `0 12px 30px rgba(212, 168, 75, 0.5)`;
-        });
-        btnPrimary.addEventListener('mouseleave', () => {
-            btnPrimary.style.transform = 'translateY(0) scale(1)';
-            btnPrimary.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-        });
-        cta.appendChild(btnPrimary);
-
-        const btnSecondary = document.createElement('a');
-        btnSecondary.className = 'cra-btn-secondary';
-        btnSecondary.href = '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm';
-        btnSecondary.textContent = 'Get Involved';
-        btnSecondary.style.cssText = `
-            background: transparent;
-            color: white;
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
-            text-decoration: none;
-            border: 2px solid white;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
-        `;
-        btnSecondary.addEventListener('mouseenter', () => {
-            btnSecondary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnSecondary.style.boxShadow = '0 12px 30px rgba(255, 255, 255, 0.3)';
-            btnSecondary.style.background = 'rgba(255, 255, 255, 0.1)';
-        });
-        btnSecondary.addEventListener('mouseleave', () => {
-            btnSecondary.style.transform = 'translateY(0) scale(1)';
-            btnSecondary.style.boxShadow = 'none';
-            btnSecondary.style.background = 'transparent';
-        });
-        cta.appendChild(btnSecondary);
-
-        content.appendChild(cta);
         hero.appendChild(content);
 
         return hero;
@@ -1170,222 +1254,6 @@
 
         btnWrap.appendChild(btn);
         container.appendChild(btnWrap);
-
-        section.appendChild(container);
-        return section;
-    }
-
-    // ===================================================================
-    // CREATE SHOP SECTION (iframe embed)
-    // ===================================================================
-
-    function createShop() {
-        const section = document.createElement('section');
-        section.className = 'cra-shop';
-        section.style.cssText = `
-            padding: 5rem 2rem;
-            background: white;
-            font-family: 'Urbanist', sans-serif;
-        `;
-
-        const container = document.createElement('div');
-        container.style.cssText = `
-            max-width: 1200px;
-            margin: 0 auto;
-        `;
-
-        // Section title
-        const h2 = document.createElement('h2');
-        h2.textContent = 'Shop Judaica';
-        h2.style.cssText = `
-            font-family: 'Urbanist', sans-serif;
-            font-size: clamp(28px, 5vw, 42px);
-            color: ${COLORS.deepBurgundy};
-            margin: 0 0 1rem 0;
-            font-weight: 700;
-            text-align: center;
-        `;
-        container.appendChild(h2);
-
-        // Subtitle
-        const subtitle = document.createElement('p');
-        subtitle.textContent = 'Browse our selection of Judaica items from our partner store';
-        subtitle.style.cssText = `
-            font-size: clamp(16px, 2.5vw, 20px);
-            color: ${COLORS.darkBurgundy};
-            text-align: center;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        `;
-        container.appendChild(subtitle);
-
-        const shopUrl = 'https://www.chabadofrara.org/templates/articlecco_cdo/aid/5801302/jewish/Shop.htm';
-        const isMobile = window.innerWidth < 768;
-
-        if (isMobile) {
-            // Mobile: Show promotional card instead of iframe (no scroll issues)
-            const promoCard = document.createElement('div');
-            promoCard.style.cssText = `
-                background: linear-gradient(135deg, ${COLORS.lightCream} 0%, ${COLORS.warmCream} 100%);
-                border-radius: 16px;
-                padding: 3rem 2rem;
-                text-align: center;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            `;
-
-            // Shop icon
-            const icon = document.createElement('div');
-            icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="${COLORS.deepBurgundy}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`;
-            icon.style.cssText = 'margin-bottom: 1.5rem;';
-            promoCard.appendChild(icon);
-
-            const promoText = document.createElement('p');
-            promoText.textContent = 'Discover beautiful Judaica items including menorahs, mezuzahs, Shabbat candlesticks, and more.';
-            promoText.style.cssText = `
-                color: ${COLORS.darkBurgundy};
-                font-size: 18px;
-                line-height: 1.7;
-                margin-bottom: 2rem;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-            `;
-            promoCard.appendChild(promoText);
-
-            const shopBtn = document.createElement('a');
-            shopBtn.href = shopUrl;
-            shopBtn.target = '_blank';
-            shopBtn.textContent = 'Browse Shop →';
-            shopBtn.style.cssText = `
-                display: inline-block;
-                background: ${COLORS.deepBurgundy};
-                color: white;
-                padding: 18px 48px;
-                border-radius: 50px;
-                font-size: 18px;
-                font-weight: 600;
-                text-decoration: none;
-                font-family: 'Urbanist', sans-serif;
-                box-shadow: 0 4px 15px rgba(114, 47, 55, 0.3);
-            `;
-            promoCard.appendChild(shopBtn);
-
-            container.appendChild(promoCard);
-        } else {
-            // Desktop: Show iframe with deferred loading
-            // Add spinner keyframes animation
-            const styleTag = document.createElement('style');
-            styleTag.textContent = `@keyframes cra-spin { to { transform: rotate(360deg); } }`;
-            section.appendChild(styleTag);
-
-            // Iframe container
-            const iframeWrap = document.createElement('div');
-            iframeWrap.style.cssText = `
-                position: relative;
-                width: 100%;
-                min-height: 600px;
-                border-radius: 16px;
-                overflow: hidden;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-                background: ${COLORS.lightCream};
-            `;
-
-            // Loading spinner (shown while iframe loads)
-            const loader = document.createElement('div');
-            loader.className = 'cra-shop-loader';
-            loader.style.cssText = `
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                z-index: 1;
-            `;
-            loader.innerHTML = `
-                <div style="
-                    width: 50px;
-                    height: 50px;
-                    border: 4px solid ${COLORS.warmCream};
-                    border-top: 4px solid ${COLORS.deepBurgundy};
-                    border-radius: 50%;
-                    animation: cra-spin 1s linear infinite;
-                    margin: 0 auto 16px;
-                "></div>
-                <p style="color:${COLORS.darkBurgundy};font-size:16px;font-family:'Urbanist',sans-serif;">Loading shop...</p>
-            `;
-            iframeWrap.appendChild(loader);
-
-            // Iframe (src deferred until section is visible)
-            const iframe = document.createElement('iframe');
-            iframe.dataset.src = shopUrl;
-            iframe.style.cssText = `
-                width: 100%;
-                height: 700px;
-                border: none;
-                border-radius: 16px;
-                position: relative;
-                z-index: 2;
-            `;
-            iframe.setAttribute('title', 'Judaica Shop');
-
-            // Hide loader when iframe finishes loading
-            iframe.onload = () => {
-                loader.style.display = 'none';
-            };
-
-            // Fallback if iframe fails to load
-            iframe.onerror = () => {
-                iframeWrap.innerHTML = `
-                    <div style="text-align:center;padding:3rem;">
-                        <p style="color:${COLORS.darkBurgundy};margin-bottom:1rem;">
-                            Shop not available for embedding.
-                        </p>
-                        <a href="${shopUrl}"
-                           target="_blank"
-                           style="display:inline-block;background:${COLORS.deepBurgundy};color:white;padding:16px 40px;border-radius:50px;text-decoration:none;font-weight:600;">
-                            Visit Shop →
-                        </a>
-                    </div>
-                `;
-            };
-
-            iframeWrap.appendChild(iframe);
-            container.appendChild(iframeWrap);
-
-            // "Visit Full Store" button (desktop only)
-            const btnWrap = document.createElement('div');
-            btnWrap.style.cssText = 'text-align: center; margin-top: 2rem;';
-
-            const btn = document.createElement('a');
-            btn.href = shopUrl;
-            btn.target = '_blank';
-            btn.textContent = 'Visit Full Store';
-            btn.style.cssText = `
-                display: inline-block;
-                background: transparent;
-                color: ${COLORS.deepBurgundy};
-                border: 2px solid ${COLORS.deepBurgundy};
-                padding: 14px 36px;
-                border-radius: 50px;
-                font-size: 16px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: all 0.3s ease;
-                font-family: 'Urbanist', sans-serif;
-            `;
-
-            btn.addEventListener('mouseenter', () => {
-                btn.style.background = COLORS.deepBurgundy;
-                btn.style.color = 'white';
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.background = 'transparent';
-                btn.style.color = COLORS.deepBurgundy;
-            });
-
-            btnWrap.appendChild(btn);
-            container.appendChild(btnWrap);
-        }
 
         section.appendChild(container);
         return section;
@@ -2630,6 +2498,7 @@
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
         const carouselImages = extractCarouselImages();
+        const heroSlides = extractAllHeroSlides();
         extractedImages = extractOriginalImages();
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
@@ -2647,7 +2516,7 @@
 
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
-        shadow.appendChild(createHero(carouselImages));
+        shadow.appendChild(createHero(carouselImages, heroSlides));
 
         // About section (with animation)
         const aboutSection = createAbout();
@@ -2672,20 +2541,14 @@
         eventsSection.dataset.animation = 'right';
         shadow.appendChild(eventsSection);
 
-        // Shop section (iframe embed from partner store)
-        const shopSection = createShop();
-        shopSection.classList.add('cra-animate');
-        shopSection.dataset.animation = 'left';
-        shadow.appendChild(shopSection);
-
         const photosSection = createPhotos(photoUrls);
         photosSection.classList.add('cra-animate');
-        photosSection.dataset.animation = 'right';
+        photosSection.dataset.animation = 'left';
         shadow.appendChild(photosSection);
 
         const footerSection = createFooter(footerData);
         footerSection.classList.add('cra-animate');
-        footerSection.dataset.animation = 'left';
+        footerSection.dataset.animation = 'right';
         shadow.appendChild(footerSection);
 
         // Set up Intersection Observer for scroll-triggered animations
@@ -2701,25 +2564,6 @@
         }, { threshold: 0.15 });
 
         animatedSections.forEach(section => observer.observe(section));
-
-        // Deferred loading for shop iframe (load when section scrolls into view)
-        const shopIframe = shopSection.querySelector('iframe');
-        if (shopIframe && shopIframe.dataset.src) {
-            const shopObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const iframe = entry.target.querySelector('iframe');
-                        if (iframe && iframe.dataset.src && !iframe.src) {
-                            iframe.src = iframe.dataset.src;
-                            console.log('CRA: Loading shop iframe (scrolled into view)');
-                        }
-                        shopObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '200px' }); // Start loading 200px before visible
-
-            shopObserver.observe(shopSection);
-        }
 
         // Insert into page
         const bodyWrapper = document.querySelector('.body_wrapper');

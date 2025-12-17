@@ -1,5 +1,5 @@
 /* ===================================================================
-   CHABAD RURAL ARIZONA - Homepage Redesign v2
+   CHABAD RURAL ARIZONA - Homepage Redesign Test Script
    Using Shadow DOM + Inline Styles for complete isolation
    ===================================================================
 
@@ -11,12 +11,17 @@
 
    To revert: Just refresh the page
 
+   NOTE: This is a testing copy of cra-scripts.js for browser console testing.
+   Keep synced with /chabad-one-styling/cra/cra-scripts.js
+
    =================================================================== */
 
 (function() {
     'use strict';
 
-    // Debug logs cleaned up - only nav extraction logs remain
+    // VERSION CHECK - helps verify correct script is running
+    const SCRIPT_VERSION = '3.2-hero-mobile-wrap';
+    console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
 
     // ===================================================================
     // CONFIGURATION
@@ -35,18 +40,10 @@
     };
 
     // ===================================================================
-    // IMAGE CONFIGURATION - For maintainability
+    // MAIN/HOME PAGE - IMAGE CONFIGURATION
+    // Route: / (jewishruralaz.org homepage)
+    // For maintainability - configure location card images here
     // ===================================================================
-    //
-    // HOW IT WORKS:
-    // 1. Auto-detect: Script looks for elements with background image + location text
-    // 2. Fallback index: If auto-detect fails, uses the index from LOCATION_IMAGE_INDEX
-    // 3. URL override: If you set a URL in LOCATION_IMAGES, it always uses that
-    //
-    // Check console for: "📍 Found payson:" = auto-detected successfully
-    //                    "📍 Using fallback[X]" = using index from config below
-    //
-    // -------------------------------------------------------------------------
 
     // Option A: Override with specific URLs (null = use auto-detect or fallback)
     const LOCATION_IMAGES = {
@@ -59,10 +56,9 @@
     };
 
     // Option B: If auto-detect fails, use these fallback image indices
-    // Look at console output "📷 Fallback[X]: filename" to find correct indices
-    // Set to null to disable fallback for that location
+    // Run visual-debug.js in console to identify correct indices
     const LOCATION_IMAGE_INDEX = {
-        'payson': null,           // Auto-detect first, fallback if needed
+        'payson': null,
         'white mountains': null,
         'holbrook': null,
         'globe': null,
@@ -88,7 +84,13 @@
     // ===================================================================
 
     function createShadowContainer() {
-        // Create host element
+        // Remove any existing shadow host (from previous script runs)
+        const existingHost = document.querySelector('#cra-shadow-host');
+        if (existingHost) {
+            console.log('CRA: Removing existing shadow host from previous run');
+            existingHost.remove();
+        }
+
         const host = document.createElement('div');
         host.id = 'cra-shadow-host';
         host.style.cssText = `
@@ -98,16 +100,13 @@
             width: 100%;
         `;
 
-        // Attach shadow DOM
         const shadow = host.attachShadow({ mode: 'open' });
 
-        // Add fonts to shadow DOM
         const fontLink = document.createElement('link');
         fontLink.rel = 'stylesheet';
         fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
         shadow.appendChild(fontLink);
 
-        // Add base styles to shadow DOM
         const style = document.createElement('style');
         style.textContent = `
             *, *::before, *::after {
@@ -121,7 +120,38 @@
                 color: inherit;
             }
 
-            /* Responsive */
+            /* Slide-in animations */
+            @keyframes slideInLeft {
+                from { opacity: 0; transform: translateX(-60px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes slideInRight {
+                from { opacity: 0; transform: translateX(60px); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            .cra-animate { opacity: 0; }
+            .cra-slide-left { animation: slideInLeft 0.8s ease-out forwards; }
+            .cra-slide-right { animation: slideInRight 0.8s ease-out forwards; }
+
+            /* Typewriter animation */
+            @keyframes typewriter {
+                from { max-width: 0; }
+                to { max-width: 100%; }
+            }
+            @keyframes blinkCursor {
+                0%, 100% { border-color: currentColor; }
+                50% { border-color: transparent; }
+            }
+            .cra-typewriter-cursor {
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 0;
+                width: fit-content;
+                border-right: 3px solid currentColor;
+                animation: typewriter 2.5s steps(30, end) forwards, blinkCursor 0.75s step-end infinite;
+            }
+            .cra-typewriter-cursor.typing-done { border-right: none; }
+
             @media (max-width: 768px) {
                 .cra-hero {
                     padding: 5rem 1.5rem 3rem !important;
@@ -202,15 +232,236 @@
             }
         });
 
-        console.log(`CRA: Extracted ${images.length} carousel images:`, images);
+        console.log(`CRA: Extracted ${images.length} carousel images`);
         return images;
     }
 
     // ===================================================================
-    // CREATE HERO SECTION WITH CAROUSEL
+    // EXTRACT ALL HERO SLIDES FROM CMS SLIDER
     // ===================================================================
 
-    function createHero(carouselImages = []) {
+    function extractAllHeroSlides() {
+        const slides = [];
+
+        const slider = document.querySelector('.promo_slider');
+        if (!slider) {
+            console.log('CRA: No .promo_slider found for text extraction');
+            return slides;
+        }
+
+        // Chabad One uses li.cycle-html-caption for each slide's caption
+        const captions = slider.querySelectorAll('li.cycle-html-caption');
+
+        captions.forEach((caption, index) => {
+            const slideData = {
+                title: null,
+                subtitle: null,
+                ctaText: null,
+                ctaLink: null
+            };
+
+            // Extract title from <big> tag
+            const bigEl = caption.querySelector('big');
+            if (bigEl) {
+                slideData.title = bigEl.textContent.trim();
+            }
+
+            // Extract subtitle - text content excluding the <big> element
+            const spanEl = caption.querySelector('span');
+            if (spanEl) {
+                // Clone the span and remove the big element to get just subtitle
+                const spanClone = spanEl.cloneNode(true);
+                const bigInClone = spanClone.querySelector('big');
+                if (bigInClone) {
+                    bigInClone.remove();
+                }
+                // Get remaining text, clean up whitespace
+                let subtitleText = spanClone.textContent.trim();
+                // Clean up multiple spaces/newlines
+                subtitleText = subtitleText.replace(/\s+/g, ' ').trim();
+                if (subtitleText) {
+                    slideData.subtitle = subtitleText;
+                }
+            }
+
+            // Extract CTA button
+            const ctaEl = caption.querySelector('a.readMore, a[class*="btn"], a[class*="cta"]');
+            if (ctaEl) {
+                slideData.ctaText = ctaEl.textContent.trim();
+                slideData.ctaLink = ctaEl.getAttribute('href');
+                // Make relative links absolute
+                if (slideData.ctaLink && !slideData.ctaLink.startsWith('http')) {
+                    slideData.ctaLink = slideData.ctaLink.startsWith('/') ? slideData.ctaLink : '/' + slideData.ctaLink;
+                }
+            }
+
+            slides.push(slideData);
+            console.log(`CRA: Slide ${index + 1}:`, slideData);
+        });
+
+        console.log(`CRA: Extracted ${slides.length} hero slides`);
+        return slides;
+    }
+
+    // Legacy function for backwards compatibility
+    function extractHeroText() {
+        const slides = extractAllHeroSlides();
+        if (slides.length > 0) {
+            return { title: slides[0].title, subtitle: slides[0].subtitle };
+        }
+        return { title: null, subtitle: null };
+    }
+
+    // Debug function to inspect slider structure - call window.debugHeroText() in console
+    window.debugHeroText = function() {
+        console.log('=== DEBUG HERO TEXT EXTRACTION ===');
+
+        const slider = document.querySelector('.promo_slider');
+        if (!slider) {
+            console.log('❌ No .promo_slider found!');
+            console.log('Looking for alternative slider containers...');
+            const alternatives = [
+                '.slideshow', '.carousel', '.banner', '.hero',
+                '[class*="slider"]', '[class*="promo"]', '[class*="banner"]'
+            ];
+            alternatives.forEach(sel => {
+                const el = document.querySelector(sel);
+                if (el) console.log(`  Found: ${sel}`, el);
+            });
+            return;
+        }
+
+        console.log('✓ Found .promo_slider:', slider);
+
+        // Look for individual slides
+        console.log('\n--- Looking for individual slides ---');
+        const slideSelectors = [
+            '.slide', '.promo_slide', '[class*="slide"]',
+            '.item', '.carousel-item', '[class*="item"]',
+            '> div', '> li'
+        ];
+
+        let slides = [];
+        for (const sel of slideSelectors) {
+            const found = slider.querySelectorAll(sel);
+            if (found.length > 1) {
+                console.log(`✓ Found ${found.length} slides using: ${sel}`);
+                slides = Array.from(found);
+                break;
+            }
+        }
+
+        if (slides.length === 0) {
+            console.log('Could not identify individual slides, analyzing whole slider...');
+            slides = [slider];
+        }
+
+        // Analyze each slide
+        console.log('\n--- Slide Analysis ---');
+        const slideData = [];
+
+        slides.forEach((slide, i) => {
+            console.log(`\n📸 SLIDE ${i + 1}:`);
+            console.log('Element:', slide);
+
+            const data = {
+                slideIndex: i,
+                title: null,
+                subtitle: null,
+                cta: null,
+                bgImage: null
+            };
+
+            // Look for background image
+            const bgMatch = (slide.getAttribute('style') || '').match(/url\(['"]?([^'")\s]+)['"]?\)/);
+            if (bgMatch) {
+                data.bgImage = bgMatch[1];
+                console.log('  Background:', data.bgImage.substring(0, 60) + '...');
+            }
+
+            // Find all elements with background images inside this slide
+            slide.querySelectorAll('[style*="url"]').forEach(el => {
+                const match = (el.getAttribute('style') || '').match(/url\(['"]?([^'")\s]+)['"]?\)/);
+                if (match && !data.bgImage) {
+                    data.bgImage = match[1];
+                    console.log('  Background (nested):', data.bgImage.substring(0, 60) + '...');
+                }
+            });
+
+            // Look for title (h1, h2, or class containing "title")
+            const titleEl = slide.querySelector('h1, h2, [class*="title"], [class*="heading"]');
+            if (titleEl) {
+                data.title = titleEl.textContent.trim();
+                console.log('  Title:', `"${data.title}"`);
+                console.log('    Selector:', titleEl.tagName.toLowerCase() + (titleEl.className ? '.' + titleEl.className.split(' ').join('.') : ''));
+            }
+
+            // Look for subtitle (h3, p, or class containing "subtitle", "desc", "text")
+            const subtitleEl = slide.querySelector('h3, h4, [class*="subtitle"], [class*="desc"], [class*="tagline"]');
+            if (subtitleEl && subtitleEl !== titleEl) {
+                data.subtitle = subtitleEl.textContent.trim();
+                console.log('  Subtitle:', `"${data.subtitle}"`);
+            }
+
+            // Also check for p tags that aren't inside buttons
+            if (!data.subtitle) {
+                const pEl = slide.querySelector('p:not(a p)');
+                if (pEl) {
+                    data.subtitle = pEl.textContent.trim();
+                    console.log('  Subtitle (p):', `"${data.subtitle}"`);
+                }
+            }
+
+            // Look for CTA button
+            const ctaEl = slide.querySelector('a.btn, a.button, a[class*="btn"], a[class*="button"], a[class*="cta"], .cta a');
+            if (ctaEl) {
+                data.cta = {
+                    text: ctaEl.textContent.trim(),
+                    href: ctaEl.getAttribute('href')
+                };
+                console.log('  CTA:', `"${data.cta.text}" -> ${data.cta.href}`);
+            }
+
+            // List all text-containing elements
+            console.log('  All text elements:');
+            slide.querySelectorAll('*').forEach(el => {
+                const directText = Array.from(el.childNodes)
+                    .filter(n => n.nodeType === Node.TEXT_NODE)
+                    .map(n => n.textContent.trim())
+                    .filter(t => t.length > 0)
+                    .join(' ');
+
+                if (directText && directText.length > 2) {
+                    const tag = el.tagName.toLowerCase();
+                    const cls = el.className ? `.${el.className.split(' ').join('.')}` : '';
+                    console.log(`    <${tag}${cls}>: "${directText.substring(0, 50)}${directText.length > 50 ? '...' : ''}"`);
+                }
+            });
+
+            slideData.push(data);
+        });
+
+        console.log('\n--- Summary ---');
+        console.table(slideData.map(s => ({
+            slide: s.slideIndex + 1,
+            title: s.title ? s.title.substring(0, 30) + '...' : '(none)',
+            subtitle: s.subtitle ? s.subtitle.substring(0, 30) + '...' : '(none)',
+            cta: s.cta ? s.cta.text : '(none)',
+            hasImage: !!s.bgImage
+        })));
+
+        console.log('\n--- Raw slider HTML (first 2000 chars) ---');
+        console.log(slider.innerHTML.substring(0, 2000));
+
+        console.log('\n=== END DEBUG ===');
+        return slideData;
+    };
+
+    // ===================================================================
+    // CREATE HERO SECTION
+    // ===================================================================
+
+    function createHero(carouselImages = [], heroSlides = []) {
         const hero = document.createElement('section');
         hero.className = 'cra-hero';
         hero.style.cssText = `
@@ -244,7 +495,6 @@
 
         // Fallback gradient if no images
         if (imagesToUse.length === 0) {
-            console.log('CRA: No carousel images, using fallback gradient');
             const fallbackSlide = document.createElement('div');
             fallbackSlide.style.cssText = `
                 position: absolute;
@@ -253,7 +503,6 @@
             `;
             carouselContainer.appendChild(fallbackSlide);
         } else {
-            console.log('CRA: Creating carousel with', imagesToUse.length, 'images');
             imagesToUse.forEach((imgUrl, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'cra-carousel-slide';
@@ -290,7 +539,107 @@
         carouselContainer.appendChild(overlay);
         hero.appendChild(carouselContainer);
 
-        // Carousel navigation dots
+        // Content container (will hold text that transitions)
+        const content = document.createElement('div');
+        content.style.cssText = `
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        `;
+
+        // H1 wrapper to allow typewriter to extend beyond content max-width
+        const h1Wrapper = document.createElement('div');
+        h1Wrapper.style.cssText = `
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            text-align: center;
+            overflow: visible;
+        `;
+
+        // Get initial text from first slide or use defaults
+        const firstSlide = heroSlides[0] || {};
+        const defaultTitle = 'Chabad of Rural Arizona';
+        const defaultSubtitle = 'Bringing Jewish life, learning, and warmth to every corner of the Arizona desert';
+
+        const h1 = document.createElement('h1');
+        h1.textContent = firstSlide.title || defaultTitle;
+        h1.className = 'cra-typewriter-cursor';
+        h1.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(1.5rem, 6vw, 4rem);
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+            margin: 0 auto 1rem auto;
+            padding: 0 1rem;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            background: none;
+            display: block;
+            text-transform: uppercase;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            max-width: 90%;
+            transition: opacity 0.5s ease;
+        `;
+        h1Wrapper.appendChild(h1);
+        content.appendChild(h1Wrapper);
+
+        // Remove cursor after typewriter animation completes
+        setTimeout(() => h1.classList.add('typing-done'), 2600);
+
+        const subtitle = document.createElement('p');
+        subtitle.className = 'cra-hero-subtitle';
+        subtitle.textContent = firstSlide.subtitle || defaultSubtitle;
+        subtitle.style.cssText = `
+            font-size: clamp(0.95rem, 4vw, 1.35rem);
+            color: ${COLORS.warmCream};
+            margin: 0 0 1.5rem 0;
+            padding: 0 1.5rem;
+            font-weight: 400;
+            max-width: 700px;
+            line-height: 1.5;
+            font-family: 'Urbanist', sans-serif;
+            transition: opacity 0.5s ease;
+        `;
+        content.appendChild(subtitle);
+
+        // Dynamic CTA button (changes per slide)
+        const slideCta = document.createElement('a');
+        slideCta.className = 'cra-slide-cta';
+        if (firstSlide.ctaText && firstSlide.ctaLink) {
+            slideCta.textContent = firstSlide.ctaText;
+            slideCta.href = firstSlide.ctaLink;
+            slideCta.style.cssText = `
+                display: inline-block;
+                background: ${COLORS.goldenSand};
+                color: ${COLORS.darkBurgundy};
+                padding: 1.25rem 3rem;
+                border-radius: 50px;
+                font-weight: 600;
+                font-size: 1.4rem;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                font-family: 'Urbanist', sans-serif;
+                margin-top: 1rem;
+                border: 2px solid ${COLORS.goldenSand};
+            `;
+        } else {
+            slideCta.style.display = 'none';
+        }
+        slideCta.addEventListener('mouseenter', () => {
+            slideCta.style.transform = 'translateY(-4px) scale(1.02)';
+            slideCta.style.boxShadow = '0 12px 30px rgba(212, 168, 75, 0.5)';
+        });
+        slideCta.addEventListener('mouseleave', () => {
+            slideCta.style.transform = 'translateY(0) scale(1)';
+            slideCta.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+        });
+        content.appendChild(slideCta);
+
+        // Carousel navigation dots and text sync
         if (slides.length > 1) {
             const dotsContainer = document.createElement('div');
             dotsContainer.className = 'cra-carousel-dots';
@@ -307,12 +656,45 @@
             let currentSlide = 0;
             let autoPlayInterval;
 
+            // Function to update text content with fade effect
+            const updateText = (index) => {
+                const slideData = heroSlides[index] || {};
+
+                // Fade out
+                h1.style.opacity = '0';
+                subtitle.style.opacity = '0';
+                slideCta.style.opacity = '0';
+
+                setTimeout(() => {
+                    // Update content
+                    h1.textContent = slideData.title || defaultTitle;
+                    subtitle.textContent = slideData.subtitle || defaultSubtitle;
+
+                    // Update CTA
+                    if (slideData.ctaText && slideData.ctaLink) {
+                        slideCta.textContent = slideData.ctaText;
+                        slideCta.href = slideData.ctaLink;
+                        slideCta.style.display = 'inline-block';
+                    } else {
+                        slideCta.style.display = 'none';
+                    }
+
+                    // Fade in
+                    h1.style.opacity = '1';
+                    subtitle.style.opacity = '1';
+                    slideCta.style.opacity = '1';
+                }, 500);
+            };
+
             const goToSlide = (index) => {
                 slides[currentSlide].style.opacity = '0';
                 dots[currentSlide].style.background = 'rgba(255,255,255,0.4)';
                 currentSlide = index;
                 slides[currentSlide].style.opacity = '1';
                 dots[currentSlide].style.background = 'white';
+
+                // Sync text with image
+                updateText(index);
             };
 
             const nextSlide = () => {
@@ -334,6 +716,7 @@
                 `;
                 dot.addEventListener('click', () => {
                     goToSlide(index);
+                    // Reset autoplay timer on manual navigation
                     clearInterval(autoPlayInterval);
                     autoPlayInterval = setInterval(nextSlide, 5000);
                 });
@@ -363,123 +746,123 @@
             });
         }
 
-        // Hero content container
-        const content = document.createElement('div');
-        content.style.cssText = `
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-        `;
-
-        // H1 Title - UPPERCASE
-        const h1 = document.createElement('h1');
-        h1.textContent = 'Chabad of Rural Arizona';
-        h1.style.cssText = `
-            font-family: 'Urbanist', sans-serif;
-            font-size: clamp(4.5rem, 14vw, 9rem);
-            font-weight: 600;
-            color: white;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
-            margin: 0 0 1.5rem 0;
-            padding: 0;
-            line-height: 1.05;
-            letter-spacing: 4px;
-            background: none;
-            text-transform: uppercase;
-        `;
-        content.appendChild(h1);
-
-        // Subtitle - BIGGER but THINNER
-        const subtitle = document.createElement('p');
-        subtitle.className = 'cra-hero-subtitle';
-        subtitle.textContent = 'Bringing Jewish life, learning, and warmth to every corner of the Arizona desert';
-        subtitle.style.cssText = `
-            font-size: 2.1rem;
-            color: ${COLORS.warmCream};
-            margin: 0 0 3rem 0;
-            font-weight: 300;
-            max-width: 900px;
-            line-height: 1.5;
-            font-family: 'Urbanist', sans-serif;
-        `;
-        content.appendChild(subtitle);
-
-        // CTA Buttons
-        const cta = document.createElement('div');
-        cta.className = 'cra-hero-cta';
-        cta.style.cssText = `
-            display: inline-flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 0.5rem;
-        `;
-
-        const btnPrimary = document.createElement('a');
-        btnPrimary.className = 'cra-btn-primary';
-        btnPrimary.href = '/tools/events/default.htm';
-        btnPrimary.textContent = 'Upcoming Events';
-        btnPrimary.style.cssText = `
-            background: ${COLORS.goldenSand};
-            color: ${COLORS.darkBurgundy};
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: inline-block;
-            font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
-            border: 2px solid ${COLORS.goldenSand};
-        `;
-        // Hover: lift up with glow
-        btnPrimary.addEventListener('mouseenter', () => {
-            btnPrimary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnPrimary.style.boxShadow = `0 12px 30px rgba(212, 168, 75, 0.5)`;
-        });
-        btnPrimary.addEventListener('mouseleave', () => {
-            btnPrimary.style.transform = 'translateY(0) scale(1)';
-            btnPrimary.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-        });
-        cta.appendChild(btnPrimary);
-
-        const btnSecondary = document.createElement('a');
-        btnSecondary.className = 'cra-btn-secondary';
-        btnSecondary.href = '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm';
-        btnSecondary.textContent = 'Get Involved';
-        btnSecondary.style.cssText = `
-            background: transparent;
-            color: white;
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
-            text-decoration: none;
-            border: 2px solid white;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
-        `;
-        // Hover: lift up with glow
-        btnSecondary.addEventListener('mouseenter', () => {
-            btnSecondary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnSecondary.style.boxShadow = '0 12px 30px rgba(255, 255, 255, 0.3)';
-            btnSecondary.style.background = 'rgba(255, 255, 255, 0.1)';
-        });
-        btnSecondary.addEventListener('mouseleave', () => {
-            btnSecondary.style.transform = 'translateY(0) scale(1)';
-            btnSecondary.style.boxShadow = 'none';
-            btnSecondary.style.background = 'transparent';
-        });
-        cta.appendChild(btnSecondary);
-
-        content.appendChild(cta);
         hero.appendChild(content);
 
         return hero;
+    }
+
+    // ===================================================================
+    // FETCH EVENTS FROM EVENTS PAGE
+    // ===================================================================
+
+    async function fetchEvents() {
+        try {
+            const response = await fetch('/tools/events/default.htm');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const events = [];
+            const eventEls = doc.querySelectorAll('.event');
+
+            eventEls.forEach(el => {
+                const titleEl = el.querySelector('h2 a');
+                const descEl = el.querySelector('.bottom_padding');
+                const dateEl = el.querySelector('.performance__date');
+                const linkEl = el.querySelector('h2 a');
+
+                if (titleEl) {
+                    events.push({
+                        title: titleEl.textContent.trim(),
+                        description: descEl ? descEl.textContent.trim() : '',
+                        date: dateEl ? dateEl.textContent.trim() : '',
+                        link: linkEl ? linkEl.getAttribute('href') : '/tools/events/default.htm'
+                    });
+                }
+            });
+
+            console.log('CRA: Fetched', events.length, 'events from events page');
+            return events;
+        } catch (error) {
+            console.error('CRA: Failed to fetch events:', error);
+            return [];
+        }
+    }
+
+    // ===================================================================
+    // CREATE ABOUT SECTION
+    // ===================================================================
+
+    function createAbout() {
+        const section = document.createElement('section');
+        section.className = 'cra-about';
+        section.style.cssText = `
+            padding: 5rem 2rem;
+            background: white;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        `;
+
+        const h2 = document.createElement('h2');
+        h2.textContent = 'About Us';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1.5rem 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        `;
+        container.appendChild(h2);
+
+        const text = document.createElement('p');
+        text.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride. We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally. From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
+        text.style.cssText = `
+            font-size: clamp(18px, 2.5vw, 24px);
+            line-height: 1.9;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 2.5rem 0;
+            font-weight: 400;
+        `;
+        container.appendChild(text);
+
+        const btn = document.createElement('a');
+        btn.href = '/about';
+        btn.textContent = 'Learn More About Us';
+        btn.style.cssText = `
+            display: inline-block;
+            background: transparent;
+            color: ${COLORS.deepBurgundy};
+            border: 2px solid ${COLORS.deepBurgundy};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: clamp(16px, 2vw, 20px);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = COLORS.deepBurgundy;
+            btn.style.color = 'white';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'transparent';
+            btn.style.color = COLORS.deepBurgundy;
+        });
+
+        container.appendChild(btn);
+        section.appendChild(container);
+
+        return section;
     }
 
     // ===================================================================
@@ -496,7 +879,6 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Section header
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
@@ -527,7 +909,6 @@
         header.appendChild(subtext);
         section.appendChild(header);
 
-        // Locations grid
         const grid = document.createElement('div');
         grid.className = 'cra-locations-grid';
         grid.style.cssText = `
@@ -538,7 +919,6 @@
             margin: 0 auto;
         `;
 
-        // Helper to get image - first try manual config, then mapped, then fallback
         const mapped = imageData.mapped || {};
         const fallback = imageData.fallback || [];
         let fallbackIndex = 0;
@@ -552,7 +932,6 @@
             return null;
         };
 
-        // Use extracted images from the original page, mapped by location
         const locations = [
             {
                 title: 'Payson / Rim Country',
@@ -605,7 +984,6 @@
                 display: block;
             `;
 
-            // Background - use image if available, otherwise gradient
             const bg = document.createElement('div');
             let bgStyle = '';
             if (loc.image) {
@@ -628,7 +1006,6 @@
             bg.style.cssText = bgStyle;
             card.appendChild(bg);
 
-            // Overlay - just a subtle dark gradient at bottom for text readability
             const overlay = document.createElement('div');
             overlay.style.cssText = `
                 position: absolute;
@@ -638,7 +1015,6 @@
             `;
             card.appendChild(overlay);
 
-            // Content
             const content = document.createElement('div');
             content.style.cssText = `
                 position: absolute;
@@ -690,7 +1066,6 @@
             card.appendChild(content);
             grid.appendChild(card);
 
-            // Hover effects
             card.addEventListener('mouseenter', () => {
                 bg.style.transform = 'scale(1.1)';
                 overlay.style.opacity = '0.7';
@@ -722,7 +1097,6 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Header
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
@@ -750,7 +1124,6 @@
         header.appendChild(subtext);
         section.appendChild(header);
 
-        // Actions grid - 2x2 layout
         const grid = document.createElement('div');
         grid.className = 'cra-actions-grid';
         grid.style.cssText = `
@@ -832,39 +1205,216 @@
     }
 
     // ===================================================================
-    // CREATE PHOTOS SECTION
+    // CREATE EVENTS SECTION
     // ===================================================================
 
-    // ===================================================================
-    // PHOTO CONFIGURATION - Same pattern as location images
-    // ===================================================================
-    //
-    // The gallery photos start after the 6 location card images.
-    // If auto-detect fails, you can manually set which image indices to use.
-    //
-    // Run visual-debug.js in console to see all images with their indices.
-    // -------------------------------------------------------------------------
+    function createEvents(events = []) {
+        const section = document.createElement('section');
+        section.className = 'cra-events';
+        section.style.cssText = `
+            padding: 5rem 2rem;
+            background: ${COLORS.lightCream};
+            font-family: 'Urbanist', sans-serif;
+        `;
 
-    // Option A: Override with specific URLs (null = use auto-detect)
-    const PHOTO_GALLERY_URLS = null;  // Set to array of URLs to override
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 1200px;
+            margin: 0 auto;
+        `;
 
-    // Option B: Specify which fallback image indices are gallery photos
-    // These are the indices AFTER filtering (good images only)
-    // Set to null to use auto-detect, or array like [6, 7, 8, 9, 10, 11, 12, 13]
+        // Section title
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Upcoming Events';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1rem 0;
+            font-weight: 700;
+            text-align: center;
+        `;
+        container.appendChild(h2);
+
+        // Subtitle
+        const subtitle = document.createElement('p');
+        subtitle.textContent = 'Join us for meaningful Jewish experiences across Rural Arizona';
+        subtitle.style.cssText = `
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: ${COLORS.darkBurgundy};
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        `;
+        container.appendChild(subtitle);
+
+        if (events.length === 0) {
+            // No events message
+            const noEvents = document.createElement('p');
+            noEvents.textContent = 'No upcoming events at this time. Check back soon!';
+            noEvents.style.cssText = `
+                text-align: center;
+                color: ${COLORS.darkBurgundy};
+                font-size: 18px;
+                padding: 2rem;
+            `;
+            container.appendChild(noEvents);
+        } else {
+            // Events grid
+            const grid = document.createElement('div');
+            grid.style.cssText = `
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            `;
+
+            // Show up to 4 events
+            events.slice(0, 4).forEach(event => {
+                const card = document.createElement('a');
+                card.href = event.link;
+                card.style.cssText = `
+                    display: block;
+                    background: white;
+                    border-radius: 16px;
+                    padding: 28px;
+                    text-decoration: none;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                `;
+
+                // Date badge
+                if (event.date) {
+                    const dateBadge = document.createElement('span');
+                    dateBadge.textContent = event.date;
+                    dateBadge.style.cssText = `
+                        display: inline-block;
+                        background: ${COLORS.tealGreen};
+                        color: white;
+                        font-size: 13px;
+                        font-weight: 600;
+                        padding: 6px 14px;
+                        border-radius: 20px;
+                        margin-bottom: 16px;
+                    `;
+                    card.appendChild(dateBadge);
+                }
+
+                // Event title
+                const title = document.createElement('h3');
+                title.textContent = event.title;
+                title.style.cssText = `
+                    font-size: clamp(18px, 3vw, 24px);
+                    color: ${COLORS.deepBurgundy};
+                    margin: 0 0 12px 0;
+                    font-weight: 700;
+                `;
+                card.appendChild(title);
+
+                // Event description
+                if (event.description) {
+                    const desc = document.createElement('p');
+                    desc.textContent = event.description.length > 120
+                        ? event.description.substring(0, 120) + '...'
+                        : event.description;
+                    desc.style.cssText = `
+                        color: ${COLORS.darkBurgundy};
+                        line-height: 1.6;
+                        font-size: 15px;
+                        margin: 0 0 16px 0;
+                        opacity: 0.85;
+                    `;
+                    card.appendChild(desc);
+                }
+
+                // Register link
+                const registerLink = document.createElement('span');
+                registerLink.textContent = 'Learn More →';
+                registerLink.style.cssText = `
+                    color: ${COLORS.sunsetPeach};
+                    font-weight: 600;
+                    font-size: 15px;
+                `;
+                card.appendChild(registerLink);
+
+                // Hover effects
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-6px)';
+                    card.style.boxShadow = '0 12px 35px rgba(0,0,0,0.12)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                });
+
+                grid.appendChild(card);
+            });
+
+            // Responsive grid for mobile
+            const styleTag = document.createElement('style');
+            styleTag.textContent = `
+                @media (max-width: 768px) {
+                    .cra-events > div > div {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `;
+            section.appendChild(styleTag);
+
+            container.appendChild(grid);
+        }
+
+        // View all events button
+        const btnWrap = document.createElement('div');
+        btnWrap.style.cssText = 'text-align: center; margin-top: 2.5rem;';
+
+        const btn = document.createElement('a');
+        btn.href = '/tools/events/default.htm';
+        btn.textContent = 'View All Events';
+        btn.style.cssText = `
+            display: inline-block;
+            background: ${COLORS.deepBurgundy};
+            color: ${COLORS.warmCream};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'translateY(-3px)';
+            btn.style.boxShadow = '0 10px 30px rgba(114, 47, 55, 0.3)';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translateY(0)';
+            btn.style.boxShadow = 'none';
+        });
+
+        btnWrap.appendChild(btn);
+        container.appendChild(btnWrap);
+
+        section.appendChild(container);
+        return section;
+    }
+
+    // ===================================================================
+    // PHOTO CONFIGURATION
+    // ===================================================================
+
+    const PHOTO_GALLERY_URLS = null;
     const PHOTO_GALLERY_INDICES = null;
 
     function extractPhotos() {
         const photos = [];
         const seen = new Set();
 
-        // Helper to extract background URL from style
         const extractBgUrl = (el) => {
             const style = el.getAttribute('style') || '';
             const match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
             return match ? match[1] : null;
         };
 
-        // Helper to check if URL is a good photo
         const isGoodPhoto = (url) => {
             if (!url) return false;
             return (url.includes('chabad.org/media/images') || url.includes('fbcdn.net')) &&
@@ -872,12 +1422,10 @@
                    !url.includes('button') && !url.includes('arrow');
         };
 
-        // Priority 1: Manual URL override
         if (PHOTO_GALLERY_URLS && Array.isArray(PHOTO_GALLERY_URLS)) {
             return PHOTO_GALLERY_URLS.slice(0, 8);
         }
 
-        // Collect ALL good background images with their indices for reference
         const allBgImages = [];
         document.querySelectorAll('[style*="url"]').forEach(el => {
             const bgUrl = extractBgUrl(el);
@@ -887,7 +1435,6 @@
             }
         });
 
-        // Priority 2: Manual index override
         if (PHOTO_GALLERY_INDICES && Array.isArray(PHOTO_GALLERY_INDICES)) {
             PHOTO_GALLERY_INDICES.forEach(idx => {
                 if (allBgImages[idx]) {
@@ -897,15 +1444,11 @@
             return photos.slice(0, 8);
         }
 
-        // Priority 3: Auto-detect using DOM order
-        // Find the "Latest Photos" heading, then get all bg images that come AFTER it
         let photoHeadingEl = null;
         let photoHeadingIndex = -1;
 
-        // Get all elements in DOM order
         const allElements = Array.from(document.querySelectorAll('*'));
 
-        // Find the "Latest Photos" heading
         for (let i = 0; i < allElements.length; i++) {
             const el = allElements[i];
             const text = el.textContent.trim().toLowerCase();
@@ -932,7 +1475,6 @@
             }
         }
 
-        // Fallback: Use images after the location cards (indices 6+)
         if (photos.length < 4) {
             const galleryPhotos = allBgImages.slice(6, 14);
             galleryPhotos.forEach(url => {
@@ -943,6 +1485,10 @@
         return photos.slice(0, 8);
     }
 
+    // ===================================================================
+    // CREATE PHOTOS SECTION
+    // ===================================================================
+
     function createPhotos(photoUrls = []) {
         const section = document.createElement('section');
         section.className = 'cra-photos';
@@ -952,7 +1498,6 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Header
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
@@ -982,7 +1527,6 @@
         header.appendChild(subtext);
         section.appendChild(header);
 
-        // Photo grid - 4 columns, 2 rows
         const grid = document.createElement('div');
         grid.className = 'cra-photos-grid';
         grid.style.cssText = `
@@ -993,11 +1537,9 @@
             margin: 0 auto 3rem;
         `;
 
-        // Use extracted photos or placeholders
         const photosToShow = photoUrls.length > 0 ? photoUrls : [];
 
         if (photosToShow.length === 0) {
-            // No photos found message
             const noPhotos = document.createElement('p');
             noPhotos.textContent = 'Photos loading...';
             noPhotos.style.cssText = `
@@ -1029,7 +1571,6 @@
                 `;
                 photoCard.appendChild(img);
 
-                // Hover overlay
                 const overlay = document.createElement('div');
                 overlay.style.cssText = `
                     position: absolute;
@@ -1064,7 +1605,6 @@
                     zoomIcon.style.opacity = '0';
                 });
 
-                // Click to open full image
                 photoCard.addEventListener('click', () => {
                     window.open(photoUrl, '_blank');
                 });
@@ -1075,7 +1615,6 @@
 
         section.appendChild(grid);
 
-        // See More Button
         const btnWrap = document.createElement('div');
         btnWrap.style.cssText = `text-align: center;`;
 
@@ -1116,77 +1655,56 @@
     // ===================================================================
 
     function extractNavLinks() {
-        console.log('🧭 Extracting navigation links...');
-
         const navLinks = [];
         const seen = new Set();
 
-        // Chabad One structure (from DOM inspection):
-        // - span.parent contains the nav link
-        // - Sibling div.co_submenu_container contains the submenu
-        // - Inside: .wrapper > .column_wrapper > .co_column > a[data-menu-level="2"]
         const parentSpans = document.querySelectorAll('span.parent');
 
-        parentSpans.forEach((span, index) => {
+        parentSpans.forEach((span) => {
             const link = span.querySelector('a');
             if (!link) return;
 
-            const text = link.textContent.trim();
+            // Use innerText to preserve spaces between nested elements
+            const text = (link.innerText || link.textContent).replace(/\s+/g, ' ').trim();
             const href = link.getAttribute('href');
 
-            // Skip duplicates, Home, Donate (separate button), empty
             if (!text || seen.has(text) || text.toLowerCase() === 'home' || text.toLowerCase() === 'donate') return;
             seen.add(text);
 
             const item = { text, href, submenu: [] };
 
-            // STRATEGY: Look for .co_submenu_container associated with this nav item
-            // The structure is: span.parent is in one element, co_submenu_container is in a sibling
-            // Check siblings at multiple levels up from span.parent
             let searchEl = span;
             for (let level = 0; level < 5 && searchEl && item.submenu.length === 0; level++) {
                 const parent = searchEl.parentElement;
                 if (!parent) break;
 
-                // Check all siblings of searchEl for co_submenu_container
                 const siblings = Array.from(parent.children).filter(c => c !== searchEl);
                 for (const sibling of siblings) {
-                    // Look for co_submenu_container within this sibling
                     const submenuContainer = sibling.classList.contains('co_submenu_container')
                         ? sibling
                         : sibling.querySelector('.co_submenu_container');
 
                     if (submenuContainer) {
-                        // Found submenu container - get all level-2 links inside it
                         const submenuLinks = submenuContainer.querySelectorAll('a[data-menu-level="2"]');
                         submenuLinks.forEach(subLink => {
-                            const subText = subLink.textContent.trim();
+                            const subText = (subLink.innerText || subLink.textContent).replace(/\s+/g, ' ').trim();
                             const subHref = subLink.getAttribute('href');
                             if (subText && subText !== text && !item.submenu.find(s => s.text === subText)) {
                                 item.submenu.push({ text: subText, href: subHref });
                             }
                         });
-                        break; // Found submenu, stop checking siblings
+                        break;
                     }
                 }
 
-                if (item.submenu.length > 0) break; // Found submenu, stop going up
+                if (item.submenu.length > 0) break;
                 searchEl = parent;
-            }
-
-            // Debug: Log what we found for each nav item
-            if (item.submenu.length > 0) {
-                console.log(`🧭 Nav: "${text}" with ${item.submenu.length} submenu items:`, item.submenu.map(s => s.text));
-            } else {
-                console.log(`🧭 Nav: "${text}" (no submenu)`);
             }
 
             navLinks.push(item);
         });
 
-        // Fallback if nothing found
         if (navLinks.length === 0) {
-            console.warn('⚠️ No navigation items found, using fallback');
             return [
                 { text: 'Adult Education', href: '/templates/articlecco_cdo/aid/7009394/jewish/Adult-Education.htm', submenu: [] },
                 { text: 'Events', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm', submenu: [] },
@@ -1196,7 +1714,6 @@
             ];
         }
 
-        console.log(`🧭 Extracted ${navLinks.length} navigation links total`);
         return navLinks;
     }
 
@@ -1215,24 +1732,20 @@
         const footer = document.querySelector('#footer, footer, [id*="footer"], .footer');
         const footerText = footer ? footer.textContent : document.body.textContent;
 
-        // Extract phone number
         const phoneMatch = footerText.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
         if (phoneMatch) {
             const phoneNum = phoneMatch[0];
             footerData.contact.phone = { text: phoneNum, href: 'tel:+1' + phoneNum.replace(/\D/g, '') };
         }
 
-        // Extract email
         const emailMatch = footerText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
         if (emailMatch) {
             footerData.contact.email = { text: emailMatch[0], href: 'mailto:' + emailMatch[0] };
         }
 
-        // Extract address
         const addressMatch = footerText.match(/\d+\s+[A-Za-z].*?(?:Dr|Drive|St|Street|Ave|Avenue|Rd|Road|Blvd|Way|Lane|Ln)[.,]?\s*(?:\d{5})?/i);
         if (addressMatch) footerData.contact.address = addressMatch[0].trim();
 
-        // Extract social links
         const socialPatterns = [
             { pattern: /facebook\.com/i, icon: 'FB', name: 'Facebook' },
             { pattern: /instagram\.com/i, icon: 'IG', name: 'Instagram' },
@@ -1252,7 +1765,6 @@
             }
         });
 
-        // Extract footer links
         if (footer) {
             footer.querySelectorAll('a').forEach(link => {
                 const href = link.getAttribute('href') || '';
@@ -1267,14 +1779,12 @@
             });
         }
 
-        // Extract nonprofit/EIN text
         const einMatch = footerText.match(/501\(c\)\(3\)[^|]*EIN\s*\d{2}-?\d{7}/i) || footerText.match(/EIN\s*\d{2}-?\d{7}/i);
         if (einMatch) {
             const fullMatch = footerText.match(/[^|]*501\(c\)\(3\)[^|]*/i);
             footerData.nonprofit = fullMatch ? fullMatch[0].trim() : einMatch[0].trim();
         }
 
-        // Extract privacy policy link
         if (footer) {
             const privacyLink = footer.querySelector('a[href*="privacy"], a[href*="Privacy"]');
             if (privacyLink) {
@@ -1302,7 +1812,6 @@
         const content = document.createElement('div');
         content.style.cssText = `max-width: 1200px; margin: 0 auto;`;
 
-        // Main footer grid
         const main = document.createElement('div');
         main.className = 'cra-footer-main';
         main.style.cssText = `
@@ -1314,7 +1823,6 @@
             margin-bottom: 2rem;
         `;
 
-        // Brand column
         const brand = document.createElement('div');
         const brandTitle = document.createElement('h3');
         brandTitle.textContent = 'Chabad of Rural Arizona';
@@ -1326,19 +1834,16 @@
         tagline.style.cssText = `opacity: 0.7; font-size: 1rem; margin-bottom: 1.5rem;`;
         brand.appendChild(tagline);
 
-        // Social icons
         const social = document.createElement('div');
         social.className = 'cra-footer-social';
         social.style.cssText = `display: flex; gap: 1rem;`;
 
-        // Use extracted social links or defaults
         const socialLinks = (footerData.social && footerData.social.length > 0) ? footerData.social : [
             { href: 'https://www.facebook.com/JewishRuralAZ', icon: 'FB' },
             { href: 'https://www.instagram.com/jewishruralaz', icon: 'IG' },
             { href: 'https://www.youtube.com/@jewishruralaz', icon: 'YT' }
         ];
 
-        // SVG icons for social platforms
         const socialIcons = {
             FB: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
             IG: `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,
@@ -1379,14 +1884,12 @@
         brand.appendChild(social);
         main.appendChild(brand);
 
-        // Contact column
         const contact = document.createElement('div');
         const contactTitle = document.createElement('h4');
         contactTitle.textContent = 'Contact Us';
         contactTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
         contact.appendChild(contactTitle);
 
-        // Use extracted contact info or defaults
         const contactInfo = [];
         const c = footerData.contact || {};
 
@@ -1424,14 +1927,12 @@
         });
         main.appendChild(contact);
 
-        // Links column
         const links = document.createElement('div');
         const linksTitle = document.createElement('h4');
         linksTitle.textContent = 'Quick Links';
         linksTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
         links.appendChild(linksTitle);
 
-        // Use extracted links or defaults
         const quickLinks = (footerData.links && footerData.links.length > 0) ? footerData.links.slice(0, 6) : [
             { text: 'About', href: '/6532283' },
             { text: 'Events', href: '/templates/articlecco_cdo/aid/6532340/jewish/Events.htm' },
@@ -1465,19 +1966,16 @@
 
         content.appendChild(main);
 
-        // Bottom
         const bottom = document.createElement('div');
         bottom.style.cssText = `text-align: center;`;
         const copyright = document.createElement('p');
 
-        // Use extracted nonprofit info or default
         const nonprofitText = footerData.nonprofit ||
             'Chabad of Rural Arizona is a 501(c)(3) nonprofit organization, EIN 86-3663272 | Donations are tax-deductible';
         copyright.textContent = nonprofitText;
         copyright.style.cssText = `font-size: 0.85rem; opacity: 0.6; margin-bottom: 0.5rem;`;
         bottom.appendChild(copyright);
 
-        // Use extracted privacy policy or default
         const privacy = document.createElement('a');
         privacy.href = footerData.privacyPolicy?.href || '/4026210';
         privacy.textContent = footerData.privacyPolicy?.text || 'Privacy Policy';
@@ -1491,7 +1989,7 @@
     }
 
     // ===================================================================
-    // CREATE HEADER (Inside Shadow DOM)
+    // CREATE HEADER
     // ===================================================================
 
     function createHeader(extractedNavLinks) {
@@ -1519,7 +2017,6 @@
             align-items: center;
         `;
 
-        // Logo with image and text
         const logo = document.createElement('a');
         logo.href = '/';
         logo.style.cssText = `
@@ -1529,7 +2026,6 @@
             text-decoration: none;
         `;
 
-        // Try to get the logo from the existing page with multiple selectors
         const logoSelectors = [
             '#header_branding img',
             '.branding-search img',
@@ -1570,7 +2066,6 @@
             logo.appendChild(logoCircle);
         }
 
-        // Logo text - BIGGER
         const logoText = document.createElement('span');
         logoText.textContent = 'Chabad Rural AZ';
         logoText.style.cssText = `
@@ -1582,7 +2077,6 @@
         logo.appendChild(logoText);
         container.appendChild(logo);
 
-        // Nav links container (desktop)
         const navLinks = document.createElement('ul');
         navLinks.className = 'cra-nav-links';
         navLinks.style.cssText = `
@@ -1593,9 +2087,6 @@
             padding: 0;
         `;
 
-        // Navigation links - dynamically extracted from original site
-        // Fallback is provided in extractNavLinks() if extraction fails
-
         extractedNavLinks.forEach(link => {
             const li = document.createElement('li');
             li.style.cssText = `position: relative;`;
@@ -1603,7 +2094,6 @@
             const a = document.createElement('a');
             a.href = link.href;
             const hasSubmenu = link.submenu && link.submenu.length > 0;
-            // Add arrow indicator if has submenu
             if (hasSubmenu) {
                 a.innerHTML = `${link.text} <span style="font-size: 0.7rem; margin-left: 4px;">▼</span>`;
             } else {
@@ -1620,7 +2110,6 @@
                 align-items: center;
             `;
 
-            // Create dropdown if submenu exists
             let dropdown = null;
             if (hasSubmenu) {
                 dropdown = document.createElement('div');
@@ -1667,7 +2156,6 @@
                 li.appendChild(dropdown);
             }
 
-            // Hover events for main link and dropdown
             li.addEventListener('mouseenter', () => {
                 a.style.color = COLORS.tealGreen;
                 if (dropdown) {
@@ -1690,7 +2178,6 @@
         });
         container.appendChild(navLinks);
 
-        // Donate button - BIGGER
         const donate = document.createElement('a');
         donate.href = '/4970020';
         donate.textContent = 'Donate';
@@ -1709,7 +2196,6 @@
         donate.addEventListener('mouseleave', () => donate.style.background = COLORS.deepBurgundy);
         container.appendChild(donate);
 
-        // Hamburger menu button (for mobile)
         const hamburger = document.createElement('button');
         hamburger.className = 'cra-hamburger';
         hamburger.innerHTML = `
@@ -1728,7 +2214,6 @@
             z-index: 10001;
         `;
 
-        // Style hamburger lines
         hamburger.querySelectorAll('span').forEach(span => {
             span.style.cssText = `
                 display: block;
@@ -1741,7 +2226,6 @@
         });
         container.appendChild(hamburger);
 
-        // Mobile dropdown menu
         const mobileMenu = document.createElement('div');
         mobileMenu.className = 'cra-mobile-menu';
         mobileMenu.style.cssText = `
@@ -1758,7 +2242,6 @@
             gap: 0.5rem;
         `;
 
-        // Add links to mobile menu (using same extracted links)
         extractedNavLinks.forEach(link => {
             const a = document.createElement('a');
             a.href = link.href;
@@ -1778,7 +2261,6 @@
             mobileMenu.appendChild(a);
         });
 
-        // Mobile donate button
         const mobileDonate = document.createElement('a');
         mobileDonate.href = '/4970020';
         mobileDonate.textContent = 'Donate';
@@ -1796,12 +2278,10 @@
         `;
         mobileMenu.appendChild(mobileDonate);
 
-        // Toggle mobile menu
         let menuOpen = false;
         hamburger.addEventListener('click', () => {
             menuOpen = !menuOpen;
             mobileMenu.style.display = menuOpen ? 'flex' : 'none';
-            // Animate hamburger to X
             const spans = hamburger.querySelectorAll('span');
             if (menuOpen) {
                 spans[0].style.transform = 'rotate(45deg) translate(6px, 6px)';
@@ -1817,33 +2297,27 @@
         nav.appendChild(container);
         nav.appendChild(mobileMenu);
 
-        // Add responsive styles
         const checkWidth = () => {
             const width = window.innerWidth;
 
             if (width <= 1024) {
-                // Mobile/Tablet - show hamburger
                 navLinks.style.display = 'none';
                 donate.style.display = 'none';
                 hamburger.style.display = 'flex';
             } else {
-                // Desktop - show nav links
                 navLinks.style.display = 'flex';
                 donate.style.display = 'block';
                 hamburger.style.display = 'none';
                 mobileMenu.style.display = 'none';
                 menuOpen = false;
 
-                // Reset hamburger
                 hamburger.querySelectorAll('span').forEach(span => {
                     span.style.transform = 'none';
                     span.style.opacity = '1';
                 });
 
-                // Responsive nav link sizes
                 const navLinkElements = navLinks.querySelectorAll('a');
                 if (width <= 1200) {
-                    // Medium desktop (1025-1200px) - smaller navlinks
                     navLinks.style.gap = '0.75rem';
                     navLinkElements.forEach(link => {
                         link.style.fontSize = '1.3rem';
@@ -1852,7 +2326,6 @@
                     donate.style.fontSize = '1.2rem';
                     donate.style.padding = '1rem 2rem';
                 } else if (width <= 1400) {
-                    // Large desktop (1201-1400px) - medium navlinks
                     navLinks.style.gap = '1rem';
                     navLinkElements.forEach(link => {
                         link.style.fontSize = '1.5rem';
@@ -1861,7 +2334,6 @@
                     donate.style.fontSize = '1.35rem';
                     donate.style.padding = '1.1rem 2.25rem';
                 } else {
-                    // Extra large desktop (1400px+) - full size navlinks
                     navLinks.style.gap = '1.5rem';
                     navLinkElements.forEach(link => {
                         link.style.fontSize = '1.7rem';
@@ -1880,12 +2352,12 @@
     }
 
     // ===================================================================
-    // HIDE CMS HEADER & CONTENT (CSS only)
+    // HIDE CMS ELEMENTS
     // ===================================================================
 
-    function hideCMSElements() {
-        const headerCSS = `
-            /* Completely hide CMS header */
+    // Hide only header/footer (for subpages - keeps main content visible)
+    function hideHeaderFooterOnly() {
+        const css = `
             #header {
                 display: none !important;
                 visibility: hidden !important;
@@ -1893,18 +2365,46 @@
                 overflow: hidden !important;
             }
 
-            /* Remove body padding since we handle our own header */
+            body.cco_body {
+                padding-top: 0 !important;
+            }
+
+            #footer {
+                display: none !important;
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.id = 'cra-hide-header-footer';
+        style.textContent = css;
+        document.head.appendChild(style);
+    }
+
+    // Hide all CMS elements (for homepage - full redesign)
+    function hideAllCMSElements() {
+        console.log('CRA: Hiding CMS elements...');
+
+        // Method 1: CSS injection (for general hiding)
+        const css = `
+            #header {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+
             body.cco_body {
                 padding-top: 0 !important;
                 background: ${COLORS.lightCream} !important;
             }
 
-            /* Hide original content */
             .body_wrapper, .hp-table, #footer {
                 display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
             }
 
-            /* Reset containers */
             #BodyContainer, #co_content_container, .master-content-wrapper {
                 background: transparent !important;
                 max-width: none !important;
@@ -1916,12 +2416,37 @@
 
         const style = document.createElement('style');
         style.id = 'cra-hide-cms';
-        style.textContent = headerCSS;
+        style.textContent = css;
         document.head.appendChild(style);
+
+        // Method 2: Direct JavaScript hiding (backup - more forceful)
+        const elementsToHide = [
+            '#header',
+            '.body_wrapper',
+            '.hp-table',
+            '#footer',
+            '.promo_slider',
+            '#BodyContainer > *:not(#cra-shadow-host)'
+        ];
+
+        elementsToHide.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.style.setProperty('display', 'none', 'important');
+                el.style.setProperty('visibility', 'hidden', 'important');
+                el.style.setProperty('height', '0', 'important');
+                el.style.setProperty('overflow', 'hidden', 'important');
+            });
+            if (elements.length > 0) {
+                console.log(`CRA: Hidden ${elements.length} element(s) matching "${selector}"`);
+            }
+        });
+
+        console.log('CRA: CMS elements hidden');
     }
 
     // ===================================================================
-    // EXTRACT IMAGES FROM ORIGINAL PAGE - MAPPED TO LOCATIONS
+    // EXTRACT IMAGES
     // ===================================================================
 
     let extractedImages = {};
@@ -1936,22 +2461,18 @@
             'request': null
         };
 
-        // Helper to check if URL is a good content image
         const isGoodImage = (url) => {
             if (!url) return false;
             return (url.includes('chabad.org/media/images') || url.includes('fbcdn.net')) &&
                    !url.includes('spacer') && !url.includes('logo') && !url.includes('icon');
         };
 
-        // Helper to extract background URL from style
         const extractBgUrl = (el) => {
             const style = el.getAttribute('style') || '';
             const match = style.match(/url\(['"]?([^'")\s]+)['"]?\)/);
             return match ? match[1] : null;
         };
 
-        // STRATEGY: Find links/cards that contain location text, then find their background image
-        // The original page has clickable cards with bg images and text overlays
         const locationPatterns = [
             { key: 'payson', pattern: /payson|rim\s*country/i },
             { key: 'white mountains', pattern: /white\s*mountain/i },
@@ -1961,17 +2482,13 @@
             { key: 'request', pattern: /request\s*(a\s*)?new\s*location|new\s*location|expand/i }
         ];
 
-        // First, find all clickable elements (links) that might be location cards
         const allLinks = document.querySelectorAll('a');
 
         allLinks.forEach(link => {
             const linkText = link.textContent.trim().toLowerCase();
 
-            // Check if this link contains a location name
             for (const loc of locationPatterns) {
                 if (loc.pattern.test(linkText) && !locationImages[loc.key]) {
-                    // Found a location link! Now find its background image
-                    // Check the link itself, then parent elements up to 5 levels
                     let el = link;
                     for (let i = 0; i < 6 && el; i++) {
                         const bgUrl = extractBgUrl(el);
@@ -1997,7 +2514,6 @@
             }
         });
 
-        // BACKUP: Look for elements with background images that contain location text
         document.querySelectorAll('[style*="url"]').forEach(el => {
             const bgUrl = extractBgUrl(el);
             if (!bgUrl || !isGoodImage(bgUrl)) return;
@@ -2009,7 +2525,6 @@
             }
         });
 
-        // Collect ALL good images as fallback (in DOM order)
         const fallbackImages = [];
         const seen = new Set();
         document.querySelectorAll('[style*="url"]').forEach(el => {
@@ -2030,29 +2545,195 @@
     // INITIALIZE
     // ===================================================================
 
-    function init() {
+    // Check if current page is the homepage
+    function isHomepageCheck() {
+        const path = window.location.pathname;
+        const isHomepage = path === '/' ||
+                          path === '' ||
+                          path.endsWith('/1331') ||
+                          path.endsWith('/1331/');
+        const hasRootClass = document.body.classList.contains('section_root');
+        return isHomepage || hasRootClass;
+    }
+
+    // Create a minimal shadow container for header only
+    function createHeaderShadowContainer() {
+        const host = document.createElement('div');
+        host.id = 'cra-header-host';
+        host.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        `;
+
+        const shadow = host.attachShadow({ mode: 'open' });
+
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
+        shadow.appendChild(fontLink);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+        `;
+        shadow.appendChild(style);
+
+        return { host, shadow };
+    }
+
+    // Create a minimal shadow container for footer only
+    function createFooterShadowContainer() {
+        const host = document.createElement('div');
+        host.id = 'cra-footer-host';
+        host.style.cssText = `
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        `;
+
+        const shadow = host.attachShadow({ mode: 'open' });
+
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap';
+        shadow.appendChild(fontLink);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            *, *::before, *::after {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+        `;
+        shadow.appendChild(style);
+
+        return { host, shadow };
+    }
+
+    // Initialize header/footer on ALL pages
+    function initGlobalElements() {
+        console.log('CRA: Initializing global header/footer');
+        loadFonts();
+
+        // Extract data needed for header/footer
+        const footerData = extractFooterData();
+        const navLinks = extractNavLinks();
+
+        // Hide original header/footer only
+        hideHeaderFooterOnly();
+
+        // Create SEPARATE shadow containers for header and footer
+        // This keeps the original body content in the main DOM with its CMS styles intact
+
+        // Header shadow container
+        const headerContainer = createHeaderShadowContainer();
+        headerContainer.shadow.appendChild(createHeader(navLinks));
+        document.body.insertBefore(headerContainer.host, document.body.firstChild);
+
+        // Footer shadow container - append at end of body
+        const footerContainer = createFooterShadowContainer();
+        footerContainer.shadow.appendChild(createFooter(footerData));
+        document.body.appendChild(footerContainer.host);
+
+        // Add padding to body to account for fixed header
+        const addBodyPadding = document.createElement('style');
+        addBodyPadding.textContent = `
+            body {
+                padding-top: 90px !important;
+            }
+        `;
+        document.head.appendChild(addBodyPadding);
+    }
+
+    // Initialize full homepage redesign
+    async function initHomepage() {
+        console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
         const carouselImages = extractCarouselImages();
+        const heroSlides = extractAllHeroSlides();
         extractedImages = extractOriginalImages();
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
         const navLinks = extractNavLinks();
 
-        // Hide CMS elements (header, footer, content)
-        hideCMSElements();
+        // Fetch events from events page
+        console.log('CRA: Fetching events...');
+        const events = await fetchEvents();
+
+        // Hide ALL CMS elements for full redesign
+        hideAllCMSElements();
 
         // Create shadow container
         const { host, shadow } = createShadowContainer();
 
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
-        shadow.appendChild(createHero(carouselImages));
-        shadow.appendChild(createLocations(extractedImages));
-        shadow.appendChild(createActions());
-        shadow.appendChild(createPhotos(photoUrls));
-        shadow.appendChild(createFooter(footerData));
+        shadow.appendChild(createHero(carouselImages, heroSlides));
+
+        // About section (with animation)
+        const aboutSection = createAbout();
+        aboutSection.classList.add('cra-animate');
+        aboutSection.dataset.animation = 'left';
+        shadow.appendChild(aboutSection);
+
+        // Create sections with animation classes (alternating left/right)
+        const locationsSection = createLocations(extractedImages);
+        locationsSection.classList.add('cra-animate');
+        locationsSection.dataset.animation = 'right';
+        shadow.appendChild(locationsSection);
+
+        const actionsSection = createActions();
+        actionsSection.classList.add('cra-animate');
+        actionsSection.dataset.animation = 'left';
+        shadow.appendChild(actionsSection);
+
+        // Events section (fetched from events page)
+        const eventsSection = createEvents(events);
+        eventsSection.classList.add('cra-animate');
+        eventsSection.dataset.animation = 'right';
+        shadow.appendChild(eventsSection);
+
+        const photosSection = createPhotos(photoUrls);
+        photosSection.classList.add('cra-animate');
+        photosSection.dataset.animation = 'left';
+        shadow.appendChild(photosSection);
+
+        const footerSection = createFooter(footerData);
+        footerSection.classList.add('cra-animate');
+        footerSection.dataset.animation = 'right';
+        shadow.appendChild(footerSection);
+
+        // Set up Intersection Observer for scroll-triggered animations
+        const animatedSections = shadow.querySelectorAll('.cra-animate');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const direction = entry.target.dataset.animation;
+                    entry.target.classList.add(direction === 'left' ? 'cra-slide-left' : 'cra-slide-right');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        animatedSections.forEach(section => observer.observe(section));
 
         // Insert into page
         const bodyWrapper = document.querySelector('.body_wrapper');
@@ -2061,13 +2742,52 @@
         } else {
             document.body.appendChild(host);
         }
+
+        console.log('CRA Redesign: Homepage complete');
     }
 
-    // Run
+    // Main init - decides which version to run
+    function init() {
+        if (isHomepageCheck()) {
+            initHomepage();
+        } else {
+            initGlobalElements();
+        }
+    }
+
+    // Wait for carousel to be ready (jQuery Cycle sets images after DOMContentLoaded)
+    function waitForCarousel(callback, maxAttempts = 20) {
+        let attempts = 0;
+        const check = () => {
+            attempts++;
+            const slider = document.querySelector('.promo_slider');
+            const hasImages = slider && slider.querySelectorAll('[style*="url"]').length > 0;
+
+            if (hasImages || attempts >= maxAttempts) {
+                console.log(`CRA: Carousel ready after ${attempts} attempts, hasImages: ${hasImages}`);
+                callback();
+            } else {
+                setTimeout(check, 100); // Check every 100ms
+            }
+        };
+        check();
+    }
+
+    // Run - homepage waits for carousel, subpages run immediately
+    function run() {
+        if (isHomepageCheck()) {
+            // Homepage: wait for carousel images to load
+            waitForCarousel(init);
+        } else {
+            // Subpages: run immediately
+            init();
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', run);
     } else {
-        init();
+        run();
     }
 
 })();
