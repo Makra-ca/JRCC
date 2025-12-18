@@ -800,18 +800,49 @@ body.pv-registration-page .pv-info-section-title {
     border-top: none !important;
 }
 
+/* Info cards wrapper - ensure full width */
+body.pv-registration-page .pv-info-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 body.pv-registration-page .pv-info-cards-grid {
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 1.5rem !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
     width: 100% !important;
-    max-width: 700px !important;
+    max-width: 100% !important;
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+}
+
+/* Info cards - 2 columns on larger screens */
+body.pv-registration-page .pv-info-cards-grid > div {
+    flex: 1 1 calc(50% - 15px) !important;
+    min-width: 200px !important;
+    display: block !important;
+}
+
+/* Responsive - Single column on tablets (900px and below) */
+@media (max-width: 900px) {
+    body.pv-registration-page .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* Responsive - Smaller gap on mobile (600px and below) */
+@media (max-width: 600px) {
+    body.pv-registration-page .pv-info-cards-grid {
+        gap: 20px !important;
+    }
+
+    body.pv-registration-page .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
 }
 
 /* =========================================================
@@ -1411,6 +1442,93 @@ body.pv-registration-page #Payment {
 }
 
 /* =========================================================
+   SINGLE EVENT - PAYMENT INFORMATION 2-COLUMN GRID
+   ========================================================= */
+/* Payment Information section - 2 column grid layout */
+body.pv-registration-page .credit_card .large_top_padding > div {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px 30px !important;
+    max-width: 100% !important;
+    align-items: start !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.title {
+    grid-column: 1 / -1 !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding.required:first-of-type {
+    grid-column: 1 / -1 !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding {
+    display: block !important;
+    text-align: left !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding .bold,
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding .FormLabel,
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding .label {
+    float: none !important;
+    display: block !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 8px !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding .float_left {
+    float: none !important;
+    display: inline-block !important;
+    width: auto !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding input[type="text"],
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding select:not([name="x_exp_month"]):not([name="x_exp_year"]) {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.pv-registration-page .credit_card .clearfix.small_vertical_padding:not(:has([name="x_exp_month"])) .float_left {
+    display: block !important;
+    width: 100% !important;
+}
+
+body.pv-registration-page .credit_card select[name="x_exp_month"],
+body.pv-registration-page .credit_card select[name="x_exp_year"] {
+    width: auto !important;
+    min-width: 100px !important;
+    margin-right: 10px !important;
+}
+
+body.pv-registration-page .credit_card .clearfix:has([name="x_exp_month"]) .float_left {
+    display: inline-block !important;
+    width: auto !important;
+    margin-right: 5px !important;
+}
+
+body.pv-registration-page .credit_card .clearfix:has(textarea) {
+    grid-column: 1 / -1 !important;
+    text-align: left !important;
+}
+
+body.pv-registration-page .credit_card .clearfix:has(textarea) .bold {
+    margin-left: 0 !important;
+}
+
+body.pv-registration-page .credit_card textarea {
+    width: 100% !important;
+}
+
+body.pv-registration-page .credit_card .small_vertical_padding:has(.required_indicator) {
+    grid-column: 1 / -1 !important;
+}
+
+/* =========================================================
    SINGLE EVENT - SUBMIT BUTTON
    ========================================================= */
 body.pv-registration-page #Buttons {
@@ -1620,9 +1738,9 @@ form#RegisterSinglePage {
         margin-bottom: 0.75rem !important;
     }
 
+    /* Grid gap adjustment handled by 600px media query above */
     body.pv-registration-page .pv-info-cards-grid {
-        justify-content: center !important;
-        gap: 0.5rem !important;
+        justify-content: space-between !important;
     }
 
     body.pv-registration-page #RegisterBody,

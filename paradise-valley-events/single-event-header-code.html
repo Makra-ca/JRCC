@@ -555,11 +555,43 @@ form textarea {
     box-shadow: none !important;
 }
 
+/* Info cards wrapper - ensure full width */
+.pv-info-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 .pv-info-cards-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    gap: 1.5rem !important;
-    grid-column: 1 / -1 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Info cards - 2 columns on larger screens */
+.pv-info-cards-grid > div {
+    flex: 1 1 calc(50% - 15px) !important;
+    min-width: 200px !important;
+    display: block !important;
+}
+
+/* Responsive - Single column on tablets (900px and below) */
+@media (max-width: 900px) {
+    .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* Responsive - Smaller gap on mobile (600px and below) */
+@media (max-width: 600px) {
+    .pv-info-cards-grid {
+        gap: 20px !important;
+    }
+    .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
 }
 
 /* =========================================================
