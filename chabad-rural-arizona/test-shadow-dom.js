@@ -20,7 +20,7 @@
     'use strict';
 
     // VERSION CHECK - helps verify correct script is running
-    const SCRIPT_VERSION = '3.2-hero-mobile-wrap';
+    const SCRIPT_VERSION = '3.6-fix-load-spasm';
     console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
 
     // ===================================================================
@@ -530,9 +530,9 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(
                 180deg,
-                rgba(0,0,0,0.3) 0%,
-                rgba(0,0,0,0.4) 50%,
-                rgba(74,31,36,0.7) 100%
+                rgba(0,0,0,0.5) 0%,
+                rgba(0,0,0,0.55) 50%,
+                rgba(74,31,36,0.8) 100%
             );
             z-index: 1;
         `;
@@ -544,16 +544,12 @@
         content.style.cssText = `
             position: relative;
             z-index: 2;
-            max-width: 900px;
-        `;
-
-        // H1 wrapper to allow typewriter to extend beyond content max-width
-        const h1Wrapper = document.createElement('div');
-        h1Wrapper.style.cssText = `
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            overflow: visible;
         `;
 
         // Get initial text from first slide or use defaults
@@ -563,40 +559,38 @@
 
         const h1 = document.createElement('h1');
         h1.textContent = firstSlide.title || defaultTitle;
-        h1.className = 'cra-typewriter-cursor';
         h1.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(1.5rem, 6vw, 4rem);
-            font-weight: 600;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 700;
             color: white;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
-            margin: 0 auto 1rem auto;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8), 0 4px 20px rgba(0,0,0,0.5);
+            margin: 0 0 1rem 0;
             padding: 0 1rem;
             line-height: 1.2;
             letter-spacing: 0.02em;
-            background: none;
-            display: block;
             text-transform: uppercase;
             word-wrap: break-word;
             overflow-wrap: break-word;
             white-space: normal;
-            max-width: 90%;
+            max-width: 95%;
             transition: opacity 0.5s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
         `;
-        h1Wrapper.appendChild(h1);
-        content.appendChild(h1Wrapper);
-
-        // Remove cursor after typewriter animation completes
-        setTimeout(() => h1.classList.add('typing-done'), 2600);
+        content.appendChild(h1);
 
         const subtitle = document.createElement('p');
         subtitle.className = 'cra-hero-subtitle';
         subtitle.textContent = firstSlide.subtitle || defaultSubtitle;
         subtitle.style.cssText = `
-            font-size: clamp(0.95rem, 4vw, 1.35rem);
-            color: ${COLORS.warmCream};
+            font-size: clamp(1.25rem, 3.5vw, 2rem);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.7), 0 2px 10px rgba(0,0,0,0.4);
             margin: 0 0 1.5rem 0;
             padding: 0 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
             font-weight: 400;
             max-width: 700px;
             line-height: 1.5;
@@ -615,10 +609,10 @@
                 display: inline-block;
                 background: ${COLORS.goldenSand};
                 color: ${COLORS.darkBurgundy};
-                padding: 1.25rem 3rem;
+                padding: 1.25rem 3.5rem;
                 border-radius: 50px;
                 font-weight: 600;
-                font-size: 1.4rem;
+                font-size: clamp(1.1rem, 2.5vw, 1.5rem);
                 text-decoration: none;
                 transition: all 0.3s ease;
                 box-shadow: 0 4px 15px rgba(0,0,0,0.2);
@@ -748,6 +742,33 @@
 
         hero.appendChild(content);
 
+        // Hero animations and responsive styles
+        const heroStyle = document.createElement('style');
+        heroStyle.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @media (max-width: 768px) {
+                .cra-hero {
+                    min-height: 85vh !important;
+                    padding: 4rem 1.5rem 3rem !important;
+                }
+            }
+            @media (max-width: 480px) {
+                .cra-hero {
+                    min-height: 75vh !important;
+                }
+            }
+        `;
+        hero.appendChild(heroStyle);
+
         return hero;
     }
 
@@ -793,6 +814,9 @@
     // CREATE ABOUT SECTION
     // ===================================================================
 
+    // About section image - menorah lighting community gathering
+    const ABOUT_IMAGE_URL = 'https://lh3.googleusercontent.com/d/1g8Ebb9TdSXVRA0uioxd8x4q1gJrMrwzk';
+
     function createAbout() {
         const section = document.createElement('section');
         section.className = 'cra-about';
@@ -804,9 +828,8 @@
 
         const container = document.createElement('div');
         container.style.cssText = `
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
-            text-align: center;
         `;
 
         const h2 = document.createElement('h2');
@@ -815,23 +838,89 @@
             font-family: 'Urbanist', sans-serif;
             font-size: clamp(2rem, 5vw, 3rem);
             color: ${COLORS.deepBurgundy};
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 2rem 0;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
+            text-align: center;
         `;
         container.appendChild(h2);
 
-        const text = document.createElement('p');
-        text.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride. We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally. From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
-        text.style.cssText = `
-            font-size: clamp(18px, 2.5vw, 24px);
-            line-height: 1.9;
-            color: ${COLORS.darkBurgundy};
-            margin: 0 0 2.5rem 0;
-            font-weight: 400;
+        // Content wrapper for text wrap effect
+        const contentWrapper = document.createElement('div');
+        contentWrapper.style.cssText = `
+            overflow: hidden;
         `;
-        container.appendChild(text);
+
+        // Image floated to the right
+        const imageWrapper = document.createElement('div');
+        imageWrapper.style.cssText = `
+            float: right;
+            width: 45%;
+            max-width: 450px;
+            margin: 0 0 1.5rem 2rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        `;
+
+        const img = document.createElement('img');
+        img.src = ABOUT_IMAGE_URL;
+        img.alt = 'Community gathering at menorah lighting ceremony';
+        img.style.cssText = `
+            width: 100%;
+            height: auto;
+            display: block;
+        `;
+        imageWrapper.appendChild(img);
+        contentWrapper.appendChild(imageWrapper);
+
+        // Text paragraphs that wrap around the image
+        const text1 = document.createElement('p');
+        text1.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride.";
+        text1.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.8;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 1.5rem 0;
+            font-weight: 400;
+            text-align: justify;
+        `;
+        contentWrapper.appendChild(text1);
+
+        const text2 = document.createElement('p');
+        text2.textContent = "We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally.";
+        text2.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.8;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 1.5rem 0;
+            font-weight: 400;
+            text-align: justify;
+        `;
+        contentWrapper.appendChild(text2);
+
+        const text3 = document.createElement('p');
+        text3.textContent = "From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
+        text3.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.8;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 2rem 0;
+            font-weight: 400;
+            text-align: justify;
+        `;
+        contentWrapper.appendChild(text3);
+
+        container.appendChild(contentWrapper);
+
+        // Button centered below
+        const btnWrapper = document.createElement('div');
+        btnWrapper.style.cssText = `
+            text-align: center;
+            clear: both;
+            padding-top: 1rem;
+        `;
 
         const btn = document.createElement('a');
         btn.href = '/about';
@@ -843,7 +932,7 @@
             border: 2px solid ${COLORS.deepBurgundy};
             padding: 16px 40px;
             border-radius: 50px;
-            font-size: clamp(16px, 2vw, 20px);
+            font-size: clamp(16px, 2vw, 18px);
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -859,8 +948,24 @@
             btn.style.color = COLORS.deepBurgundy;
         });
 
-        container.appendChild(btn);
+        btnWrapper.appendChild(btn);
+        container.appendChild(btnWrapper);
+
         section.appendChild(container);
+
+        // Responsive adjustments
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .cra-about div[style*="float: right"] {
+                    float: none !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    margin: 0 0 1.5rem 0 !important;
+                }
+            }
+        `;
+        section.appendChild(style);
 
         return section;
     }
@@ -2674,12 +2779,12 @@
         const footerData = extractFooterData();
         const navLinks = extractNavLinks();
 
-        // Fetch events from events page
+        // Hide CMS IMMEDIATELY after extraction (before any async calls)
+        hideAllCMSElements();
+
+        // Fetch events from events page (async, but CMS already hidden)
         console.log('CRA: Fetching events...');
         const events = await fetchEvents();
-
-        // Hide ALL CMS elements for full redesign
-        hideAllCMSElements();
 
         // Create shadow container
         const { host, shadow } = createShadowContainer();
