@@ -450,6 +450,65 @@
             registerBody.classList.add('pv-pricing-styled');
         }
 
+        // =========================================================
+        // CATEGORY SELECTION PRESERVATION FIX
+        // =========================================================
+        // When user selects a category and clicks "Add", the form expands
+        // but the category dropdown resets. This fix preserves the selection.
+        function initCategoryPreservationFix() {
+            if (typeof Events === 'undefined' || !Events.priceCategoryAddButtonClick) {
+                // Events object not ready yet, retry
+                setTimeout(initCategoryPreservationFix, 100);
+                return;
+            }
+
+            // Already patched? Don't patch again
+            if (Events._pvCategoryFixApplied) return;
+            Events._pvCategoryFixApplied = true;
+
+            // Save the original function
+            var originalAddButtonClick = Events.priceCategoryAddButtonClick;
+
+            // Create a wrapper that preserves category selection
+            Events.priceCategoryAddButtonClick = function(button) {
+                // Find the category dropdown (ID contains "priceCategory")
+                var categoryDropdown = document.querySelector('select[id*="priceCategory"]');
+                var selectedCategoryValue = categoryDropdown ? categoryDropdown.value : null;
+
+                // Only preserve if a real selection was made (not empty/default)
+                var shouldPreserve = selectedCategoryValue &&
+                    selectedCategoryValue !== '' &&
+                    selectedCategoryValue !== '0';
+
+                // Call the original function
+                originalAddButtonClick.call(this, button);
+
+                // After DOM updates, populate the category dropdown
+                if (shouldPreserve) {
+                    var attempts = 0;
+                    var maxAttempts = 10;
+
+                    function trySetValue() {
+                        var dropdownInExpanded = document.querySelector('select[id*="priceCategory"]');
+                        if (dropdownInExpanded && dropdownInExpanded.value !== selectedCategoryValue) {
+                            dropdownInExpanded.value = selectedCategoryValue;
+                            console.log('✅ Category selection preserved:', selectedCategoryValue);
+                        } else if (attempts < maxAttempts) {
+                            attempts++;
+                            setTimeout(trySetValue, 50);
+                        }
+                    }
+
+                    setTimeout(trySetValue, 100);
+                }
+            };
+
+            console.log('✅ Category preservation fix applied');
+        }
+
+        // Initialize the fix
+        initCategoryPreservationFix();
+
         // Run single event functions
         styleInfoCards();
         stylePricingSection();

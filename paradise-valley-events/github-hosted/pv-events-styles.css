@@ -800,18 +800,49 @@ body.pv-registration-page .pv-info-section-title {
     border-top: none !important;
 }
 
+/* Info cards wrapper - ensure full width */
+body.pv-registration-page .pv-info-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
 body.pv-registration-page .pv-info-cards-grid {
     display: flex !important;
     flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 1.5rem !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
     width: 100% !important;
-    max-width: 700px !important;
+    max-width: 100% !important;
     background: transparent !important;
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+}
+
+/* Info cards - 2 columns on larger screens */
+body.pv-registration-page .pv-info-cards-grid > div {
+    flex: 1 1 calc(50% - 15px) !important;
+    min-width: 200px !important;
+    display: block !important;
+}
+
+/* Responsive - Single column on tablets (900px and below) */
+@media (max-width: 900px) {
+    body.pv-registration-page .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* Responsive - Smaller gap on mobile (600px and below) */
+@media (max-width: 600px) {
+    body.pv-registration-page .pv-info-cards-grid {
+        gap: 20px !important;
+    }
+
+    body.pv-registration-page .pv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
 }
 
 /* =========================================================
@@ -1620,9 +1651,9 @@ form#RegisterSinglePage {
         margin-bottom: 0.75rem !important;
     }
 
+    /* Grid gap adjustment handled by 600px media query above */
     body.pv-registration-page .pv-info-cards-grid {
-        justify-content: center !important;
-        gap: 0.5rem !important;
+        justify-content: space-between !important;
     }
 
     body.pv-registration-page #RegisterBody,
