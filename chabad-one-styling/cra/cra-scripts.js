@@ -1015,7 +1015,7 @@
     // ===================================================================
 
     // About section image - menorah lighting community gathering
-    const ABOUT_IMAGE_URL = 'https://lh3.googleusercontent.com/d/1g8Ebb9TdSXVRA0uioxd8x4q1gJrMrwzk';
+    const ABOUT_IMAGE_URL = 'https://lh3.googleusercontent.com/d/1_u6rHCHVRycRr6iTjB1J4lPcxp-xdEtu';
 
     function createAbout() {
         const section = document.createElement('section');
@@ -1080,11 +1080,11 @@
         text1.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride.";
         text1.style.cssText = `
             font-size: clamp(17px, 2.2vw, 20px);
-            line-height: 1.8;
+            line-height: 1.6;
             color: ${COLORS.darkBurgundy};
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 1rem 0;
             font-weight: 400;
-            text-align: justify;
+            text-align: left;
         `;
         contentWrapper.appendChild(text1);
 
@@ -1092,11 +1092,11 @@
         text2.textContent = "We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally.";
         text2.style.cssText = `
             font-size: clamp(17px, 2.2vw, 20px);
-            line-height: 1.8;
+            line-height: 1.6;
             color: ${COLORS.darkBurgundy};
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 1rem 0;
             font-weight: 400;
-            text-align: justify;
+            text-align: left;
         `;
         contentWrapper.appendChild(text2);
 
@@ -1104,11 +1104,11 @@
         text3.textContent = "From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
         text3.style.cssText = `
             font-size: clamp(17px, 2.2vw, 20px);
-            line-height: 1.8;
+            line-height: 1.6;
             color: ${COLORS.darkBurgundy};
-            margin: 0 0 2rem 0;
+            margin: 0 0 1rem 0;
             font-weight: 400;
-            text-align: justify;
+            text-align: left;
         `;
         contentWrapper.appendChild(text3);
 
@@ -2032,15 +2032,6 @@
             logo.appendChild(logoCircle);
         }
 
-        const logoText = document.createElement('span');
-        logoText.textContent = 'Chabad Rural AZ';
-        logoText.style.cssText = `
-            font-family: 'Urbanist', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            color: ${COLORS.deepBurgundy};
-        `;
-        logo.appendChild(logoText);
         container.appendChild(logo);
 
         const navLinks = document.createElement('ul');
