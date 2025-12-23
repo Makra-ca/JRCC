@@ -646,7 +646,6 @@
             li.appendChild(a);
             navList.appendChild(li);
         });
-        container.appendChild(navList);
 
         // Social links (text, not icons)
         const socialLinks = [
@@ -655,22 +654,19 @@
         ];
 
         socialLinks.forEach(social => {
+            const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = social.href;
             a.target = '_blank';
             a.textContent = social.text;
-            a.id = 'nav-social-' + social.text.toLowerCase();
             a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:15px;transition:color 0.3s;`;
             a.onmouseenter = () => a.style.color = COLORS.tealAccent;
             a.onmouseleave = () => a.style.color = COLORS.navyBlue;
-            navList.appendChild(createNavItem(a));
+            li.appendChild(a);
+            navList.appendChild(li);
         });
 
-        function createNavItem(anchor) {
-            const li = document.createElement('li');
-            li.appendChild(anchor);
-            return li;
-        }
+        container.appendChild(navList);
 
         // CTA (desktop)
         const cta = document.createElement('a');
