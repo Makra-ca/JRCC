@@ -629,11 +629,13 @@
         logo.appendChild(logoText);
         container.appendChild(logo);
 
-        // Nav links (desktop)
+        // Nav links (desktop) - filter out "Contact" since we have a CTA button for it
         const navList = document.createElement('ul');
         navList.id = 'nav-links';
         navList.style.cssText = 'display:flex;gap:28px;list-style:none;';
-        data.nav.slice(0, 5).forEach(link => {
+        data.nav.slice(0, 5)
+            .filter(link => !link.text.toLowerCase().includes('contact'))
+            .forEach(link => {
             const li = document.createElement('li');
             const a = document.createElement('a');
             a.href = link.href;
@@ -645,6 +647,30 @@
             navList.appendChild(li);
         });
         container.appendChild(navList);
+
+        // Social links (text, not icons)
+        const socialLinks = [
+            { text: 'Facebook', href: 'https://facebook.com/yjpcincinnati' },
+            { text: 'Instagram', href: 'https://instagram.com/yjp_cincinnati' }
+        ];
+
+        socialLinks.forEach(social => {
+            const a = document.createElement('a');
+            a.href = social.href;
+            a.target = '_blank';
+            a.textContent = social.text;
+            a.id = 'nav-social-' + social.text.toLowerCase();
+            a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:15px;transition:color 0.3s;`;
+            a.onmouseenter = () => a.style.color = COLORS.tealAccent;
+            a.onmouseleave = () => a.style.color = COLORS.navyBlue;
+            navList.appendChild(createNavItem(a));
+        });
+
+        function createNavItem(anchor) {
+            const li = document.createElement('li');
+            li.appendChild(anchor);
+            return li;
+        }
 
         // CTA (desktop)
         const cta = document.createElement('a');
@@ -683,11 +709,28 @@
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Mobile nav links
-        data.nav.slice(0, 5).forEach(link => {
+        // Mobile nav links - filter out "Contact" since we have a CTA button for it
+        data.nav.slice(0, 5)
+            .filter(link => !link.text.toLowerCase().includes('contact'))
+            .forEach(link => {
             const a = document.createElement('a');
             a.href = link.href;
             a.textContent = link.text;
+            a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:16px;padding:12px 0;border-bottom:1px solid ${COLORS.lightGray};display:block;`;
+            mobileMenu.appendChild(a);
+        });
+
+        // Mobile social links (text)
+        const mobileSocialLinks = [
+            { text: 'Facebook', href: 'https://facebook.com/yjpcincinnati' },
+            { text: 'Instagram', href: 'https://instagram.com/yjp_cincinnati' }
+        ];
+
+        mobileSocialLinks.forEach(social => {
+            const a = document.createElement('a');
+            a.href = social.href;
+            a.target = '_blank';
+            a.textContent = social.text;
             a.style.cssText = `color:${COLORS.navyBlue};font-weight:500;font-size:16px;padding:12px 0;border-bottom:1px solid ${COLORS.lightGray};display:block;`;
             mobileMenu.appendChild(a);
         });
@@ -1628,21 +1671,56 @@
     // ===================================================================
 
     function hideCMS() {
+        // Remove any existing hide style to prevent duplicates
+        const existingStyle = document.getElementById('yjp-hide-cms');
+        if (existingStyle) existingStyle.remove();
+
         const style = document.createElement('style');
         style.id = 'yjp-hide-cms';
         style.textContent = `
+            /* Hide ALL body children except shadow host */
+            body > *:not(#yjp-shadow-host) {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                overflow: hidden !important;
+            }
+
+            /* Specific CMS containers */
             #chabad_body_page,
             #BodyContainer,
-            #chabad_main_content > *:not(#yjp-shadow-host) {
+            #chabad_main_content,
+            #back-header,
+            #back-footer,
+            .back-slider,
+            .back-about,
+            .back-service,
+            .back-cta,
+            .back-clients,
+            footer {
                 display: none !important;
+                visibility: hidden !important;
             }
+
+            /* Reset body */
             body.cco_body {
                 padding: 0 !important;
                 margin: 0 !important;
                 background: ${COLORS.lightGray} !important;
+                overflow-x: hidden !important;
+            }
+
+            /* Ensure shadow host is visible */
+            #yjp-shadow-host {
+                display: block !important;
+                visibility: visible !important;
+                height: auto !important;
+                overflow: visible !important;
             }
         `;
         document.head.appendChild(style);
+
+        console.log('YJP: CMS hidden with aggressive CSS');
     }
 
     // ===================================================================
@@ -1650,6 +1728,14 @@
     // ===================================================================
 
     async function init() {
+        // Prevent duplicate runs
+        if (document.getElementById('yjp-shadow-host')) {
+            console.log('YJP Cincinnati: Already running, removing old instance...');
+            document.getElementById('yjp-shadow-host').remove();
+            const oldStyle = document.getElementById('yjp-hide-cms');
+            if (oldStyle) oldStyle.remove();
+        }
+
         console.log('YJP Cincinnati: Starting redesign...');
         loadFonts();
 
