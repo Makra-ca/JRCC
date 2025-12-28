@@ -206,6 +206,22 @@
                     grid-template-columns: repeat(2, 1fr) !important;
                 }
             }
+
+            /* Custom scrollbar for dropdowns */
+            .cra-dropdown::-webkit-scrollbar {
+                width: 8px;
+            }
+            .cra-dropdown::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+            .cra-dropdown::-webkit-scrollbar-thumb {
+                background: ${COLORS.deepBurgundy};
+                border-radius: 4px;
+            }
+            .cra-dropdown::-webkit-scrollbar-thumb:hover {
+                background: ${COLORS.darkBurgundy};
+            }
         `;
         shadow.appendChild(style);
 
@@ -2197,12 +2213,16 @@
             let dropdown = null;
             if (hasSubmenu) {
                 dropdown = document.createElement('div');
+                dropdown.className = 'cra-dropdown';
                 dropdown.style.cssText = `
                     position: absolute;
                     top: 100%;
                     left: 0;
                     background: white;
                     min-width: 220px;
+                    max-height: calc(100vh - 120px);
+                    overflow-y: auto;
+                    overflow-x: hidden;
                     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
                     border-radius: 12px;
                     padding: 0.75em 0;
@@ -2311,13 +2331,15 @@
         container.appendChild(hamburger);
 
         const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'cra-mobile-menu';
+        mobileMenu.className = 'cra-mobile-menu cra-dropdown';
         mobileMenu.style.cssText = `
             display: none;
             position: fixed;
             top: 80px;
             left: 0;
             right: 0;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
             background: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             padding: 1.5em;
