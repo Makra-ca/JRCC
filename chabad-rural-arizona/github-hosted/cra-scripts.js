@@ -525,6 +525,104 @@
     }
 
     // ===================================================================
+    // CREATE FUNDRAISER SECTION (Chabad on Wheels)
+    // ===================================================================
+
+    function createFundraiser() {
+        const section = document.createElement('section');
+        section.className = 'cra-fundraiser';
+        section.style.cssText = `
+            padding: 0;
+            font-family: 'Urbanist', sans-serif;
+            overflow: hidden;
+        `;
+
+        const link = document.createElement('a');
+        link.href = 'https://www.canva.com/design/DAG5qPrj8Lo/YSYlnluDqpfLbIsHLeRVlA/edit?utm_content=DAG5qPrj8Lo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton';
+        link.target = '_blank';
+        link.style.cssText = `
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease;
+        `;
+
+        // Banner image container
+        const bannerContainer = document.createElement('div');
+        bannerContainer.style.cssText = `
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            position: relative;
+        `;
+
+        const bannerImage = document.createElement('img');
+        bannerImage.src = 'https://drive.google.com/uc?export=view&id=1632ElUxUnVlF3ru0OLRA6kw3H61o2ePA';
+        bannerImage.alt = 'Chabad on Wheels - Raising $60K for a Mobile Jewish Center';
+        bannerImage.style.cssText = `
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        `;
+        bannerContainer.appendChild(bannerImage);
+
+        // Hover overlay with CTA
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(74, 31, 36, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        `;
+
+        const ctaButton = document.createElement('span');
+        ctaButton.textContent = 'Learn More & Donate';
+        ctaButton.style.cssText = `
+            background: ${COLORS.goldenSand};
+            color: ${COLORS.darkBurgundy};
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        `;
+        overlay.appendChild(ctaButton);
+        bannerContainer.appendChild(overlay);
+
+        link.appendChild(bannerContainer);
+
+        // Hover effects
+        link.addEventListener('mouseenter', () => {
+            bannerImage.style.transform = 'scale(1.02)';
+            overlay.style.background = 'rgba(74, 31, 36, 0.4)';
+            ctaButton.style.opacity = '1';
+            ctaButton.style.transform = 'translateY(0)';
+        });
+        link.addEventListener('mouseleave', () => {
+            bannerImage.style.transform = 'scale(1)';
+            overlay.style.background = 'rgba(74, 31, 36, 0)';
+            ctaButton.style.opacity = '0';
+            ctaButton.style.transform = 'translateY(20px)';
+        });
+
+        section.appendChild(link);
+
+        return section;
+    }
+
+    // ===================================================================
     // CREATE LOCATIONS SECTION
     // ===================================================================
 
@@ -2117,25 +2215,31 @@
         shadow.appendChild(createHeader(navLinks));
         shadow.appendChild(createHero(carouselImages));
 
+        // Fundraiser section (Chabad on Wheels) - right after hero
+        const fundraiserSection = createFundraiser();
+        fundraiserSection.classList.add('cra-animate');
+        fundraiserSection.dataset.animation = 'left';
+        shadow.appendChild(fundraiserSection);
+
         // Create sections with animation classes (alternating left/right)
         const locationsSection = createLocations(extractedImages);
         locationsSection.classList.add('cra-animate');
-        locationsSection.dataset.animation = 'left';
+        locationsSection.dataset.animation = 'right';
         shadow.appendChild(locationsSection);
 
         const actionsSection = createActions();
         actionsSection.classList.add('cra-animate');
-        actionsSection.dataset.animation = 'right';
+        actionsSection.dataset.animation = 'left';
         shadow.appendChild(actionsSection);
 
         const photosSection = createPhotos(photoUrls);
         photosSection.classList.add('cra-animate');
-        photosSection.dataset.animation = 'left';
+        photosSection.dataset.animation = 'right';
         shadow.appendChild(photosSection);
 
         const footerSection = createFooter(footerData);
         footerSection.classList.add('cra-animate');
-        footerSection.dataset.animation = 'right';
+        footerSection.dataset.animation = 'left';
         shadow.appendChild(footerSection);
 
         // Set up Intersection Observer for scroll-triggered animations
