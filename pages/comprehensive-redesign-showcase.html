@@ -389,6 +389,32 @@
             padding: 2rem;
         }
 
+        /* Iframe loading state */
+        .iframe-container,
+        .comparison-panel-content {
+            position: relative;
+            background: #f0f0f0;
+        }
+
+        .iframe-container::before,
+        .comparison-panel-content::before {
+            content: 'Loading...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            color: #888;
+            z-index: 1;
+        }
+
+        .iframe-container iframe,
+        .comparison-panel-content iframe {
+            position: relative;
+            z-index: 2;
+            background: white;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .slide.title-slide h1 {
@@ -460,16 +486,40 @@
         const pages = [
             // Chabad One pages (non-JRCC)
             {
-                name: "Embeddable Events - Chanukah Around the State",
+                name: "Chabad Rural Arizona - Homepage",
                 category: "Chabad Arizona",
-                oldPath: "/embeddable-events/before/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：34：38 PM).html",
-                newPath: "/embeddable-events/after/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：27：59 PM).html"
+                oldPath: "/chabad-rural-arizona/main-page-before/Chabad of Rural Arizona (12_1_2025 9：56：04 PM).html",
+                newPath: "/chabad-rural-arizona/main-page-after/Chabad of Rural Arizona (12_1_2025 11：50：33 PM).html"
+            },
+            {
+                name: "YJP Cincinnati - Homepage",
+                category: "YJP Cincinnati",
+                oldPath: "/chabad-yjp-cincinnati/before/YJP Cincinnati (12_11_2025 5：36：19 PM).html",
+                newPath: "/chabad-yjp-cincinnati/after/YJP Cincinnati (12_31_2025 1：05：12 PM).html"
             },
             {
                 name: "Paradise Valley - Events Landing Page",
                 category: "Paradise Valley",
                 oldPath: "/paradise-valley-events/Events-Landing-page before/Event Reservations - JewishParadiseValley.com (12_1_2025 6：45：33 PM).html",
                 newPath: "/paradise-valley-events/Events-Landing-page after/Event Reservations - JewishParadiseValley.com (12_1_2025 6：48：22 PM).html"
+            },
+            {
+                name: "Paradise Valley - Event Registration",
+                category: "Paradise Valley",
+                oldPath: "/paradise-valley-events/Events-registration-before/An Evening with Hostage Survivor Omer Shem Tov ｜ Event Reservations ｜ Chabad of Paradise Valley & Arcadia (12_1_2025 6：45：53 PM).html",
+                newPath: "/paradise-valley-events/Evenbts-registration-after/An Evening with Hostage Survivor Omer Shem Tov ｜ Event Reservations ｜ Chabad of Paradise Valley & Arcadia (12_1_2025 6：46：55 PM).html"
+            },
+            {
+                name: "Embeddable Events - Chanukah Around the State",
+                category: "Chabad Arizona",
+                oldPath: "/embeddable-events/before/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：34：38 PM).html",
+                newPath: "/embeddable-events/after/Chanukah Around the State - ChabadAZ.com (12_1_2025 6：27：59 PM).html"
+            },
+            {
+                name: "Chabad North Shore - Chanukah Events",
+                category: "Chabad North Shore",
+                oldPath: "/chabad-north-shore/before/Chanukah Events 2025 - ChabadHouse.org.au (12_31_2025 1：28：46 PM).html",
+                newPath: "/chabad-north-shore/after/Chanukah Events 2025 - ChabadHouse.org.au (12_31_2025 1：26：23 PM).html"
             },
             // JRCC pages
             {
@@ -628,7 +678,7 @@
                             <h3>${page.name}</h3>
                         </div>
                         <div class="iframe-container">
-                            <iframe src="${encodeURI(getPath(page.oldPath))}"></iframe>
+                            <iframe data-src="${encodeURI(getPath(page.oldPath))}" loading="lazy"></iframe>
                         </div>
                     `;
                     container.appendChild(beforeSlide);
@@ -643,7 +693,7 @@
                             <h3>${page.name}</h3>
                         </div>
                         <div class="iframe-container">
-                            <iframe src="${encodeURI(getPath(page.newPath))}"></iframe>
+                            <iframe data-src="${encodeURI(getPath(page.newPath))}" loading="lazy"></iframe>
                         </div>
                     `;
                     container.appendChild(afterSlide);
@@ -661,13 +711,13 @@
                             <div class="comparison-panel before">
                                 <div class="comparison-panel-header">BEFORE</div>
                                 <div class="comparison-panel-content">
-                                    <iframe src="${encodeURI(getPath(page.oldPath))}"></iframe>
+                                    <iframe data-src="${encodeURI(getPath(page.oldPath))}" loading="lazy"></iframe>
                                 </div>
                             </div>
                             <div class="comparison-panel after">
                                 <div class="comparison-panel-header">AFTER</div>
                                 <div class="comparison-panel-content">
-                                    <iframe src="${encodeURI(getPath(page.newPath))}"></iframe>
+                                    <iframe data-src="${encodeURI(getPath(page.newPath))}" loading="lazy"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -705,6 +755,27 @@
             });
         }
 
+        // Preload iframes within a window around current slide
+        const PRELOAD_AHEAD = 3;
+        const PRELOAD_BEHIND = 1;
+
+        function preloadSlides() {
+            const start = Math.max(1, currentSlide - PRELOAD_BEHIND);
+            const end = Math.min(totalSlides, currentSlide + PRELOAD_AHEAD);
+
+            for (let i = start; i <= end; i++) {
+                const slide = document.querySelector(`.slide[data-slide="${i}"]`);
+                if (slide) {
+                    const iframes = slide.querySelectorAll('iframe[data-src]');
+                    iframes.forEach(iframe => {
+                        if (!iframe.src || iframe.src === 'about:blank') {
+                            iframe.src = iframe.dataset.src;
+                        }
+                    });
+                }
+            }
+        }
+
         function updateSlide() {
             document.querySelectorAll('.slide').forEach(slide => {
                 slide.classList.remove('active');
@@ -718,6 +789,9 @@
             document.getElementById('currentSlide').textContent = currentSlide;
             document.getElementById('prevBtn').disabled = currentSlide === 1;
             document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Preload nearby slides
+            preloadSlides();
         }
 
         function nextSlide() {
