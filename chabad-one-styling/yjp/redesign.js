@@ -583,9 +583,11 @@
                 #nav-links { display: none !important; }
                 #nav-cta { display: none !important; }
                 #mobile-menu-btn { display: block !important; }
+                #nav-logo-img { height: 65px !important; }
             }
             @media (max-width: 480px) {
                 #logo-text { display: none !important; }
+                #nav-logo-img { height: 55px !important; }
             }
         `;
     }
@@ -617,16 +619,18 @@
         logo.href = '/';
         logo.style.cssText = 'display:flex;align-items:center;gap:12px;';
 
-        const logoCircle = document.createElement('div');
-        logoCircle.style.cssText = `width:44px;height:44px;background:${COLORS.tealAccent};border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:bold;font-size:14px;`;
-        logoCircle.textContent = 'YJP';
-        logo.appendChild(logoCircle);
+        const logoImg = document.createElement('img');
+        logoImg.id = 'nav-logo-img';
+        logoImg.src = 'https://lh3.googleusercontent.com/d/1iUzMXCVIVJ5cO9NcPvt5640hEsBfnaeT';
+        logoImg.alt = 'YJP Cincinnati';
+        logoImg.style.cssText = 'height:80px;width:auto;object-fit:contain;';
+        logo.appendChild(logoImg);
 
-        const logoText = document.createElement('span');
-        logoText.id = 'logo-text';
-        logoText.textContent = SITE_CONFIG.shortName;
-        logoText.style.cssText = `font-size:20px;font-weight:700;color:${COLORS.navyBlue};`;
-        logo.appendChild(logoText);
+        // const logoText = document.createElement('span');
+        // logoText.id = 'logo-text';
+        // logoText.textContent = SITE_CONFIG.shortName;
+        // logoText.style.cssText = `font-size:20px;font-weight:700;color:${COLORS.navyBlue};`;
+        // logo.appendChild(logoText);
         container.appendChild(logo);
 
         // Nav links (desktop) - filter out "Contact" since we have a CTA button for it
