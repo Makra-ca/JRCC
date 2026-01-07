@@ -476,9 +476,9 @@
                 var selectedCategoryValue = categoryDropdown ? categoryDropdown.value : null;
 
                 // Only preserve if a real selection was made (not empty/default)
-                var shouldPreserve = selectedCategoryValue &&
-                    selectedCategoryValue !== '' &&
-                    selectedCategoryValue !== '0';
+                // Note: "0" is a valid category ID (e.g., "Standard - $20.00"), only exclude empty string
+                var shouldPreserve = selectedCategoryValue !== null &&
+                    selectedCategoryValue !== '';
 
                 // Call the original function
                 originalAddButtonClick.call(this, button);
