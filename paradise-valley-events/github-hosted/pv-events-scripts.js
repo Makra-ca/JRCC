@@ -603,11 +603,38 @@
         // Patterns for lines that should NOT be treated as location continuation
         var contactPattern = /\b(sponsor|reach out|contact|email|call|rabbi|please|includes|preferred|seating|meet and greet|exclusive)\b/i;
 
+        // Helper: check if line is a proper date/time line (not a description containing a day name)
+        function isDateTimeLine(line) {
+            var hasTime = timePattern.test(line);
+            var hasDay = dayPattern.test(line);
+
+            // If line has explicit time (7:00pm, 5pm), it's a date line
+            if (hasTime) return true;
+
+            // If line has a day name, check if it looks like a date (short, structured)
+            // vs a description (long sentence with day name buried in it)
+            if (hasDay) {
+                // Short lines with day names are likely dates (e.g., "Friday, January 16")
+                if (line.length < 60) return true;
+
+                // Day name at start of line is likely a date (e.g., "Friday, January 16, 7:00pm")
+                if (/^(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)\b/i.test(line)) return true;
+
+                // Day name followed by comma is likely a date
+                if (/(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday),/i.test(line)) return true;
+
+                // Otherwise, long line with day name buried in it is probably description
+                return false;
+            }
+
+            return false;
+        }
+
         lines.forEach(function(line) {
             if (pricePattern.test(line)) {
                 result.pricing.push(line);
                 foundStructuredContent = true;
-            } else if (dayPattern.test(line) || timePattern.test(line)) {
+            } else if (isDateTimeLine(line)) {
                 result.dateTime.push(line);
                 foundStructuredContent = true;
             } else if (addressPattern.test(line) || cityStatePattern.test(line)) {
