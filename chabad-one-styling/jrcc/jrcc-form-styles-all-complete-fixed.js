@@ -58,6 +58,9 @@ function styleGmachDonationForm() {
 
     gmachInitialized = true;
 
+    // Add body class for CSS targeting
+    document.body.classList.add('gmach-donation-form-page');
+
     // Apply page background (BLACK gradient)
     document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)!important;';
 
@@ -234,6 +237,9 @@ function styleHealthyAtHomeForm() {
     if (!form) return; // Form not found, will retry
 
     healthyAtHomeInitialized = true;
+
+    // Add body class for CSS targeting
+    document.body.classList.add('healthy-at-home-form-page');
 
     // Apply page background (LIGHT gradient - white to lavender to match purple banner)
     document.body.style.cssText = (document.body.style.cssText || '') + 'background:linear-gradient(135deg, #f8f9fa 0%, #f3f0ff 100%)!important;';
@@ -728,6 +734,9 @@ function styleSeniorsNightOutForm() {
 
     seniorsInitialized = true;
 
+    // Add body class for CSS targeting
+    document.body.classList.add('seniors-night-out-form-page');
+
     // Apply page background - Festival theme
     document.body.style.cssText += 'background:linear-gradient(135deg, #ffffff 0%, #f3e5f5 100%)!important;';
 
@@ -867,6 +876,9 @@ function styleYeshivaScholarshipForm() {
     if (!form) return;
 
     yeshivaInitialized = true;
+
+    // Add body class for CSS targeting
+    document.body.classList.add('yeshiva-scholarship-page');
 
     // Apply page background - Soft blue/white gradient
     document.body.style.cssText = 'background:linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)!important;';
