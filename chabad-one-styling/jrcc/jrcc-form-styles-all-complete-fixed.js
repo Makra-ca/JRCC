@@ -46,7 +46,12 @@ function addTypewriterEffect(element) {
 function styleGmachDonationForm() {
     if (gmachInitialized) return;
 
-    // Don't check URL - just look for the form
+    // Check if we're on the Gmach Donation page by URL
+    var currentUrl = window.location.href.toLowerCase();
+    var isGmachPage = currentUrl.indexOf('/aid/912618/') !== -1 ||
+                      currentUrl.indexOf('gmach-donation-form') !== -1;
+    if (!isGmachPage) return;
+
     var form = document.querySelector('form#form1') ||
                document.querySelector('form[name="form_3767140"]');
     if (!form) return;
