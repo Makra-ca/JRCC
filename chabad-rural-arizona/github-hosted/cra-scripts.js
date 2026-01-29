@@ -1589,45 +1589,13 @@
             text-decoration: none;
         `;
 
-        const logoSelectors = [
-            '#header_branding img',
-            '.branding-search img',
-            '#header img',
-            'img[src*="logo"]',
-            '.logo img',
-            '#logo img'
-        ];
-
-        let foundLogo = null;
-        for (const selector of logoSelectors) {
-            const img = document.querySelector(selector);
-            if (img && img.src) {
-                foundLogo = img.src;
-                break;
-            }
-        }
-
-        if (foundLogo) {
-            const logoImg = document.createElement('img');
-            logoImg.src = foundLogo;
-            logoImg.alt = 'Chabad Rural AZ';
-            logoImg.style.cssText = `height: 65px; width: auto;`;
-            logo.appendChild(logoImg);
-        } else {
-            const logoCircle = document.createElement('div');
-            logoCircle.style.cssText = `
-                width: 55px;
-                height: 55px;
-                background: linear-gradient(135deg, ${COLORS.sunsetPeach}, ${COLORS.deepBurgundy});
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
-            `;
-            logoCircle.textContent = '🌵';
-            logo.appendChild(logoCircle);
-        }
+        // Use hosted logo from Vercel
+        const hostedLogoUrl = 'https://cra-github-hosted.vercel.app/logo.jpg';
+        const logoImg = document.createElement('img');
+        logoImg.src = hostedLogoUrl;
+        logoImg.alt = 'Chabad Rural AZ';
+        logoImg.style.cssText = `height: 65px; width: auto;`;
+        logo.appendChild(logoImg);
 
         const logoText = document.createElement('span');
         logoText.textContent = 'Chabad Rural AZ';
@@ -2109,6 +2077,10 @@
 
         const style = document.createElement('style');
         style.textContent = `
+            /* Match CMS base font-size (62.5% = 10px) so em values work as originally designed */
+            :host {
+                font-size: 10px;
+            }
             *, *::before, *::after {
                 margin: 0;
                 padding: 0;
@@ -2143,6 +2115,10 @@
 
         const style = document.createElement('style');
         style.textContent = `
+            /* Match CMS base font-size (62.5% = 10px) so em values work as originally designed */
+            :host {
+                font-size: 10px;
+            }
             *, *::before, *::after {
                 margin: 0;
                 padding: 0;
