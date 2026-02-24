@@ -26,6 +26,19 @@
 (function() {
     'use strict';
 
+    // Prevent double execution
+    console.log('CRA Script: Checking guard, __CRA_SCRIPT_LOADED__ =', window.__CRA_SCRIPT_LOADED__);
+    if (window.__CRA_SCRIPT_LOADED__) {
+        console.log('CRA Script: Already loaded, skipping duplicate');
+        return;
+    }
+    window.__CRA_SCRIPT_LOADED__ = true;
+    console.log('CRA Script: Guard set to true');
+
+    // VERSION CHECK - helps verify correct script is running
+    const SCRIPT_VERSION = '3.8-double-load-debug';
+    console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
+
     // ===================================================================
     // CONFIGURATION
     // ===================================================================
@@ -111,6 +124,11 @@
 
         const style = document.createElement('style');
         style.textContent = `
+            /* Match CMS base font-size (62.5% = 10px) so em values work as originally designed */
+            :host {
+                font-size: 10px;
+            }
+
             *, *::before, *::after {
                 margin: 0;
                 padding: 0;
@@ -156,19 +174,19 @@
 
             @media (max-width: 768px) {
                 .cra-hero {
-                    padding: 5rem 1.5rem 3rem !important;
+                    padding: 5em 1.5em 3em !important;
                 }
                 .cra-hero h1 {
-                    font-size: 2.5rem !important;
+                    font-size: 2.5em !important;
                     letter-spacing: -1px !important;
                 }
                 .cra-hero-subtitle {
-                    font-size: 1.15rem !important;
+                    font-size: 1.15em !important;
                 }
                 .cra-btn-primary,
                 .cra-btn-secondary {
-                    font-size: 1.05rem !important;
-                    padding: 1rem 2.25rem !important;
+                    font-size: 1.05em !important;
+                    padding: 1em 2.25em !important;
                 }
                 .cra-hero-cta {
                     flex-direction: column !important;
@@ -178,7 +196,7 @@
                 }
                 .cra-actions-grid {
                     grid-template-columns: 1fr !important;
-                    gap: 1.25rem !important;
+                    gap: 1.25em !important;
                 }
                 .cra-photos-grid {
                     grid-template-columns: repeat(2, 1fr) !important;
@@ -196,6 +214,22 @@
                 .cra-locations-grid {
                     grid-template-columns: repeat(2, 1fr) !important;
                 }
+            }
+
+            /* Custom scrollbar for dropdowns */
+            .cra-dropdown::-webkit-scrollbar {
+                width: 8px;
+            }
+            .cra-dropdown::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+            .cra-dropdown::-webkit-scrollbar-thumb {
+                background: ${COLORS.deepBurgundy};
+                border-radius: 4px;
+            }
+            .cra-dropdown::-webkit-scrollbar-thumb:hover {
+                background: ${COLORS.darkBurgundy};
             }
         `;
         shadow.appendChild(style);
@@ -239,10 +273,86 @@
     }
 
     // ===================================================================
-    // CREATE HERO SECTION
+    // EXTRACT ALL HERO SLIDES FROM CMS SLIDER
     // ===================================================================
 
-    function createHero(carouselImages = []) {
+    function extractAllHeroSlides() {
+        const slides = [];
+
+        const slider = document.querySelector('.promo_slider');
+        if (!slider) {
+            console.log('CRA: No .promo_slider found for text extraction');
+            return slides;
+        }
+
+        // Chabad One uses li.cycle-html-caption for each slide's caption
+        const captions = slider.querySelectorAll('li.cycle-html-caption');
+
+        captions.forEach((caption, index) => {
+            const slideData = {
+                title: null,
+                subtitle: null,
+                ctaText: null,
+                ctaLink: null
+            };
+
+            // Extract title from <big> tag
+            const bigEl = caption.querySelector('big');
+            if (bigEl) {
+                slideData.title = bigEl.textContent.trim();
+            }
+
+            // Extract subtitle - text content excluding the <big> element
+            const spanEl = caption.querySelector('span');
+            if (spanEl) {
+                // Clone the span and remove the big element to get just subtitle
+                const spanClone = spanEl.cloneNode(true);
+                const bigInClone = spanClone.querySelector('big');
+                if (bigInClone) {
+                    bigInClone.remove();
+                }
+                // Get remaining text, clean up whitespace
+                let subtitleText = spanClone.textContent.trim();
+                // Clean up multiple spaces/newlines
+                subtitleText = subtitleText.replace(/\s+/g, ' ').trim();
+                if (subtitleText) {
+                    slideData.subtitle = subtitleText;
+                }
+            }
+
+            // Extract CTA button
+            const ctaEl = caption.querySelector('a.readMore, a[class*="btn"], a[class*="cta"]');
+            if (ctaEl) {
+                slideData.ctaText = ctaEl.textContent.trim();
+                slideData.ctaLink = ctaEl.getAttribute('href');
+                // Make relative links absolute
+                if (slideData.ctaLink && !slideData.ctaLink.startsWith('http')) {
+                    slideData.ctaLink = slideData.ctaLink.startsWith('/') ? slideData.ctaLink : '/' + slideData.ctaLink;
+                }
+            }
+
+            slides.push(slideData);
+            console.log(`CRA: Slide ${index + 1}:`, slideData);
+        });
+
+        console.log(`CRA: Extracted ${slides.length} hero slides`);
+        return slides;
+    }
+
+    // Legacy function for backwards compatibility
+    function extractHeroText() {
+        const slides = extractAllHeroSlides();
+        if (slides.length > 0) {
+            return { title: slides[0].title, subtitle: slides[0].subtitle };
+        }
+        return { title: null, subtitle: null };
+    }
+
+    // ===================================================================
+    // CREATE HERO SECTION (Static - no carousel)
+    // ===================================================================
+
+    function createHero() {
         const hero = document.createElement('section');
         hero.className = 'cra-hero';
         hero.style.cssText = `
@@ -253,56 +363,25 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 6rem 2rem 4rem;
+            padding: 6em 2em 4em;
             overflow: hidden;
             font-family: 'Urbanist', sans-serif;
         `;
 
-        // Carousel container (behind content)
-        const carouselContainer = document.createElement('div');
-        carouselContainer.className = 'cra-carousel';
-        carouselContainer.style.cssText = `
+        // Background image container
+        const bgContainer = document.createElement('div');
+        bgContainer.style.cssText = `
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
             z-index: 0;
+            background-image: url('https://lh3.googleusercontent.com/d/1u9Km972yVzylBmPWJSq_cuZrd5iMfPHz');
+            background-size: cover;
+            background-position: center;
         `;
-
-        // Create slides
-        const slides = [];
-        const imagesToUse = carouselImages.length > 0 ? carouselImages : [];
-
-        // Fallback gradient if no images
-        if (imagesToUse.length === 0) {
-            const fallbackSlide = document.createElement('div');
-            fallbackSlide.style.cssText = `
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background: linear-gradient(180deg, #E8A87C 0%, #D4956A 20%, #C38D94 40%, #A67580 60%, #8B5A62 80%, #722F37 100%);
-            `;
-            carouselContainer.appendChild(fallbackSlide);
-        } else {
-            imagesToUse.forEach((imgUrl, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'cra-carousel-slide';
-                slide.style.cssText = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-image: url('${imgUrl}');
-                    background-size: cover;
-                    background-position: center;
-                    opacity: ${index === 0 ? '1' : '0'};
-                    transition: opacity 1s ease-in-out;
-                `;
-                slides.push(slide);
-                carouselContainer.appendChild(slide);
-            });
-        }
+        hero.appendChild(bgContainer);
 
         // Dark overlay for text readability
         const overlay = document.createElement('div');
@@ -311,315 +390,169 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(
                 180deg,
-                rgba(0,0,0,0.3) 0%,
-                rgba(0,0,0,0.4) 50%,
-                rgba(74,31,36,0.7) 100%
+                rgba(0,0,0,0.5) 0%,
+                rgba(0,0,0,0.55) 50%,
+                rgba(74,31,36,0.8) 100%
             );
             z-index: 1;
         `;
-        carouselContainer.appendChild(overlay);
-        hero.appendChild(carouselContainer);
+        hero.appendChild(overlay);
 
-        // Carousel navigation dots
-        if (slides.length > 1) {
-            const dotsContainer = document.createElement('div');
-            dotsContainer.className = 'cra-carousel-dots';
-            dotsContainer.style.cssText = `
-                position: absolute;
-                bottom: 2rem;
-                left: 50%;
-                transform: translateX(-50%);
-                display: flex;
-                gap: 0.75rem;
-                z-index: 3;
-            `;
-
-            let currentSlide = 0;
-            let autoPlayInterval;
-
-            const goToSlide = (index) => {
-                slides[currentSlide].style.opacity = '0';
-                dots[currentSlide].style.background = 'rgba(255,255,255,0.4)';
-                currentSlide = index;
-                slides[currentSlide].style.opacity = '1';
-                dots[currentSlide].style.background = 'white';
-            };
-
-            const nextSlide = () => {
-                goToSlide((currentSlide + 1) % slides.length);
-            };
-
-            const dots = [];
-            slides.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.style.cssText = `
-                    width: 12px;
-                    height: 12px;
-                    border-radius: 50%;
-                    border: 2px solid white;
-                    background: ${index === 0 ? 'white' : 'rgba(255,255,255,0.4)'};
-                    cursor: pointer;
-                    padding: 0;
-                    transition: all 0.3s ease;
-                `;
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
-                    // Reset autoplay timer on manual navigation
-                    clearInterval(autoPlayInterval);
-                    autoPlayInterval = setInterval(nextSlide, 5000);
-                });
-                dot.addEventListener('mouseenter', () => {
-                    if (index !== currentSlide) {
-                        dot.style.background = 'rgba(255,255,255,0.7)';
-                    }
-                });
-                dot.addEventListener('mouseleave', () => {
-                    if (index !== currentSlide) {
-                        dot.style.background = 'rgba(255,255,255,0.4)';
-                    }
-                });
-                dots.push(dot);
-                dotsContainer.appendChild(dot);
-            });
-
-            hero.appendChild(dotsContainer);
-
-            // Auto-rotate every 5 seconds
-            autoPlayInterval = setInterval(nextSlide, 5000);
-
-            // Pause on hover
-            hero.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
-            hero.addEventListener('mouseleave', () => {
-                autoPlayInterval = setInterval(nextSlide, 5000);
-            });
-        }
-
+        // Content container
         const content = document.createElement('div');
         content.style.cssText = `
             position: relative;
             z-index: 2;
-            max-width: 900px;
-        `;
-
-        // H1 wrapper to allow typewriter to extend beyond content max-width
-        const h1Wrapper = document.createElement('div');
-        h1Wrapper.style.cssText = `
-            width: 100vw;
-            margin-left: calc(-50vw + 50%);
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             text-align: center;
-            overflow: visible;
         `;
 
+        // Title - modern, clean look
         const h1 = document.createElement('h1');
-        h1.textContent = 'Chabad of Rural Arizona';
-        h1.className = 'cra-typewriter-cursor';
+        h1.textContent = 'Shalom, Welcome!';
         h1.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(1.8rem, 6vw, 7rem);
-            font-weight: 600;
+            font-size: clamp(4.8em, 14vw, 8.5em);
+            font-weight: 800;
             color: white;
-            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
-            margin: 0 auto 1.5rem auto;
-            padding: 0 1rem;
+            text-shadow: 0 2px 40px rgba(0,0,0,0.3);
+            margin: 0 0 0.8em 0;
+            padding: 0 1em;
             line-height: 1.1;
-            letter-spacing: 0.08em;
-            background: none;
-            display: inline-block;
-            text-transform: uppercase;
-            word-wrap: break-word;
-            max-width: 100%;
+            letter-spacing: -0.02em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.3s forwards;
         `;
-        h1Wrapper.appendChild(h1);
-        content.appendChild(h1Wrapper);
+        content.appendChild(h1);
 
-        // Remove cursor after typewriter animation completes
-        setTimeout(() => h1.classList.add('typing-done'), 2600);
-
+        // Subtitle - lighter, more readable
         const subtitle = document.createElement('p');
         subtitle.className = 'cra-hero-subtitle';
-        subtitle.textContent = 'Bringing Jewish life, learning, and warmth to every corner of the Arizona desert';
+        subtitle.textContent = 'We are dedicated to bring the joy of Judaism to NE Rural Arizona, fueled with a desire to help Jews live more spiritually and materially fulfilling lives. We do this by going to great lengths to reveal that no Jew is too physically distant to connect to Hashem, the Torah, and one\'s fellow Jew.';
         subtitle.style.cssText = `
-            font-size: 2.1rem;
-            color: ${COLORS.warmCream};
-            margin: 0 0 3rem 0;
-            font-weight: 300;
-            max-width: 900px;
-            line-height: 1.5;
+            font-size: clamp(1.7em, 3.5vw, 2.15em);
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 1px 20px rgba(0,0,0,0.2);
+            margin: 0 0 2.5em 0;
+            padding: 0 1.5em;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+            font-weight: 400;
+            max-width: 750px;
+            line-height: 1.7;
             font-family: 'Urbanist', sans-serif;
+            letter-spacing: 0.01em;
         `;
         content.appendChild(subtitle);
 
-        const cta = document.createElement('div');
-        cta.className = 'cra-hero-cta';
-        cta.style.cssText = `
-            display: inline-flex;
-            gap: 1.5rem;
+        // CTA Buttons container
+        const ctaContainer = document.createElement('div');
+        ctaContainer.style.cssText = `
+            display: flex;
+            gap: 1.25em;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
         `;
 
-        const btnPrimary = document.createElement('a');
-        btnPrimary.className = 'cra-btn-primary';
-        btnPrimary.href = '/tools/events/default.htm';
-        btnPrimary.textContent = 'Upcoming Events';
-        btnPrimary.style.cssText = `
+        // Learn More button (primary) - modern rounded rectangle
+        const learnMoreBtn = document.createElement('a');
+        learnMoreBtn.href = '/templates/articlecco_cdo/aid/6532283/jewish/About.htm';
+        learnMoreBtn.textContent = 'Learn More';
+        learnMoreBtn.style.cssText = `
+            display: inline-block;
             background: ${COLORS.goldenSand};
             color: ${COLORS.darkBurgundy};
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
+            padding: 1em 2.25em;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.75em;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            display: inline-block;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
-            border: 2px solid ${COLORS.goldenSand};
+            border: none;
+            letter-spacing: 0.02em;
         `;
-        btnPrimary.addEventListener('mouseenter', () => {
-            btnPrimary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnPrimary.style.boxShadow = `0 12px 30px rgba(212, 168, 75, 0.5)`;
+        learnMoreBtn.addEventListener('mouseenter', () => {
+            learnMoreBtn.style.transform = 'translateY(-2px)';
+            learnMoreBtn.style.boxShadow = '0 8px 25px rgba(212, 168, 75, 0.4)';
+            learnMoreBtn.style.background = '#e0b85a';
         });
-        btnPrimary.addEventListener('mouseleave', () => {
-            btnPrimary.style.transform = 'translateY(0) scale(1)';
-            btnPrimary.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+        learnMoreBtn.addEventListener('mouseleave', () => {
+            learnMoreBtn.style.transform = 'translateY(0)';
+            learnMoreBtn.style.boxShadow = 'none';
+            learnMoreBtn.style.background = COLORS.goldenSand;
         });
-        cta.appendChild(btnPrimary);
+        ctaContainer.appendChild(learnMoreBtn);
 
-        const btnSecondary = document.createElement('a');
-        btnSecondary.className = 'cra-btn-secondary';
-        btnSecondary.href = '/templates/articlecco_cdo/aid/6590395/jewish/Get-Involved.htm';
-        btnSecondary.textContent = 'Get Involved';
-        btnSecondary.style.cssText = `
-            background: transparent;
+        // RSVP button (secondary) - modern outline style
+        const rsvpBtn = document.createElement('a');
+        rsvpBtn.href = '/contact';
+        rsvpBtn.textContent = 'Contact';
+        rsvpBtn.style.cssText = `
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             color: white;
-            padding: 1.5rem 4rem;
-            border-radius: 50px;
-            font-weight: 500;
-            font-size: 1.65rem;
+            padding: 1em 2.25em;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.75em;
             text-decoration: none;
-            border: 2px solid white;
-            transition: all 0.3s ease;
-            display: inline-block;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Urbanist', sans-serif;
-            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            letter-spacing: 0.02em;
         `;
-        btnSecondary.addEventListener('mouseenter', () => {
-            btnSecondary.style.transform = 'translateY(-4px) scale(1.02)';
-            btnSecondary.style.boxShadow = '0 12px 30px rgba(255, 255, 255, 0.3)';
-            btnSecondary.style.background = 'rgba(255, 255, 255, 0.1)';
+        rsvpBtn.addEventListener('mouseenter', () => {
+            rsvpBtn.style.transform = 'translateY(-2px)';
+            rsvpBtn.style.background = 'rgba(255,255,255,0.2)';
+            rsvpBtn.style.borderColor = 'rgba(255,255,255,0.5)';
         });
-        btnSecondary.addEventListener('mouseleave', () => {
-            btnSecondary.style.transform = 'translateY(0) scale(1)';
-            btnSecondary.style.boxShadow = 'none';
-            btnSecondary.style.background = 'transparent';
+        rsvpBtn.addEventListener('mouseleave', () => {
+            rsvpBtn.style.transform = 'translateY(0)';
+            rsvpBtn.style.background = 'rgba(255,255,255,0.1)';
+            rsvpBtn.style.borderColor = 'rgba(255,255,255,0.3)';
         });
-        cta.appendChild(btnSecondary);
+        ctaContainer.appendChild(rsvpBtn);
 
-        content.appendChild(cta);
+        content.appendChild(ctaContainer);
         hero.appendChild(content);
 
+        // Hero animations and responsive styles
+        const heroStyle = document.createElement('style');
+        heroStyle.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @media (max-width: 768px) {
+                .cra-hero {
+                    min-height: 85vh !important;
+                    padding: 4em 1.5em 3em !important;
+                }
+            }
+            @media (max-width: 480px) {
+                .cra-hero {
+                    min-height: 75vh !important;
+                }
+            }
+        `;
+        hero.appendChild(heroStyle);
+
         return hero;
-    }
-
-    // ===================================================================
-    // CREATE FUNDRAISER SECTION (Chabad on Wheels)
-    // ===================================================================
-
-    function createFundraiser() {
-        const section = document.createElement('section');
-        section.className = 'cra-fundraiser';
-        section.style.cssText = `
-            padding: 0;
-            font-family: 'Urbanist', sans-serif;
-            overflow: hidden;
-        `;
-
-        const link = document.createElement('a');
-        link.href = 'https://www.canva.com/design/DAG5qPrj8Lo/YSYlnluDqpfLbIsHLeRVlA/edit?utm_content=DAG5qPrj8Lo&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton';
-        link.target = '_blank';
-        link.style.cssText = `
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-            position: relative;
-            transition: transform 0.3s ease;
-        `;
-
-        // Banner image container
-        const bannerContainer = document.createElement('div');
-        bannerContainer.style.cssText = `
-            width: 100%;
-            max-width: 100%;
-            overflow: hidden;
-            position: relative;
-        `;
-
-        const bannerImage = document.createElement('img');
-        bannerImage.src = 'https://drive.google.com/uc?export=view&id=1632ElUxUnVlF3ru0OLRA6kw3H61o2ePA';
-        bannerImage.alt = 'Chabad on Wheels - Raising $60K for a Mobile Jewish Center';
-        bannerImage.style.cssText = `
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.4s ease;
-        `;
-        bannerContainer.appendChild(bannerImage);
-
-        // Hover overlay with CTA
-        const overlay = document.createElement('div');
-        overlay.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(74, 31, 36, 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
-        `;
-
-        const ctaButton = document.createElement('span');
-        ctaButton.textContent = 'Learn More & Donate';
-        ctaButton.style.cssText = `
-            background: ${COLORS.goldenSand};
-            color: ${COLORS.darkBurgundy};
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.25rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        `;
-        overlay.appendChild(ctaButton);
-        bannerContainer.appendChild(overlay);
-
-        link.appendChild(bannerContainer);
-
-        // Hover effects
-        link.addEventListener('mouseenter', () => {
-            bannerImage.style.transform = 'scale(1.02)';
-            overlay.style.background = 'rgba(74, 31, 36, 0.4)';
-            ctaButton.style.opacity = '1';
-            ctaButton.style.transform = 'translateY(0)';
-        });
-        link.addEventListener('mouseleave', () => {
-            bannerImage.style.transform = 'scale(1)';
-            overlay.style.background = 'rgba(74, 31, 36, 0)';
-            ctaButton.style.opacity = '0';
-            ctaButton.style.transform = 'translateY(20px)';
-        });
-
-        section.appendChild(link);
-
-        return section;
     }
 
     // ===================================================================
@@ -631,7 +564,7 @@
         section.id = 'cra-locations';
         section.className = 'cra-locations-section';
         section.style.cssText = `
-            padding: 6rem 2rem;
+            padding: 6em 2em;
             background: ${COLORS.lightCream};
             font-family: 'Urbanist', sans-serif;
         `;
@@ -639,16 +572,16 @@
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 4em;
         `;
 
         const h2 = document.createElement('h2');
         h2.textContent = 'Areas We Currently Serve';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-size: clamp(2.5em, 6vw, 4em);
             color: ${COLORS.deepBurgundy};
-            margin: 0 0 1rem 0;
+            margin: 0 0 1em 0;
             text-transform: uppercase;
             letter-spacing: 4px;
             font-weight: 600;
@@ -659,7 +592,7 @@
         subtext.textContent = 'Bringing Jewish life to communities across rural Arizona';
         subtext.style.cssText = `
             color: ${COLORS.dustyMauve};
-            font-size: 1.75rem;
+            font-size: 1.75em;
             margin: 0;
             font-weight: 300;
         `;
@@ -671,7 +604,7 @@
         grid.style.cssText = `
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 1.5em;
             max-width: 1200px;
             margin: 0 auto;
         `;
@@ -776,17 +709,17 @@
             content.style.cssText = `
                 position: absolute;
                 bottom: 0; left: 0; right: 0;
-                padding: 2rem;
+                padding: 2em;
                 z-index: 2;
             `;
 
             const title = document.createElement('h3');
             title.textContent = loc.title;
             title.style.cssText = `
-                font-size: 1.75rem;
+                font-size: 1.75em;
                 font-weight: 600;
                 color: white;
-                margin: 0 0 0.35rem 0;
+                margin: 0 0 0.35em 0;
                 text-shadow: 0 2px 15px rgba(0,0,0,0.5);
                 font-family: 'Urbanist', sans-serif;
             `;
@@ -796,7 +729,7 @@
                 const sub = document.createElement('p');
                 sub.textContent = loc.subtitle;
                 sub.style.cssText = `
-                    font-size: 1.1rem;
+                    font-size: 1.1em;
                     opacity: 0.9;
                     margin: 0;
                     font-weight: 400;
@@ -810,9 +743,9 @@
             arrow.textContent = '→';
             arrow.style.cssText = `
                 position: absolute;
-                bottom: 2rem;
-                right: 2rem;
-                font-size: 1.75rem;
+                bottom: 2em;
+                right: 2em;
+                font-size: 1.75em;
                 font-weight: 600;
                 opacity: 0.7;
                 transition: all 0.3s ease;
@@ -849,7 +782,7 @@
         const section = document.createElement('section');
         section.className = 'cra-actions';
         section.style.cssText = `
-            padding: 5rem 2rem;
+            padding: 5em 2em;
             background: ${COLORS.lightCream};
             font-family: 'Urbanist', sans-serif;
         `;
@@ -857,16 +790,16 @@
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3em;
         `;
 
         const h2 = document.createElement('h2');
         h2.textContent = 'Get Started';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(2em, 5vw, 3em);
             color: ${COLORS.deepBurgundy};
-            margin: 0 0 0.75rem 0;
+            margin: 0 0 0.75em 0;
             font-weight: 700;
         `;
         header.appendChild(h2);
@@ -875,7 +808,7 @@
         subtext.textContent = 'Join our community and make a difference';
         subtext.style.cssText = `
             color: ${COLORS.dustyMauve};
-            font-size: 1.15rem;
+            font-size: 1.15em;
             margin: 0;
         `;
         header.appendChild(subtext);
@@ -886,7 +819,7 @@
         grid.style.cssText = `
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
+            gap: 2em;
             max-width: 1000px;
             margin: 0 auto;
         `;
@@ -904,7 +837,7 @@
             card.style.cssText = `
                 background: white;
                 border-radius: 16px;
-                padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.5rem);
+                padding: clamp(1.5em, 3vw, 2.5em) clamp(1.5em, 3vw, 2.5em);
                 text-decoration: none;
                 display: block;
                 transition: all 0.3s ease;
@@ -914,8 +847,8 @@
             const title = document.createElement('h3');
             title.textContent = action.title;
             title.style.cssText = `
-                font-size: clamp(1.75rem, 3vw, 2.5rem);
-                margin: 0 0 1rem 0;
+                font-size: clamp(1.75em, 3vw, 2.5em);
+                margin: 0 0 1em 0;
                 color: ${COLORS.deepBurgundy};
                 font-family: 'Urbanist', sans-serif;
                 font-weight: 700;
@@ -925,9 +858,9 @@
             const desc = document.createElement('p');
             desc.textContent = action.desc;
             desc.style.cssText = `
-                font-size: clamp(1.1rem, 2vw, 1.5rem);
+                font-size: clamp(1.1em, 2vw, 1.5em);
                 color: ${COLORS.dustyMauve};
-                margin: 0 0 1.5rem 0;
+                margin: 0 0 1.5em 0;
                 line-height: 1.6;
             `;
             card.appendChild(desc);
@@ -935,7 +868,7 @@
             const arrow = document.createElement('span');
             arrow.textContent = '→';
             arrow.style.cssText = `
-                font-size: clamp(1.5rem, 2.5vw, 2rem);
+                font-size: clamp(1.5em, 2.5vw, 2em);
                 color: ${COLORS.tealGreen};
                 font-weight: 600;
                 transition: transform 0.3s ease;
@@ -958,6 +891,398 @@
         });
 
         section.appendChild(grid);
+        return section;
+    }
+
+    // ===================================================================
+    // FETCH EVENTS FROM EVENTS PAGE
+    // ===================================================================
+
+    async function fetchEvents() {
+        try {
+            const response = await fetch('/tools/events/default.htm');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const events = [];
+            const eventEls = doc.querySelectorAll('.event');
+
+            eventEls.forEach(el => {
+                const titleEl = el.querySelector('h2 a');
+                const descEl = el.querySelector('.bottom_padding');
+                const dateEl = el.querySelector('.performance__date');
+                const linkEl = el.querySelector('h2 a');
+
+                if (titleEl) {
+                    events.push({
+                        title: titleEl.textContent.trim(),
+                        description: descEl ? descEl.textContent.trim() : '',
+                        date: dateEl ? dateEl.textContent.trim() : '',
+                        link: linkEl ? linkEl.getAttribute('href') : '/tools/events/default.htm'
+                    });
+                }
+            });
+
+            console.log('CRA: Fetched', events.length, 'events from events page');
+            return events;
+        } catch (error) {
+            console.error('CRA: Failed to fetch events:', error);
+            return [];
+        }
+    }
+
+    // ===================================================================
+    // CREATE ABOUT SECTION
+    // ===================================================================
+
+    // About section image - menorah lighting community gathering
+    const ABOUT_IMAGE_URL = 'https://lh3.googleusercontent.com/d/1_u6rHCHVRycRr6iTjB1J4lPcxp-xdEtu';
+
+    function createAbout() {
+        const section = document.createElement('section');
+        section.className = 'cra-about';
+        section.style.cssText = `
+            padding: 5em 2em;
+            background: white;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 1100px;
+            margin: 0 auto;
+        `;
+
+        const h2 = document.createElement('h2');
+        h2.textContent = 'About Us';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(2em, 5vw, 3em);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 2em 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        `;
+        container.appendChild(h2);
+
+        // Content wrapper for text wrap effect
+        const contentWrapper = document.createElement('div');
+        contentWrapper.style.cssText = `
+            overflow: hidden;
+        `;
+
+        // Image floated to the right
+        const imageWrapper = document.createElement('div');
+        imageWrapper.style.cssText = `
+            float: right;
+            width: 45%;
+            max-width: 450px;
+            margin: 0 0 1.5em 2em;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        `;
+
+        const img = document.createElement('img');
+        img.src = ABOUT_IMAGE_URL;
+        img.alt = 'Community gathering at menorah lighting ceremony';
+        img.style.cssText = `
+            width: 100%;
+            height: auto;
+            display: block;
+        `;
+        imageWrapper.appendChild(img);
+        contentWrapper.appendChild(imageWrapper);
+
+        // Text paragraphs that wrap around the image
+        const text1 = document.createElement('p');
+        text1.textContent = "Chabad of Rural Arizona serves Jewish individuals and families across Arizona's smaller towns and remote communities with warmth, authenticity, and pride.";
+        text1.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.6;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 1em 0;
+            font-weight: 400;
+            text-align: left;
+        `;
+        contentWrapper.appendChild(text1);
+
+        const text2 = document.createElement('p');
+        text2.textContent = "We provide Jewish education, holiday celebrations, spiritual guidance, and community connection—bringing Judaism to people wherever they are, geographically and personally.";
+        text2.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.6;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 1em 0;
+            font-weight: 400;
+            text-align: left;
+        `;
+        contentWrapper.appendChild(text2);
+
+        const text3 = document.createElement('p');
+        text3.textContent = "From public events and classes to one-on-one support and outreach on the road, our mission is simple: to strengthen Jewish life and illuminate every corner of rural Arizona.";
+        text3.style.cssText = `
+            font-size: clamp(17px, 2.2vw, 20px);
+            line-height: 1.6;
+            color: ${COLORS.darkBurgundy};
+            margin: 0 0 1em 0;
+            font-weight: 400;
+            text-align: left;
+        `;
+        contentWrapper.appendChild(text3);
+
+        container.appendChild(contentWrapper);
+
+        // Button centered below
+        const btnWrapper = document.createElement('div');
+        btnWrapper.style.cssText = `
+            text-align: center;
+            clear: both;
+            padding-top: 1em;
+        `;
+
+        const btn = document.createElement('a');
+        btn.href = '/about';
+        btn.textContent = 'Learn More About Us';
+        btn.style.cssText = `
+            display: inline-block;
+            background: transparent;
+            color: ${COLORS.deepBurgundy};
+            border: 2px solid ${COLORS.deepBurgundy};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: clamp(16px, 2vw, 18px);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        btn.addEventListener('mouseenter', () => {
+            btn.style.background = COLORS.deepBurgundy;
+            btn.style.color = 'white';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.background = 'transparent';
+            btn.style.color = COLORS.deepBurgundy;
+        });
+
+        btnWrapper.appendChild(btn);
+        container.appendChild(btnWrapper);
+
+        section.appendChild(container);
+
+        // Responsive adjustments
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .cra-about div[style*="float: right"] {
+                    float: none !important;
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    margin: 0 0 1.5em 0 !important;
+                }
+            }
+        `;
+        section.appendChild(style);
+
+        return section;
+    }
+
+    // ===================================================================
+    // CREATE EVENTS SECTION
+    // ===================================================================
+
+    function createEvents(events = []) {
+        const section = document.createElement('section');
+        section.className = 'cra-events';
+        section.style.cssText = `
+            padding: 5em 2em;
+            background: ${COLORS.lightCream};
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        const container = document.createElement('div');
+        container.style.cssText = `
+            max-width: 1200px;
+            margin: 0 auto;
+        `;
+
+        // Section title
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Upcoming Events';
+        h2.style.cssText = `
+            font-family: 'Urbanist', sans-serif;
+            font-size: clamp(28px, 5vw, 42px);
+            color: ${COLORS.deepBurgundy};
+            margin: 0 0 1em 0;
+            font-weight: 700;
+            text-align: center;
+        `;
+        container.appendChild(h2);
+
+        // Subtitle
+        const subtitle = document.createElement('p');
+        subtitle.textContent = 'Join us for meaningful Jewish experiences across Rural Arizona';
+        subtitle.style.cssText = `
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: ${COLORS.darkBurgundy};
+            text-align: center;
+            margin-bottom: 3em;
+            opacity: 0.8;
+        `;
+        container.appendChild(subtitle);
+
+        if (events.length === 0) {
+            // No events message
+            const noEvents = document.createElement('p');
+            noEvents.textContent = 'No upcoming events at this time. Check back soon!';
+            noEvents.style.cssText = `
+                text-align: center;
+                color: ${COLORS.darkBurgundy};
+                font-size: 18px;
+                padding: 2em;
+            `;
+            container.appendChild(noEvents);
+        } else {
+            // Events grid
+            const grid = document.createElement('div');
+            grid.style.cssText = `
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            `;
+
+            // Show up to 4 events
+            events.slice(0, 4).forEach(event => {
+                const card = document.createElement('a');
+                card.href = event.link;
+                card.style.cssText = `
+                    display: block;
+                    background: white;
+                    border-radius: 16px;
+                    padding: 28px;
+                    text-decoration: none;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    transition: all 0.3s ease;
+                `;
+
+                // Date badge
+                if (event.date) {
+                    const dateBadge = document.createElement('span');
+                    dateBadge.textContent = event.date;
+                    dateBadge.style.cssText = `
+                        display: inline-block;
+                        background: ${COLORS.tealGreen};
+                        color: white;
+                        font-size: 13px;
+                        font-weight: 600;
+                        padding: 6px 14px;
+                        border-radius: 20px;
+                        margin-bottom: 16px;
+                    `;
+                    card.appendChild(dateBadge);
+                }
+
+                // Event title
+                const title = document.createElement('h3');
+                title.textContent = event.title;
+                title.style.cssText = `
+                    font-size: clamp(18px, 3vw, 24px);
+                    color: ${COLORS.deepBurgundy};
+                    margin: 0 0 12px 0;
+                    font-weight: 700;
+                `;
+                card.appendChild(title);
+
+                // Event description
+                if (event.description) {
+                    const desc = document.createElement('p');
+                    desc.textContent = event.description.length > 120
+                        ? event.description.substring(0, 120) + '...'
+                        : event.description;
+                    desc.style.cssText = `
+                        color: ${COLORS.darkBurgundy};
+                        line-height: 1.6;
+                        font-size: 15px;
+                        margin: 0 0 16px 0;
+                        opacity: 0.85;
+                    `;
+                    card.appendChild(desc);
+                }
+
+                // Register link
+                const registerLink = document.createElement('span');
+                registerLink.textContent = 'Learn More →';
+                registerLink.style.cssText = `
+                    color: ${COLORS.sunsetPeach};
+                    font-weight: 600;
+                    font-size: 15px;
+                `;
+                card.appendChild(registerLink);
+
+                // Hover effects
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-6px)';
+                    card.style.boxShadow = '0 12px 35px rgba(0,0,0,0.12)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+                });
+
+                grid.appendChild(card);
+            });
+
+            // Responsive grid for mobile
+            const styleTag = document.createElement('style');
+            styleTag.textContent = `
+                @media (max-width: 768px) {
+                    .cra-events > div > div {
+                        grid-template-columns: 1fr !important;
+                    }
+                }
+            `;
+            section.appendChild(styleTag);
+
+            container.appendChild(grid);
+        }
+
+        // View all events button
+        const btnWrap = document.createElement('div');
+        btnWrap.style.cssText = 'text-align: center; margin-top: 2.5em;';
+
+        const btn = document.createElement('a');
+        btn.href = '/tools/events/default.htm';
+        btn.textContent = 'View All Events';
+        btn.style.cssText = `
+            display: inline-block;
+            background: ${COLORS.deepBurgundy};
+            color: ${COLORS.warmCream};
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Urbanist', sans-serif;
+        `;
+        btn.addEventListener('mouseenter', () => {
+            btn.style.transform = 'translateY(-3px)';
+            btn.style.boxShadow = '0 10px 30px rgba(114, 47, 55, 0.3)';
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translateY(0)';
+            btn.style.boxShadow = 'none';
+        });
+
+        btnWrap.appendChild(btn);
+        container.appendChild(btnWrap);
+
+        section.appendChild(container);
         return section;
     }
 
@@ -1056,7 +1381,7 @@
         const section = document.createElement('section');
         section.className = 'cra-photos';
         section.style.cssText = `
-            padding: 5rem 2rem;
+            padding: 5em 2em;
             background: white;
             font-family: 'Urbanist', sans-serif;
         `;
@@ -1064,16 +1389,16 @@
         const header = document.createElement('div');
         header.style.cssText = `
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3em;
         `;
 
         const h2 = document.createElement('h2');
         h2.textContent = 'Latest Photos';
         h2.style.cssText = `
             font-family: 'Urbanist', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
+            font-size: clamp(2em, 5vw, 3em);
             color: ${COLORS.deepBurgundy};
-            margin: 0 0 0.75rem 0;
+            margin: 0 0 0.75em 0;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -1084,7 +1409,7 @@
         subtext.textContent = 'Moments from our community';
         subtext.style.cssText = `
             color: ${COLORS.dustyMauve};
-            font-size: 1.15rem;
+            font-size: 1.15em;
             margin: 0;
         `;
         header.appendChild(subtext);
@@ -1095,9 +1420,9 @@
         grid.style.cssText = `
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
+            gap: 1em;
             max-width: 1200px;
-            margin: 0 auto 3rem;
+            margin: 0 auto 3em;
         `;
 
         const photosToShow = photoUrls.length > 0 ? photoUrls : [];
@@ -1109,7 +1434,7 @@
                 grid-column: 1 / -1;
                 text-align: center;
                 color: ${COLORS.dustyMauve};
-                padding: 3rem;
+                padding: 3em;
             `;
             grid.appendChild(noPhotos);
         } else {
@@ -1148,7 +1473,7 @@
                 const zoomIcon = document.createElement('span');
                 zoomIcon.textContent = '+';
                 zoomIcon.style.cssText = `
-                    font-size: 3rem;
+                    font-size: 3em;
                     color: white;
                     opacity: 0;
                     transition: opacity 0.3s ease;
@@ -1189,9 +1514,9 @@
             background: transparent;
             color: ${COLORS.deepBurgundy};
             border: 2px solid ${COLORS.deepBurgundy};
-            padding: 1rem 2.5rem;
+            padding: 1em 2.5em;
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.1em;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
@@ -1209,6 +1534,55 @@
 
         btnWrap.appendChild(btn);
         section.appendChild(btnWrap);
+
+        return section;
+    }
+
+    // ===================================================================
+    // CREATE FACEBOOK SECTION
+    // ===================================================================
+
+    // Create Facebook section with iframe embed
+    function createFacebookSection() {
+        const section = document.createElement('section');
+        section.className = 'cra-facebook';
+        section.style.cssText = `
+            background: ${COLORS.lightCream};
+            padding: 5em 2em;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        section.innerHTML = `
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h2 style="
+                    text-align: center;
+                    font-size: 3.2em;
+                    font-weight: 700;
+                    color: ${COLORS.darkBurgundy};
+                    margin: 0 0 1em 0;
+                ">Follow Us on Facebook</h2>
+                <iframe
+                    src="https://widgets.sociablekit.com/facebook-page-posts/iframe/25649297"
+                    frameborder="0"
+                    width="100%"
+                    height="800"
+                    style="border: none; border-radius: 12px;"
+                ></iframe>
+            </div>
+            <div style="text-align: center; margin-top: 2em;">
+                <a href="https://facebook.com/JewishRuralAZ" target="_blank" style="
+                    display: inline-block;
+                    background: #1877F2;
+                    color: white;
+                    padding: 1em 2.5em;
+                    border-radius: 50px;
+                    font-size: 1.1em;
+                    font-weight: 600;
+                    text-decoration: none;
+                    font-family: 'Urbanist', sans-serif;
+                ">Follow Us on Facebook</a>
+            </div>
+        `;
 
         return section;
     }
@@ -1368,7 +1742,7 @@
         footer.style.cssText = `
             background: ${COLORS.darkBurgundy};
             color: ${COLORS.warmCream};
-            padding: 4rem 2rem 2rem;
+            padding: 4em 2em 2em;
             font-family: 'Urbanist', sans-serif;
         `;
 
@@ -1380,26 +1754,26 @@
         main.style.cssText = `
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
-            gap: 3rem;
-            padding-bottom: 3rem;
+            gap: 3em;
+            padding-bottom: 3em;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 2rem;
+            margin-bottom: 2em;
         `;
 
         const brand = document.createElement('div');
         const brandTitle = document.createElement('h3');
         brandTitle.textContent = 'Chabad of Rural Arizona';
-        brandTitle.style.cssText = `font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; color: white;`;
+        brandTitle.style.cssText = `font-size: 1.5em; font-weight: 700; margin-bottom: 0.5em; color: white;`;
         brand.appendChild(brandTitle);
 
         const tagline = document.createElement('p');
         tagline.textContent = 'Bringing Jewish life across the desert';
-        tagline.style.cssText = `opacity: 0.7; font-size: 1rem; margin-bottom: 1.5rem;`;
+        tagline.style.cssText = `opacity: 0.7; font-size: 1em; margin-bottom: 1.5em;`;
         brand.appendChild(tagline);
 
         const social = document.createElement('div');
         social.className = 'cra-footer-social';
-        social.style.cssText = `display: flex; gap: 1rem;`;
+        social.style.cssText = `display: flex; gap: 1em;`;
 
         const socialLinks = (footerData.social && footerData.social.length > 0) ? footerData.social : [
             { href: 'https://www.facebook.com/JewishRuralAZ', icon: 'FB' },
@@ -1450,7 +1824,7 @@
         const contact = document.createElement('div');
         const contactTitle = document.createElement('h4');
         contactTitle.textContent = 'Contact Us';
-        contactTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
+        contactTitle.style.cssText = `font-size: 1.1em; margin-bottom: 1em; color: ${COLORS.goldenSand};`;
         contact.appendChild(contactTitle);
 
         const contactInfo = [];
@@ -1476,7 +1850,7 @@
 
         contactInfo.forEach(info => {
             const p = document.createElement('p');
-            p.style.cssText = `margin-bottom: 0.5rem; opacity: 0.8;`;
+            p.style.cssText = `margin-bottom: 0.5em; opacity: 0.8;`;
             if (info.href) {
                 const a = document.createElement('a');
                 a.href = info.href;
@@ -1493,7 +1867,7 @@
         const links = document.createElement('div');
         const linksTitle = document.createElement('h4');
         linksTitle.textContent = 'Quick Links';
-        linksTitle.style.cssText = `font-size: 1.1rem; margin-bottom: 1rem; color: ${COLORS.goldenSand};`;
+        linksTitle.style.cssText = `font-size: 1.1em; margin-bottom: 1em; color: ${COLORS.goldenSand};`;
         links.appendChild(linksTitle);
 
         const quickLinks = (footerData.links && footerData.links.length > 0) ? footerData.links.slice(0, 6) : [
@@ -1512,7 +1886,7 @@
                 color: ${COLORS.warmCream};
                 text-decoration: none;
                 opacity: 0.8;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.5em;
                 transition: all 0.3s;
             `;
             a.addEventListener('mouseenter', () => {
@@ -1536,7 +1910,7 @@
         const nonprofitText = footerData.nonprofit ||
             'Chabad of Rural Arizona is a 501(c)(3) nonprofit organization, EIN 86-3663272 | Donations are tax-deductible';
         copyright.textContent = nonprofitText;
-        copyright.style.cssText = `font-size: 0.85rem; opacity: 0.6; margin-bottom: 0.5rem;`;
+        copyright.style.cssText = `font-size: 0.85em; opacity: 0.6; margin-bottom: 0.5em;`;
         bottom.appendChild(copyright);
 
         const privacy = document.createElement('a');
@@ -1565,7 +1939,7 @@
             background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 1rem 3rem;
+            padding: 1em 3em;
             z-index: 10000;
             box-shadow: 0 2px 20px rgba(0,0,0,0.1);
             font-family: 'Urbanist', sans-serif;
@@ -1585,7 +1959,7 @@
         logo.style.cssText = `
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1em;
             text-decoration: none;
         `;
 
@@ -1597,22 +1971,13 @@
         logoImg.style.cssText = `height: 65px; width: auto;`;
         logo.appendChild(logoImg);
 
-        const logoText = document.createElement('span');
-        logoText.textContent = 'Chabad Rural AZ';
-        logoText.style.cssText = `
-            font-family: 'Urbanist', sans-serif;
-            font-size: 2rem;
-            font-weight: 800;
-            color: ${COLORS.deepBurgundy};
-        `;
-        logo.appendChild(logoText);
         container.appendChild(logo);
 
         const navLinks = document.createElement('ul');
         navLinks.className = 'cra-nav-links';
         navLinks.style.cssText = `
             display: flex;
-            gap: 1.5rem;
+            gap: 1.5em;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -1626,7 +1991,7 @@
             a.href = link.href;
             const hasSubmenu = link.submenu && link.submenu.length > 0;
             if (hasSubmenu) {
-                a.innerHTML = `${link.text} <span style="font-size: 0.7rem; margin-left: 4px;">▼</span>`;
+                a.innerHTML = `${link.text} <span style="font-size: 0.7em; margin-left: 4px;">▼</span>`;
             } else {
                 a.textContent = link.text;
             }
@@ -1634,9 +1999,9 @@
                 text-decoration: none;
                 color: ${COLORS.darkBurgundy};
                 font-weight: 500;
-                font-size: 1.7rem;
+                font-size: 1.7em;
                 transition: color 0.3s;
-                padding: 0.85rem 1.25rem;
+                padding: 0.85em 1.25em;
                 display: flex;
                 align-items: center;
             `;
@@ -1644,15 +2009,19 @@
             let dropdown = null;
             if (hasSubmenu) {
                 dropdown = document.createElement('div');
+                dropdown.className = 'cra-dropdown';
                 dropdown.style.cssText = `
                     position: absolute;
                     top: 100%;
                     left: 0;
                     background: white;
                     min-width: 220px;
+                    max-height: calc(100vh - 120px);
+                    overflow-y: auto;
+                    overflow-x: hidden;
                     box-shadow: 0 10px 40px rgba(0,0,0,0.15);
                     border-radius: 12px;
-                    padding: 0.75rem 0;
+                    padding: 0.75em 0;
                     opacity: 0;
                     visibility: hidden;
                     transform: translateY(10px);
@@ -1666,10 +2035,10 @@
                     subLink.textContent = subItem.text;
                     subLink.style.cssText = `
                         display: block;
-                        padding: 0.85rem 1.5rem;
+                        padding: 0.85em 1.5em;
                         color: ${COLORS.darkBurgundy};
                         text-decoration: none;
-                        font-size: 1.05rem;
+                        font-size: 1.05em;
                         font-weight: 500;
                         transition: all 0.2s;
                     `;
@@ -1716,11 +2085,11 @@
         donate.style.cssText = `
             background: ${COLORS.deepBurgundy};
             color: white;
-            padding: 1.25rem 2.75rem;
+            padding: 1.25em 2.75em;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.5rem;
+            font-size: 1.5em;
             transition: all 0.3s;
         `;
         donate.addEventListener('mouseenter', () => donate.style.background = COLORS.tealGreen);
@@ -1758,19 +2127,21 @@
         container.appendChild(hamburger);
 
         const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'cra-mobile-menu';
+        mobileMenu.className = 'cra-mobile-menu cra-dropdown';
         mobileMenu.style.cssText = `
             display: none;
             position: fixed;
             top: 80px;
             left: 0;
             right: 0;
+            max-height: calc(100vh - 100px);
+            overflow-y: auto;
             background: white;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            padding: 1.5rem;
+            padding: 1.5em;
             z-index: 9999;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.5em;
         `;
 
         extractedNavLinks.forEach(link => {
@@ -1781,8 +2152,8 @@
                 text-decoration: none;
                 color: ${COLORS.darkBurgundy};
                 font-weight: 600;
-                font-size: 1.25rem;
-                padding: 1rem 1.5rem;
+                font-size: 1.25em;
+                padding: 1em 1.5em;
                 border-radius: 8px;
                 transition: background 0.3s;
                 display: block;
@@ -1798,13 +2169,13 @@
         mobileDonate.style.cssText = `
             background: ${COLORS.deepBurgundy};
             color: white;
-            padding: 1.25rem;
+            padding: 1.25em;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.2em;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1em;
             display: block;
         `;
         mobileMenu.appendChild(mobileDonate);
@@ -1849,29 +2220,29 @@
 
                 const navLinkElements = navLinks.querySelectorAll('a');
                 if (width <= 1200) {
-                    navLinks.style.gap = '0.75rem';
+                    navLinks.style.gap = '0.75em';
                     navLinkElements.forEach(link => {
-                        link.style.fontSize = '1.3rem';
-                        link.style.padding = '0.6rem 0.8rem';
+                        link.style.fontSize = '1.3em';
+                        link.style.padding = '0.6em 0.8em';
                     });
-                    donate.style.fontSize = '1.2rem';
-                    donate.style.padding = '1rem 2rem';
+                    donate.style.fontSize = '1.2em';
+                    donate.style.padding = '1em 2em';
                 } else if (width <= 1400) {
-                    navLinks.style.gap = '1rem';
+                    navLinks.style.gap = '1em';
                     navLinkElements.forEach(link => {
-                        link.style.fontSize = '1.5rem';
-                        link.style.padding = '0.75rem 1rem';
+                        link.style.fontSize = '1.5em';
+                        link.style.padding = '0.75em 1em';
                     });
-                    donate.style.fontSize = '1.35rem';
-                    donate.style.padding = '1.1rem 2.25rem';
+                    donate.style.fontSize = '1.35em';
+                    donate.style.padding = '1.1em 2.25em';
                 } else {
-                    navLinks.style.gap = '1.5rem';
+                    navLinks.style.gap = '1.5em';
                     navLinkElements.forEach(link => {
-                        link.style.fontSize = '1.7rem';
-                        link.style.padding = '0.85rem 1.25rem';
+                        link.style.fontSize = '1.7em';
+                        link.style.padding = '0.85em 1.25em';
                     });
-                    donate.style.fontSize = '1.5rem';
-                    donate.style.padding = '1.25rem 2.75rem';
+                    donate.style.fontSize = '1.5em';
+                    donate.style.padding = '1.25em 2.75em';
                 }
             }
         };
@@ -2170,48 +2541,66 @@
     }
 
     // Initialize full homepage redesign
-    function initHomepage() {
+    async function initHomepage() {
+        try {
         console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
         // IMPORTANT: Extract ALL data BEFORE hiding CMS elements
         const carouselImages = extractCarouselImages();
+        const heroSlides = extractAllHeroSlides();
         extractedImages = extractOriginalImages();
         const photoUrls = extractPhotos();
         const footerData = extractFooterData();
         const navLinks = extractNavLinks();
 
-        // Hide ALL CMS elements for full redesign
+        // Hide CMS IMMEDIATELY after extraction (before any async calls)
         hideAllCMSElements();
+
+        // Fetch events from events page (async, but CMS already hidden)
+        console.log('CRA: Fetching events...');
+        const events = await fetchEvents();
 
         // Create shadow container
         const { host, shadow } = createShadowContainer();
 
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
-        shadow.appendChild(createHero(carouselImages));
+        shadow.appendChild(createHero());
 
-        // Fundraiser section (Chabad on Wheels) - right after hero
-        const fundraiserSection = createFundraiser();
-        fundraiserSection.classList.add('cra-animate');
-        fundraiserSection.dataset.animation = 'left';
-        shadow.appendChild(fundraiserSection);
+        // About section (with animation)
+        const aboutSection = createAbout();
+        aboutSection.classList.add('cra-animate');
+        aboutSection.dataset.animation = 'right';
+        shadow.appendChild(aboutSection);
 
         // Create sections with animation classes (alternating left/right)
         const locationsSection = createLocations(extractedImages);
         locationsSection.classList.add('cra-animate');
-        locationsSection.dataset.animation = 'right';
+        locationsSection.dataset.animation = 'left';
         shadow.appendChild(locationsSection);
 
         const actionsSection = createActions();
         actionsSection.classList.add('cra-animate');
-        actionsSection.dataset.animation = 'left';
+        actionsSection.dataset.animation = 'right';
         shadow.appendChild(actionsSection);
+
+        // Events section (fetched from events page)
+        const eventsSection = createEvents(events);
+        eventsSection.classList.add('cra-animate');
+        eventsSection.dataset.animation = 'left';
+        shadow.appendChild(eventsSection);
 
         const photosSection = createPhotos(photoUrls);
         photosSection.classList.add('cra-animate');
         photosSection.dataset.animation = 'right';
         shadow.appendChild(photosSection);
+
+        // Facebook section (before footer)
+        const facebookSection = createFacebookSection();
+        facebookSection.classList.add('cra-animate');
+        facebookSection.dataset.animation = 'left';
+        shadow.appendChild(facebookSection);
 
         const footerSection = createFooter(footerData);
         footerSection.classList.add('cra-animate');
@@ -2238,6 +2627,11 @@
             bodyWrapper.parentNode.insertBefore(host, bodyWrapper);
         } else {
             document.body.appendChild(host);
+        }
+
+        console.log('CRA Redesign: Homepage complete');
+        } catch (error) {
+            console.error('CRA Redesign: Error in initHomepage:', error);
         }
     }
 

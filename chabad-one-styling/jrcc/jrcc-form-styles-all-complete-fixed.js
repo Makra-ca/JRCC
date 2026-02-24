@@ -407,7 +407,7 @@ function styleHealthyAtHomeForm() {
         }
 
         // NOW style the title itself
-        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:2rem!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:9999!important;position:relative!important;height:auto!important;overflow:visible!important;';
+        pageTitle.style.cssText = 'font-family:Urbanist,sans-serif!important;font-size:3.75rem!important;font-weight:800!important;color:#000000!important;text-align:center!important;margin-left:auto!important;margin-right:auto!important;margin-top:0!important;margin-bottom:2rem!important;padding:2rem 2rem 0 2rem!important;background:transparent!important;border:none!important;border-radius:0!important;text-shadow:0 2px 4px rgba(0,0,0,0.1)!important;display:block!important;visibility:visible!important;opacity:1!important;max-width:1100px!important;width:90%!important;z-index:1!important;position:relative!important;height:auto!important;overflow:visible!important;';
 
         // Store the original text before clearing for animation
         var originalText = pageTitle.textContent;

@@ -1,0 +1,80 @@
+EVENT REGISTRATION PAGE - SETUP INSTRUCTIONS
+=============================================
+
+Add special markers to display location and date/time in styled info cards.
+
+
+WHERE TO ADD MARKERS
+--------------------
+
+Option 1: In the DESCRIPTION field (if you have space)
+Option 2: In the RESERVATION OVERVIEW CUSTOM MESSAGE field (fallback)
+
+The system checks Description first. If no markers found there,
+it checks Reservation Overview as a fallback.
+
+
+HOW TO FORMAT
+-------------
+
+Add the location and date/time markers at the END of your text:
+
+Example:
+--------
+Join us for an inspiring evening with Holocaust survivor Sora Vigorito.
+Her life story is a testament to the human spirit's capacity for
+survival, healing, and renewal.
+
+#LOCATION: William & Mary, ISC 1221, 540 Landrum Dr
+#DATETIME: March 1, 2026 at 6:30 PM
+
+
+MARKER REFERENCE
+----------------
+
+#LOCATION: Your location text here
+#DATETIME: Your date and time here
+
+- Markers must start with # and end with a new line
+- Put markers at the END of your description
+- Markers will be hidden from display
+- The info will appear in styled cards below the description
+
+
+WHAT GETS DISPLAYED
+-------------------
+
+1. EVENT DESCRIPTION = Everything before the markers
+   (Shows in the black header section with "Read more" if long)
+
+2. LOCATION CARD = Text after #LOCATION:
+   (Shows with a map pin icon)
+
+3. DATE/TIME CARD = Text after #DATETIME:
+   (Shows with a calendar icon)
+
+
+FULL EXAMPLE
+------------
+
+Sora Vigorito is one of only 89 pairs of identical twins who were
+subjected to the cruel medical experiments conducted by Dr. Joseph
+Mengele in Auschwitz. As a young child, she endured unimaginable
+loss, trauma, and separation, yet emerged with extraordinary
+strength and determination.
+
+Her life story is a testament to the human spirit's capacity for
+survival, healing, and renewal. Through decades of rebuilding,
+Sora transformed profound devastation into a life rooted in faith,
+purpose, and resilience.
+
+#LOCATION: William & Mary (ISC 1221), 540 Landrum Dr, Williamsburg, VA
+#DATETIME: Saturday, March 1, 2026 at 6:30 PM
+
+
+TIPS
+----
+- Keep location concise (building name, address)
+- Include full date with day of week
+- If no markers are added, the page will still work (just no info cards)
+- Test your event page after saving to make sure it looks right

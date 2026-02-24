@@ -1,0 +1,1733 @@
+/* =========================================================
+   CHABAD WILLIAMSBURG VIRGINIA - MOCKUP B (Classic Elegant)
+   Production CSS
+   ========================================================= */
+
+/* ===== FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --gold: #C9A227;
+  --gold-dark: #A68A1F;
+  --gold-light: #F5EED6;
+  --black: #1a1a1a;
+  --dark-red: #8B0000;
+  --cream: #FFFDF7;
+  --white: #ffffff;
+  --gray-100: #f7f7f5;
+  --gray-200: #e8e8e4;
+  --gray-300: #d4d4cd;
+  --gray-500: #7a7a72;
+  --gray-700: #4a4a45;
+  --gray-900: #1f1f1c;
+
+  /* Font sizes in px (CMS uses 10px base, so rem is unreliable) */
+  --font-xs: 11px;
+  --font-sm: 13px;
+  --font-base: 15px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 22px;
+  --font-2xl: 26px;
+}
+
+/* ===== PAGE BACKGROUND ===== */
+body.cwv-registration-page {
+  background: linear-gradient(135deg, var(--cream) 0%, #f8f6f0 100%) !important;
+  min-height: 100vh !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+body.cwv-registration-page #BodyContainer,
+body.cwv-registration-page #co_content_container,
+body.cwv-registration-page .body_wrapper,
+body.cwv-registration-page .master-content-wrapper {
+  background: transparent !important;
+}
+
+/* ===== MAIN CONTAINER ===== */
+body.cwv-registration-page .master-content-wrapper {
+  max-width: 1000px !important;
+  margin: 0 auto !important;
+  padding: 2rem !important;
+}
+
+body.cwv-registration-page .vertical_padding {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+body.cwv-registration-page form#RegisterSinglePage {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* ===== BANNER IMAGE ===== */
+body.cwv-registration-page #RegisterHeader {
+  padding: 0 !important;
+  background: transparent !important;
+  margin-bottom: 0 !important;
+  border: none !important;
+}
+
+body.cwv-registration-page #RegisterHeader .banner_image {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 16px 16px 0 0 !important;
+  overflow: hidden !important;
+}
+
+body.cwv-registration-page #RegisterHeader .banner_image img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+}
+
+/* ===== EVENT INTRO (Black Section) ===== */
+body.cwv-registration-page #RegisterHeader .column1,
+body.cwv-registration-page #RegisterHeader .column2 {
+  float: none !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column1 {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  padding: 2rem 2.5rem !important;
+  border-radius: 0 !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column1::before {
+  content: 'Special Event' !important;
+  display: inline-block !important;
+  background: var(--gold) !important;
+  color: var(--black) !important;
+  font-size: var(--font-xs) !important;
+  font-weight: 700 !important;
+  padding: 0.4rem 1rem !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 2px !important;
+  margin-bottom: 1rem !important;
+}
+
+body.cwv-registration-page #RegisterHeader .event_name {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-2xl) !important;
+  font-weight: 800 !important;
+  color: var(--white) !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.2 !important;
+}
+
+body.cwv-registration-page #RegisterHeader .event_description {
+  font-size: var(--font-md) !important;
+  line-height: 1.6 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Description truncation (Read more) */
+body.cwv-registration-page #RegisterHeader .event_description.cwv-truncated {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+}
+
+body.cwv-registration-page #RegisterHeader .event_description.cwv-expanded {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+}
+
+body.cwv-registration-page .cwv-read-more-btn {
+  background: none !important;
+  border: none !important;
+  color: var(--gold) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 0 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+  margin-top: 0.5rem !important;
+  transition: color 0.2s ease !important;
+}
+
+body.cwv-registration-page .cwv-read-more-btn:hover {
+  color: var(--gold-light) !important;
+}
+
+body.cwv-registration-page .cwv-read-more-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  transition: transform 0.2s ease !important;
+}
+
+body.cwv-registration-page .cwv-read-more-btn.cwv-expanded svg {
+  transform: rotate(180deg) !important;
+}
+
+/* ===== INFO CARDS (Location & Date) ===== */
+body.cwv-registration-page #RegisterHeader .column2 {
+  background: var(--gray-100) !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+  padding: 1.5rem 2rem !important;
+}
+
+body.cwv-registration-page .cwv-info-card {
+  flex: 1 1 280px !important;
+  background: var(--white) !important;
+  border-radius: 10px !important;
+  padding: 1rem 1.25rem !important;
+  border-left: 4px solid var(--gold) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+body.cwv-registration-page .cwv-info-icon {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50% !important;
+  background: var(--gold-light) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page .cwv-info-icon svg {
+  width: 20px !important;
+  height: 20px !important;
+  color: var(--gold-dark) !important;
+  stroke: var(--gold-dark) !important;
+}
+
+body.cwv-registration-page .cwv-card-label {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  color: var(--gold-dark) !important;
+  margin-bottom: 0.2rem !important;
+  display: block !important;
+}
+
+body.cwv-registration-page .cwv-info-content {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+}
+
+/* ===== FORM CARD (White Area) ===== */
+body.cwv-registration-page #RegisterBody {
+  background: var(--white) !important;
+  padding: 0 !important;
+  border-radius: 0 0 16px 16px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(0,0,0,0.05) !important;
+  border-top: none !important;
+  overflow: hidden !important;
+}
+
+/* Gold accent bar */
+body.cwv-registration-page #RegisterBody::before {
+  content: '' !important;
+  display: block !important;
+  height: 4px !important;
+  background: linear-gradient(90deg, var(--gold), var(--gold-dark), var(--gold)) !important;
+}
+
+/* ===== SECTION STYLING ===== */
+body.cwv-registration-page #RegisterBody > .wrapper,
+body.cwv-registration-page #RegisterBody > div > .wrapper,
+body.cwv-registration-page .performance {
+  padding: 2rem 2.5rem !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+}
+
+body.cwv-registration-page #RegisterBody > .wrapper:last-child {
+  border-bottom: none !important;
+}
+
+/* Section titles */
+body.cwv-registration-page #RegisterBody .title,
+body.cwv-registration-page .performance > .clearfix.title {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+  margin-bottom: 1.25rem !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+body.cwv-registration-page #RegisterBody .title::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 4px !important;
+  height: 22px !important;
+  background: var(--gold) !important;
+  border-radius: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Hide the original performance title row extras */
+body.cwv-registration-page .performance .segment_link,
+body.cwv-registration-page .performance .event_name {
+  display: none !important;
+}
+
+/* =========================================================
+   RESERVATIONS TABLE
+   ========================================================= */
+
+body.cwv-registration-page .reservations {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+/* ----- Header Row ----- */
+body.cwv-registration-page .reservations > .clearfix:first-child,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin,
+body.cwv-registration-page .reservations > div:first-child:not(.reservation) {
+  display: flex !important;
+  visibility: visible !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 0.75rem 0.5rem !important;
+  border-bottom: 2px solid var(--gray-200) !important;
+  margin-bottom: 0.5rem !important;
+  background: transparent !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child::after,
+body.cwv-registration-page .reservations > .clearfix:first-child::before,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin::after,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Header row labels */
+body.cwv-registration-page .reservations > .clearfix:first-child > *,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin > *,
+body.cwv-registration-page .reservations > .clearfix:first-child > div,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin > div {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: var(--font-xs) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--gray-500) !important;
+  display: block !important;
+  visibility: visible !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child .g20,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .g20 {
+  flex: 0 0 35px !important;
+  text-align: center !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child .g120,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .g120 {
+  flex: 1 1 180px !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child .g140,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .g140 {
+  flex: 1 1 180px !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child .g100,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .g100 {
+  flex: 0 0 130px !important;
+  background: transparent !important;
+}
+
+body.cwv-registration-page .reservations > .clearfix:first-child .price-header,
+body.cwv-registration-page .reservations > .clearfix:first-child .inline_block,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .price-header,
+body.cwv-registration-page .reservations > .clearfix.medium_top_margin .inline_block {
+  flex: 0 0 70px !important;
+  text-align: right !important;
+}
+
+/* Hide seat selection column */
+body.cwv-registration-page .reservations .seat_selection,
+body.cwv-registration-page .reservations .g220,
+body.cwv-registration-page .reservations div.seat_selection,
+body.cwv-registration-page .reservations div.g220,
+body.cwv-registration-page .reservations > .clearfix .seat_selection,
+body.cwv-registration-page .reservations > .clearfix .g220,
+body.cwv-registration-page .reservation .seat_selection,
+body.cwv-registration-page .reservation .g220,
+body.cwv-registration-page [class*="seat_selection"] {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+/* ----- Reservation Rows ----- */
+body.cwv-registration-page .reservation {
+  background: var(--white) !important;
+  border: none !important;
+  border-left: 3px solid var(--gray-200) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 0.25rem 0 !important;
+  transition: all 0.15s ease !important;
+}
+
+body.cwv-registration-page .reservation:hover {
+  border-left-color: var(--gold) !important;
+  background: var(--cream) !important;
+}
+
+/* Inner flex container */
+body.cwv-registration-page .reservation > .clearfix,
+body.cwv-registration-page .reservation > .clearfix.medium_vertical_padding {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 0.75rem 0.5rem !important;
+  min-height: 50px !important;
+}
+
+body.cwv-registration-page .reservation > .clearfix::after,
+body.cwv-registration-page .reservation > .clearfix::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Reset CMS classes inside reservation */
+body.cwv-registration-page .reservation .g20,
+body.cwv-registration-page .reservation .g40,
+body.cwv-registration-page .reservation .g100,
+body.cwv-registration-page .reservation .g120,
+body.cwv-registration-page .reservation .g140,
+body.cwv-registration-page .reservation .price-display,
+body.cwv-registration-page .reservation [class*="margin"],
+body.cwv-registration-page .reservation [class*="padding"],
+body.cwv-registration-page .reservation .float_left,
+body.cwv-registration-page .reservation .float_right {
+  float: none !important;
+  clear: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+}
+
+/* Row number */
+body.cwv-registration-page .reservation .g20 {
+  order: 1 !important;
+  flex: 0 0 35px !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  color: var(--gold-dark) !important;
+  font-size: var(--font-base) !important;
+}
+
+/* First Name */
+body.cwv-registration-page .reservation .g120 {
+  order: 2 !important;
+  flex: 1 1 180px !important;
+}
+
+/* Last Name */
+body.cwv-registration-page .reservation .g140 {
+  order: 3 !important;
+  flex: 1 1 180px !important;
+}
+
+/* Category badge */
+body.cwv-registration-page .reservation .g100 {
+  order: 4 !important;
+  flex: 0 0 130px !important;
+  background: var(--gold-light) !important;
+  color: var(--gold-dark) !important;
+  padding: 0.4rem 0.75rem !important;
+  border-radius: 4px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Price */
+body.cwv-registration-page .reservation .price-display {
+  order: 5 !important;
+  flex: 0 0 70px !important;
+  font-weight: 700 !important;
+  font-size: var(--font-base) !important;
+  color: var(--gray-900) !important;
+  text-align: right !important;
+}
+
+/* Delete button */
+body.cwv-registration-page .reservation .g40 {
+  order: 6 !important;
+  flex: 0 0 30px !important;
+}
+
+body.cwv-registration-page .reservation button.remove_reservation {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  color: var(--gray-400) !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  transition: all 0.15s ease !important;
+  opacity: 0.5 !important;
+}
+
+body.cwv-registration-page .reservation:hover button.remove_reservation {
+  opacity: 1 !important;
+}
+
+body.cwv-registration-page .reservation button.remove_reservation:hover {
+  background: #fee2e2 !important;
+  color: #dc2626 !important;
+  opacity: 1 !important;
+}
+
+/* Inputs */
+body.cwv-registration-page .reservation input.co_form_input {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  padding: 0.6rem 0.75rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--gray-100) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.15s ease !important;
+}
+
+body.cwv-registration-page .reservation input.co_form_input:focus {
+  border-color: var(--gold) !important;
+  background: var(--white) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* Hide embedded form */
+body.cwv-registration-page .reservation .embedded_form {
+  display: none !important;
+}
+
+/* ----- Subtotal ----- */
+body.cwv-registration-page .subtotal {
+  text-align: right !important;
+  padding: 1rem 0 !important;
+  font-size: var(--font-md) !important;
+  color: var(--gray-600) !important;
+  border-top: 1px solid var(--gray-200) !important;
+  margin-top: 0.75rem !important;
+}
+
+body.cwv-registration-page .subtotal span:last-child {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--black) !important;
+  margin-left: 0.5rem !important;
+}
+
+/* =========================================================
+   ADD RESERVATIONS SECTION
+   ========================================================= */
+
+body.cwv-registration-page .additionals_toggle {
+  margin-top: 1rem !important;
+}
+
+/* "+ Add additional reservations" link */
+body.cwv-registration-page .toggle_message {
+  color: var(--gold-dark) !important;
+  font-weight: 600 !important;
+  font-size: var(--font-base) !important;
+  cursor: pointer !important;
+  padding: 0.5rem 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  transition: color 0.15s ease !important;
+}
+
+body.cwv-registration-page .toggle_message:hover {
+  color: var(--gold) !important;
+}
+
+body.cwv-registration-page .toggle_message i {
+  color: var(--gold) !important;
+}
+
+/* Dropdown form (when no reservations) */
+body.cwv-registration-page .toggle_options {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-end !important;
+  gap: 1rem !important;
+  padding: 1.5rem !important;
+  background: var(--cream) !important;
+  border: 2px dashed var(--gold) !important;
+  border-radius: 10px !important;
+  margin-top: 0.5rem !important;
+}
+
+body.cwv-registration-page .toggle_options.medium_vertical_padding,
+body.cwv-registration-page .toggle_options.left_padding {
+  padding: 1.5rem !important;
+}
+
+body.cwv-registration-page .toggle_options::after,
+body.cwv-registration-page .toggle_options::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Category dropdown container */
+body.cwv-registration-page .toggle_options > .inline_block:first-child {
+  flex: 2 1 250px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+}
+
+/* Quantity dropdown container */
+body.cwv-registration-page .toggle_options > .inline_block:nth-child(2) {
+  flex: 0 0 100px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.4rem !important;
+}
+
+/* Labels above dropdowns */
+body.cwv-registration-page .toggle_options > .inline_block > div:first-child {
+  font-size: var(--font-xs) !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  color: var(--gray-500) !important;
+}
+
+/* Dropdowns */
+body.cwv-registration-page .toggle_options select.co_form_input {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  padding: 0.75rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--white) !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  height: 46px !important;
+  transition: border-color 0.15s ease !important;
+}
+
+body.cwv-registration-page .toggle_options select.co_form_input:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* Add/Continue button in toggle */
+body.cwv-registration-page .toggle_options .co_global_button,
+body.cwv-registration-page .toggle_options button {
+  flex: 0 0 auto !important;
+}
+
+body.cwv-registration-page .toggle_options button,
+body.cwv-registration-page .toggle_options .co_global_button .button {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  background: var(--gold) !important;
+  color: var(--black) !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 0 1.5rem !important;
+  height: 46px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  white-space: nowrap !important;
+}
+
+body.cwv-registration-page .toggle_options button:hover,
+body.cwv-registration-page .toggle_options .co_global_button .button:hover {
+  background: var(--black) !important;
+  color: var(--gold) !important;
+}
+
+/* =========================================================
+   FORM FIELDS
+   ========================================================= */
+
+body.cwv-registration-page #RegisterBody label {
+  font-size: var(--font-sm) !important;
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+  margin-bottom: 0.4rem !important;
+  display: block !important;
+}
+
+body.cwv-registration-page #RegisterBody .required .label::after,
+body.cwv-registration-page #RegisterBody label .req {
+  color: var(--dark-red) !important;
+}
+
+body.cwv-registration-page #RegisterBody input[type="text"],
+body.cwv-registration-page #RegisterBody input[type="email"],
+body.cwv-registration-page #RegisterBody input[type="tel"],
+body.cwv-registration-page #RegisterBody select:not(.toggle_options select),
+body.cwv-registration-page #RegisterBody textarea {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 14px !important;
+  padding: 0.75rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--white) !important;
+  transition: all 0.15s ease !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.cwv-registration-page #RegisterBody input:focus,
+body.cwv-registration-page #RegisterBody select:focus,
+body.cwv-registration-page #RegisterBody textarea:focus {
+  outline: none !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* Form rows */
+body.cwv-registration-page #RegisterBody .clearfix:has(.reservation_input_text) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 1rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* =========================================================
+   SPONSORSHIP / CHECKBOXES
+   ========================================================= */
+
+body.cwv-registration-page #RegisterBody .checkbox_list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+  gap: 0.75rem !important;
+}
+
+body.cwv-registration-page #RegisterBody .checkbox_list label {
+  display: flex !important;
+  align-items: center !important;
+  padding: 1rem !important;
+  background: var(--gray-100) !important;
+  border: 2px solid transparent !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  margin-bottom: 0 !important;
+}
+
+body.cwv-registration-page #RegisterBody .checkbox_list label:hover {
+  background: var(--cream) !important;
+  border-color: var(--gold) !important;
+}
+
+body.cwv-registration-page #RegisterBody .checkbox_list input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+  margin-right: 0.75rem !important;
+  accent-color: var(--gold) !important;
+}
+
+/* =========================================================
+   RADIO BUTTONS
+   ========================================================= */
+
+body.cwv-registration-page #RegisterBody .radio_list label {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.5rem 0 !important;
+  cursor: pointer !important;
+}
+
+body.cwv-registration-page #RegisterBody .radio_list input[type="radio"] {
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: var(--gold) !important;
+}
+
+/* =========================================================
+   ADDITIONAL INFORMATION + SUMMARY (Two Column Layout)
+   ========================================================= */
+
+body.cwv-registration-page #SecondaryFormItems {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 2rem !important;
+  padding: 2rem 2.5rem !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+}
+
+body.cwv-registration-page #SecondaryFormItems > #AdditionalInformation {
+  flex: 1 1 400px !important;
+}
+
+body.cwv-registration-page #SecondaryFormItems > #Summary {
+  flex: 1 1 300px !important;
+}
+
+body.cwv-registration-page #SecondaryFormItems .clearfix.separator {
+  display: none !important;
+}
+
+body.cwv-registration-page #SecondaryFormItems .large_top_padding.medium_bottom_padding {
+  padding: 0 !important;
+}
+
+/* =========================================================
+   ADDITIONAL INFORMATION SECTION
+   ========================================================= */
+
+body.cwv-registration-page #AdditionalInformation .title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+body.cwv-registration-page #AdditionalInformation .title::before {
+  content: '' !important;
+  display: flex !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  background: var(--gold-light) !important;
+  border-radius: 10px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A68A1F' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4'/%3E%3Cpath d='M12 8h.01'/%3E%3C/svg%3E") !important;
+  background-size: 20px 20px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+body.cwv-registration-page #AdditionalInformation .title span.bold {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+}
+
+body.cwv-registration-page #formContainer {
+  font-family: 'Inter', sans-serif !important;
+}
+
+body.cwv-registration-page #formContainer .form-all {
+  padding: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-section {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-line {
+  margin-bottom: 1.5rem !important;
+  list-style: none !important;
+}
+
+body.cwv-registration-page #formContainer .form-label-left label {
+  font-size: var(--font-base) !important;
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+  margin-bottom: 0.75rem !important;
+  display: block !important;
+}
+
+body.cwv-registration-page #formContainer .form-required {
+  color: var(--dark-red) !important;
+}
+
+body.cwv-registration-page #formContainer .form-single-column {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 0.75rem !important;
+}
+
+body.cwv-registration-page #formContainer .form-single-column > .clearfix {
+  display: none !important;
+}
+
+body.cwv-registration-page #formContainer .form-radio-item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 1rem 1.25rem !important;
+  background: var(--gray-100) !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-radio-item:hover {
+  background: var(--cream) !important;
+  border-color: var(--gold) !important;
+}
+
+body.cwv-registration-page #formContainer .form-radio-item input[type="radio"] {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 1rem !important;
+  accent-color: var(--gold) !important;
+  flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-radio-item label {
+  font-size: var(--font-base) !important;
+  font-weight: 500 !important;
+  color: var(--gray-700) !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+}
+
+body.cwv-registration-page #formContainer .form-checkbox-item {
+  display: flex !important;
+  align-items: center !important;
+  padding: 1rem 1.25rem !important;
+  background: var(--gray-100) !important;
+  border: 2px solid transparent !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  margin: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-checkbox-item:hover {
+  background: var(--cream) !important;
+  border-color: var(--gold) !important;
+}
+
+body.cwv-registration-page #formContainer .form-checkbox-item input[type="checkbox"] {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 1rem !important;
+  accent-color: var(--gold) !important;
+  flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-checkbox-item label {
+  flex: 1 !important;
+  font-size: var(--font-base) !important;
+  font-weight: 500 !important;
+  color: var(--gray-700) !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+}
+
+body.cwv-registration-page #formContainer .form-html p {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-lg) !important;
+  font-weight: 600 !important;
+  color: var(--gray-900) !important;
+  margin-bottom: 1rem !important;
+}
+
+body.cwv-registration-page #formContainer .form-dropdown {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.85rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
+  min-width: 200px !important;
+}
+
+body.cwv-registration-page #formContainer .form-dropdown:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--gold-light) !important;
+}
+
+body.cwv-registration-page #formContainer .form-checkbox-other-input {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.5rem 0.75rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--white) !important;
+  width: 120px !important;
+}
+
+body.cwv-registration-page #formContainer + .center.small {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem !important;
+  background: var(--gray-100) !important;
+  border-radius: 8px !important;
+  font-size: var(--font-sm) !important;
+  color: var(--gray-500) !important;
+  margin-top: 1.5rem !important;
+}
+
+/* =========================================================
+   SUMMARY SECTION
+   ========================================================= */
+
+body.cwv-registration-page #Summary {
+  padding: 0 !important;
+  border-bottom: none !important;
+}
+
+body.cwv-registration-page #Summary .title {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+body.cwv-registration-page #Summary .clearfix.large_top_margin {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 0.75rem 0 !important;
+  border-bottom: 1px solid var(--gray-100) !important;
+}
+
+body.cwv-registration-page #Summary .label {
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+  min-width: 150px !important;
+}
+
+body.cwv-registration-page #Summary input.co_form_input,
+body.cwv-registration-page #Summary input.reservation_input_text2 {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.6rem 0.75rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--gray-100) !important;
+  width: 120px !important;
+  text-align: right !important;
+}
+
+body.cwv-registration-page #Summary input:focus {
+  border-color: var(--gold) !important;
+  background: var(--white) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+body.cwv-registration-page #Summary #TotalCost,
+body.cwv-registration-page #Summary .total_due {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: var(--black) !important;
+}
+
+/* =========================================================
+   YOUR INFORMATION SECTION
+   ========================================================= */
+
+body.cwv-registration-page #ReserversInformation {
+  padding: 2rem 2.5rem !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+}
+
+body.cwv-registration-page #ReserversInformation .title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
+body.cwv-registration-page #ReserversInformation .title::before {
+  content: '' !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  background: var(--gold-light) !important;
+  border-radius: 10px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A68A1F' stroke-width='2'%3E%3Cpath d='M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E") !important;
+  background-size: 20px 20px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+body.cwv-registration-page #ReserversInformation .title span.bold,
+body.cwv-registration-page #ReserversInformation .title .bold {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > .clearfix.small_bottom_padding.regular,
+body.cwv-registration-page #ReserversInformation .clearfix.small_bottom_padding.regular {
+  background: var(--cream) !important;
+  padding: 1rem 1.25rem !important;
+  border-radius: 10px !important;
+  border-left: 4px solid var(--gold) !important;
+  margin-bottom: 2rem !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--gray-500) !important;
+  font-style: italic !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > .clearfix:has(.small_vertical_padding) {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1.25rem !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > .clearfix::before,
+body.cwv-registration-page #ReserversInformation > div > .clearfix::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.cwv-registration-page #ReserversInformation .clearfix.small_bottom_padding.regular {
+  grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .clearfix.small_vertical_padding {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  float: none !important;
+  clear: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .clearfix.small_vertical_padding::before,
+body.cwv-registration-page #ReserversInformation .clearfix.small_vertical_padding::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.cwv-registration-page #ReserversInformation .label {
+  float: none !important;
+  width: auto !important;
+  display: block !important;
+  font-weight: 600 !important;
+  font-size: var(--font-sm) !important;
+  color: var(--gray-700) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  order: 1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .float_left,
+body.cwv-registration-page #ReserversInformation .left_margin,
+body.cwv-registration-page #ReserversInformation .float_left.left_margin {
+  float: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  order: 2 !important;
+}
+
+body.cwv-registration-page #ReserversInformation input.co_form_input,
+body.cwv-registration-page #ReserversInformation select.co_form_input,
+body.cwv-registration-page #ReserversInformation select.reservation_input_select {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.85rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.cwv-registration-page #ReserversInformation input:focus,
+body.cwv-registration-page #ReserversInformation select:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--gold-light) !important;
+}
+
+body.cwv-registration-page #ReserversInformation .info,
+body.cwv-registration-page #ReserversInformation .small.gray {
+  font-size: 12px !important;
+  color: var(--gray-500) !important;
+  font-style: italic !important;
+  margin-top: 0.25rem !important;
+}
+
+body.cwv-registration-page #ReserversInformation .red {
+  color: var(--dark-red) !important;
+}
+
+body.cwv-registration-page #ReserversInformation .clearfix.small_vertical_padding:has(input[name*="email"]),
+body.cwv-registration-page #ReserversInformation .clearfix.small_vertical_padding:has(input[type="email"]) {
+  grid-template-columns: 1fr !important;
+}
+
+body.cwv-registration-page #ReserversInformation .optin_checkbox {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 0.75rem !important;
+  margin-top: 1rem !important;
+  grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .optin_checkbox input[type="checkbox"] {
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: var(--gold) !important;
+  margin-top: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .optin_message_text label {
+  font-size: var(--font-sm) !important;
+  color: var(--gray-600) !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+}
+
+/* =========================================================
+   PAYMENT SECTION
+   ========================================================= */
+
+body.cwv-registration-page #Payment {
+  padding: 2rem 2.5rem !important;
+  border-bottom: 1px solid var(--gray-200) !important;
+}
+
+body.cwv-registration-page #Payment .title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}
+
+body.cwv-registration-page #Payment .title::before {
+  content: '' !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  background: var(--gold-light) !important;
+  border-radius: 10px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A68A1F' stroke-width='2'%3E%3Crect x='1' y='4' width='22' height='16' rx='2' ry='2'/%3E%3Cline x1='1' y1='10' x2='23' y2='10'/%3E%3C/svg%3E") !important;
+  background-size: 20px 20px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+body.cwv-registration-page #Payment .title span.bold,
+body.cwv-registration-page #Payment .title .bold {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+}
+
+body.cwv-registration-page #Payment .clearfix.small_bottom_padding.regular {
+  background: var(--cream) !important;
+  padding: 1rem 1.25rem !important;
+  border-radius: 10px !important;
+  border-left: 4px solid var(--gold) !important;
+  margin-bottom: 2rem !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: var(--gray-500) !important;
+  font-style: italic !important;
+}
+
+body.cwv-registration-page #Payment .clearfix.small_vertical_padding {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  float: none !important;
+  clear: both !important;
+  margin-bottom: 1.25rem !important;
+  padding: 0 !important;
+  max-width: 400px !important;
+}
+
+body.cwv-registration-page #Payment .clearfix.small_vertical_padding::before,
+body.cwv-registration-page #Payment .clearfix.small_vertical_padding::after {
+  display: none !important;
+  content: none !important;
+}
+
+body.cwv-registration-page #Payment .label {
+  float: none !important;
+  width: auto !important;
+  display: block !important;
+  font-weight: 600 !important;
+  font-size: var(--font-sm) !important;
+  color: var(--gray-700) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+  order: 1 !important;
+}
+
+body.cwv-registration-page #Payment .float_left,
+body.cwv-registration-page #Payment .left_margin,
+body.cwv-registration-page #Payment .float_left.left_margin {
+  float: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  order: 2 !important;
+}
+
+body.cwv-registration-page #Payment .inline_block {
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+body.cwv-registration-page #Payment input.co_form_input,
+body.cwv-registration-page #Payment select.co_form_input,
+body.cwv-registration-page #Payment select {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.85rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+body.cwv-registration-page #Payment input:focus,
+body.cwv-registration-page #Payment select:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--gold-light) !important;
+}
+
+body.cwv-registration-page #Payment textarea {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.85rem 1rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
+  width: 100% !important;
+  min-height: 100px !important;
+  resize: vertical !important;
+}
+
+body.cwv-registration-page #Payment textarea:focus {
+  border-color: var(--gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--gold-light) !important;
+}
+
+body.cwv-registration-page #Payment .red {
+  color: var(--dark-red) !important;
+}
+
+body.cwv-registration-page #Payment .small.gray,
+body.cwv-registration-page #Payment .required_note {
+  font-size: 12px !important;
+  color: var(--gray-500) !important;
+  margin-top: 1rem !important;
+}
+
+/* =========================================================
+   SUBMIT SECTION
+   ========================================================= */
+
+body.cwv-registration-page #SubmitButton_wrapper {
+  display: block !important;
+  text-align: center !important;
+  margin-top: 1.5rem !important;
+}
+
+body.cwv-registration-page #SubmitButton_wrapper .button,
+body.cwv-registration-page #SubmitButton {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-md) !important;
+  font-weight: 700 !important;
+  background: var(--gold) !important;
+  color: var(--black) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 1rem 3rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+body.cwv-registration-page #SubmitButton_wrapper .button:hover,
+body.cwv-registration-page #SubmitButton:hover {
+  background: var(--black) !important;
+  color: var(--gold) !important;
+}
+
+body.cwv-registration-page #SubmitButton_wrapper.disabled .button {
+  background: var(--gray-300) !important;
+  color: var(--gray-500) !important;
+  cursor: not-allowed !important;
+}
+
+body.cwv-registration-page #ValidationNotice {
+  background: #fef3c7 !important;
+  border: 1px solid #f59e0b !important;
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  margin: 1rem 0 !important;
+  color: #92400e !important;
+  font-size: 14px !important;
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  /* Hide site header/branding on mobile registration pages */
+  body.cwv-registration-page #header_branding,
+  body.cwv-registration-page .header_branding,
+  body.cwv-registration-page #header .site_title,
+  body.cwv-registration-page #header .site_subtitle,
+  body.cwv-registration-page .header_content .site_title,
+  body.cwv-registration-page .header_content .site_subtitle,
+  body.cwv-registration-page #header .title_wrapper,
+  body.cwv-registration-page .site-title,
+  body.cwv-registration-page .site-tagline,
+  body.cwv-registration-page #header h1,
+  body.cwv-registration-page #header h2 {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  body.cwv-registration-page .master-content-wrapper {
+    padding: 1rem !important;
+  }
+
+  body.cwv-registration-page #RegisterHeader .column1 {
+    padding: 1.5rem !important;
+  }
+
+  body.cwv-registration-page #RegisterHeader .event_name {
+    font-size: var(--font-xl) !important;
+  }
+
+  body.cwv-registration-page #RegisterHeader .column2 {
+    padding: 1rem !important;
+    flex-direction: column !important;
+  }
+
+  body.cwv-registration-page #RegisterBody > .wrapper {
+    padding: 1.5rem !important;
+  }
+
+  /* Performance section (event title row) on mobile */
+  body.cwv-registration-page .performance {
+    padding: 1.25rem 1rem !important;
+  }
+
+  /* Remove the gold bar ::before on title in mobile */
+  body.cwv-registration-page .performance > .clearfix.title::before,
+  body.cwv-registration-page #RegisterBody .title::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  body.cwv-registration-page .performance > .clearfix.title {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  body.cwv-registration-page .performance .event_name {
+    order: 1 !important;
+    float: none !important;
+    padding: 0 !important;
+    display: block !important;
+  }
+
+  body.cwv-registration-page .performance .event_name .bold {
+    font-size: var(--font-lg) !important;
+    display: block !important;
+  }
+
+  body.cwv-registration-page .performance .segment_link {
+    order: 2 !important;
+    float: none !important;
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  /* Reservation rows on mobile */
+  body.cwv-registration-page .reservation {
+    position: relative !important;
+    padding: 1rem !important;
+    margin-bottom: 0.75rem !important;
+    background: var(--white) !important;
+    border-left: 3px solid var(--gold) !important;
+  }
+
+  body.cwv-registration-page .reservation > .clearfix.medium_vertical_padding {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    padding: 0 !important;
+  }
+
+  /* Hide row number on mobile */
+  body.cwv-registration-page .reservation .g20,
+  body.cwv-registration-page .reservation [id$="_index"] {
+    display: none !important;
+  }
+
+  /* First Name wrapper (.g120) */
+  body.cwv-registration-page .reservation .g120 {
+    order: 10 !important;
+    flex: 1 1 45% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.cwv-registration-page .reservation .g120::before {
+    content: 'First Name' !important;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--gray-500) !important;
+  }
+
+  /* Last Name wrapper (.g140) */
+  body.cwv-registration-page .reservation .g140 {
+    order: 11 !important;
+    flex: 1 1 45% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.25rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.cwv-registration-page .reservation .g140::before {
+    content: 'Last Name' !important;
+    display: block !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: var(--gray-500) !important;
+  }
+
+  /* Category badge (.g100) */
+  body.cwv-registration-page .reservation .g100 {
+    order: 1 !important;
+    font-size: 11px !important;
+    background: var(--gold-light) !important;
+    color: var(--gold-dark) !important;
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 4px !important;
+    white-space: nowrap !important;
+    max-width: 100px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 0 !important;
+    height: fit-content !important;
+  }
+
+  /* Price */
+  body.cwv-registration-page .reservation .price-display {
+    order: 3 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+    margin-left: auto !important;
+  }
+
+  /* Delete button on mobile */
+  body.cwv-registration-page .reservation button.remove_reservation {
+    order: 2 !important;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    font-size: 16px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    border: 1px solid var(--gray-300) !important;
+    border-radius: 4px !important;
+    color: var(--gray-500) !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Inputs styling */
+  body.cwv-registration-page .reservation input.co_form_input {
+    width: 100% !important;
+    font-size: 14px !important;
+    padding: 0.6rem 0.75rem !important;
+  }
+
+  body.cwv-registration-page .toggle_options {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  body.cwv-registration-page .toggle_options > .inline_block,
+  body.cwv-registration-page .toggle_options > .inline_block:first-child,
+  body.cwv-registration-page .toggle_options > .inline_block:nth-child(2) {
+    flex: 1 1 100% !important;
+  }
+
+  /* Only make ADD/Continue button full width, not remove buttons */
+  body.cwv-registration-page .toggle_options .co_global_button button,
+  body.cwv-registration-page .toggle_options button[type="submit"],
+  body.cwv-registration-page .toggle_options button.button {
+    width: 100% !important;
+  }
+
+  /* Hide the cancel (×) button in toggle_options area on mobile */
+  body.cwv-registration-page .toggle_options button.cancel,
+  body.cwv-registration-page .toggle_options button.remove_reservation,
+  body.cwv-registration-page .toggle_options .float_right button,
+  body.cwv-registration-page .additionals_toggle button.cancel {
+    display: none !important;
+  }
+
+  /* Two-column sections stack on mobile */
+  body.cwv-registration-page #SecondaryFormItems {
+    flex-direction: column !important;
+    padding: 1.5rem !important;
+  }
+
+  body.cwv-registration-page #ReserversInformation {
+    padding: 1.5rem !important;
+  }
+
+  /* Your Information section - single column on mobile */
+  body.cwv-registration-page #ReserversInformation > div > .clearfix:has(.small_vertical_padding) {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  body.cwv-registration-page #ReserversInformation .title {
+    gap: 0.75rem !important;
+  }
+
+  body.cwv-registration-page #ReserversInformation .title::before {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    background-size: 18px 18px !important;
+  }
+
+  body.cwv-registration-page #ReserversInformation .title span.bold,
+  body.cwv-registration-page #ReserversInformation .title .bold {
+    font-size: var(--font-lg) !important;
+  }
+
+  /* Payment section on mobile */
+  body.cwv-registration-page #Payment {
+    padding: 1.5rem !important;
+  }
+
+  body.cwv-registration-page #Payment .clearfix.small_vertical_padding {
+    max-width: 100% !important;
+  }
+
+  body.cwv-registration-page #Payment .title {
+    gap: 0.75rem !important;
+  }
+
+  body.cwv-registration-page #Payment .title::before {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    background-size: 18px 18px !important;
+  }
+
+  body.cwv-registration-page #Payment .title span.bold,
+  body.cwv-registration-page #Payment .title .bold {
+    font-size: var(--font-lg) !important;
+  }
+
+  /* Additional Information - single column grid on mobile */
+  body.cwv-registration-page #formContainer .form-single-column {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.cwv-registration-page #AdditionalInformation .title {
+    gap: 0.75rem !important;
+  }
+
+  body.cwv-registration-page #AdditionalInformation .title::before {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    background-size: 18px 18px !important;
+  }
+
+  body.cwv-registration-page #AdditionalInformation .title span.bold {
+    font-size: var(--font-lg) !important;
+  }
+}
+
+/* ===== FOOTER PROTECTION ===== */
+body.cwv-registration-page #footer input,
+body.cwv-registration-page #footer select,
+body.cwv-registration-page .footer input,
+body.cwv-registration-page .footer select {
+  all: revert !important;
+}

@@ -26,8 +26,17 @@
 (function() {
     'use strict';
 
+    // Prevent double execution
+    console.log('CRA Script: Checking guard, __CRA_SCRIPT_LOADED__ =', window.__CRA_SCRIPT_LOADED__);
+    if (window.__CRA_SCRIPT_LOADED__) {
+        console.log('CRA Script: Already loaded, skipping duplicate');
+        return;
+    }
+    window.__CRA_SCRIPT_LOADED__ = true;
+    console.log('CRA Script: Guard set to true');
+
     // VERSION CHECK - helps verify correct script is running
-    const SCRIPT_VERSION = '3.6-fix-load-spasm';
+    const SCRIPT_VERSION = '3.8-double-load-debug';
     console.log(`CRA Script Version: ${SCRIPT_VERSION}`);
 
     // ===================================================================
@@ -483,8 +492,8 @@
 
         // RSVP button (secondary) - modern outline style
         const rsvpBtn = document.createElement('a');
-        rsvpBtn.href = '/templates/articlecco_cdo/aid/7006825/jewish/JLI-How-Happiness-Thinks.htm';
-        rsvpBtn.textContent = 'RSVP';
+        rsvpBtn.href = '/contact';
+        rsvpBtn.textContent = 'Contact';
         rsvpBtn.style.cssText = `
             display: inline-block;
             background: rgba(255,255,255,0.1);
@@ -544,236 +553,6 @@
         hero.appendChild(heroStyle);
 
         return hero;
-    }
-
-    // ===================================================================
-    // CREATE FUNDRAISER SECTION (Chabad on Wheels)
-    // Expires after January 17, 2026
-    // ===================================================================
-
-    function createFundraiser() {
-        // Check if fundraiser has expired (after January 17, 2026 EST)
-        const expiryDate = new Date('2026-01-18T00:00:00-05:00'); // Midnight EST on Jan 18 = end of Jan 17
-        if (new Date() > expiryDate) {
-            return null; // Return null to skip rendering
-        }
-
-        const section = document.createElement('section');
-        section.className = 'cra-fundraiser';
-        section.style.cssText = `
-            padding: 5em 2em;
-            background: linear-gradient(135deg, ${COLORS.darkBurgundy} 0%, #5a2a30 100%);
-            font-family: 'Urbanist', sans-serif;
-            overflow: hidden;
-            position: relative;
-        `;
-
-        const container = document.createElement('div');
-        container.style.cssText = `
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4em;
-            align-items: center;
-        `;
-
-        // Left side - Content
-        const contentCol = document.createElement('div');
-        contentCol.style.cssText = `
-            color: white;
-        `;
-
-        // Badge
-        const badge = document.createElement('span');
-        badge.textContent = '40 HOURS • 4X MATCH';
-        badge.style.cssText = `
-            display: inline-block;
-            background: ${COLORS.goldenSand};
-            color: ${COLORS.darkBurgundy};
-            padding: 0.8em 1.4em;
-            border-radius: 4px;
-            font-size: 1.4em;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5em;
-        `;
-        contentCol.appendChild(badge);
-
-        // Title
-        const title = document.createElement('h2');
-        title.textContent = 'Chabad on Wheels';
-        title.style.cssText = `
-            font-size: clamp(4em, 8vw, 5.6em);
-            font-weight: 800;
-            color: white;
-            margin: 0 0 0.6em 0;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-        `;
-        contentCol.appendChild(title);
-
-        // Subtitle
-        const subtitle = document.createElement('p');
-        subtitle.textContent = 'Our Mitzvah Mobile will bring Torah, mitzvos, holiday celebrations, and Jewish pride directly to Jews who can\'t come to us.';
-        subtitle.style.cssText = `
-            font-size: 1.9em;
-            color: rgba(255,255,255,0.9);
-            margin: 0 0 1.5em 0;
-            line-height: 1.6;
-            font-weight: 500;
-        `;
-        contentCol.appendChild(subtitle);
-
-        // Intro paragraph
-        const intro = document.createElement('p');
-        intro.textContent = 'There\'s something powerful about how a year ends — especially in Rural Northeast Arizona, where Jewish life is spread across miles of mountains, forests, and open desert. Here, a single moment of connection can change everything:';
-        intro.style.cssText = `
-            font-size: 1.6em;
-            color: rgba(255,255,255,0.85);
-            margin: 0 0 1.25em 0;
-            line-height: 1.7;
-        `;
-        contentCol.appendChild(intro);
-
-        // Bullet points
-        const bullets = [
-            'A mezuzah on a ranch house',
-            'A menorah glowing in a forest cabin',
-            'A Torah class at the local library',
-            'A child\'s excitement as the Mitzvah Mobile rolls into town'
-        ];
-
-        const bulletList = document.createElement('ul');
-        bulletList.style.cssText = `
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1.5em 0;
-        `;
-
-        bullets.forEach(text => {
-            const li = document.createElement('li');
-            li.style.cssText = `
-                font-size: 1.6em;
-                color: rgba(255,255,255,0.9);
-                padding: 0.4em 0;
-                padding-left: 1.5em;
-                position: relative;
-                line-height: 1.5;
-            `;
-            li.innerHTML = `<span style="position: absolute; left: 0; color: ${COLORS.goldenSand};">✦</span> ${text}`;
-            bulletList.appendChild(li);
-        });
-        contentCol.appendChild(bulletList);
-
-        // Goal highlight box
-        const goalBox = document.createElement('div');
-        goalBox.style.cssText = `
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            padding: 1.5em;
-            margin-bottom: 1.5em;
-            border: 1px solid rgba(255,255,255,0.15);
-        `;
-
-        const goalTitle = document.createElement('p');
-        goalTitle.innerHTML = '<strong style="color: ' + COLORS.goldenSand + '; font-size: 2.1em;">Our Goal: $80,000 in 40 Hours</strong>';
-        goalTitle.style.cssText = `margin: 0 0 0.75em 0;`;
-        goalBox.appendChild(goalTitle);
-
-        const goalText = document.createElement('p');
-        goalText.innerHTML = 'Every dollar you give is <strong>QUADRUPLED</strong>.<br>Your $25 becomes $100. Your $100 becomes $400. Your $1,000 becomes $4,000.';
-        goalText.style.cssText = `
-            font-size: 1.6em;
-            color: rgba(255,255,255,0.9);
-            margin: 0;
-            line-height: 1.6;
-        `;
-        goalBox.appendChild(goalText);
-        contentCol.appendChild(goalBox);
-
-        // Closing statement
-        const closing = document.createElement('p');
-        closing.innerHTML = '<em>As the year closes, help us end with light — and begin the next with strength.</em>';
-        closing.style.cssText = `
-            font-size: 1.75em;
-            color: rgba(255,255,255,0.9);
-            margin: 0 0 2em 0;
-            line-height: 1.6;
-        `;
-        contentCol.appendChild(closing);
-
-        // CTA Button
-        const ctaBtn = document.createElement('a');
-        ctaBtn.href = '/4x';
-        ctaBtn.textContent = 'Donate Now — 4X Your Impact';
-        ctaBtn.style.cssText = `
-            display: inline-block;
-            background: ${COLORS.goldenSand};
-            color: ${COLORS.darkBurgundy};
-            padding: 1.1em 2.5em;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 1.85em;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 0.02em;
-        `;
-        ctaBtn.addEventListener('mouseenter', () => {
-            ctaBtn.style.transform = 'translateY(-2px)';
-            ctaBtn.style.boxShadow = '0 8px 30px rgba(212, 168, 75, 0.5)';
-            ctaBtn.style.background = '#e0b85a';
-        });
-        ctaBtn.addEventListener('mouseleave', () => {
-            ctaBtn.style.transform = 'translateY(0)';
-            ctaBtn.style.boxShadow = 'none';
-            ctaBtn.style.background = COLORS.goldenSand;
-        });
-        contentCol.appendChild(ctaBtn);
-
-        container.appendChild(contentCol);
-
-        // Right side - Image
-        const imageCol = document.createElement('div');
-        imageCol.style.cssText = `
-            position: relative;
-        `;
-
-        const image = document.createElement('img');
-        image.src = 'https://lh3.googleusercontent.com/d/1u8QqT5DfFEkiBFegTMnqtimZOm1lo_2f';
-        image.alt = 'Chabad on Wheels - Mobile Jewish Center';
-        image.style.cssText = `
-            width: 100%;
-            height: auto;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        `;
-        imageCol.appendChild(image);
-
-        container.appendChild(imageCol);
-        section.appendChild(container);
-
-        // Responsive styles
-        const style = document.createElement('style');
-        style.textContent = `
-            @media (max-width: 900px) {
-                .cra-fundraiser > div {
-                    grid-template-columns: 1fr !important;
-                    gap: 2.5em !important;
-                    text-align: center !important;
-                }
-                .cra-fundraiser ul {
-                    text-align: left !important;
-                    max-width: 320px !important;
-                    margin-left: auto !important;
-                    margin-right: auto !important;
-                }
-            }
-        `;
-        section.appendChild(style);
-
-        return section;
     }
 
     // ===================================================================
@@ -1760,6 +1539,55 @@
     }
 
     // ===================================================================
+    // CREATE FACEBOOK SECTION
+    // ===================================================================
+
+    // Create Facebook section with iframe embed
+    function createFacebookSection() {
+        const section = document.createElement('section');
+        section.className = 'cra-facebook';
+        section.style.cssText = `
+            background: ${COLORS.lightCream};
+            padding: 5em 2em;
+            font-family: 'Urbanist', sans-serif;
+        `;
+
+        section.innerHTML = `
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h2 style="
+                    text-align: center;
+                    font-size: 3.2em;
+                    font-weight: 700;
+                    color: ${COLORS.darkBurgundy};
+                    margin: 0 0 1em 0;
+                ">Follow Us on Facebook</h2>
+                <iframe
+                    src="https://widgets.sociablekit.com/facebook-page-posts/iframe/25649297"
+                    frameborder="0"
+                    width="100%"
+                    height="800"
+                    style="border: none; border-radius: 12px;"
+                ></iframe>
+            </div>
+            <div style="text-align: center; margin-top: 2em;">
+                <a href="https://facebook.com/JewishRuralAZ" target="_blank" style="
+                    display: inline-block;
+                    background: #1877F2;
+                    color: white;
+                    padding: 1em 2.5em;
+                    border-radius: 50px;
+                    font-size: 1.1em;
+                    font-weight: 600;
+                    text-decoration: none;
+                    font-family: 'Urbanist', sans-serif;
+                ">Follow Us on Facebook</a>
+            </div>
+        `;
+
+        return section;
+    }
+
+    // ===================================================================
     // EXTRACT NAVIGATION LINKS
     // ===================================================================
 
@@ -2135,45 +1963,13 @@
             text-decoration: none;
         `;
 
-        const logoSelectors = [
-            '#header_branding img',
-            '.branding-search img',
-            '#header img',
-            'img[src*="logo"]',
-            '.logo img',
-            '#logo img'
-        ];
-
-        let foundLogo = null;
-        for (const selector of logoSelectors) {
-            const img = document.querySelector(selector);
-            if (img && img.src) {
-                foundLogo = img.src;
-                break;
-            }
-        }
-
-        if (foundLogo) {
-            const logoImg = document.createElement('img');
-            logoImg.src = foundLogo;
-            logoImg.alt = 'Chabad Rural AZ';
-            logoImg.style.cssText = `height: 65px; width: auto;`;
-            logo.appendChild(logoImg);
-        } else {
-            const logoCircle = document.createElement('div');
-            logoCircle.style.cssText = `
-                width: 55px;
-                height: 55px;
-                background: linear-gradient(135deg, ${COLORS.sunsetPeach}, ${COLORS.deepBurgundy});
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5em;
-            `;
-            logoCircle.textContent = '🌵';
-            logo.appendChild(logoCircle);
-        }
+        // Use hosted logo from Vercel
+        const hostedLogoUrl = 'https://cra-github-hosted.vercel.app/logo.jpg';
+        const logoImg = document.createElement('img');
+        logoImg.src = hostedLogoUrl;
+        logoImg.alt = 'Chabad Rural AZ';
+        logoImg.style.cssText = `height: 65px; width: auto;`;
+        logo.appendChild(logoImg);
 
         container.appendChild(logo);
 
@@ -2652,6 +2448,10 @@
 
         const style = document.createElement('style');
         style.textContent = `
+            /* Match CMS base font-size (62.5% = 10px) so em values work as originally designed */
+            :host {
+                font-size: 10px;
+            }
             *, *::before, *::after {
                 margin: 0;
                 padding: 0;
@@ -2686,6 +2486,10 @@
 
         const style = document.createElement('style');
         style.textContent = `
+            /* Match CMS base font-size (62.5% = 10px) so em values work as originally designed */
+            :host {
+                font-size: 10px;
+            }
             *, *::before, *::after {
                 margin: 0;
                 padding: 0;
@@ -2738,6 +2542,7 @@
 
     // Initialize full homepage redesign
     async function initHomepage() {
+        try {
         console.log('CRA Redesign: Running on homepage');
         loadFonts();
 
@@ -2762,15 +2567,6 @@
         // Build content inside shadow DOM
         shadow.appendChild(createHeader(navLinks));
         shadow.appendChild(createHero());
-
-        // Fundraiser section (Chabad on Wheels) - right after hero
-        // Auto-expires after January 17, 2025
-        const fundraiserSection = createFundraiser();
-        if (fundraiserSection) {
-            fundraiserSection.classList.add('cra-animate');
-            fundraiserSection.dataset.animation = 'left';
-            shadow.appendChild(fundraiserSection);
-        }
 
         // About section (with animation)
         const aboutSection = createAbout();
@@ -2800,6 +2596,12 @@
         photosSection.dataset.animation = 'right';
         shadow.appendChild(photosSection);
 
+        // Facebook section (before footer)
+        const facebookSection = createFacebookSection();
+        facebookSection.classList.add('cra-animate');
+        facebookSection.dataset.animation = 'left';
+        shadow.appendChild(facebookSection);
+
         const footerSection = createFooter(footerData);
         footerSection.classList.add('cra-animate');
         footerSection.dataset.animation = 'left';
@@ -2828,6 +2630,9 @@
         }
 
         console.log('CRA Redesign: Homepage complete');
+        } catch (error) {
+            console.error('CRA Redesign: Error in initHomepage:', error);
+        }
     }
 
     // Main init - decides which version to run
