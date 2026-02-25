@@ -1011,9 +1011,9 @@ body.pv-registration-page #RegisterBody .performance .price {
 /* =========================================================
    SINGLE EVENT - CATEGORY SELECTION / TOGGLE OPTIONS
    Properly aligns "Select a category", "Reservations", and "Continue" button
+   NOTE: Do NOT set display property - CMS controls visibility via inline styles
    ========================================================= */
 body.pv-registration-page #RegisterBody .performance .toggle_options {
-    display: flex !important;
     flex-wrap: wrap !important;
     align-items: center !important;
     gap: 1.5rem !important;
