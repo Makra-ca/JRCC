@@ -30,10 +30,63 @@
         }
         var singleEventIcons = {
             location: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
-            calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
+            calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            pricing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'
         };
 
-        // Style info cards
+        // =========================================================
+        // PARSE MARKERS FROM DESCRIPTION
+        // Markers: #LOCATION: text   #DATETIME: text   #PRICING: text
+        // =========================================================
+        function parseMarkers(text) {
+            var result = {
+                description: text,
+                location: '',
+                datetime: '',
+                pricing: ''
+            };
+
+            // Extract #LOCATION: marker
+            var locationMatch = text.match(/#LOCATION:\s*(.+?)(?=#DATETIME:|#PRICING:|$)/i);
+            if (locationMatch) {
+                result.location = locationMatch[1].trim();
+                result.description = result.description.replace(/#LOCATION:\s*.+?(?=#DATETIME:|#PRICING:|$)/i, '');
+            }
+
+            // Extract #DATETIME: marker (with case break detection)
+            var datetimeMatch = text.match(/#DATETIME:\s*(.+?)(?=#LOCATION:|#PRICING:|$)/i);
+            if (datetimeMatch) {
+                var rawDatetime = datetimeMatch[1].trim();
+                var caseBreak = rawDatetime.match(/^(.+?[a-z])([A-Z].*)$/);
+                if (caseBreak) {
+                    result.datetime = caseBreak[1].trim();
+                    result.description = result.description.replace(/#DATETIME:\s*.+?(?=#LOCATION:|#PRICING:|$)/i, caseBreak[2]);
+                } else {
+                    result.datetime = rawDatetime;
+                    result.description = result.description.replace(/#DATETIME:\s*.+?(?=#LOCATION:|#PRICING:|$)/i, '');
+                }
+            }
+
+            // Extract #PRICING: marker (with case break detection for prices)
+            var pricingMatch = text.match(/#PRICING:\s*([^\n#]+)/i);
+            if (pricingMatch) {
+                var rawPricing = pricingMatch[1].trim();
+                var caseBreak = rawPricing.match(/^(.+?(?:\$\d+(?:\.\d{2})?))([A-Z].*)$/);
+                if (caseBreak) {
+                    result.pricing = caseBreak[1].trim();
+                    result.description = result.description.replace(/#PRICING:\s*[^\n#]+/i, ' ' + caseBreak[2]);
+                } else {
+                    result.pricing = rawPricing;
+                    result.description = result.description.replace(/#PRICING:\s*[^\n#]+/i, '');
+                }
+            }
+
+            // Clean up description
+            result.description = result.description.replace(/[\s\n]+$/, '').trim();
+            return result;
+        }
+
+        // Style info cards - supports both CMS data and marker system
         function styleInfoCards() {
             var infoSection = document.querySelector('#RegisterHeader .column2');
             if (!infoSection || infoSection.classList.contains('pv-info-styled')) return;
@@ -41,26 +94,71 @@
             var sectionTitle = null;
             var locationData = null;
             var dateData = null;
+            var pricingData = null;
             var locationHref = null;
             var dateHref = null;
 
+            // First, check for markers in the description
+            var eventDescription = document.querySelector('#RegisterHeader .event_description');
+            var parsedData = { description: '', location: '', datetime: '', pricing: '' };
+
+            if (eventDescription) {
+                var originalText = eventDescription.textContent || eventDescription.innerText;
+                parsedData = parseMarkers(originalText);
+
+                // Update description text (remove markers) if we found any
+                if (parsedData.location || parsedData.datetime || parsedData.pricing) {
+                    eventDescription.textContent = parsedData.description;
+                    console.log('✅ Markers found in description:', parsedData);
+                }
+            }
+
+            // Fallback: check reservation overview for markers
+            if (!parsedData.location && !parsedData.datetime && !parsedData.pricing) {
+                var reservationOverview = document.querySelector('#Performances > .regular, .hide_titles > .regular');
+                if (reservationOverview) {
+                    var overviewText = reservationOverview.textContent || '';
+                    if (overviewText.includes('#LOCATION:') || overviewText.includes('#DATETIME:') || overviewText.includes('#PRICING:')) {
+                        var fallbackData = parseMarkers(overviewText);
+                        if (fallbackData.location || fallbackData.datetime || fallbackData.pricing) {
+                            reservationOverview.textContent = fallbackData.description;
+                            parsedData = fallbackData;
+                            console.log('✅ Markers found in reservation overview:', parsedData);
+                        }
+                    }
+                }
+            }
+
+            // Use markers if found, otherwise fall back to CMS data
+            if (parsedData.location) locationData = parsedData.location;
+            if (parsedData.datetime) dateData = parsedData.datetime;
+            if (parsedData.pricing) pricingData = parsedData.pricing;
+
+            // Get section title
             var headingEl = infoSection.querySelector('.heading');
             if (headingEl) sectionTitle = headingEl.textContent.trim();
 
-            var mapLinkEl = infoSection.querySelector('.map_link');
-            if (mapLinkEl) {
-                locationHref = mapLinkEl.href || null;
-                var addrDiv = mapLinkEl.querySelector('div');
-                locationData = addrDiv ? addrDiv.innerHTML : mapLinkEl.textContent.trim();
+            // Fallback to CMS map_link if no marker location
+            if (!locationData) {
+                var mapLinkEl = infoSection.querySelector('.map_link');
+                if (mapLinkEl) {
+                    locationHref = mapLinkEl.href || null;
+                    var addrDiv = mapLinkEl.querySelector('div');
+                    locationData = addrDiv ? addrDiv.innerHTML : mapLinkEl.textContent.trim();
+                }
             }
 
-            var icalLinkEl = infoSection.querySelector('.ical_link');
-            if (icalLinkEl) {
-                dateHref = icalLinkEl.href || null;
-                var dateDiv = icalLinkEl.querySelector('div');
-                dateData = dateDiv ? dateDiv.innerHTML : icalLinkEl.textContent.trim();
+            // Fallback to CMS ical_link if no marker datetime
+            if (!dateData) {
+                var icalLinkEl = infoSection.querySelector('.ical_link');
+                if (icalLinkEl) {
+                    dateHref = icalLinkEl.href || null;
+                    var dateDiv = icalLinkEl.querySelector('div');
+                    dateData = dateDiv ? dateDiv.innerHTML : icalLinkEl.textContent.trim();
+                }
             }
 
+            // Hide original children
             var originalChildren = Array.from(infoSection.children);
             originalChildren.forEach(function(child) {
                 child.setAttribute('style', 'display: none !important;');
@@ -74,7 +172,6 @@
                 var titleEl = document.createElement('div');
                 titleEl.className = 'pv-info-section-title';
                 titleEl.textContent = sectionTitle;
-                // Ensure centering works on ALL screen sizes via inline style
                 titleEl.style.setProperty('text-align', 'center', 'important');
                 newWrapper.appendChild(titleEl);
             }
@@ -82,6 +179,7 @@
             var cardsGrid = document.createElement('div');
             cardsGrid.className = 'pv-info-cards-grid';
 
+            // Location card
             if (locationData) {
                 var locCard = document.createElement('div');
                 locCard.className = 'pv-info-card';
@@ -95,6 +193,7 @@
                 cardsGrid.appendChild(locCard);
             }
 
+            // Date & Time card
             if (dateData) {
                 var dateCard = document.createElement('div');
                 dateCard.className = 'pv-info-card';
@@ -106,6 +205,16 @@
                     dateCard.onclick = function() { window.open(dateHref, '_blank'); };
                 }
                 cardsGrid.appendChild(dateCard);
+            }
+
+            // Pricing card (only if marker was found)
+            if (pricingData) {
+                var priceCard = document.createElement('div');
+                priceCard.className = 'pv-info-card';
+                priceCard.innerHTML = '<div class="pv-info-icon">' + singleEventIcons.pricing + '</div>' +
+                    '<div class="pv-info-text"><span class="pv-card-label">PRICING</span>' +
+                    '<div class="pv-info-content">' + pricingData + '</div></div>';
+                cardsGrid.appendChild(priceCard);
             }
 
             newWrapper.appendChild(cardsGrid);
@@ -511,8 +620,23 @@
         // Initialize the fix
         initCategoryPreservationFix();
 
+        // =========================================================
+        // MOVE SUMMARY SECTION TO BOTTOM OF FORM (before Buttons)
+        // =========================================================
+        function moveSummaryToBottom() {
+            var summarySection = document.querySelector('#Summary');
+            var buttonsSection = document.querySelector('#Buttons');
+
+            if (summarySection && buttonsSection && !summarySection.classList.contains('pv-summary-moved')) {
+                summarySection.classList.add('pv-summary-moved');
+                buttonsSection.parentNode.insertBefore(summarySection, buttonsSection);
+                console.log('✅ Summary moved before #Buttons');
+            }
+        }
+
         // Run single event functions
         styleInfoCards();
+        moveSummaryToBottom();
         stylePricingSection();
         removeDashedBorders();
         styleDeleteButtons();
