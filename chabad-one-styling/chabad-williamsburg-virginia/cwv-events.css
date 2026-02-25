@@ -53,6 +53,41 @@ body.cwv-registration-page .master-content-wrapper {
   padding: 2rem !important;
 }
 
+/* Hide the page title (e.g., "Holocaust Survivor Speaker") and collapse its space */
+body.cwv-registration-page .article-header,
+body.cwv-registration-page .article-header__title,
+body.cwv-registration-page h1.js-article-title {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Also collapse the header parent container */
+body.cwv-registration-page header.article-header.cf {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Show header logo but remove sticky behavior */
+body.cwv-registration-page #header,
+body.cwv-registration-page .header,
+body.cwv-registration-page #header.on-scroll,
+body.cwv-registration-page .header.on-scroll {
+  position: relative !important;
+  top: auto !important;
+}
+
+/* Ensure header branding/logo is visible */
+body.cwv-registration-page #header_branding,
+body.cwv-registration-page .site-logo-wrapper,
+body.cwv-registration-page .menu_logo {
+  display: flex !important;
+  visibility: visible !important;
+}
+
 body.cwv-registration-page .vertical_padding {
   background: transparent !important;
   padding: 0 !important;
@@ -729,8 +764,8 @@ body.cwv-registration-page #RegisterBody textarea:focus {
   box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
 }
 
-/* Form rows */
-body.cwv-registration-page #RegisterBody .clearfix:has(.reservation_input_text) {
+/* Form rows - only target field wrappers with .small_vertical_padding, NOT form containers */
+body.cwv-registration-page #RegisterBody .clearfix.small_vertical_padding:has(.reservation_input_text) {
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 1rem !important;
@@ -793,23 +828,20 @@ body.cwv-registration-page #RegisterBody .radio_list input[type="radio"] {
    ADDITIONAL INFORMATION + SUMMARY (Two Column Layout)
    ========================================================= */
 
+/* CRITICAL: Respect CMS .hidden class - this controls form section visibility */
+body.cwv-registration-page #SecondaryFormItems.hidden {
+  display: none !important;
+}
+
+/* Style SecondaryFormItems when visible - DO NOT set display here */
 body.cwv-registration-page #SecondaryFormItems {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 2rem !important;
   padding: 2rem 2.5rem !important;
   border-bottom: 1px solid var(--gray-200) !important;
 }
 
-body.cwv-registration-page #SecondaryFormItems > #AdditionalInformation {
-  flex: 1 1 400px !important;
-}
-
-body.cwv-registration-page #SecondaryFormItems > #Summary {
-  flex: 1 1 300px !important;
-}
-
-body.cwv-registration-page #SecondaryFormItems .clearfix.separator {
+/* Hide empty visual separators only */
+body.cwv-registration-page #AdditionalInformation > .clearfix.separator,
+body.cwv-registration-page #Summary > .clearfix.separator {
   display: none !important;
 }
 
@@ -965,6 +997,22 @@ body.cwv-registration-page #formContainer .form-html p {
   margin-bottom: 1rem !important;
 }
 
+/* ----- Dropdown Row Layout (label left, select right) ----- */
+body.cwv-registration-page #formContainer .form-line:has(.form-dropdown) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+
+body.cwv-registration-page #formContainer .form-line:has(.form-dropdown) .form-label-left {
+  flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-line:has(.form-dropdown) .form-label-left label {
+  margin-bottom: 0 !important;
+}
+
 body.cwv-registration-page #formContainer .form-dropdown {
   font-family: 'Inter', sans-serif !important;
   font-size: var(--font-base) !important;
@@ -979,6 +1027,36 @@ body.cwv-registration-page #formContainer .form-dropdown:focus {
   border-color: var(--gold) !important;
   outline: none !important;
   box-shadow: 0 0 0 3px var(--gold-light) !important;
+}
+
+/* ----- HTML/Text content in forms ----- */
+body.cwv-registration-page #formContainer .form-html {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  color: var(--gray-700) !important;
+  line-height: 1.6 !important;
+  padding: 1rem 0 !important;
+}
+
+body.cwv-registration-page #formContainer .form-html p {
+  margin: 0 0 0.75rem 0 !important;
+}
+
+/* ----- Checkbox items with amounts (sponsorship tiers) ----- */
+body.cwv-registration-page #formContainer .form-checkbox-item .form-checkbox-other-input {
+  margin-left: auto !important;
+  font-family: 'Urbanist', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--gold-dark) !important;
+  text-align: right !important;
+}
+
+/* Price amounts in checkbox labels */
+body.cwv-registration-page #formContainer .form-checkbox-item label {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 body.cwv-registration-page #formContainer .form-checkbox-other-input {
@@ -1062,6 +1140,232 @@ body.cwv-registration-page #Summary .total_due {
   color: var(--black) !important;
 }
 
+/* ----- Additional Donation Field ----- */
+/* Target the row containing #TotalDonation (Additional Donation) */
+body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  padding: 1rem 0 !important;
+  margin-top: 1rem !important;
+  margin-bottom: 0.5rem !important;
+  background: transparent !important;
+  border-bottom: 1px solid var(--gray-100) !important;
+  border-radius: 0 !important;
+}
+
+/* Donation label */
+body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) .label {
+  font-family: 'Urbanist', sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+  min-width: auto !important;
+  flex-shrink: 0 !important;
+}
+
+/* Donation input wrapper */
+body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) .float_left {
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+  float: none !important;
+}
+
+/* Dollar sign */
+body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) .absolute {
+  position: relative !important;
+  padding: 0 !important;
+  margin-right: 4px !important;
+  font-weight: 500 !important;
+  color: var(--gray-600) !important;
+}
+
+/* Donation input */
+body.cwv-registration-page #TotalDonation {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.6rem 0.75rem !important;
+  border: 1px solid var(--gray-200) !important;
+  border-radius: 6px !important;
+  background: var(--gray-100) !important;
+  width: 100px !important;
+  text-align: right !important;
+}
+
+body.cwv-registration-page #TotalDonation:focus {
+  border-color: var(--gold) !important;
+  background: var(--white) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* ----- Discount Code Section ----- */
+/* Target the row containing #DiscountCode - gold highlight box */
+body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#DiscountCode) {
+  display: block !important;
+  padding: 1.25rem !important;
+  background: var(--gold-light) !important;
+  border-radius: 10px !important;
+  margin-top: 1.5rem !important;
+  border-bottom: none !important;
+}
+
+body.cwv-registration-page #Summary .label.g140.ml140 {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-lg) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+  margin-bottom: 0.75rem !important;
+  min-width: auto !important;
+}
+
+body.cwv-registration-page #DiscountCode {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  padding: 0.75rem 1rem !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
+  width: 200px !important;
+  text-align: left !important;
+}
+
+body.cwv-registration-page #DiscountCode:focus {
+  border-color: var(--gold-dark) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25) !important;
+}
+
+body.cwv-registration-page #ApplyDiscountCode_wrapper {
+  display: inline-block !important;
+  margin-left: 0.75rem !important;
+}
+
+body.cwv-registration-page #ApplyDiscountCode {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-base) !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.25rem !important;
+  background: var(--gold) !important;
+  color: var(--white) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease !important;
+}
+
+body.cwv-registration-page #ApplyDiscountCode:hover {
+  background: var(--gold-dark) !important;
+}
+
+/* ----- Summary moved to bottom ----- */
+body.cwv-registration-page #Summary.cwv-summary-moved {
+  display: block !important;
+  background: var(--white) !important;
+  border: 2px solid var(--gold) !important;
+  border-radius: 16px !important;
+  padding: 2rem 2.5rem !important;
+  margin: 2rem 0 !important;
+  box-shadow: 0 4px 20px rgba(201, 162, 39, 0.15) !important;
+}
+
+body.cwv-registration-page #Summary.cwv-summary-moved .title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-2xl) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+  margin-bottom: 1.5rem !important;
+  padding-bottom: 1rem !important;
+  border-bottom: 2px solid var(--gold-light) !important;
+}
+
+body.cwv-registration-page #Summary.cwv-summary-moved .title::before {
+  content: '' !important;
+  display: flex !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  background: var(--gold) !important;
+  border-radius: 12px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'%3E%3Cpath d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2'/%3E%3Crect x='9' y='3' width='6' height='4' rx='1'/%3E%3Cpath d='M9 12h6'/%3E%3Cpath d='M9 16h6'/%3E%3C/svg%3E") !important;
+  background-size: 22px 22px !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* Total row styling */
+body.cwv-registration-page #Summary.cwv-summary-moved .clearfix.regular.right {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1rem 0 !important;
+  border-top: 2px solid var(--gold) !important;
+  margin-top: 1rem !important;
+}
+
+body.cwv-registration-page #Summary.cwv-summary-moved .total_due,
+body.cwv-registration-page #Summary.cwv-summary-moved #TotalCost {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 800 !important;
+  color: var(--gold-dark) !important;
+}
+
+/* ----- Summary Totals Breakdown ----- */
+body.cwv-registration-page #Summary #Totals {
+  border-top: 2px solid var(--gray-200) !important;
+  padding-top: 1rem !important;
+  margin-top: 1rem !important;
+}
+
+/* Each summary line (subtotal, service fee, etc.) */
+body.cwv-registration-page #Summary #Totals > .clearfix {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.5rem 0 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  color: var(--gray-500) !important;
+}
+
+/* Values on the right side */
+body.cwv-registration-page #Summary #Totals > .clearfix .right,
+body.cwv-registration-page #Summary #Totals > .clearfix .float_right {
+  font-weight: 600 !important;
+  color: var(--gray-700) !important;
+}
+
+/* Total line (last row with .small_top_margin) */
+body.cwv-registration-page #Summary #Totals > .clearfix.small_top_margin {
+  font-size: var(--font-lg) !important;
+  font-weight: 700 !important;
+  color: var(--gray-900) !important;
+  border-top: 2px solid var(--gray-300) !important;
+  margin-top: 0.75rem !important;
+  padding-top: 1rem !important;
+}
+
+/* Total value - gold highlight */
+body.cwv-registration-page #Summary #Totals > .clearfix.small_top_margin .right,
+body.cwv-registration-page #Summary #Totals > .clearfix.small_top_margin .float_right,
+body.cwv-registration-page #Summary #Totals #TotalCost {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: 24px !important;
+  font-weight: 800 !important;
+  color: var(--gold-dark) !important;
+}
+
+/* Hide the outer wrapper's border since Totals has its own */
+body.cwv-registration-page #Summary.cwv-summary-moved .clearfix.regular.right {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+
 /* =========================================================
    YOUR INFORMATION SECTION
    ========================================================= */
@@ -1117,14 +1421,16 @@ body.cwv-registration-page #ReserversInformation .clearfix.small_bottom_padding.
   font-style: italic !important;
 }
 
-body.cwv-registration-page #ReserversInformation > div > .clearfix:has(.small_vertical_padding) {
+/* Form fields container - needs very high specificity to override line 768 rule */
+body.cwv-registration-page #RegisterBody #ReserversInformation > div.large_top_padding > .clearfix:not(.title) {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 1.25rem !important;
 }
 
-body.cwv-registration-page #ReserversInformation > div > .clearfix::before,
-body.cwv-registration-page #ReserversInformation > div > .clearfix::after {
+/* Hide clearfix pseudo-elements but NOT on .title (title needs ::before for icon) */
+body.cwv-registration-page #ReserversInformation > div > .clearfix:not(.title)::before,
+body.cwv-registration-page #ReserversInformation > div > .clearfix:not(.title)::after {
   display: none !important;
   content: none !important;
 }
@@ -1378,6 +1684,129 @@ body.cwv-registration-page #Payment .required_note {
   margin-top: 1rem !important;
 }
 
+/* ----- Payment Method + Card Type Row (side by side) ----- */
+body.cwv-registration-page #Payment > .large_top_padding > .clearfix.small_vertical_padding.required:first-of-type {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 1.5rem !important;
+  max-width: 100% !important;
+  margin-bottom: 1.5rem !important;
+}
+
+body.cwv-registration-page #Payment > .large_top_padding > .clearfix.small_vertical_padding.required:first-of-type > .label,
+body.cwv-registration-page #Payment > .large_top_padding > .clearfix.small_vertical_padding.required:first-of-type > .float_left {
+  flex: 1 1 45% !important;
+  min-width: 200px !important;
+}
+
+/* ----- Credit Card Fields Container ----- */
+body.cwv-registration-page #CreditCard {
+  background: var(--gray-100) !important;
+  border-radius: 12px !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  border: 1px solid var(--gray-200) !important;
+}
+
+/* Card icon indicator */
+body.cwv-registration-page #CreditCard::before {
+  content: '' !important;
+  display: block !important;
+  width: 32px !important;
+  height: 24px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A68A1F' stroke-width='1.5'%3E%3Crect x='1' y='4' width='22' height='16' rx='2' ry='2'/%3E%3Cline x1='1' y1='10' x2='23' y2='10'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-size: contain !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Card fields layout */
+body.cwv-registration-page #CreditCard .clearfix.small_vertical_padding {
+  max-width: 100% !important;
+  margin-bottom: 1rem !important;
+}
+
+body.cwv-registration-page #CreditCard .clearfix.small_vertical_padding:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Card Type dropdown row */
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:first-child {
+  max-width: 300px !important;
+}
+
+/* Card Number - full width */
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(2) {
+  max-width: 100% !important;
+}
+
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(2) input {
+  font-family: 'Courier New', monospace !important;
+  font-size: 16px !important;
+  letter-spacing: 2px !important;
+}
+
+/* Expiration + Security Code row */
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(3),
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(4) {
+  display: inline-flex !important;
+  flex-direction: column !important;
+  vertical-align: top !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(3) {
+  width: 55% !important;
+  margin-right: 1.5rem !important;
+}
+
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(4) {
+  width: 35% !important;
+}
+
+/* Expiration selects side by side */
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(3) .float_left {
+  display: flex !important;
+  gap: 0.75rem !important;
+}
+
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(3) select {
+  flex: 1 !important;
+  min-width: 100px !important;
+}
+
+/* Security Code - narrower */
+body.cwv-registration-page #CreditCard > .clearfix.small_vertical_padding:nth-child(4) input {
+  max-width: 120px !important;
+  font-family: 'Courier New', monospace !important;
+  letter-spacing: 2px !important;
+}
+
+/* Security code helper text */
+body.cwv-registration-page #CreditCard .small.gray {
+  font-size: 11px !important;
+  color: var(--gray-500) !important;
+  font-style: italic !important;
+  margin-top: 0.5rem !important;
+}
+
+/* Hide Paypal section when credit card is selected */
+body.cwv-registration-page #Paypal:empty,
+body.cwv-registration-page #Paypal[style*="display: none"] {
+  display: none !important;
+}
+
+/* Comments section styling */
+body.cwv-registration-page #Comments {
+  margin-top: 1.5rem !important;
+}
+
+body.cwv-registration-page #Comments .label {
+  margin-bottom: 0.5rem !important;
+}
+
 /* =========================================================
    SUBMIT SECTION
    ========================================================= */
@@ -1431,9 +1860,7 @@ body.cwv-registration-page #ValidationNotice {
    ========================================================= */
 
 @media (max-width: 768px) {
-  /* Hide site header/branding on mobile registration pages */
-  body.cwv-registration-page #header_branding,
-  body.cwv-registration-page .header_branding,
+  /* Hide site title/subtitle text but keep logo on mobile */
   body.cwv-registration-page #header .site_title,
   body.cwv-registration-page #header .site_subtitle,
   body.cwv-registration-page .header_content .site_title,
@@ -1441,10 +1868,42 @@ body.cwv-registration-page #ValidationNotice {
   body.cwv-registration-page #header .title_wrapper,
   body.cwv-registration-page .site-title,
   body.cwv-registration-page .site-tagline,
-  body.cwv-registration-page #header h1,
+  body.cwv-registration-page #header h1:not(.article-header__title),
   body.cwv-registration-page #header h2 {
     display: none !important;
     visibility: hidden !important;
+  }
+
+  /* Keep header not sticky on mobile */
+  body.cwv-registration-page #header,
+  body.cwv-registration-page .header,
+  body.cwv-registration-page #header.on-scroll {
+    position: relative !important;
+    top: auto !important;
+  }
+
+  /* Ensure header logo is visible on mobile with proper background */
+  body.cwv-registration-page #header {
+    background: var(--white) !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  body.cwv-registration-page #header_branding,
+  body.cwv-registration-page .site-logo-wrapper,
+  body.cwv-registration-page .site-logo-wrapper img,
+  body.cwv-registration-page .menu_logo {
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  body.cwv-registration-page .site-logo-wrapper img {
+    display: block !important;
+    max-height: 60px !important;
+    width: auto !important;
+  }
+
+  body.cwv-registration-page #header_branding {
+    background: var(--white) !important;
   }
 
   body.cwv-registration-page .master-content-wrapper {
@@ -1486,23 +1945,10 @@ body.cwv-registration-page #ValidationNotice {
     gap: 0.5rem !important;
   }
 
-  body.cwv-registration-page .performance .event_name {
-    order: 1 !important;
-    float: none !important;
-    padding: 0 !important;
-    display: block !important;
-  }
-
-  body.cwv-registration-page .performance .event_name .bold {
-    font-size: var(--font-lg) !important;
-    display: block !important;
-  }
-
+  /* Keep event name and segment link hidden on mobile too (duplicate info) */
+  body.cwv-registration-page .performance .event_name,
   body.cwv-registration-page .performance .segment_link {
-    order: 2 !important;
-    float: none !important;
-    margin: 0 !important;
-    display: block !important;
+    display: none !important;
   }
 
   /* Reservation rows on mobile */
@@ -1646,9 +2092,8 @@ body.cwv-registration-page #ValidationNotice {
     display: none !important;
   }
 
-  /* Two-column sections stack on mobile */
+  /* Two-column sections stack on mobile - only padding, no flex */
   body.cwv-registration-page #SecondaryFormItems {
-    flex-direction: column !important;
     padding: 1.5rem !important;
   }
 
@@ -1722,6 +2167,49 @@ body.cwv-registration-page #ValidationNotice {
   body.cwv-registration-page #AdditionalInformation .title span.bold {
     font-size: var(--font-lg) !important;
   }
+
+  /* Summary section mobile */
+  body.cwv-registration-page #Summary.cwv-summary-moved {
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+  }
+
+  /* Additional Donation - stack vertically on mobile */
+  body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#TotalDonation) .float_left {
+    width: 100% !important;
+    max-width: 150px !important;
+  }
+
+  body.cwv-registration-page #TotalDonation {
+    width: 100% !important;
+    max-width: 120px !important;
+  }
+
+  /* Discount Code mobile */
+  body.cwv-registration-page #Summary .clearfix.large_top_margin.medium_bottom_margin:has(#DiscountCode) {
+    padding: 1rem !important;
+  }
+
+  body.cwv-registration-page #DiscountCode {
+    width: 100% !important;
+    max-width: 200px !important;
+  }
+
+  /* Summary totals mobile */
+  body.cwv-registration-page #Summary #Totals > .clearfix {
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+  }
+
+  body.cwv-registration-page #Summary #Totals #TotalCost {
+    font-size: 20px !important;
+  }
 }
 
 /* ===== FOOTER PROTECTION ===== */
@@ -1730,4 +2218,38 @@ body.cwv-registration-page #footer select,
 body.cwv-registration-page .footer input,
 body.cwv-registration-page .footer select {
   all: revert !important;
+}
+
+/* =========================================================
+   CMS VISIBILITY OVERRIDES - MUST BE AT END OF FILE
+   These rules MUST come last to override any flex/display rules above
+   ========================================================= */
+
+/* When CMS adds .hidden class, ALWAYS hide - no matter what other rules say */
+body.cwv-registration-page #RegisterBody #SecondaryFormItems.hidden,
+body.cwv-registration-page #RegisterBody .clearfix.bottom_padding.hidden,
+body.cwv-registration-page .hidden#SecondaryFormItems {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* =========================================================
+   FORM CONTAINER GRID OVERRIDES - MUST BE AT END
+   These override the generic .clearfix flex rule at line 768
+   ========================================================= */
+
+/* Your Information - form fields grid */
+body.cwv-registration-page #RegisterBody #SecondaryFormItems #ReserversInformation > div.large_top_padding > .clearfix:not(.title) {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1.25rem !important;
+}
+
+/* Payment - form fields container */
+body.cwv-registration-page #RegisterBody #SecondaryFormItems #Payment > div.large_top_padding > .clearfix:not(.title) {
+  display: block !important;
 }

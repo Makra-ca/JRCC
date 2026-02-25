@@ -1,0 +1,18 @@
+EVENT INFO MARKERS - Quick Guide
+================================
+
+Add these markers to your event Description to show styled info cards:
+
+#LOCATION: Your venue address here
+#DATETIME: Tuesday, March 4th at 6:30 PM
+#PRICING: $20 per person / $36 per couple
+
+The markers will be hidden from the description and displayed as styled cards.
+
+If not in Description, the system checks the Reservation overview as a fallback.
+
+EXAMPLES:
+---------
+#PRICING: Free admission
+#PRICING: $18 General / $36 Sponsor / $100 VIP
+#PRICING: Suggested donation $25
