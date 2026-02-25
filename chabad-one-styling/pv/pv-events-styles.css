@@ -1183,45 +1183,20 @@ body.pv-registration-page #RegisterBody .performance .toggle_options a:hover {
 
 /* =========================================================
    SINGLE EVENT - RESERVATION HEADER ROW (FIRST NAME, LAST NAME, etc.)
+   Uses CMS classes: g20, g120, g140, g100, etc.
    ========================================================= */
 /* Target the header row inside reservations */
 body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin {
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 0.75rem !important;
+    gap: 0 !important;
     padding: 0 0 0.75rem 0 !important;
     margin-bottom: 0.5rem !important;
     border-bottom: 2px solid #f0f0f0 !important;
 }
 
-/* Header - row number spacer */
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:first-child,
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > div:first-child {
-    flex: 0 0 30px !important;
-}
-
-/* Header - First Name, Last Name columns */
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(2),
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(3) {
-    flex: 1 1 150px !important;
-    min-width: 100px !important;
-}
-
-/* Header - Category column */
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(4) {
-    flex: 0 0 100px !important;
-    text-align: center !important;
-}
-
-/* Header - Price column */
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(5) {
-    flex: 0 0 80px !important;
-    text-align: right !important;
-}
-
 /* Header labels - uppercase, small, gray */
-body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span,
 body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > div {
     font-family: 'Inter', sans-serif !important;
     font-size: 11px !important;
@@ -1229,6 +1204,139 @@ body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_mar
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     color: #777 !important;
+    float: none !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   CMS Grid Classes - FLEX ORDER FIX
+   The delete button (g40) appears BETWEEN category and price in data rows
+   but doesn't exist in header rows. Use CSS order to align columns.
+   ========================================================= */
+
+/* ALL columns in header AND data rows - reset float and apply flex */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div[class*="g"],
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.inline_block {
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 8px 0 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* ===== COLUMN ORDER - ensures header and data rows align ===== */
+/* g20 - Index column */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g20 {
+    order: 1 !important;
+}
+
+/* g120 - First Name column */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g120 {
+    order: 2 !important;
+}
+
+/* g140 - Last Name column */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g140 {
+    order: 3 !important;
+}
+
+/* g220 - Seat Selection (hidden but keep in order) */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g220,
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.seat_selection {
+    order: 4 !important;
+}
+
+/* g100 - Category column */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g100 {
+    order: 5 !important;
+}
+
+/* g40 - Delete button column (data row only) */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.g40 {
+    order: 6 !important;
+}
+
+/* Price column (inline_block with price-header or price-display) */
+body.pv-registration-page #RegisterBody #Performances .reservations .clearfix > div.inline_block {
+    order: 7 !important;
+}
+
+/* ===== COLUMN SIZING ===== */
+/* g20 - Index column (fixed narrow) */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g20 {
+    flex: 0 0 35px !important;
+    width: 35px !important;
+    min-width: 35px !important;
+    max-width: 35px !important;
+}
+
+/* g120 - First Name column */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g120 {
+    flex: 1 1 100px !important;
+    min-width: 80px !important;
+}
+
+/* g140 - Last Name column */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g140 {
+    flex: 1 1 100px !important;
+    min-width: 80px !important;
+}
+
+/* g220 - Seat Selection (HIDDEN) */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g220,
+body.pv-registration-page #RegisterBody #Performances .reservations div.seat_selection {
+    display: none !important;
+    flex: 0 0 0 !important;
+    width: 0 !important;
+}
+
+/* g100 - Category column (fixed) */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g100 {
+    flex: 0 0 90px !important;
+    width: 90px !important;
+    min-width: 90px !important;
+    max-width: 90px !important;
+    text-align: center !important;
+}
+
+/* g40 - Delete button column (data row only) */
+body.pv-registration-page #RegisterBody #Performances .reservations div.g40 {
+    flex: 0 0 35px !important;
+    width: 35px !important;
+    min-width: 35px !important;
+    max-width: 35px !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+/* Price header */
+body.pv-registration-page #RegisterBody #Performances .reservations div.price-header,
+body.pv-registration-page #RegisterBody #Performances .reservations > .clearfix.medium_top_margin > div.inline_block {
+    flex: 0 0 75px !important;
+    width: 75px !important;
+    min-width: 75px !important;
+    max-width: 75px !important;
+    padding: 0 !important;
+    text-align: right !important;
+}
+
+/* Price data */
+body.pv-registration-page #RegisterBody #Performances .reservations .reservation div.price-display,
+body.pv-registration-page #RegisterBody #Performances .reservations .reservation div[id$="_price"] {
+    flex: 0 0 75px !important;
+    width: 75px !important;
+    min-width: 75px !important;
+    max-width: 75px !important;
+    padding: 0 !important;
+    text-align: right !important;
+}
+
+/* Header row spacer for delete button alignment - ORDER 6 matches g40 */
+body.pv-registration-page #RegisterBody #Performances .reservations > .clearfix.medium_top_margin::after {
+    content: '' !important;
+    order: 6 !important;
+    flex: 0 0 35px !important;
+    width: 35px !important;
+    display: block !important;
 }
 
 /* =========================================================
@@ -1259,32 +1367,18 @@ body.pv-registration-page #RegisterBody .reservation > .clearfix.medium_vertical
     display: flex !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 0.75rem !important;
+    gap: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
 /* Row number styling */
 body.pv-registration-page #RegisterBody .reservation [id$="_index"] {
-    flex: 0 0 30px !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     color: #999 !important;
     text-align: center !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    float: none !important;
-}
-
-/* Input wrapper divs - use flex to fill space */
-body.pv-registration-page #RegisterBody .reservation .g120,
-body.pv-registration-page #RegisterBody .reservation div[class*="g1"] {
-    flex: 1 1 150px !important;
-    min-width: 100px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    float: none !important;
 }
 
 /* Input fields in reservation rows */
@@ -1309,15 +1403,6 @@ body.pv-registration-page #RegisterBody .reservation input.co_form_input:focus {
     box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
 }
 
-/* Category badge container */
-body.pv-registration-page #RegisterBody .reservation div:has(.category_name),
-body.pv-registration-page #RegisterBody .reservation .g100 {
-    flex: 0 0 auto !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    float: none !important;
-}
-
 /* Category badge styling */
 body.pv-registration-page #RegisterBody .reservation .category_name {
     font-family: 'Inter', sans-serif !important;
@@ -1325,28 +1410,10 @@ body.pv-registration-page #RegisterBody .reservation .category_name {
     font-weight: 600 !important;
     background: #f5f5f5 !important;
     color: #555 !important;
-    padding: 0.5rem 0.75rem !important;
+    padding: 0.4rem 0.6rem !important;
     border-radius: 6px !important;
     display: inline-block !important;
     white-space: nowrap !important;
-}
-
-/* Delete button container */
-body.pv-registration-page #RegisterBody .reservation div:has(.remove_reservation) {
-    flex: 0 0 30px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    float: none !important;
-}
-
-/* Price container and styling */
-body.pv-registration-page #RegisterBody .reservation div:has(.right),
-body.pv-registration-page #RegisterBody .reservation .g80 {
-    flex: 0 0 80px !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    float: none !important;
-    text-align: right !important;
 }
 
 body.pv-registration-page #RegisterBody .reservation .right,
