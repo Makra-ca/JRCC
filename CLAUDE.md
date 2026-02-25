@@ -30,6 +30,40 @@ The CMS strips or breaks these animation types:
 - **Multiple simultaneous property changes** on the same element
 
 
+## Chabad One CMS Font Size / REM Issue
+
+Chabad One CMS uses a **10px base font-size** instead of the standard 16px. This means:
+- `1rem = 10px` (not 16px)
+- All rem values calculate at 62.5% of expected size
+- Example: `0.85rem` = 8.5px instead of ~14px
+
+### Solution
+Use `px` values instead of `rem` for predictable sizing. Define CSS variables:
+
+```css
+:root {
+  /* Font sizes in px (CMS uses 10px base, so rem is unreliable) */
+  --font-xs: 11px;
+  --font-sm: 13px;
+  --font-base: 15px;
+  --font-md: 16px;
+  --font-lg: 18px;
+  --font-xl: 22px;
+  --font-2xl: 26px;
+}
+```
+
+### CMS Classes That Override Fonts
+These CMS classes have their own font-size rules and may override your styles:
+- `.regular` → 12px
+- `.small` → 10px
+- `.bold` → inherits but changes weight
+- `.co_form_input` → 12px
+- `.form-radio-item label`, `.form-checkbox-item label` → 1em (relative)
+
+Use high-specificity selectors with `!important` to override.
+
+
 ## Chabad One Dynamic Data Extraction
 
 When redesigning Chabad One sites, extract data dynamically from the existing page before hiding CMS elements. This allows content to update automatically without code changes.
