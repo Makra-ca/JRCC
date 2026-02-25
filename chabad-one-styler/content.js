@@ -6,7 +6,9 @@
 (function() {
   let isInspecting = false;
   let hoveredElement = null;
+  let selectedElement = null; // Track currently selected element for parent navigation
   let panel = null;
+  let captureMode = 'element'; // 'element' or 'structure'
 
   // Listen for messages from popup
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -63,8 +65,54 @@
     e.stopPropagation();
 
     const element = e.target;
-    const info = captureElementInfo(element);
-    displayInfo(info);
+    selectElement(element);
+  }
+
+  function selectElement(element) {
+    selectedElement = element;
+
+    // Update highlight
+    removeHighlight();
+    element.classList.add('chabad-styler-highlight');
+
+    if (captureMode === 'structure') {
+      const structure = captureHTMLStructure(element, 3); // 3 levels deep
+      displayStructure(structure, element);
+    } else {
+      const info = captureElementInfo(element);
+      displayInfo(info);
+    }
+
+    // Update parent button state
+    updateParentButton();
+  }
+
+  function selectParent() {
+    if (!selectedElement) {
+      showNotification('Select an element first');
+      return;
+    }
+
+    const parent = selectedElement.parentElement;
+    if (!parent || parent === document.body || parent === document.documentElement) {
+      showNotification('No more parents');
+      return;
+    }
+
+    selectElement(parent);
+    showNotification('Selected parent: ' + (parent.id ? '#' + parent.id : parent.tagName.toLowerCase()));
+  }
+
+  function updateParentButton() {
+    if (!panel) return;
+    const parentBtn = panel.querySelector('.chabad-styler-parent-btn');
+    if (parentBtn) {
+      const hasParent = selectedElement && selectedElement.parentElement &&
+                        selectedElement.parentElement !== document.body &&
+                        selectedElement.parentElement !== document.documentElement;
+      parentBtn.disabled = !hasParent;
+      parentBtn.style.opacity = hasParent ? '1' : '0.5';
+    }
   }
 
   function removeHighlight() {
@@ -248,6 +296,85 @@
     };
   }
 
+  // Capture HTML structure recursively
+  function captureHTMLStructure(element, maxDepth, currentDepth = 0, indent = '') {
+    if (currentDepth > maxDepth) return '';
+
+    const tagName = element.tagName.toLowerCase();
+    const id = element.id ? `#${element.id}` : '';
+    const classes = Array.from(element.classList)
+      .filter(c => !c.startsWith('chabad-styler'))
+      .map(c => `.${c}`)
+      .join('');
+
+    // Get key attributes
+    const attrs = [];
+    if (element.name) attrs.push(`name="${element.name}"`);
+    if (element.type) attrs.push(`type="${element.type}"`);
+    if (element.placeholder) attrs.push(`placeholder="${element.placeholder.substring(0, 30)}"`);
+    if (element.value && element.tagName === 'INPUT') attrs.push(`value="..."`);
+
+    const attrStr = attrs.length > 0 ? ` ${attrs.join(' ')}` : '';
+
+    let result = `${indent}<${tagName}${id}${classes}${attrStr}>\n`;
+
+    // Get children (skip text-only nodes for cleaner output)
+    const children = Array.from(element.children);
+    for (const child of children) {
+      result += captureHTMLStructure(child, maxDepth, currentDepth + 1, indent + '  ');
+    }
+
+    // Add text content hint for leaf nodes
+    if (children.length === 0 && element.textContent.trim()) {
+      const text = element.textContent.trim().substring(0, 50);
+      result = result.slice(0, -1) + ` "${text}"${text.length >= 50 ? '...' : ''}\n`;
+    }
+
+    return result;
+  }
+
+  function displayStructure(structure, element) {
+    if (!panel) return;
+
+    const content = panel.querySelector('.chabad-styler-panel-content');
+    const selector = getUniqueSelector(element);
+
+    const formatted = `
+## HTML Structure Capture
+
+**Clicked Element:** \`${selector}\`
+**Depth:** 3 levels
+
+### Structure Tree
+\`\`\`html
+${structure}\`\`\`
+
+### How to use:
+- Find the container element you want to style
+- Identify class names and IDs
+- Use these selectors in your CSS
+`;
+
+    panel.dataset.info = formatted;
+
+    content.innerHTML = `
+      <div class="chabad-styler-info">
+        <div class="chabad-styler-info-row">
+          <span class="chabad-styler-label">Mode:</span>
+          <code>HTML Structure (3 levels deep)</code>
+        </div>
+        <div class="chabad-styler-info-row">
+          <span class="chabad-styler-label">Element:</span>
+          <code>${selector}</code>
+        </div>
+        <div class="chabad-styler-structure-preview">
+          <pre>${structure.substring(0, 1500)}${structure.length > 1500 ? '\n...(truncated)' : ''}</pre>
+        </div>
+      </div>
+      <p class="chabad-styler-hint">Click "Copy Info" to get full structure for Claude</p>
+    `;
+  }
+
   function createPanel() {
     if (panel) return;
 
@@ -258,10 +385,15 @@
         <span class="chabad-styler-panel-title">Chabad One Styler</span>
         <button class="chabad-styler-panel-close">&times;</button>
       </div>
+      <div class="chabad-styler-panel-modes">
+        <button class="chabad-styler-mode-btn active" data-mode="element">Element Info</button>
+        <button class="chabad-styler-mode-btn" data-mode="structure">HTML Structure</button>
+      </div>
       <div class="chabad-styler-panel-content">
         <p class="chabad-styler-hint">Click any element to inspect</p>
       </div>
       <div class="chabad-styler-panel-actions">
+        <button class="chabad-styler-parent-btn" disabled style="opacity: 0.5;">↑ Parent</button>
         <button class="chabad-styler-copy-btn">Copy Info</button>
       </div>
     `;
@@ -275,8 +407,33 @@
       chrome.storage.local.set({ enabled: false });
     });
 
+    // Parent button
+    panel.querySelector('.chabad-styler-parent-btn').addEventListener('click', selectParent);
+
     // Copy button
     panel.querySelector('.chabad-styler-copy-btn').addEventListener('click', copyInfo);
+
+    // Mode toggle buttons
+    panel.querySelectorAll('.chabad-styler-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        panel.querySelectorAll('.chabad-styler-mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Update mode
+        captureMode = btn.dataset.mode;
+
+        // Update hint
+        const content = panel.querySelector('.chabad-styler-panel-content');
+        if (captureMode === 'structure') {
+          content.innerHTML = '<p class="chabad-styler-hint">Click any element to capture its HTML structure (3 levels deep)</p>';
+        } else {
+          content.innerHTML = '<p class="chabad-styler-hint">Click any element to inspect</p>';
+        }
+
+        showNotification(`Mode: ${captureMode === 'structure' ? 'HTML Structure' : 'Element Info'}`);
+      });
+    });
   }
 
   function removePanel() {
