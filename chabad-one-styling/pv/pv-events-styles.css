@@ -1186,12 +1186,38 @@ body.pv-registration-page #RegisterBody .performance .toggle_options a:hover {
    ========================================================= */
 /* Target the header row inside reservations */
 body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin {
-    display: grid !important;
-    grid-template-columns: 40px 1fr 1fr 120px 100px 40px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
     gap: 0.75rem !important;
     padding: 0 0 0.75rem 0 !important;
     margin-bottom: 0.5rem !important;
     border-bottom: 2px solid #f0f0f0 !important;
+}
+
+/* Header - row number spacer */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:first-child,
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > div:first-child {
+    flex: 0 0 30px !important;
+}
+
+/* Header - First Name, Last Name columns */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(2),
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(3) {
+    flex: 1 1 150px !important;
+    min-width: 100px !important;
+}
+
+/* Header - Category column */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(4) {
+    flex: 0 0 100px !important;
+    text-align: center !important;
+}
+
+/* Header - Price column */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span:nth-child(5) {
+    flex: 0 0 80px !important;
+    text-align: right !important;
 }
 
 /* Header labels - uppercase, small, gray */
@@ -1330,6 +1356,135 @@ body.pv-registration-page #RegisterBody .reservation span.right {
     font-weight: 700 !important;
     color: #333 !important;
     float: none !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - BIRTH DATE SECTION
+   ========================================================= */
+/* Birth Date row - inside reservation */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="birth"]),
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([id*="birth"]) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    padding: 1rem 0 !important;
+    margin: 0.5rem 0 !important;
+    border-top: 1px solid #f0f0f0 !important;
+}
+
+/* Birth Date label */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="birth"]) > .bold:first-child,
+body.pv-registration-page #RegisterBody .reservation [class*="birth"] > label,
+body.pv-registration-page #RegisterBody .reservation label[for*="birth"] {
+    flex: 0 0 80px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #777 !important;
+    padding-top: 0.5rem !important;
+    float: none !important;
+}
+
+/* Birth Date dropdown container */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="birth"]) .float_left,
+body.pv-registration-page #RegisterBody .reservation [id*="birth_container"] {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.5rem !important;
+    align-items: flex-start !important;
+    float: none !important;
+}
+
+/* Birth Date dropdowns */
+body.pv-registration-page #RegisterBody .reservation select[name*="birth"],
+body.pv-registration-page #RegisterBody .reservation select[id*="birth"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    padding: 0.5rem 0.75rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    min-width: 70px !important;
+    cursor: pointer !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation select[name*="birth"]:focus {
+    border-color: #E67E22 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
+}
+
+/* Birth Date sublabels (Month, Day, Year) */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="birth"]) .small,
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="birth"]) small {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    color: #999 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+    display: block !important;
+    margin-top: 0.25rem !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - EMAIL SECTION
+   ========================================================= */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]),
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([type="email"]) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    padding: 1rem 0 !important;
+    margin: 0.5rem 0 !important;
+    border-top: 1px solid #f0f0f0 !important;
+}
+
+/* Email label */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]) > .bold:first-child,
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]) > div:first-child {
+    flex: 0 0 120px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #777 !important;
+    float: none !important;
+}
+
+/* Email helper text */
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]) .small,
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]) small,
+body.pv-registration-page #RegisterBody .reservation .clearfix:has([name*="email"]) em {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-style: italic !important;
+    color: #999 !important;
+    display: block !important;
+    margin-top: 0.25rem !important;
+}
+
+/* Email input */
+body.pv-registration-page #RegisterBody .reservation input[name*="email"],
+body.pv-registration-page #RegisterBody .reservation input[type="email"] {
+    flex: 1 1 300px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    padding: 0.6rem 0.8rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation input[name*="email"]:focus {
+    border-color: #E67E22 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
 }
 
 /* Delete button styling - grid cell */
