@@ -1182,63 +1182,142 @@ body.pv-registration-page #RegisterBody .performance .toggle_options a:hover {
 }
 
 /* =========================================================
+   SINGLE EVENT - RESERVATION HEADER ROW (FIRST NAME, LAST NAME, etc.)
+   ========================================================= */
+/* Target the header row inside reservations */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin {
+    display: grid !important;
+    grid-template-columns: 40px 1fr 1fr 120px 100px 40px !important;
+    gap: 0.75rem !important;
+    padding: 0 0 0.75rem 0 !important;
+    margin-bottom: 0.5rem !important;
+    border-bottom: 2px solid #f0f0f0 !important;
+}
+
+/* Header labels - uppercase, small, gray */
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > span,
+body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin > div {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #777 !important;
+}
+
+/* =========================================================
    SINGLE EVENT - RESERVATION ROWS
    ========================================================= */
 body.pv-registration-page #RegisterBody .reservation,
 body.pv-registration-page #RegisterBody .clearfix.reservation {
     position: relative !important;
+    display: grid !important;
+    grid-template-columns: 40px 1fr 1fr 120px 100px 40px !important;
+    gap: 0.75rem !important;
+    align-items: center !important;
     background: #ffffff !important;
-    border-radius: 12px !important;
-    padding: 1rem 3rem 1rem 1rem !important;
-    margin-bottom: 0.75rem !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    border-radius: 0 !important;
+    padding: 0.75rem 0 !important;
+    margin-bottom: 0 !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    box-shadow: none !important;
     transition: all 0.2s ease !important;
 }
 
-body.pv-registration-page #RegisterBody .reservation:hover {
-    background: #FAFAFA !important;
+body.pv-registration-page #RegisterBody .reservation:last-child {
+    border-bottom: none !important;
 }
 
-/* Delete button styling */
+body.pv-registration-page #RegisterBody .reservation:hover {
+    background: #fafafa !important;
+}
+
+/* Row number styling */
+body.pv-registration-page #RegisterBody .reservation > span:first-child,
+body.pv-registration-page #RegisterBody .reservation > div:first-child {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #999 !important;
+    text-align: center !important;
+}
+
+/* Input fields in reservation rows */
+body.pv-registration-page #RegisterBody .reservation input[type="text"],
+body.pv-registration-page #RegisterBody .reservation_input_text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    padding: 0.6rem 0.8rem !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 38px !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation input[type="text"]:focus {
+    border-color: #E67E22 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
+}
+
+/* Category badge styling */
+body.pv-registration-page #RegisterBody .reservation .category_name,
+body.pv-registration-page #RegisterBody .reservation span[class*="category"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    background: #f5f5f5 !important;
+    color: #555 !important;
+    padding: 0.5rem 0.75rem !important;
+    border-radius: 6px !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+/* Price styling */
+body.pv-registration-page #RegisterBody .reservation .price,
+body.pv-registration-page #RegisterBody .reservation span.right {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+    text-align: right !important;
+}
+
+/* Delete button styling - grid cell */
 body.pv-registration-page #RegisterBody .remove_reservation,
 body.pv-registration-page #RegisterBody button.remove_reservation,
 body.pv-registration-page button.remove_reservation {
-    position: absolute !important;
-    right: 10px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
     width: 28px !important;
     height: 28px !important;
     min-width: 28px !important;
     max-width: 28px !important;
     border-radius: 50% !important;
-    background: #f0f0f0 !important;
-    border: 1px solid #ddd !important;
+    background: transparent !important;
+    border: none !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     padding: 0 !important;
-    margin: 0 !important;
-    color: #999 !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    opacity: 0.6 !important;
-    z-index: 100 !important;
+    margin: 0 auto !important;
+    color: #ccc !important;
+    font-size: 18px !important;
+    font-weight: normal !important;
+    opacity: 1 !important;
+    transition: all 0.15s ease !important;
 }
 
 body.pv-registration-page #RegisterBody .reservation:hover .remove_reservation {
-    opacity: 1 !important;
-    background: #ffebee !important;
-    border-color: #ff5252 !important;
     color: #ff5252 !important;
 }
 
 body.pv-registration-page #RegisterBody .remove_reservation:hover {
-    background: #ff5252 !important;
-    border-color: #ff5252 !important;
-    color: white !important;
-    transform: translateY(-50%) scale(1.1) !important;
+    background: #ffebee !important;
+    color: #ff5252 !important;
+    transform: scale(1.1) !important;
 }
 
 /* =========================================================
@@ -1707,13 +1786,26 @@ body.pv-registration-page #Buttons .total .amount {
 
 /* =========================================================
    SINGLE EVENT - OVERRIDE CMS DEFAULT BORDER COLORS
-   Change #EDF1F5 (CMS default light gray-blue) to #E67E22 (orange)
+   Only apply orange borders to section titles, NOT to form inputs
    ========================================================= */
-body.pv-registration-page #RegisterBody *,
-body.pv-registration-page #Summary *,
-body.pv-registration-page #ReserversInformation *,
-body.pv-registration-page #Payment *,
-body.pv-registration-page .bottom_padding * {
+body.pv-registration-page #Summary .title::before,
+body.pv-registration-page #ReserversInformation .title::before,
+body.pv-registration-page #Payment .title::before {
+    background-color: #E67E22 !important;
+}
+
+/* Keep input borders neutral - NOT orange */
+body.pv-registration-page #RegisterBody input,
+body.pv-registration-page #RegisterBody select,
+body.pv-registration-page #RegisterBody textarea,
+body.pv-registration-page .reservation input,
+body.pv-registration-page .reservation select {
+    border-color: #ddd !important;
+}
+
+body.pv-registration-page #RegisterBody input:focus,
+body.pv-registration-page #RegisterBody select:focus,
+body.pv-registration-page #RegisterBody textarea:focus {
     border-color: #E67E22 !important;
 }
 
@@ -1882,6 +1974,33 @@ form#RegisterSinglePage {
     body.pv-registration-page #Payment,
     body.pv-registration-page #Buttons {
         padding: 2rem 1.5rem !important;
+    }
+
+    /* Reservation grid - stack on mobile */
+    body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_margin {
+        display: none !important;
+    }
+
+    body.pv-registration-page #RegisterBody .reservation,
+    body.pv-registration-page #RegisterBody .clearfix.reservation {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        padding: 1rem !important;
+        border: 1px solid #eee !important;
+        border-radius: 12px !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    body.pv-registration-page #RegisterBody .reservation input[type="text"] {
+        flex: 1 1 45% !important;
+        min-width: 120px !important;
+    }
+
+    body.pv-registration-page #RegisterBody .reservation .remove_reservation {
+        position: absolute !important;
+        right: 8px !important;
+        top: 8px !important;
     }
 
     body.pv-registration-page #Buttons {
