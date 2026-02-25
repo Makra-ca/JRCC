@@ -492,6 +492,8 @@
                         var dropdownInExpanded = document.querySelector('select[id*="priceCategory"]');
                         if (dropdownInExpanded && dropdownInExpanded.value !== selectedCategoryValue) {
                             dropdownInExpanded.value = selectedCategoryValue;
+                            // Trigger change event so CMS updates form state (enables Add button, etc.)
+                            dropdownInExpanded.dispatchEvent(new Event('change', { bubbles: true }));
                             console.log('✅ Category selection preserved:', selectedCategoryValue);
                         } else if (attempts < maxAttempts) {
                             attempts++;
