@@ -248,36 +248,21 @@
             });
         }
 
-        // Style delete buttons
+        // Style delete buttons - just add class, CSS handles the rest
         function styleDeleteButtons() {
             var registerBody = document.querySelector('#RegisterBody');
             if (!registerBody) return;
 
             var reservations = registerBody.querySelectorAll('.reservation, .clearfix.reservation');
             reservations.forEach(function(row) {
-                row.style.position = 'relative';
-                row.style.paddingRight = '50px';
+                // Remove old inline styles if present
+                row.style.removeProperty('position');
+                row.style.removeProperty('padding-right');
 
                 var deleteBtn = row.querySelector('.remove_reservation, button.remove_reservation');
                 if (deleteBtn && !deleteBtn.classList.contains('pv-delete-styled')) {
-                    deleteBtn.style.cssText = 'position:absolute!important;right:10px!important;top:50%!important;transform:translateY(-50%)!important;width:28px!important;height:28px!important;min-width:28px!important;max-width:28px!important;border-radius:50%!important;background:#f0f0f0!important;border:1px solid #ddd!important;cursor:pointer!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:0!important;margin:0!important;color:#999!important;font-size:14px!important;font-weight:bold!important;opacity:0.6!important;z-index:100!important;';
-
-                    deleteBtn.addEventListener('mouseenter', function() {
-                        this.style.background = '#ff5252';
-                        this.style.borderColor = '#ff5252';
-                        this.style.color = 'white';
-                        this.style.opacity = '1';
-                        this.style.transform = 'translateY(-50%) scale(1.1)';
-                    });
-
-                    deleteBtn.addEventListener('mouseleave', function() {
-                        this.style.background = '#f0f0f0';
-                        this.style.borderColor = '#ddd';
-                        this.style.color = '#999';
-                        this.style.opacity = '0.6';
-                        this.style.transform = 'translateY(-50%)';
-                    });
-
+                    // Clear any inline styles, let CSS handle it
+                    deleteBtn.style.cssText = '';
                     deleteBtn.classList.add('pv-delete-styled');
                 }
             });

@@ -1207,21 +1207,17 @@ body.pv-registration-page #RegisterBody .reservations > .clearfix.medium_top_mar
 
 /* =========================================================
    SINGLE EVENT - RESERVATION ROWS
+   Structure: .reservation > .medium_vertical_padding > divs with g20, g120, etc.
    ========================================================= */
 body.pv-registration-page #RegisterBody .reservation,
 body.pv-registration-page #RegisterBody .clearfix.reservation {
     position: relative !important;
-    display: grid !important;
-    grid-template-columns: 40px 1fr 1fr 120px 100px 40px !important;
-    gap: 0.75rem !important;
-    align-items: center !important;
     background: #ffffff !important;
     border-radius: 0 !important;
-    padding: 0.75rem 0 !important;
+    padding: 0.5rem 0 !important;
     margin-bottom: 0 !important;
     border-bottom: 1px solid #f0f0f0 !important;
     box-shadow: none !important;
-    transition: all 0.2s ease !important;
 }
 
 body.pv-registration-page #RegisterBody .reservation:last-child {
@@ -1232,19 +1228,42 @@ body.pv-registration-page #RegisterBody .reservation:hover {
     background: #fafafa !important;
 }
 
+/* The inner wrapper that contains all the fields */
+body.pv-registration-page #RegisterBody .reservation > .clearfix.medium_vertical_padding {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 /* Row number styling */
-body.pv-registration-page #RegisterBody .reservation > span:first-child,
-body.pv-registration-page #RegisterBody .reservation > div:first-child {
+body.pv-registration-page #RegisterBody .reservation [id$="_index"] {
+    flex: 0 0 30px !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     color: #999 !important;
     text-align: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+/* Input wrapper divs - use flex to fill space */
+body.pv-registration-page #RegisterBody .reservation .g120,
+body.pv-registration-page #RegisterBody .reservation div[class*="g1"] {
+    flex: 1 1 150px !important;
+    min-width: 100px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
 }
 
 /* Input fields in reservation rows */
-body.pv-registration-page #RegisterBody .reservation input[type="text"],
-body.pv-registration-page #RegisterBody .reservation_input_text {
+body.pv-registration-page #RegisterBody .reservation input.co_form_input,
+body.pv-registration-page #RegisterBody .reservation input[type="text"] {
     font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     padding: 0.6rem 0.8rem !important;
@@ -1254,17 +1273,27 @@ body.pv-registration-page #RegisterBody .reservation_input_text {
     width: 100% !important;
     height: auto !important;
     min-height: 38px !important;
+    box-sizing: border-box !important;
 }
 
-body.pv-registration-page #RegisterBody .reservation input[type="text"]:focus {
+body.pv-registration-page #RegisterBody .reservation input[type="text"]:focus,
+body.pv-registration-page #RegisterBody .reservation input.co_form_input:focus {
     border-color: #E67E22 !important;
     outline: none !important;
     box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.15) !important;
 }
 
+/* Category badge container */
+body.pv-registration-page #RegisterBody .reservation div:has(.category_name),
+body.pv-registration-page #RegisterBody .reservation .g100 {
+    flex: 0 0 auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
 /* Category badge styling */
-body.pv-registration-page #RegisterBody .reservation .category_name,
-body.pv-registration-page #RegisterBody .reservation span[class*="category"] {
+body.pv-registration-page #RegisterBody .reservation .category_name {
     font-family: 'Inter', sans-serif !important;
     font-size: 12px !important;
     font-weight: 600 !important;
@@ -1272,18 +1301,35 @@ body.pv-registration-page #RegisterBody .reservation span[class*="category"] {
     color: #555 !important;
     padding: 0.5rem 0.75rem !important;
     border-radius: 6px !important;
-    text-align: center !important;
+    display: inline-block !important;
     white-space: nowrap !important;
 }
 
-/* Price styling */
-body.pv-registration-page #RegisterBody .reservation .price,
+/* Delete button container */
+body.pv-registration-page #RegisterBody .reservation div:has(.remove_reservation) {
+    flex: 0 0 30px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+/* Price container and styling */
+body.pv-registration-page #RegisterBody .reservation div:has(.right),
+body.pv-registration-page #RegisterBody .reservation .g80 {
+    flex: 0 0 80px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    float: none !important;
+    text-align: right !important;
+}
+
+body.pv-registration-page #RegisterBody .reservation .right,
 body.pv-registration-page #RegisterBody .reservation span.right {
     font-family: 'Inter', sans-serif !important;
     font-size: 14px !important;
     font-weight: 700 !important;
     color: #333 !important;
-    text-align: right !important;
+    float: none !important;
 }
 
 /* Delete button styling - grid cell */
