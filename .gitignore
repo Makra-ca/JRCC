@@ -71,3 +71,4 @@ github-hosted/CDN-CACHE-PURGE-INSTRUCTIONS.md
 .vercel
 chabad-one-styling/chabad-williamsburg-virginia/html for event round two_files/
 chabad-one-styling/chabad-williamsburg-virginia/html for event round three_files/
+.env*.local

@@ -1,0 +1,40 @@
+﻿var FormDecoder = {
+	Form: null,
+	Init: function ()
+	{
+		this.Form = document.forms.form1;
+		if (typeof this.Form == 'undefined')
+			return;
+
+
+		// give all inputs without names a name
+		var unknownNumber = 1;
+		for (var i = 0; i < this.Form.length; i++)
+		{
+			if ((this.Form[i].getAttribute('name') == null) || (this.Form[i].getAttribute('name') == "")) {
+				this.Form[i].name = "unknown_" + unknownNumber;
+				unknownNumber++;
+			}
+
+			this.DecodeElement(this.Form[i]);
+		}
+	},
+	DecodeElement: function (item)
+	{
+		for (var i = 0; i < item.attributes.length; i++)
+		{
+
+			var attributeName = item.attributes[i].name;
+			// Sometimes the attribute is not a valid uri, for example style tags
+			try {
+				var attributeValue = decodeURI(item.attributes[i].value);
+			}
+			catch(err) {
+				continue;
+			}
+			item.setAttribute(attributeName, attributeValue);
+		}
+	}
+};
+
+Co.DomEvents.AddListener(window, 'domload', FormDecoder.Init, [], FormDecoder);

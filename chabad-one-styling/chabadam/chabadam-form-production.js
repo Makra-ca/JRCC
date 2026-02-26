@@ -774,12 +774,18 @@
         // Style to hide input sections but show CAPTCHA + Submit
         const style = document.createElement('style');
         style.textContent = `
-            /* Hide all form lines in the original form */
-            #6781190 .form-line {
+            /* Hide specific form lines (NOT the submit/captcha section) */
+            #6781190 #id_3,
+            #6781190 #id_4,
+            #6781190 #id_5,
+            #6781190 #id_6,
+            #6781190 #id_9,
+            #6781190 #id_10,
+            #6781190 #id_11 {
                 display: none !important;
             }
 
-            /* But show the submit button section */
+            /* Show the submit button section */
             #6781190 #id_2 {
                 display: block !important;
                 padding: 32px !important;
@@ -873,11 +879,11 @@
         copyCountryOptions();
 
         // Now hide the original form's input sections (but keep CAPTCHA + Submit visible)
-        // Hide all form-line elements except the submit button
-        formElement.querySelectorAll('.form-line').forEach(line => {
-            if (line.id !== 'id_2') {
-                line.style.display = 'none';
-            }
+        // Hide specific form-line elements by ID (NOT the submit/captcha section)
+        const idsToHide = ['id_3', 'id_4', 'id_5', 'id_6', 'id_9', 'id_10', 'id_11'];
+        idsToHide.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = 'none';
         });
 
         // Hide the form header (we have our own)
@@ -888,7 +894,14 @@
         const recaptchaWrapper = document.querySelector('.js-recaptcha-wrapper');
         if (recaptchaWrapper) {
             recaptchaWrapper.style.cssText = 'display: flex !important; justify-content: center !important; margin: 20px 0 !important;';
-            log('reCAPTCHA wrapper styled');
+            log('reCAPTCHA wrapper found, parent:', recaptchaWrapper.parentElement?.id || recaptchaWrapper.parentElement?.className);
+            log('reCAPTCHA iframe present:', !!recaptchaWrapper.querySelector('iframe'));
+        } else {
+            log('reCAPTCHA wrapper NOT FOUND');
+            // Search for any recaptcha elements
+            const anyRecaptcha = document.querySelectorAll('[class*="recaptcha"], [id*="recaptcha"]');
+            log('Any recaptcha elements found:', anyRecaptcha.length);
+            anyRecaptcha.forEach(el => log('  -', el.tagName, el.id || el.className));
         }
 
         // Style the submit section

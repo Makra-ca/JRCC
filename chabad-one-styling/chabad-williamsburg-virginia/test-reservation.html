@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CMS Reservation Test</title>
+    <!-- Actual CMS CSS rules -->
+    <style>
+        /* CMS Grid classes - ACTUAL VALUES from CMS */
+        .g20{width:5px}
+        .g40{width:25px}
+        .g100{width:85px}
+        .g120{width:105px}
+        .g140{width:125px}
+        .g220{width:205px}
+
+        /* CMS utility classes */
+        .clearfix:after{clear:both;content:" ";display:table}
+        .clearfix{display:block}
+        .small_top_margin{margin-top:5px}
+        .float_left{float:left}
+        .float_right{float:right}
+        .bold{font-weight:bold}
+        .no_margin{margin:0}
+        .small_right_padding{padding-right:5px}
+        .right_margin{margin-right:10px}
+        .small_horizontal_padding{padding-left:5px;padding-right:5px}
+        .medium_vertical_padding{padding-top:10px;padding-bottom:10px}
+        .inline_block{display:inline-block}
+
+        /* Basic form styling */
+        .co_form_input{padding:5px;border:1px solid #ccc}
+        .remove_reservation{background:#f00;color:#fff;border:none;padding:5px 10px;cursor:pointer}
+    </style>
+</head>
+<body class="cwv-registration-page">
+    <h2>Test: CMS Reservation Structure</h2>
+
+    <!-- Exact CMS HTML structure -->
+    <div class="reservations">
+        <!-- Header row (should be hidden) -->
+        <div class="clearfix medium_top_margin">
+            <div class="bold g20 small_right_padding right_margin">&nbsp;</div>
+            <div class="bold g120 no_margin small_right_padding">First Name</div>
+            <div class="bold g140 no_margin small_right_padding">Last Name</div>
+            <div class="bold g100 no_margin">Category</div>
+            <div class="bold inline_block small_horizontal_padding">Price</div>
+        </div>
+
+        <!-- Reservation row 1 -->
+        <div id="reservation_res1" class="clearfix reservation small_top_margin">
+            <div class="clearfix medium_vertical_padding">
+                <div class="bold g20 float_left small_top_margin small_right_padding right_margin">1</div>
+                <div class="g120 no_margin small_right_padding">
+                    <input name="firstname_res1" value="" class="co_form_input" placeholder="First Name">
+                </div>
+                <div class="g140 no_margin small_right_padding">
+                    <input name="lastname_res1" value="" class="co_form_input" placeholder="Last Name">
+                </div>
+                <div class="seat_selection bold g220 no_margin"></div>
+                <div class="g100 no_margin small_top_margin">Preferred eating</div>
+                <div class="g40 no_margin float_right">
+                    <button class="remove_reservation">×</button>
+                </div>
+                <div class="inline_block small_horizontal_padding small_top_margin price-display">$ 40.00</div>
+            </div>
+            <div class="embedded_form clearfix"></div>
+        </div>
+
+        <!-- Reservation row 2 -->
+        <div id="reservation_res2" class="clearfix reservation small_top_margin">
+            <div class="clearfix medium_vertical_padding">
+                <div class="bold g20 float_left small_top_margin small_right_padding right_margin">2</div>
+                <div class="g120 no_margin small_right_padding">
+                    <input name="firstname_res2" value="" class="co_form_input" placeholder="First Name">
+                </div>
+                <div class="g140 no_margin small_right_padding">
+                    <input name="lastname_res2" value="" class="co_form_input" placeholder="Last Name">
+                </div>
+                <div class="seat_selection bold g220 no_margin"></div>
+                <div class="g100 no_margin small_top_margin">VIP Meet &amp; Greet 5:45</div>
+                <div class="g40 no_margin float_right">
+                    <button class="remove_reservation">×</button>
+                </div>
+                <div class="inline_block small_horizontal_padding small_top_margin price-display">$ 125.00</div>
+            </div>
+            <div class="embedded_form clearfix"></div>
+        </div>
+    </div>
+
+    <hr>
+    <h3>With Our CSS Applied:</h3>
+    <button onclick="applyOurCSS()">Apply Our CSS</button>
+    <button onclick="location.reload()">Reset</button>
+
+    <script>
+    function applyOurCSS() {
+        var css = `
+/* =====================================================
+   MOCKUP B STYLE - Table-like layout with header row
+   ===================================================== */
+
+/* SHOW header row - style it properly */
+.cwv-registration-page .reservations > .clearfix.medium_top_margin {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.5rem 1rem !important;
+    border-bottom: 1px solid #e8e8e4 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin::after,
+.cwv-registration-page .reservations > .clearfix.medium_top_margin::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* Header cells styling */
+.cwv-registration-page .reservations > .clearfix.medium_top_margin > div {
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #7a7a72 !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin .g20 {
+    flex: 0 0 40px !important;
+    text-align: center !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin .g120 {
+    flex: 1 1 200px !important;
+    max-width: 250px !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin .g140 {
+    flex: 1 1 200px !important;
+    max-width: 250px !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin .g100 {
+    flex: 0 0 120px !important;
+}
+
+.cwv-registration-page .reservations > .clearfix.medium_top_margin .inline_block {
+    flex: 0 0 80px !important;
+}
+
+/* Reservation row - subtle gray left border, no card style */
+.cwv-registration-page .reservation {
+    background: #fff !important;
+    border: none !important;
+    border-left: 3px solid #e8e8e4 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 0.5rem 0 !important;
+    position: relative !important;
+    float: none !important;
+    clear: both !important;
+}
+
+.cwv-registration-page .reservation:hover {
+    border-left-color: #C9A227 !important;
+    background: #fffdf7 !important;
+}
+
+/* Inner row - flex layout */
+.cwv-registration-page .reservation > div.clearfix {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.cwv-registration-page .reservation > .clearfix::after,
+.cwv-registration-page .reservation > .clearfix::before {
+    display: none !important;
+    content: none !important;
+}
+
+/* Reset ALL CMS widths and floats */
+.cwv-registration-page .reservation .g20,
+.cwv-registration-page .reservation .g40,
+.cwv-registration-page .reservation .g100,
+.cwv-registration-page .reservation .g120,
+.cwv-registration-page .reservation .g140,
+.cwv-registration-page .reservation .g220,
+.cwv-registration-page .reservation .float_left,
+.cwv-registration-page .reservation .float_right,
+.cwv-registration-page .reservation .price-display {
+    float: none !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Row number - plain text, not circle */
+.cwv-registration-page .reservation .g20 {
+    order: 1 !important;
+    flex: 0 0 40px !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    color: #4a4a45 !important;
+    font-size: 0.95rem !important;
+}
+
+/* First Name - WIDER */
+.cwv-registration-page .reservation .g120 {
+    order: 2 !important;
+    flex: 1 1 200px !important;
+    max-width: 250px !important;
+}
+
+/* Last Name - WIDER */
+.cwv-registration-page .reservation .g140 {
+    order: 3 !important;
+    flex: 1 1 200px !important;
+    max-width: 250px !important;
+}
+
+/* Category badge */
+.cwv-registration-page .reservation .g100 {
+    order: 4 !important;
+    flex: 0 0 120px !important;
+    background: #F5EED6 !important;
+    color: #A68A1F !important;
+    padding: 0.35rem 0.6rem !important;
+    border-radius: 4px !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Price */
+.cwv-registration-page .reservation .price-display {
+    order: 5 !important;
+    flex: 0 0 80px !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    color: #1f1f1c !important;
+}
+
+/* Delete button - inline after price, not far right */
+.cwv-registration-page .reservation .g40 {
+    order: 6 !important;
+    flex: 0 0 auto !important;
+    margin-left: 0.5rem !important;
+}
+
+.cwv-registration-page .reservation .remove_reservation {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    color: #7a7a72 !important;
+    border: none !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.cwv-registration-page .reservation .remove_reservation:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+/* Hide seat selection */
+.cwv-registration-page .reservation .seat_selection,
+.cwv-registration-page .reservation .g220,
+.cwv-registration-page .reservation .embedded_form {
+    display: none !important;
+}
+
+/* Input styling - cleaner, wider */
+.cwv-registration-page .reservation input.co_form_input {
+    padding: 0.6rem 0.85rem !important;
+    border: 1px solid #e8e8e4 !important;
+    border-radius: 6px !important;
+    background: #f7f7f5 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    font-size: 0.9rem !important;
+}
+
+.cwv-registration-page .reservation input.co_form_input:focus {
+    border-color: #C9A227 !important;
+    background: #fff !important;
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.2) !important;
+}
+        `;
+        var style = document.createElement('style');
+        style.textContent = css;
+        document.head.appendChild(style);
+        console.log('CSS applied!');
+    }
+    </script>
+</body>
+</html>

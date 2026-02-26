@@ -46,43 +46,35 @@
                 pricing: ''
             };
 
-            // Extract #LOCATION: marker
-            var locationMatch = text.match(/#LOCATION:\s*(.+?)(?=#DATETIME:|#PRICING:|$)/i);
+            // Extract #LOCATION: marker (use [\s\S] to match across newlines)
+            var locationMatch = text.match(/#LOCATION:\s*([\s\S]+?)(?=\s*#DATETIME:|\s*#PRICING:|$)/i);
             if (locationMatch) {
                 result.location = locationMatch[1].trim();
-                result.description = result.description.replace(/#LOCATION:\s*.+?(?=#DATETIME:|#PRICING:|$)/i, '');
+                result.description = result.description.replace(/#LOCATION:\s*[\s\S]+?(?=\s*#DATETIME:|\s*#PRICING:|$)/i, '');
             }
 
-            // Extract #DATETIME: marker (with case break detection)
-            var datetimeMatch = text.match(/#DATETIME:\s*(.+?)(?=#LOCATION:|#PRICING:|$)/i);
+            // Extract #DATETIME: marker (use [\s\S] to match across newlines)
+            var datetimeMatch = text.match(/#DATETIME:\s*([\s\S]+?)(?=\s*#LOCATION:|\s*#PRICING:|$)/i);
             if (datetimeMatch) {
-                var rawDatetime = datetimeMatch[1].trim();
-                var caseBreak = rawDatetime.match(/^(.+?[a-z])([A-Z].*)$/);
-                if (caseBreak) {
-                    result.datetime = caseBreak[1].trim();
-                    result.description = result.description.replace(/#DATETIME:\s*.+?(?=#LOCATION:|#PRICING:|$)/i, caseBreak[2]);
-                } else {
-                    result.datetime = rawDatetime;
-                    result.description = result.description.replace(/#DATETIME:\s*.+?(?=#LOCATION:|#PRICING:|$)/i, '');
-                }
+                result.datetime = datetimeMatch[1].trim();
+                result.description = result.description.replace(/#DATETIME:\s*[\s\S]+?(?=\s*#LOCATION:|\s*#PRICING:|$)/i, '');
             }
 
-            // Extract #PRICING: marker (with case break detection for prices)
+            // Extract #PRICING: marker
             var pricingMatch = text.match(/#PRICING:\s*([^\n#]+)/i);
             if (pricingMatch) {
-                var rawPricing = pricingMatch[1].trim();
-                var caseBreak = rawPricing.match(/^(.+?(?:\$\d+(?:\.\d{2})?))([A-Z].*)$/);
-                if (caseBreak) {
-                    result.pricing = caseBreak[1].trim();
-                    result.description = result.description.replace(/#PRICING:\s*[^\n#]+/i, ' ' + caseBreak[2]);
-                } else {
-                    result.pricing = rawPricing;
-                    result.description = result.description.replace(/#PRICING:\s*[^\n#]+/i, '');
-                }
+                result.pricing = pricingMatch[1].trim();
+                result.description = result.description.replace(/#PRICING:\s*[^\n#]+/i, '');
             }
 
-            // Clean up description
-            result.description = result.description.replace(/[\s\n]+$/, '').trim();
+            // Clean up description - preserve paragraphs
+            result.description = result.description
+                .replace(/\n{3,}/g, '\n\n')  // Normalize multiple breaks to double
+                .replace(/\n\n/g, '{{PARA}}')  // Mark paragraph breaks
+                .replace(/\n/g, ' ')  // Single newlines become spaces
+                .replace(/\s+/g, ' ')  // Collapse multiple spaces
+                .replace(/\{\{PARA\}\}/g, '<br><br>')  // Restore paragraph breaks
+                .trim();
             return result;
         }
 
@@ -103,12 +95,17 @@
             var parsedData = { description: '', location: '', datetime: '', pricing: '' };
 
             if (eventDescription) {
-                var originalText = eventDescription.textContent || eventDescription.innerText;
+                // Use innerHTML to preserve <br> tags, then convert to newlines for parsing
+                var originalHtml = eventDescription.innerHTML || '';
+                var originalText = originalHtml
+                    .replace(/<br\s*\/?>/gi, '\n')  // Convert <br> to newlines
+                    .replace(/<[^>]*>/g, '')  // Strip other HTML tags
+                    .trim();
                 parsedData = parseMarkers(originalText);
 
                 // Update description text (remove markers) if we found any
                 if (parsedData.location || parsedData.datetime || parsedData.pricing) {
-                    eventDescription.textContent = parsedData.description;
+                    eventDescription.innerHTML = parsedData.description;
                     console.log('✅ Markers found in description:', parsedData);
                 }
             }
@@ -117,11 +114,16 @@
             if (!parsedData.location && !parsedData.datetime && !parsedData.pricing) {
                 var reservationOverview = document.querySelector('#Performances > .regular, .hide_titles > .regular');
                 if (reservationOverview) {
-                    var overviewText = reservationOverview.textContent || '';
+                    // Use innerHTML to preserve <br> tags
+                    var overviewHtml = reservationOverview.innerHTML || '';
+                    var overviewText = overviewHtml
+                        .replace(/<br\s*\/?>/gi, '\n')
+                        .replace(/<[^>]*>/g, '')
+                        .trim();
                     if (overviewText.includes('#LOCATION:') || overviewText.includes('#DATETIME:') || overviewText.includes('#PRICING:')) {
                         var fallbackData = parseMarkers(overviewText);
                         if (fallbackData.location || fallbackData.datetime || fallbackData.pricing) {
-                            reservationOverview.textContent = fallbackData.description;
+                            reservationOverview.innerHTML = fallbackData.description;
                             parsedData = fallbackData;
                             console.log('✅ Markers found in reservation overview:', parsedData);
                         }
@@ -207,14 +209,60 @@
                 cardsGrid.appendChild(dateCard);
             }
 
-            // Pricing card (only if marker was found)
+            // Pricing cards (individual cards for each price tier)
             if (pricingData) {
-                var priceCard = document.createElement('div');
-                priceCard.className = 'pv-info-card';
-                priceCard.innerHTML = '<div class="pv-info-icon">' + singleEventIcons.pricing + '</div>' +
-                    '<div class="pv-info-text"><span class="pv-card-label">PRICING</span>' +
-                    '<div class="pv-info-content">' + pricingData + '</div></div>';
-                cardsGrid.appendChild(priceCard);
+                // Parse pipe-separated prices
+                var priceItems = [];
+                if (pricingData.indexOf('|') !== -1) {
+                    var segments = pricingData.split('|');
+                    segments.forEach(function(segment) {
+                        segment = segment.trim();
+                        // Match "Label $XX" pattern
+                        var priceMatch = segment.match(/^(.+?)\s*\$(\d+(?:,\d{3})*(?:-\$?\d+(?:,\d{3})*)?)/);
+                        if (priceMatch) {
+                            priceItems.push({
+                                label: priceMatch[1].trim(),
+                                amount: '$' + priceMatch[2]
+                            });
+                        }
+                    });
+                } else {
+                    // Single price
+                    var singleMatch = pricingData.match(/^(.+?)\s*\$(\d+(?:,\d{3})*)/);
+                    if (singleMatch) {
+                        priceItems.push({
+                            label: singleMatch[1].trim() || 'Ticket',
+                            amount: '$' + singleMatch[2]
+                        });
+                    }
+                }
+
+                // Create pricing grid container
+                if (priceItems.length > 0) {
+                    var pricingGrid = document.createElement('div');
+                    pricingGrid.className = 'pv-pricing-cards-grid';
+                    pricingGrid.style.cssText = 'display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1rem; width: 100%;';
+
+                    priceItems.forEach(function(item) {
+                        var priceCard = document.createElement('div');
+                        priceCard.className = 'pv-price-card';
+                        priceCard.style.cssText = 'background: #fff; border: 2px solid #E67E22; border-radius: 12px; padding: 0.75rem 1.25rem; text-align: center; min-width: 100px; flex: 0 1 auto;';
+                        priceCard.innerHTML =
+                            '<div style="font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem;">' + item.label + '</div>' +
+                            '<div style="font-size: 1.5rem; font-weight: 700; color: #E67E22;">' + item.amount + '</div>';
+                        pricingGrid.appendChild(priceCard);
+                    });
+
+                    newWrapper.appendChild(pricingGrid);
+                } else {
+                    // Fallback: show raw text if parsing failed
+                    var priceCard = document.createElement('div');
+                    priceCard.className = 'pv-info-card';
+                    priceCard.innerHTML = '<div class="pv-info-icon">' + singleEventIcons.pricing + '</div>' +
+                        '<div class="pv-info-text"><span class="pv-card-label">PRICING</span>' +
+                        '<div class="pv-info-content">' + pricingData + '</div></div>';
+                    cardsGrid.appendChild(priceCard);
+                }
             }
 
             newWrapper.appendChild(cardsGrid);
@@ -268,17 +316,544 @@
             });
         }
 
+        // =========================================================
+        // FIX RESERVATION ROW LAYOUT - Apply flex via JS (responsive)
+        // ACTUAL DOM STRUCTURE (from extension inspection):
+        // .reservation > .clearfix.medium_vertical_padding
+        //   ├── .bold.inline_block (row number "1")
+        //   ├── .float_right.medium_horizontal_padding
+        //   │     ├── .inline_block (category "Day of Event")
+        //   │     ├── .inline_block.price-display (price "$ 35.00")
+        //   │     └── button.remove_reservation (delete "×")
+        //   └── .clearfix.small_top_padding.small_horizontal_padding
+        //         ├── .inline_block > input (first name)
+        //         ├── .inline_block > input (last name)
+        //         ├── .seat_selection.inline_block
+        //         └── .embedded_form.clearfix
+        // =========================================================
+        function fixReservationLayout() {
+            console.log('🔧 fixReservationLayout() called');
+
+            var isMobile = window.innerWidth < 768;
+            console.log('🔧 isMobile:', isMobile, 'width:', window.innerWidth);
+
+            // Find all reservation rows
+            var reservations = document.querySelectorAll('.reservation');
+            console.log('🔧 Found', reservations.length, 'reservations');
+
+            if (reservations.length === 0) return;
+
+            reservations.forEach(function(reservation, resIndex) {
+                // Style the reservation container
+                reservation.style.setProperty('width', '100%', 'important');
+                reservation.style.setProperty('max-width', '100%', 'important');
+                reservation.style.setProperty('box-sizing', 'border-box', 'important');
+                reservation.style.setProperty('overflow', 'hidden', 'important');
+
+                // Find the main content row
+                var contentRow = reservation.querySelector('.clearfix.medium_vertical_padding');
+                if (!contentRow) {
+                    console.log('  ❌ No content row in reservation', resIndex);
+                    return;
+                }
+
+                // Find the key elements
+                var rowNumber = contentRow.querySelector(':scope > .bold.inline_block');
+                var floatRight = contentRow.querySelector(':scope > .float_right');
+                var inputsContainer = contentRow.querySelector(':scope > .clearfix.small_top_padding');
+
+                console.log('  Reservation', resIndex, '- rowNum:', !!rowNumber, 'floatRight:', !!floatRight, 'inputs:', !!inputsContainer);
+
+                if (isMobile) {
+                    // === MOBILE LAYOUT ===
+                    reservation.style.setProperty('position', 'relative', 'important');
+                    reservation.style.setProperty('padding', '1rem', 'important');
+                    reservation.style.setProperty('margin-bottom', '1rem', 'important');
+                    reservation.style.setProperty('border', '1px solid #e0e0e0', 'important');
+                    reservation.style.setProperty('border-radius', '12px', 'important');
+                    reservation.style.setProperty('background', '#fafafa', 'important');
+
+                    // Content row - stack vertically
+                    contentRow.style.setProperty('display', 'flex', 'important');
+                    contentRow.style.setProperty('flex-direction', 'column', 'important');
+                    contentRow.style.setProperty('gap', '0.75rem', 'important');
+                    contentRow.style.setProperty('width', '100%', 'important');
+
+                    // Hide row number on mobile
+                    if (rowNumber) {
+                        rowNumber.style.setProperty('display', 'none', 'important');
+                    }
+
+                    // Float right section (category, price, delete) - make it a row at top
+                    if (floatRight) {
+                        floatRight.style.setProperty('float', 'none', 'important');
+                        floatRight.style.setProperty('display', 'flex', 'important');
+                        floatRight.style.setProperty('flex-wrap', 'wrap', 'important');
+                        floatRight.style.setProperty('align-items', 'center', 'important');
+                        floatRight.style.setProperty('gap', '0.5rem', 'important');
+                        floatRight.style.setProperty('order', '1', 'important');
+                        floatRight.style.setProperty('width', '100%', 'important');
+                        floatRight.style.setProperty('padding', '0', 'important');
+                        floatRight.style.setProperty('margin', '0', 'important');
+
+                        // Style children of float_right
+                        var floatChildren = floatRight.children;
+                        for (var i = 0; i < floatChildren.length; i++) {
+                            var child = floatChildren[i];
+                            child.style.setProperty('float', 'none', 'important');
+                            child.style.setProperty('display', 'inline-block', 'important');
+
+                            // Delete button - position absolute top right
+                            if (child.classList.contains('remove_reservation')) {
+                                child.style.setProperty('position', 'absolute', 'important');
+                                child.style.setProperty('top', '0.5rem', 'important');
+                                child.style.setProperty('right', '0.5rem', 'important');
+                            }
+                        }
+                    }
+
+                    // Inputs container - full width, stack
+                    if (inputsContainer) {
+                        inputsContainer.style.setProperty('float', 'none', 'important');
+                        inputsContainer.style.setProperty('display', 'flex', 'important');
+                        inputsContainer.style.setProperty('flex-direction', 'column', 'important');
+                        inputsContainer.style.setProperty('gap', '0.5rem', 'important');
+                        inputsContainer.style.setProperty('order', '2', 'important');
+                        inputsContainer.style.setProperty('width', '100%', 'important');
+                        inputsContainer.style.setProperty('padding', '0', 'important');
+                        inputsContainer.style.setProperty('clear', 'none', 'important');
+
+                        // Style input wrappers - MUST set order and flex to override CSS
+                        var inputWrappers = inputsContainer.querySelectorAll(':scope > .inline_block');
+                        inputWrappers.forEach(function(wrapper, idx) {
+                            wrapper.style.setProperty('display', 'block', 'important');
+                            wrapper.style.setProperty('width', '100%', 'important');
+                            wrapper.style.setProperty('margin', '0', 'important');
+                            // Override any flex-basis that might create gaps
+                            wrapper.style.setProperty('flex', '0 0 auto', 'important');
+                            wrapper.style.setProperty('height', 'auto', 'important');
+                            // First Name = order 1, Last Name = order 2, seat_selection = order 3
+                            wrapper.style.setProperty('order', String(idx + 1), 'important');
+
+                            var input = wrapper.querySelector('input');
+                            if (input) {
+                                input.style.setProperty('width', '100%', 'important');
+                                input.style.setProperty('max-width', '100%', 'important');
+                                input.style.setProperty('box-sizing', 'border-box', 'important');
+                            }
+                        });
+
+                        // Hide seat selection
+                        var seatSelection = inputsContainer.querySelector('.seat_selection');
+                        if (seatSelection) {
+                            seatSelection.style.setProperty('display', 'none', 'important');
+                        }
+
+                        // Embedded form (birth date, email) - full width, comes AFTER name inputs
+                        var embeddedForm = inputsContainer.querySelector('.embedded_form');
+                        if (embeddedForm) {
+                            embeddedForm.style.setProperty('width', '100%', 'important');
+                            embeddedForm.style.setProperty('max-width', '100%', 'important');
+                            embeddedForm.style.setProperty('clear', 'none', 'important');
+                            embeddedForm.style.setProperty('float', 'none', 'important');
+                            embeddedForm.style.setProperty('order', '10', 'important'); // After name inputs
+                        }
+                    }
+
+                } else {
+                    // === DESKTOP LAYOUT ===
+                    // Clear any mobile styles - let CSS handle desktop layout
+                    reservation.style.cssText = '';
+                    contentRow.style.cssText = '';
+
+                    // Clear styles from all children to let CSS flex layout work
+                    var allChildren = contentRow.querySelectorAll('*');
+                    allChildren.forEach(function(child) {
+                        // Only clear styles we might have set
+                        child.style.removeProperty('order');
+                        child.style.removeProperty('float');
+                        child.style.removeProperty('position');
+                        child.style.removeProperty('top');
+                        child.style.removeProperty('right');
+                        child.style.removeProperty('flex-direction');
+                        child.style.removeProperty('flex-wrap');
+                        child.style.removeProperty('gap');
+                    });
+                }
+            });
+
+            console.log('✅ Reservation layout fix applied');
+        }
+
+        // =========================================================
+        // FIX BIRTH DATE / EMAIL LAYOUT - Make horizontal (responsive)
+        // The form uses: ul.form-section > li.form-line elements
+        // Birth date structure: li > .form-input > .dir_ltr > span.form-sub-label-container
+        // =========================================================
+        function fixEmbeddedFormLayout() {
+            console.log('🎂 fixEmbeddedFormLayout() called');
+
+            var isMobile = window.innerWidth < 768;
+            console.log('🎂 isMobile:', isMobile, 'width:', window.innerWidth);
+
+            // Find all form lines
+            var formLines = document.querySelectorAll('.form-line, li.form-line');
+            console.log('🎂 Found', formLines.length, 'form lines');
+
+            formLines.forEach(function(li, liIndex) {
+                var selects = li.querySelectorAll('select');
+                var textInputs = li.querySelectorAll('input[type="text"], input[type="email"]');
+
+                // Check if this is a birth date field (has 3+ selects for Month/Day/Year)
+                if (selects.length >= 3) {
+                    console.log('  🎂 Li', liIndex, 'is birth date field with', selects.length, 'selects');
+
+                    // Find the .dir_ltr container that holds the dropdowns
+                    var dirLtr = li.querySelector('.dir_ltr');
+                    if (dirLtr) {
+                        console.log('    ✅ Found .dir_ltr container');
+                        dirLtr.style.setProperty('display', 'flex', 'important');
+                        dirLtr.style.setProperty('align-items', 'flex-start', 'important');
+
+                        if (isMobile) {
+                            // Stack vertically on mobile
+                            dirLtr.style.setProperty('flex-direction', 'column', 'important');
+                            dirLtr.style.setProperty('flex-wrap', 'wrap', 'important');
+                            dirLtr.style.setProperty('gap', '0.5rem', 'important');
+                        } else {
+                            // Horizontal on desktop
+                            dirLtr.style.setProperty('flex-direction', 'row', 'important');
+                            dirLtr.style.setProperty('flex-wrap', 'nowrap', 'important');
+                            dirLtr.style.setProperty('gap', '0.75rem', 'important');
+                        }
+                    }
+
+                    // Also style the .form-input wrapper
+                    var formInput = li.querySelector('.form-input');
+                    if (formInput) {
+                        console.log('    ✅ Found .form-input container');
+                        formInput.style.setProperty('display', 'block', 'important');
+                        formInput.style.setProperty('width', '100%', 'important');
+                        formInput.style.setProperty('max-width', '100%', 'important');
+                        formInput.style.setProperty('overflow', 'hidden', 'important');
+                    }
+
+                    // Style each sub-label-container
+                    var subContainers = li.querySelectorAll('.form-sub-label-container');
+                    console.log('    Found', subContainers.length, 'sub-containers');
+
+                    subContainers.forEach(function(container, i) {
+                        container.style.setProperty('display', 'inline-flex', 'important');
+                        container.style.setProperty('flex-direction', 'column', 'important');
+                        container.style.setProperty('align-items', 'flex-start', 'important');
+                        container.style.setProperty('margin-right', '0', 'important');
+
+                        if (isMobile) {
+                            container.style.setProperty('width', '100%', 'important');
+                            container.style.setProperty('margin-bottom', '0.5rem', 'important');
+                        } else {
+                            container.style.setProperty('width', 'auto', 'important');
+                            container.style.setProperty('margin-bottom', '0', 'important');
+                        }
+                        console.log('      Styled sub-container', i);
+                    });
+
+                    // Style selects within birth date
+                    selects.forEach(function(select) {
+                        select.style.setProperty('box-sizing', 'border-box', 'important');
+                        if (isMobile) {
+                            select.style.setProperty('width', '100%', 'important');
+                            select.style.setProperty('max-width', '100%', 'important');
+                        }
+                    });
+
+                    // Style the form-line itself
+                    li.style.setProperty('display', 'block', 'important');
+                    li.style.setProperty('clear', 'both', 'important');
+                    li.style.setProperty('width', '100%', 'important');
+                    li.style.setProperty('max-width', '100%', 'important');
+                    li.style.setProperty('margin-bottom', '1rem', 'important');
+                    li.style.setProperty('overflow', 'hidden', 'important');
+
+                } else if (textInputs.length > 0) {
+                    // This is an email/text field - style it nicely
+                    console.log('  📧 Li', liIndex, 'is text/email field');
+
+                    // Style the form-line as a clean block
+                    li.style.setProperty('display', 'block', 'important');
+                    li.style.setProperty('clear', 'both', 'important');
+                    li.style.setProperty('width', '100%', 'important');
+                    li.style.setProperty('max-width', '100%', 'important');
+                    li.style.setProperty('margin-bottom', '1rem', 'important');
+                    li.style.setProperty('padding', '0.5rem 0', 'important');
+                    li.style.setProperty('overflow', 'hidden', 'important');
+
+                    // Style the label
+                    var labels = li.querySelectorAll('.form-label-left, .form-label-top, label.form-label');
+                    labels.forEach(function(label) {
+                        label.style.setProperty('display', 'block', 'important');
+                        label.style.setProperty('margin-bottom', '0.5rem', 'important');
+                        label.style.setProperty('font-weight', '600', 'important');
+                        label.style.setProperty('color', '#333', 'important');
+                    });
+
+                    // Style the input wrapper
+                    var formInput = li.querySelector('.form-input');
+                    if (formInput) {
+                        formInput.style.setProperty('display', 'block', 'important');
+                        formInput.style.setProperty('width', '100%', 'important');
+                        formInput.style.setProperty('max-width', '100%', 'important');
+                    }
+
+                    // Style text inputs
+                    textInputs.forEach(function(input) {
+                        input.style.setProperty('width', '100%', 'important');
+                        input.style.setProperty('box-sizing', 'border-box', 'important');
+                        input.style.setProperty('padding', '0.75rem 1rem', 'important');
+                        input.style.setProperty('border', '2px solid #999', 'important');
+                        input.style.setProperty('border-radius', '10px', 'important');
+                        input.style.setProperty('font-size', '1rem', 'important');
+                        input.style.setProperty('background', '#fff', 'important');
+
+                        if (isMobile) {
+                            input.style.setProperty('max-width', '100%', 'important');
+                        } else {
+                            input.style.setProperty('max-width', '400px', 'important');
+                        }
+                    });
+
+                    // Style label messages (helper text)
+                    var labelMessages = li.querySelectorAll('.label-message');
+                    labelMessages.forEach(function(msg) {
+                        msg.style.setProperty('display', 'block', 'important');
+                        msg.style.setProperty('margin-top', '0.25rem', 'important');
+                        msg.style.setProperty('font-size', '0.85rem', 'important');
+                        msg.style.setProperty('color', '#666', 'important');
+                        msg.style.setProperty('font-style', 'italic', 'important');
+                    });
+                }
+            });
+
+            // Also find embedded forms directly (in case structure is different)
+            var embeddedForms = document.querySelectorAll('.embedded_form .form-all');
+            embeddedForms.forEach(function(form) {
+                // Style the form-section as block (don't force flex on parent)
+                var formSection = form.querySelector('.form-section, ul.form-section');
+                if (formSection) {
+                    formSection.style.setProperty('display', 'block', 'important');
+                    formSection.style.setProperty('list-style', 'none', 'important');
+                    formSection.style.setProperty('padding', '0', 'important');
+                    formSection.style.setProperty('margin', '0', 'important');
+                    formSection.style.setProperty('width', '100%', 'important');
+                    formSection.style.setProperty('max-width', '100%', 'important');
+                }
+            });
+
+            console.log('✅ Form section styling applied');
+        }
+
+        // =========================================================
+        // ADD ICONS TO SECTION TITLES
+        // Adds SVG icons to "Your Information" and "Payment Information"
+        // =========================================================
+        function addSectionIcons() {
+            console.log('🎨 addSectionIcons() called');
+
+            // Define icons for each section
+            var sectionIcons = {
+                'ReserversInformation': {
+                    name: 'Your Information',
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
+                },
+                'Payment': {
+                    name: 'Payment Information',
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>'
+                },
+                'Summary': {
+                    name: 'Summary',
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>'
+                }
+            };
+
+            Object.keys(sectionIcons).forEach(function(sectionId) {
+                var section = document.getElementById(sectionId);
+                if (!section) return;
+
+                // Find the title element
+                var titleEl = section.querySelector('.title.large span.bold, .title span.bold, .clearfix.title span.bold');
+                if (!titleEl) {
+                    titleEl = section.querySelector('.title.large, .clearfix.title.large');
+                }
+                if (!titleEl) return;
+
+                // Check if icon already added
+                if (titleEl.parentElement.querySelector('.pv-section-icon')) return;
+
+                var config = sectionIcons[sectionId];
+                console.log('  Adding icon to', sectionId);
+
+                // Create icon wrapper
+                var iconWrapper = document.createElement('span');
+                iconWrapper.className = 'pv-section-icon';
+                iconWrapper.innerHTML = config.icon;
+                iconWrapper.style.cssText = 'display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; min-width: 32px; background: rgba(230, 126, 34, 0.1); border-radius: 8px; margin-right: 12px; vertical-align: middle;';
+
+                // Style the SVG inside
+                var svg = iconWrapper.querySelector('svg');
+                if (svg) {
+                    svg.style.cssText = 'width: 18px; height: 18px; color: #E67E22; stroke: #E67E22;';
+                }
+
+                // Insert icon before title text
+                if (titleEl.tagName === 'SPAN') {
+                    titleEl.parentElement.insertBefore(iconWrapper, titleEl);
+                    // Also style the title container
+                    titleEl.parentElement.style.cssText = 'display: flex !important; align-items: center !important;';
+                } else {
+                    titleEl.insertBefore(iconWrapper, titleEl.firstChild);
+                    titleEl.style.cssText = 'display: flex !important; align-items: center !important;';
+                }
+            });
+
+            console.log('✅ Section icons added');
+        }
+
+        // =========================================================
+        // AUTO-POPULATE YOUR INFORMATION FROM RESERVATION
+        // Copies first/last name from first reservation to billing info
+        // Also sets country to United States by default
+        // =========================================================
+        function autoPopulateYourInformation() {
+            console.log('🔄 autoPopulateYourInformation() called');
+
+            // Flag to track if we've already populated (don't overwrite user edits)
+            var hasPopulated = {
+                firstName: false,
+                lastName: false,
+                country: false
+            };
+
+            // Find Your Information section fields
+            var reserversSection = document.querySelector('#ReserversInformation');
+            if (!reserversSection) {
+                console.log('  ❌ ReserversInformation section not found');
+                return;
+            }
+
+            // Find the Your Information input fields by common patterns
+            var yourFirstName = reserversSection.querySelector('input[name*="firstName"], input[id*="FirstName"], input[name*="first_name"]');
+            var yourLastName = reserversSection.querySelector('input[name*="lastName"], input[id*="LastName"], input[name*="last_name"]');
+            var yourCountry = reserversSection.querySelector('select[name*="country"], select[id*="Country"]');
+
+            console.log('  📋 Your Info fields - firstName:', !!yourFirstName, 'lastName:', !!yourLastName, 'country:', !!yourCountry);
+
+            // Set default country to United States if empty
+            if (yourCountry && !yourCountry.value) {
+                // Try common values for United States
+                var usValues = ['United States', 'US', 'USA', 'United States of America'];
+                var options = yourCountry.options;
+
+                for (var i = 0; i < options.length; i++) {
+                    var optText = options[i].text.trim();
+                    var optVal = options[i].value.trim();
+
+                    if (usValues.indexOf(optText) !== -1 || usValues.indexOf(optVal) !== -1) {
+                        yourCountry.value = options[i].value;
+                        yourCountry.dispatchEvent(new Event('change', { bubbles: true }));
+                        hasPopulated.country = true;
+                        console.log('  🌍 Country set to:', optText);
+                        break;
+                    }
+                }
+            }
+
+            // Function to copy value from reservation to Your Information
+            function copyToYourInfo(sourceInput, targetInput, fieldName) {
+                if (!sourceInput || !targetInput) return;
+
+                // Listen for blur (when user leaves field) and input events
+                sourceInput.addEventListener('blur', function() {
+                    var value = sourceInput.value.trim();
+
+                    // Only populate if target is empty and source has value
+                    if (value && !targetInput.value.trim() && !hasPopulated[fieldName]) {
+                        targetInput.value = value;
+                        targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+                        hasPopulated[fieldName] = true;
+                        console.log('  ✅ Auto-populated', fieldName, ':', value);
+                    }
+                });
+
+                // Also listen for changes in case populated programmatically
+                sourceInput.addEventListener('change', function() {
+                    var value = sourceInput.value.trim();
+
+                    if (value && !targetInput.value.trim() && !hasPopulated[fieldName]) {
+                        targetInput.value = value;
+                        targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                        targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+                        hasPopulated[fieldName] = true;
+                        console.log('  ✅ Auto-populated', fieldName, ':', value);
+                    }
+                });
+            }
+
+            // Set up listener for first reservation row
+            function setupReservationListeners() {
+                // Find first reservation's name inputs
+                // Pattern: input[name="firstname_res1"] or input[id*="firstName"]
+                var firstResFirstName = document.querySelector('.reservation input[name^="firstname"], .reservation input[id*="firstName"]');
+                var firstResLastName = document.querySelector('.reservation input[name^="lastname"], .reservation input[id*="lastName"]');
+
+                console.log('  📝 Reservation inputs - firstName:', !!firstResFirstName, 'lastName:', !!firstResLastName);
+
+                if (firstResFirstName && yourFirstName) {
+                    copyToYourInfo(firstResFirstName, yourFirstName, 'firstName');
+                }
+
+                if (firstResLastName && yourLastName) {
+                    copyToYourInfo(firstResLastName, yourLastName, 'lastName');
+                }
+            }
+
+            // Initial setup
+            setupReservationListeners();
+
+            // Also watch for new reservations being added (DOM changes)
+            var registerBody = document.querySelector('#RegisterBody');
+            if (registerBody) {
+                var observer = new MutationObserver(function(mutations) {
+                    // Check if new reservation was added
+                    mutations.forEach(function(mutation) {
+                        if (mutation.addedNodes.length > 0) {
+                            // Re-setup listeners after short delay for DOM to settle
+                            setTimeout(setupReservationListeners, 100);
+                        }
+                    });
+                });
+                observer.observe(registerBody, { childList: true, subtree: true });
+            }
+
+            console.log('✅ Auto-populate listeners set up');
+        }
+
         // Force form input styles
         function forceFormInputStyles() {
             // Only target inputs within the registration form, not the entire page
             var form = document.querySelector('form#RegisterSinglePage');
             if (!form) return;
 
+            var isMobile = window.innerWidth < 768;
+
             var inputs = form.querySelectorAll('input, select, textarea');
             inputs.forEach(function(input) {
                 if (input.type === 'hidden' || input.type === 'checkbox' || input.type === 'radio' ||
                     input.type === 'submit' || input.type === 'button' || input.type === 'image') return;
                 if (input.closest('nav, header, .nav, .header, .menu, #footer, .footer, .footer3')) return;
+
+                // Check if input is in a reservation row (has grid column parent)
+                var isInReservationGrid = input.closest('.g120, .g140, .g100');
 
                 input.style.setProperty('font-family', "'Inter', sans-serif", 'important');
                 input.style.setProperty('font-size', '1.1rem', 'important');
@@ -291,8 +866,16 @@
                 input.style.setProperty('box-sizing', 'border-box', 'important');
                 input.style.setProperty('background', '#ffffff', 'important');
                 input.style.setProperty('box-shadow', 'inset 0 1px 3px rgba(0,0,0,0.1)', 'important');
-                input.style.setProperty('width', '100%', 'important');
-                input.style.setProperty('max-width', '100%', 'important');
+
+                // Only set 100% width on mobile OR for non-reservation inputs
+                if (isMobile || !isInReservationGrid) {
+                    input.style.setProperty('width', '100%', 'important');
+                    input.style.setProperty('max-width', '100%', 'important');
+                } else {
+                    // Desktop reservation inputs - let CSS handle width
+                    input.style.removeProperty('width');
+                    input.style.removeProperty('max-width');
+                }
 
                 if (input.tagName === 'TEXTAREA') {
                     input.style.setProperty('min-height', '100px', 'important');
@@ -625,17 +1208,29 @@
         stylePricingSection();
         removeDashedBorders();
         styleDeleteButtons();
+        addSectionIcons();
+        fixReservationLayout();
+        fixEmbeddedFormLayout();
         forceFormInputStyles();
+        autoPopulateYourInformation();
+        setTimeout(fixReservationLayout, 300);
+        setTimeout(fixReservationLayout, 800);
+        setTimeout(fixEmbeddedFormLayout, 500);
         setTimeout(forceFormInputStyles, 300);
         setTimeout(forceFormInputStyles, 800);
         setTimeout(forceFormInputStyles, 1500);
         setTimeout(forceFormInputStyles, 3000);
+        // Delayed auto-populate setup (wait for form sections to be visible)
+        setTimeout(autoPopulateYourInformation, 500);
+        setTimeout(autoPopulateYourInformation, 1500);
 
         // Watch for DOM changes
         var registerBody = document.querySelector('#RegisterBody');
         if (registerBody) {
             var observer = new MutationObserver(function() {
                 styleDeleteButtons();
+                fixReservationLayout();
+                fixEmbeddedFormLayout();
                 forceFormInputStyles();
             });
             observer.observe(registerBody, { childList: true, subtree: true });
@@ -661,6 +1256,19 @@
             });
             formObserver.observe(form, { childList: true, subtree: true });
         }
+
+        // =========================================================
+        // RESIZE LISTENER - Handle device rotation and window resize
+        // =========================================================
+        var resizeDebounce = null;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeDebounce);
+            resizeDebounce = setTimeout(function() {
+                console.log('📐 Window resized, re-applying responsive layouts');
+                fixReservationLayout();
+                fixEmbeddedFormLayout();
+            }, 150);
+        });
 
         console.log("✅ Paradise Valley Single Event styling applied!");
         return; // Don't run events listing code
@@ -689,11 +1297,10 @@
         if (!bottomPaddingEl) return { description: "", dateTime: [], location: [], pricing: [], other: [] };
 
         var html = bottomPaddingEl.innerHTML;
-        var lines = html.split(/<br\s*\/?>/gi).map(function(line) {
-            return line.replace(/<[^>]*>/g, "").trim();
-        }).filter(function(line) {
-            return line.length > 0;
-        });
+        var fullText = html.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]*>/g, '').trim();
+
+        console.log('📄 parseEventContent - RAW TEXT:', fullText);
+        console.log('📄 parseEventContent - HTML:', html.substring(0, 500));
 
         var result = {
             description: [],
@@ -702,6 +1309,62 @@
             pricing: [],
             other: []
         };
+
+        // =========================================================
+        // FIRST: Check for markers (#LOCATION:, #DATETIME:, #PRICING:)
+        // =========================================================
+        var hasMarkers = /#(LOCATION|DATETIME|PRICING):/i.test(fullText);
+        console.log('📄 hasMarkers:', hasMarkers);
+
+        if (hasMarkers) {
+            // Extract #LOCATION: marker (use [\s\S] for multiline instead of 's' flag)
+            var locationMatch = fullText.match(/#LOCATION:\s*([\s\S]+?)(?=#DATETIME:|#PRICING:|$)/i);
+            console.log('📄 locationMatch:', locationMatch);
+            if (locationMatch) {
+                result.location.push(locationMatch[1].trim());
+                fullText = fullText.replace(/#LOCATION:\s*[\s\S]+?(?=#DATETIME:|#PRICING:|$)/i, '');
+            }
+
+            // Extract #DATETIME: marker
+            var datetimeMatch = fullText.match(/#DATETIME:\s*([\s\S]+?)(?=#LOCATION:|#PRICING:|$)/i);
+            console.log('📄 datetimeMatch:', datetimeMatch);
+            if (datetimeMatch) {
+                result.dateTime.push(datetimeMatch[1].trim());
+                fullText = fullText.replace(/#DATETIME:\s*[\s\S]+?(?=#LOCATION:|#PRICING:|$)/i, '');
+            }
+
+            // Extract #PRICING: marker
+            var pricingMatch = fullText.match(/#PRICING:\s*([^\n#]+)/i);
+            console.log('📄 pricingMatch:', pricingMatch);
+            if (pricingMatch) {
+                result.pricing.push(pricingMatch[1].trim());
+                fullText = fullText.replace(/#PRICING:\s*[^\n#]+/i, '');
+            }
+
+            // Remaining text is description - preserve paragraphs
+            var descText = fullText
+                .replace(/\n{3,}/g, '\n\n')  // Normalize multiple breaks to double
+                .replace(/\n\n/g, '{{PARA}}')  // Mark paragraph breaks
+                .replace(/\n/g, ' ')  // Single newlines become spaces
+                .replace(/\s+/g, ' ')  // Collapse multiple spaces
+                .replace(/\{\{PARA\}\}/g, '<br><br>')  // Restore paragraph breaks
+                .trim();
+            if (descText) {
+                result.description.push(descText);
+            }
+
+            console.log('📄 FINAL RESULT (markers):', result);
+            return result;
+        }
+
+        // =========================================================
+        // FALLBACK: Pattern-based parsing (no markers found)
+        // =========================================================
+        var lines = html.split(/<br\s*\/?>/gi).map(function(line) {
+            return line.replace(/<[^>]*>/g, "").trim();
+        }).filter(function(line) {
+            return line.length > 0;
+        });
 
         var dayPattern = /\b(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)\b/i;
         var timePattern = /\d{1,2}:\d{2}\s*(am|pm)?|\d{1,2}\s*(am|pm)/i;
@@ -772,14 +1435,46 @@
     function parsePricing(pricingLines) {
         var prices = [];
         pricingLines.forEach(function(line) {
-            var match = line.match(/\$(\d+)/);
-            if (match) {
-                var amount = "$" + match[1];
-                var label = line.replace(/\$\d+/, "").replace(/[-:]/g, "").trim();
-                if (!label) label = "Ticket";
-                prices.push({ label: label, amount: amount });
+            console.log('💰 Parsing pricing line:', line);
+
+            // Check if line has pipe separators (multiple prices)
+            if (line.indexOf('|') !== -1) {
+                var segments = line.split('|');
+                segments.forEach(function(segment) {
+                    segment = segment.trim();
+                    // Match price pattern: "Label $XX" or just "$XX"
+                    var priceMatch = segment.match(/^(.+?)\s*\$(\d+(?:,\d{3})*)$/);
+                    if (priceMatch) {
+                        var label = priceMatch[1].trim();
+                        var amount = '$' + priceMatch[2];
+                        if (label) {
+                            prices.push({ label: label, amount: amount });
+                            console.log('  💰 Found:', label, amount);
+                        }
+                    } else {
+                        // Try just a price
+                        var justPrice = segment.match(/\$(\d+(?:,\d{3})*)/);
+                        if (justPrice) {
+                            // Use segment text before $ as label
+                            var labelPart = segment.split('$')[0].trim();
+                            prices.push({ label: labelPart || 'Ticket', amount: '$' + justPrice[1] });
+                            console.log('  💰 Found (alt):', labelPart || 'Ticket', '$' + justPrice[1]);
+                        }
+                    }
+                });
+            } else {
+                // Single price line
+                var match = line.match(/\$(\d+(?:,\d{3})*)/);
+                if (match) {
+                    var amount = "$" + match[1];
+                    var label = line.replace(/\$\d+(?:,\d{3})*/, "").replace(/[-:]/g, "").trim();
+                    if (!label) label = "Ticket";
+                    prices.push({ label: label, amount: amount });
+                    console.log('  💰 Found (single):', label, amount);
+                }
             }
         });
+        console.log('💰 Final prices:', prices);
         return prices;
     }
 

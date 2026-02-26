@@ -1,0 +1,3504 @@
+﻿Events = ( function()
+{
+	var events = function(){};
+	/* Values to be overriden on the loading page: */
+	Performances = [];
+	Order = {
+		Reservations: [],
+		Discounts: [],
+		AdditionalInformationTotal: 0,
+		Subtotal: 0, //To decide if payment is needed we must store the pre-discounted, pre-surcharged, and pre-donation total. The subtotal.
+		TotalDiscount: 0, //Not used; informational.
+		TotalSurcharge: 0, //Not used; informational.
+		TotalDonation: 0, //Not used; informational.
+		Total: 0,
+		CustomFields: {}
+	};
+	events.EventId = 0;
+	events.AllowSeatSelection = false;
+	events.CurrencySymbol = '$ ';
+	events.ReservationFormId = 0;
+	events.TransactionFormId = 0;
+	events.RowName = 'Row';
+	events.AllowedDomains = [];
+	events.Settings = {
+		Transaction:
+		{
+			Phone: 1,
+			Address: 1
+		},
+		Reservation:
+		{
+			Name: 1
+		}
+	}; //CCOEVENTS-52
+	/* End Values to be overriden */
+	var initialized = false;
+	var isMobile = false;
+	var texts = {};
+	var orderIsValid = false;
+	var reservationFormIsDirty = false;
+	var resetAutoSelectSeat = false; //To bypass cached performance if seating has been modified via ajax.
+	var resetGenerateSeatSelectionLists = false; //To bypass cached performance if seating has been modified via ajax.
+	var disableForm = false; //To disable interval actions after a form is submitted.
+	/* Form elements */
+	var form = null;
+	var secondaryFormItems = null; //This element dims (visually) until we have at least one attendee. The intent is to be clear where the form begins.
+	var totalsField = null;
+	var additionalInformation = null;
+	var donationsAndDiscounts = null;
+	var reserversInformation = null;
+	var discountCode = null;
+	var payment = null;
+	var summary = null;
+	var creditCard = null;
+	var buttons = null;
+	var submitButton = null;
+	var validationNotice = null;
+	var totalChangedNotice = null;
+	var totalDonation = null;
+	var reserversOptIn = null;
+	/* Required form fields */
+	var reserversTitle = null;
+	var reserversFirstName = null;
+	var reserversLastName = null;
+	var reserversEmailAddress = null;
+	var reserversBillingAddress1 = null;
+	var reserversBillingCity = null;
+	var reserversBillingState = null;
+	var reserversBillingPostCode = null;
+	var reserversCountry = null;
+	var reserversPhone = null;
+	var paymentMethod = null;
+	var paymentCreditCardNumber = null;
+	var paymentCardExpirationMonth = null;
+	var paymentCardExpirationYear = null;
+	var paymentCardCode = null;
+	var paymentCreditCardType = null;
+	var paymentComments = null;
+	events.flashElements = ( function()
+	{
+		var id = '';
+		var el = null;
+		var className = '';
+		var regexFlash = /\s*\bflash\b/g;
+		return function( elementIdsToFlash )
+		{
+			for( var i = 0, iMax = elementIdsToFlash.length; i < iMax; i++ )
+			{
+				id = elementIdsToFlash[i];
+				el = document.getElementById( id );
+				if( !el )
+					continue;
+				className = el.className;
+				if( className.indexOf( ' flash' ) > -1 )
+					el.className = className.replace( regexFlash, '' );
+				else
+				{
+					el.className += ' flash';
+					setTimeout( 'Events.flashElements(["{0}"])'.MergeValues( id ), 180 );
+				}
+			}
+		};
+	} )();
+	var addClassname = function( el, classToAdd )
+	{
+		if( el.className.indexOf( classToAdd ) == -1 )
+			el.className += ' ' + classToAdd;
+	};
+	var removeClassname = ( function()
+	{
+		var classNames = [''];
+		return function( el, classToRemove )
+		{
+			classNames = el.className.split( ' ' + classToRemove );
+			el.className = classNames.join( '' );
+		};
+	} )();
+	var toggleClassname = function( el, classToToggle )
+	{
+		if( el.className.indexOf( classToToggle ) == -1 )
+			el.className += ' ' + classToToggle;
+		else
+			removeClassname( el, classToToggle );
+	};
+	var formatPrice = function( price, useFree, alternateSymbol )
+	{
+		if( useFree && price == 0 )
+			return texts.free;
+		if( typeof ( alternateSymbol ) != 'undefined' )
+			return Co.Tools.FormatCurrency( price, alternateSymbol );//.replace( /\.00$/, '' );
+		else
+			return Co.Tools.FormatCurrency( price, events.CurrencySymbol );//.replace( /\.00$/, '' );
+	};
+	var setListOptions = ( function()
+	{
+		//This function is intended to replace innerHTML overwriting (which is malfunctional in IE)
+		var option = null;
+		return function( list, options, selectedIndex )
+		{
+			list.innerHTML = '';
+			for( var o = 0, oMax = options.length; o < oMax; o++ )
+			{
+				option = new Option( options[o].title, options[o].value );
+				if( o == selectedIndex )
+					option.selected = true;
+				if( options[o].disabled )
+					option.disabled = true;
+				list.options[o] = option;
+			}
+		};
+	} )();
+	var templates =
+	{
+		get: ( function()
+		{
+			var regexGetInnerTemplate = /(^[\s\S]*\/\*)|(\*\/[\s\S]*$)/g;
+			var lastKey = null;
+			var template = '';
+			return function( key, properties )
+			{
+				if( lastKey != key )
+				{
+					lastKey = key;
+					template = this[key] || '';
+					template = template.toString().replace( regexGetInnerTemplate, '' );
+				}
+				return template.MergeProperties( properties );
+			};
+		} )()
+	};
+	templates.reservationListHeader = function()
+	{/*
+		<style type="text/css">
+			#performance_{id}_reservations .seat_selection
+			{
+				display:{seat_selection_display};
+			}
+		</style>
+		<div class="clearfix medium_top_margin">
+			<div class="bold g20 small_right_padding right_margin">&nbsp;</div>
+			<div class="bold g120 no_margin small_right_padding {hideName}">
+				{firstNameLabel}
+			</div>
+			<div class="bold g140 no_margin small_right_padding {hideName}">
+				{lastNameLabel}
+			</div>
+			<div class="seat_selection bold g220 no_margin">
+				{seatSelectionLabel}
+			</div>
+			<div class="bold g100 no_margin">
+				{categoryLabel}
+			</div>
+			<div class="bold inline_block small_horizontal_padding price-header">
+				{priceLabel}
+			</div>
+		</div>
+	*/};
+	templates.reservationListItem = function()
+	{/*
+		<div id="reservation_{id}" class="clearfix reservation small_top_margin">
+			<div class="clearfix medium_vertical_padding">
+				<div id="reservation_{id}_index" class="bold g20 float_left small_top_margin small_right_padding right_margin">
+					{index}
+				</div>
+				<div class="g120 no_margin small_right_padding {hideName}">
+					<input name="firstname_{id}" id="reservation_{id}_firstName" value="{firstName}" class="co_form_input active" />
+				</div>
+				<div class="g140 no_margin small_right_padding {hideName}">
+					<input name="lastname_{id}" id="reservation_{id}_lastName" value="{lastName}" class="co_form_input active" />
+				</div>
+				<div id="reservation_{id}_seat_selection" class="seat_selection bold g220 no_margin">
+					{seatSelection}
+				</div>
+				<div class="g100 no_margin small_top_margin">
+					{name}
+				</div>
+				<div class="g40 no_margin float_right">
+					<button value="{id}" type="button" class="remove_reservation" onclick="Events.reservationRemoveButtonClick(this);">&#xd7;</button>
+				</div>
+				<div id="reservation_{id}_price" class="{priceCssClass} small_horizontal_padding small_top_margin price-display" title="{priceTitle}">
+					{price}
+				</div>
+			</div>
+			<div class="embedded_form clearfix">{embeddedForm}</div>
+		</div>
+	*/
+	};
+	templates.reservationListItemMobile = function()
+	{/*
+		<div id="reservation_{id}" class="clearfix reservation small_top_margin">
+			<div class="clearfix medium_vertical_padding">
+				<div id="reservation_{id}_index" class="bold inline_block small_vertical_padding medium_horizontal_padding">
+					{index}
+				</div>
+				<div class="float_right medium_horizontal_padding">
+					<div class="inline_block small_right_padding">
+						{name}
+					</div>
+					<div id="reservation_{id}_price" class="inline_block small_right_padding price-display" title="{priceTitle}">
+						{price}
+					</div>
+					<button value="{id}" type="button" class="remove_reservation" onclick="Events.reservationRemoveButtonClick(this);">&#xd7;</button>
+				</div>
+				<div class="clearfix small_top_padding small_horizontal_padding">
+					<div class="inline_block small_bottom_margin {hideName}">
+						<input placeholder="{firstNameLabel}" name="firstname_{id}" id="reservation_{id}_firstName" value="{firstName}" class="co_form_input active" />
+					</div>
+					<div class="inline_block small_bottom_margin {hideName}">
+						<input placeholder="{lastNameLabel}" name="lastname_{id}" id="reservation_{id}_lastName" value="{lastName}" class="co_form_input active" />
+					</div>
+					<div id="reservation_{id}_seat_selection" class="seat_selection inline_block bold small_bottom_margin">
+						{seatSelection}
+					</div>
+					<div class="embedded_form clearfix">{embeddedForm}</div>
+				</div>
+			</div>
+		</div>
+	*/};
+	templates.seatSelection = function()
+	{/*
+		<select id="section_{id}" class="co_form_input section active" onchange="Events.changeSeatSelection(this, {performanceId});" required="true" style="width:64px;">
+			{sectionOptions}
+		</select>
+		<select id="row_{id}" class="co_form_input row active" onchange="Events.changeSeatSelection(this, {performanceId});" required="true" style="width:64px;">
+			{rowOptions}
+		</select>
+		<select id="seat_{id}" class="co_form_input seat active" onchange="Events.changeSeatSelection(this, {performanceId});" required="true" style="width:64px;">
+			{seatOptions}
+		</select>
+	*/};
+	templates.option = function()
+	{/*
+		<option value="{value}"{selected}>{title}</option>
+	*/};
+	templates.subtotalItem = function()
+	{/*
+		<div class="clearfix">
+			<div class="float_left">{subtotalFor}:&nbsp;</div>
+			<div class="float_right left_margin">{subtotal}</div>
+		</div>
+	*/};
+	templates.surcharge1Item = function()
+	{/*
+		<div class="clearfix">
+			<div class="float_left">{label}:&nbsp;</div>
+			<div class="float_right left_margin">{surcharge}</div>
+		</div>
+	*/};
+	templates.surcharge2Item = function()
+	{/*
+		<div class="clearfix">
+			<div class="float_left">{label}:&nbsp;</div>
+			<div class="float_right left_margin">{surcharge}</div>
+		</div>
+	*/};
+	templates.surcharge3Item = function()
+	{/*
+		<div class="clearfix">
+			<div class="float_left">{label}:&nbsp;</div>
+			<div class="float_right left_margin">{surcharge}</div>
+		</div>
+	*/};
+	templates.totalItem = function()
+	{/*
+		<div class="clearfix small_top_margin">
+			<div class="float_left bold">{label}:&nbsp;</div>
+			<div class="float_right left_margin bold">{total}</div>
+		</div>
+	*/
+	};
+	templates.totalChangedNotice = function()
+	{/*
+		<div class="medium"><b>{heading}.</b></div>
+		<div class="small_vertical_margin">{totalWas}. {totalIs}.</div>
+		<div>{whatToDo}.</div>
+	*/};
+	var getItemFromCollection = ( function()
+	{
+		var item = null;
+		var i = -1;
+		var iMax = -1;
+		return function( id, collection )
+		{
+			for( i = 0, iMax = collection.length; i < iMax; i++ )
+			{
+				item = collection[i];
+				if( item.Id == id )
+					return item;
+			}
+			return null;
+		}
+	} )();
+	var generateSeatSelectionLists = ( function()
+	{
+		var selected = ' selected="selected"';
+		var performance = null;
+		var reservation = null;
+		var priceCategory = null;
+		var seating = null;
+		var availableSections = null;
+		var availableSeating = null;
+		var priceCategorySection = null;
+		var sectionOptions = [''];
+		var section = null;
+		var rowOptions = [''];
+		var rows = [];
+		var availableRows = [];
+		var row = null;
+		var seats = [];
+		var availableSeats = [];
+		var seat = null;
+		var seatIds = [-1];
+		var seatId = -1;
+		var index = -1;
+		var seatOptions = [''];
+		var selectedSection = -1;
+		var selectedRow = null;
+		var selectedSeatId = -1;
+		return function( attendee )
+		{
+			if( !performance || performance.Id != attendee.PerformanceId
+			|| resetGenerateSeatSelectionLists /* = if the seating changed before the order is completed (after ajax) reset performance (cached object) */ )
+			{
+				performance = getItemFromCollection( attendee.PerformanceId, Performances );
+				reservation = getItemFromCollection( attendee.PerformanceId, Order.Reservations );
+				seating = performance.Seating;
+				priceCategory = null;
+				resetGenerateSeatSelectionLists = false;
+			}
+			seatIds = [];
+			for( var a = 0, aMax = reservation.Attendees.length; a < aMax; a++ )
+			{
+				seatId = reservation.Attendees[a].SeatId;
+				if( seatId > -1 )
+					seatIds.push( seatId );//Get all the occupied seatIds for available seating
+			}
+			selectedSeatId = attendee.SeatId;
+			index = seatIds.indexOf( selectedSeatId );//We want to exclude the current seatId now so it won't be skipped from the final list
+			if( index > -1 )
+				seatIds.splice( index, 1 );
+			if( !priceCategory || attendee.PriceCategoryId != priceCategory.Id )
+			{
+				//We're caching the priceCategory for efficiency
+				priceCategory = getItemFromCollection( attendee.PriceCategoryId, performance.PriceCategories );
+			}
+			availableSections = [];
+			for( var p = 0, pMax = priceCategory.Sections.length; p < pMax; p++ )
+			{
+				//We must regenerate the performance seating based on available seats.
+				priceCategorySection = priceCategory.Sections[p];
+				section = getItemFromCollection( priceCategorySection.Id, seating );
+				if( !section )
+					continue;
+				rows = section.Rows;
+				availableRows = [];
+				for( var r = 0, rMax = rows.length; r < rMax; r++ )
+				{
+					row = rows[r];
+					seats = row.Seats;
+					availableSeats = [];
+					for( var s = 0, sMax = seats.length; s < sMax; s++ )
+					{
+						seat = seats[s];
+						if( seatIds.indexOf( seat.SeatId ) > -1 )//Seat is taken (by another attendee), exclude from final list
+							continue;
+						availableSeats.push(
+						{
+							Id: seat.Id,
+							SeatId: seat.SeatId
+						} );
+					}
+					if( !availableSeats.length )
+						continue;
+					availableRows.push(
+					{
+						Id: row.Id,
+						Seats: availableSeats
+					} );
+				}
+				if( !availableRows.length )
+					continue;
+				availableSections.push(
+				{
+					Id: section.Id,
+					Name: priceCategorySection.Name || '-', //Using '-' here for possibility that section may not have a name...?
+					Rows: availableRows
+				} );
+			}
+			selectedSection = attendee.SectionId;
+			selectedRow = attendee.Row;
+			sectionOptions = [];
+			rowOptions = [];
+			seatOptions = [];
+			for( var s = 0, sMax = availableSections.length; s < sMax; s++ )
+			{
+				section = availableSections[s];
+				sectionOptions.push( templates.get( 'option',
+				{
+					value: section.Id,
+					title: section.Name,
+					selected: ( selectedSection == section.Id ? selected : '' )
+				} ) );
+				if( selectedSection != section.Id )
+					continue;
+				rows = section.Rows;
+				for( var r = 0, rMax = rows.length; r < rMax; r++ )
+				{
+					row = rows[r];
+					rowOptions.push( templates.get( 'option',
+					{
+						value: row.Id,
+						title: row.Id,
+						selected: ( selectedRow == row.Id ? selected : '' )
+					} ) );
+					if( selectedRow != row.Id )
+						continue;
+					seats = row.Seats;
+					for( var i = 0, iMax = seats.length; i < iMax; i++ )
+					{
+						seat = seats[i];
+						seatOptions.push( templates.get( 'option',
+						{
+							value: seat.SeatId,
+							title: seat.Id,
+							selected: ( selectedSeatId == seat.SeatId ? selected : '' )
+						} ) );
+					}
+				}
+			}
+			sectionOptions.unshift( templates.get( 'option',
+			{
+				value: '',
+				title: texts.section,
+				selected: ( selectedSection == -1 ? selected : '' )
+			} ) );
+			rowOptions.unshift( templates.get( 'option',
+			{
+				value: '',
+				title: texts.row,
+				selected: ( selectedRow == null ? selected : '' )
+			} ) );
+			seatOptions.unshift( templates.get( 'option',
+			{
+				value: '',
+				title: texts.seat,
+				selected: ( selectedSeatId == -1 ? selected : '' )
+			} ) );
+			return templates.get( 'seatSelection',
+			{
+				id: attendee.Id,
+				sectionOptions: sectionOptions.join( '\n' ),
+				rowOptions: rowOptions.join( '\n' ),
+				seatOptions: seatOptions.join( '\n' ),
+				performanceId: attendee.PerformanceId
+			} );
+		};
+	} )();
+	var calculateSeatsAvailable = ( function()
+	{
+		var reservation = null;
+		var seatIds = [-1];
+		var attendee = null;
+		var performanceSeatsAvailable = -1;
+		var sectionSeatsAvailable = -1;
+		var section = null;
+		var row = null;
+		var seat = null;
+		return function( performance )
+		{
+			reservation = getItemFromCollection( performance.Id, Order.Reservations );
+			if( !reservation )
+				return;
+			performance.SeatsTaken = reservation.Attendees.length;
+			if( !events.AllowSeatSelection || !performance.Seating.length /* unlikely to occur */ )
+				return;
+			seatIds = [];
+			if( reservation )
+			{
+				for( var a = 0, aMax = reservation.Attendees.length; a < aMax; a++ )
+				{
+					attendee = reservation.Attendees[a];
+					seatIds.push( attendee.SeatId );
+				}
+			}
+			performanceSeatsAvailable = 0;
+			for( var s = 0, sMax = performance.Seating.length; s < sMax; s++ )
+			{
+				section = performance.Seating[s];
+				sectionSeatsAvailable = 0;
+				for( var r = 0, rMax = section.Rows.length; r < rMax; r++ )
+				{
+					row = section.Rows[r];
+					for( var i = 0, iMax = row.Seats.length; i < iMax; i++ )
+					{
+						seat = row.Seats[i];
+						performanceSeatsAvailable += 1;
+						if( seatIds.indexOf(seat.SeatId) == -1 )
+						{
+							sectionSeatsAvailable += 1;
+						}
+					}
+				}
+				section.SeatsAvailable = sectionSeatsAvailable;
+			}
+			performance.SeatsAvailable = performanceSeatsAvailable;
+			//performance.SeatsAvailable is recalculated here but should have already been assigned to the correct value (and should be the same after this function).
+			//performance.SeatsAvailable should never change (unless reloading the data indicates that a seat was taken mid-process)
+		};
+	} )();
+	var calculatePriceCategorySectionData = ( function()
+	{
+		var priceCategory = null;
+		var seating = null;
+		var seatingSection = null;
+		var sections = null;
+		var section = null;
+		var heads = [0];
+		var groupPrices = [0];
+		var prices = [0];
+		var headsMax = 0;
+		var headsMin = 0;
+		var groupPricesMax = 0;
+		var groupPricesMin = 0;
+		var pricesMax = 0;
+		var pricesMin = 0;
+		var priceEdgeCase = -1;
+		var parts = [''];
+		var priceInfo = null;
+		var notice = null;
+		return function( performance )
+		{
+			seating = performance.Seating;
+			for( var p = 0, pMax = performance.PriceCategories.length; p < pMax; p++ )
+			{
+				priceCategory = performance.PriceCategories[p];
+				sections = priceCategory.Sections;
+				heads = [];
+				groupPrices = [];
+				prices = [];
+				priceCategory.listOptionTitle = priceCategory.Name;
+				priceCategory.priceInfo = priceInfo = '';
+				priceCategory.notice = notice = '';
+				priceCategory.headsMax = headsMax = 0;
+				priceCategory.headsMin = headsMin = 0;
+				priceCategory.groupPricesMax = groupPricesMax = 0;
+				priceCategory.groupPricesMin = groupPricesMin = 0;
+				priceCategory.pricesMax = pricesMax = 0;
+				priceCategory.pricesMin = pricesMin = 0;
+				priceCategory.priceEdgeCase = priceEdgeCase = -1;
+				for( var s = 0, sMax = sections.length; s < sMax; s++ )
+				{
+					section = sections[s];
+					if( events.AllowSeatSelection )
+					{
+						seatingSection = getItemFromCollection( sections[s].Id, seating );
+						if( !seatingSection || seatingSection.SeatsAvailable < 1 )
+							continue;
+					}
+					if( heads.indexOf( section.Heads ) == -1 )
+						heads.push( section.Heads );
+					if( groupPrices.indexOf( section.GroupPrice ) == -1 )
+						groupPrices.push( section.GroupPrice );
+					if( section.GroupPrice == 0 )
+					{
+						//This is for an edge case where there may be a single section with disabled groupPricing (amongst other groupPricing section(s)).
+						// Therefore, if groupPricing is available in another section, this would be the cheapest price for a single.
+						if( priceEdgeCase == -1 || priceEdgeCase > section.Price )
+							priceEdgeCase = section.Price;
+					}
+					if( prices.indexOf( section.Price ) == -1 )
+						prices.push( section.Price );
+				}
+				if( !heads.length )//This priceCategory ran out of SeatsAvailable.
+					continue;
+				//NOTE: Max and min values *must* be allocated via Math.max and Math.min functions.
+				// Sorting the array produces incorrect results.
+				headsMax = Math.max.apply( null, heads );
+				headsMin = Math.min.apply( null, heads );
+				groupPricesMax = Math.max.apply( null, groupPrices );
+				groupPricesMin = Math.min.apply( null, groupPrices );
+				pricesMax = Math.max.apply( null, prices );
+				pricesMin = Math.min.apply( null, prices );
+				priceCategory.headsMax = headsMax;
+				priceCategory.headsMin = headsMin;
+				priceCategory.groupPricesMax = groupPricesMax;
+				priceCategory.groupPricesMin = groupPricesMin;
+				priceCategory.pricesMax = pricesMax;
+				priceCategory.pricesMin = pricesMin;
+				priceCategory.priceEdgeCase = priceEdgeCase;
+				parts = [];
+				if( groupPricesMax + pricesMax == 0 ) //Doesn't matter how many heads
+				{
+					if (anyPerformancesHavePricedCategory(Performances))
+					{
+						parts.push( texts.free );
+					}
+					priceInfo = texts.free;
+				}
+				else if( headsMax > 1 ) //Group pricing
+				{
+					if( groupPricesMin == 0 && groupPricesMax > 0 )
+					{
+						//This is an edge case where there may be a section without groupPricing amongst other section(s) that *have* groupPricing
+						if( priceEdgeCase < groupPricesMax )
+						{
+							parts.push( formatPrice( priceEdgeCase ) );
+							parts.push( formatPrice( groupPricesMax, false, '' ) );
+						}
+						else
+						{
+							parts.push( formatPrice( groupPricesMax ) );
+							parts.push( formatPrice( priceEdgeCase, false, '' ) );
+						}
+						if( headsMax == headsMin )
+							priceInfo = texts.priceForQuantity.MergeProperties( { price: parts[0], quantity: headsMax } );
+						else
+							priceInfo = texts.priceForQuantity.MergeProperties( { price: parts[0], quantity: headsMin + ' - ' + headsMax } );
+						notice = texts.seatSelectionNotice;
+					}
+					else if( groupPricesMax == groupPricesMin )
+					{
+						parts.push( formatPrice( groupPricesMax ) );
+						if( headsMax == headsMin )
+							priceInfo = texts.priceForQuantity.MergeProperties( { price: parts[0], quantity: headsMax } );
+						else
+						{
+							priceInfo = texts.priceForQuantity.MergeProperties( { price: parts[0], quantity: headsMin + ' - ' + headsMax } );
+							notice = texts.seatSelectionNotice;
+						}
+					}
+					else
+					{
+						parts.push( formatPrice( groupPricesMin ) );
+						parts.push( formatPrice( groupPricesMax, false, '' ) );
+						notice = texts.seatSelectionNotice;
+					}
+					if( headsMax == headsMin )
+						priceInfo = texts.priceForQuantity.MergeProperties( { price: parts.join( ' - ' ), quantity: headsMax } );
+					else
+						priceInfo = texts.priceForQuantity.MergeProperties( { price: parts.join( ' - ' ), quantity: headsMin + ' - ' + headsMax } );
+					if( pricesMin + pricesMax > 0 )//If there are no additions allowed in the group, do not show ($0.00 each additional)
+					{
+						priceInfo += '<br />( ';
+						if( pricesMax == pricesMin )
+							priceInfo += formatPrice( pricesMax );
+						else
+						{
+							priceInfo += formatPrice( pricesMin );
+							priceInfo += ' - ';
+							priceInfo += formatPrice( pricesMax, false, '' );
+							notice = texts.seatSelectionNotice;
+						}
+						priceInfo += ' ' + texts.eachAdditional + ' )';
+					}
+				}
+				else //No group pricing
+				{
+					if( pricesMax == pricesMin )//Whether 0 or more
+					{
+						if(anyPerformancesHavePricedCategory(Performances))
+						{
+							parts.push(formatPrice(pricesMax));
+							priceInfo = texts.priceEach.MergeProperties( { price: formatPrice( pricesMax ) } );
+						}
+					}
+					else
+					{
+						parts.push( formatPrice( pricesMin ) );
+						parts.push( formatPrice( pricesMax, false, '' ) );
+						priceInfo = texts.priceEach.MergeProperties( { price: parts.join( ' - ' ) } );
+						notice = texts.seatSelectionNotice;
+					}
+				}
+				
+				if(parts.length > 0)
+				{
+					priceCategory.listOptionTitle += " - " + parts.join( ' - ' );
+				}
+				
+				priceCategory.priceInfo = priceInfo;
+				priceCategory.notice = notice;
+			}
+		};
+	} )();
+	var populatePriceCategoryList = ( function()
+	{
+		var options = [''];
+		var priceCategories = [];
+		var priceCategory = null;
+		var sections = [];
+		var selectedIndex = -1;
+		var priceList = null;
+		var availableSection = null;
+		var seatsAvailable = -1;
+		return function( performance, hardReset )//hardReset = resets the list to the initial selection state
+		{
+			priceList = document.getElementById( 'performance_{0}_priceCategory'.MergeValues( performance.Id ) );
+			if( !priceList )
+				return;
+			calculateSeatsAvailable( performance );//Note: seating availability recalculation is only effective on allowSeatSelection
+			calculatePriceCategorySectionData( performance ); //CCOEVENTS-95.
+			if( (performance.SeatsAvailable - (events.ShouldHoldSeats ? performance.SeatBuffer : 0) - performance.SeatsTaken) < 1 )
+			{
+				document.getElementById( 'performance_{0}_additionalsToggle'.MergeValues( performance.Id ) ).style.display = 'none';
+				priceList.selectedIndex = 0;
+				return;
+			}
+			else
+				document.getElementById( 'performance_{0}_additionalsToggle'.MergeValues( performance.Id ) ).removeAttribute( 'style' );
+			priceCategories = performance.PriceCategories;
+			options = [];
+			for( var c = 0, cMax = priceCategories.length; c < cMax; c++ )
+			{
+				priceCategory = priceCategories[c];
+				sections = priceCategory.Sections;
+				if( events.AllowSeatSelection )
+				{
+					availableSection = null;
+					seatsAvailable = 0;
+					for( var s = 0, sMax = sections.length; seatsAvailable == 0 && s < sMax; s++ )
+					{
+						availableSection = getItemFromCollection( sections[s].Id, performance.Seating );
+						if( availableSection )
+							seatsAvailable = availableSection.SeatsAvailable; //Check for at least one available seat
+					}
+					if( seatsAvailable < 1 )
+						continue; //No seats available in all the sections (priceCategory).
+				}
+				options.push(
+				{
+					value: priceCategory.Id,
+					title: priceCategory.listOptionTitle
+				} );
+			}
+			if( options.length == 1 )
+			{
+				//CCOEVENTS-56.
+				//If there is only one priceCategory remaining, it should be the one selected.
+				selectedIndex = 1;
+			}
+			else if( hardReset )
+				selectedIndex = 0;
+			else
+			{
+				selectedIndex = priceList.selectedIndex;
+				if( selectedIndex > options.length )
+					selectedIndex = options.length;
+			}
+			if( selectedIndex < 0 )
+				selectedIndex = 0;
+			options.unshift(
+			{
+				value: '',
+				title: texts.selectACategory,
+				disabled: ( options.length == 1 ? true : false ) //CCOEVENTS-56. The label should be disabled if there is only one priceCategory.
+			} );
+			setListOptions( priceList, options, selectedIndex );
+			events.priceCategoryListChange( priceList );
+		};
+	} )();
+	events.populatePriceCategoryLists = function()
+	{
+		var performance = null;
+		for( var p = 0, pMax = Performances.length; p < pMax; p++ )
+			populatePriceCategoryList( Performances[p] );
+	};
+	events.priceCategoryListChange = ( function()
+	{
+		var regexId = /[0-9]+/;
+		var id = -1;
+		var performance = { id: -1 };
+		var reservation = { id: -1 };
+		var resetData = true;
+		var capacity = 0;
+		var sectionSeating = null;
+		var sectionSeatsAvailable = -1;
+		var surcharge = {};
+		var priceCategory = { id: -1 };
+		var pricesMin = 0;
+		var pricesMax = 0;
+		var heads = [0];
+		var headsMin = 0;
+		var headsMax = 0;
+		var sections = null;
+		var section = null;
+		var priceCategoryId = -1;
+		var addAttendeeButton = null;
+		var priceInfo = null;
+		var quantityOfAttendees = null;
+		var pricingNotices = null;
+		var target = null;
+		var targets = [addAttendeeButton, priceInfo, quantityOfAttendees, pricingNotices];
+		var visible = false;
+		var selected = ' selected="selected"';
+		var attendeeOptionsCount = 1;
+		var attendeeOptionSelected = 1;
+		var notices = [''];
+		var notice = '';
+		var asterisk = null;
+		var listOptions = [null];
+		return function( source )
+		{
+			//This logic occured in displayPriceCategory()
+			id = source.id.match( regexId )[0];
+			addAttendeeButton = document.getElementById( 'performance_{0}_addAttendeeButton'.MergeValues( id ) );
+			priceInfo = document.getElementById( 'performance_{0}_priceInfo'.MergeValues( id ) );
+			quantityOfAttendees = document.getElementById( 'performance_{0}_quantityOfAttendees'.MergeValues( id ) );
+			pricingNotices = document.getElementById( 'performance_{0}_pricingNotices'.MergeValues( id ) );
+			target = null;
+			targets = [addAttendeeButton, priceInfo, quantityOfAttendees, pricingNotices];
+			visible = source.selectedIndex > 0;
+			for( var t = 0, tMax = targets.length; t < tMax; t++ )
+			{
+				target = targets[t];
+				switch( t )
+				{
+					case 3:
+						target.parentNode.style.display = visible ? 'inline-block' : 'none';
+						break;
+					default:
+						target.disabled = !visible;
+						break;
+				}
+			}
+			if( performance.Id != id )
+			{
+				performance = getItemFromCollection( id, Performances );
+				//CCOEVENTS-94.
+				// Once we reset the performance data, we must trigger a reset on all dependant data.
+				resetData = true;
+			}
+			reservation = getItemFromCollection( id, Order.Reservations );
+			if( !reservation || reservation.Attendees.length == 0 )//CWNP-1007
+				addAttendeeButton.innerHTML = '<span>{0}</span>'.MergeValues( texts.continue );
+			else
+				addAttendeeButton.innerHTML = '<span>{0}</span>'.MergeValues( texts.add );
+			if( !visible )
+				return;
+			priceCategoryId = source[source.selectedIndex].value;
+			if( resetData || priceCategory.Id != priceCategoryId )
+			{
+				priceCategory = getItemFromCollection( priceCategoryId, performance.PriceCategories );
+				resetData = true;
+			}
+			sections = priceCategory.Sections;
+			section = sections[0]; //Only the first one is used here, but price calculation varies on seat selection when applicable
+			pricesMin = priceCategory.pricesMin;
+			pricesMax = priceCategory.pricesMax;
+			headsMin = priceCategory.headsMin;
+			headsMax = priceCategory.headsMax;
+			capacity = ( performance.SeatsAvailable - (events.ShouldHoldSeats ? performance.SeatBuffer : 0) - performance.SeatsTaken );
+			sectionSeatsAvailable = capacity;
+			if( quantityOfAttendees )
+			{
+				/* quantityOfAttendees should happen before priceInfo and notices */
+				//This used to be tied-in with duplicate functionality: updateQuantityOfAttendees()
+				attendeeOptionSelected = quantityOfAttendees.selectedIndex;
+				if( resetData || attendeeOptionSelected == -1 )
+				{
+					attendeeOptionSelected = 0;
+				}
+				attendeeOptionsCount = capacity; //Must start with max
+				if( headsMax > 1 && pricesMax == 0 )
+				{
+					attendeeOptionsCount = headsMax;
+				}
+				if( attendeeOptionsCount > 25 )
+					attendeeOptionsCount = 25;
+				if( attendeeOptionsCount < 1 )
+					attendeeOptionsCount = 1;
+				if( capacity < attendeeOptionsCount )
+					attendeeOptionsCount = capacity; //If there are no more seats, set to capacity
+				if( sectionSeatsAvailable < attendeeOptionsCount )
+					attendeeOptionsCount = sectionSeatsAvailable;
+				if( attendeeOptionsCount < 1 )//No more capacity, so show no options.
+					attendeeOptionsCount = 0;
+				if( attendeeOptionSelected > attendeeOptionsCount )
+					attendeeOptionSelected = attendeeOptionsCount - 1;
+				listOptions = [];
+				for( var o = 0, index = 1; o < attendeeOptionsCount; o++, index++ )
+				{
+					listOptions.push(
+					{
+						value: index,
+						title: index
+					} );
+				}
+				setListOptions( quantityOfAttendees, listOptions, attendeeOptionSelected );
+			}
+			resetData = false;
+			notices = [];
+			notice = '';
+			surcharge = Performances[0].Surcharge; //Same for all Performances
+			switch( surcharge.Type )
+			{
+				case 1:
+					notice = texts.surcharge1Notice.MergeProperties(
+					{
+						amount: formatPrice( surcharge.Amount ),
+						name: surcharge.Name
+					} );
+					break;
+				case 2:
+					notice = texts.surcharge2Notice.MergeProperties(
+					{
+						amount: formatPrice( surcharge.Amount ),
+						name: surcharge.Name
+					} );
+					break;
+				case 3:
+					if( pricesMin + pricesMax > 0 )
+					{
+						//Only show this message if this seat may *not* be free (whether with allowSeatSelection or not).
+						notice = texts.surcharge3Notice.MergeProperties(
+						{
+							amount: surcharge.Amount + '%',
+							name: surcharge.Name
+						} );
+					}
+					break;
+			}
+			if( notice )
+				notices.push( notice );
+			if( priceCategory.notice )
+				notices.push( priceCategory.notice );
+			if (anyPerformancesHavePricedCategory(Performances))
+				priceInfo.innerHTML = priceCategory.priceInfo;
+			pricingNotices.innerHTML = notices.join( '<br />' );
+		};
+	} )();
+	var autoSelectSeat = ( function()
+	{
+		var reservation = null;
+		var performance = null;
+		var seating = null;
+		var seatingSection = null;
+		var rows = null;
+		var seats = null;
+		var seat = null;
+		var attendees = null;
+		var attendee = null;
+		return function( targetAttendee )
+		{
+			//Note: this function only happens when allowSeatSelection
+			if( !performance || performance.Id != targetAttendee.PerformanceId
+			|| resetAutoSelectSeat /* = if the seating changed before the order is completed (after ajax) reset performance (cached object) */ )
+			{
+				performance = getItemFromCollection( targetAttendee.PerformanceId, Performances );
+				seating = performance.Seating;
+				reservation = getItemFromCollection( targetAttendee.PerformanceId, Order.Reservations );
+				attendees = reservation.Attendees;
+				resetAutoSelectSeat = false;
+			}
+			seatingSection = getItemFromCollection( targetAttendee.SectionId, seating );
+			if( !seatingSection )
+				return false;
+			rows = seatingSection.Rows;
+			seat = null;
+			findseat:
+				for( var r = 0, rMax = rows.length; r < rMax; r++ )
+				{
+					row = rows[r];
+					if( targetAttendee.Row != null && row.Id != targetAttendee.Row )//The user changed a row. Try to autoselect a seat within that row only.
+						continue;
+					seats = row.Seats;
+					for( var s = 0, sMax = seats.length; s < sMax; s++ )
+					{
+						seat = seats[s];
+						for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+						{
+							attendee = attendees[a];
+							if( attendee.SeatId == seat.SeatId )
+							{
+								seat = null;
+								break;
+							}
+						}
+						if( seat )
+							break findseat;
+					}
+				}
+			if( seat )
+			{
+				targetAttendee.Row = row.Id;
+				targetAttendee.Seat = seat.Id;
+				targetAttendee.SeatId = seat.SeatId;
+				seatingSection.SeatsAvailable -= 1;//Any time SeatId is assigned to a *specific* attendee
+				if( seatingSection.SeatsAvailable < 1 )
+				{
+					//Reset the list when we've run out of seats:
+					// This will in effect cause recalculation of seating availability (when allowSeatSelection)
+					// and remove the ability to add more seats to this section (from the interface).
+					populatePriceCategoryList( performance );
+				}
+				return true;
+			}
+			return false;
+		};
+	} )();
+	var newAttendeeIndex = 0;
+	var setNewAttendeeIndex = (function()
+	{
+		var reservation = null;
+		return function()
+		{
+			for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+			{
+				reservation = Order.Reservations[r];
+				if( !reservation )
+					continue;
+				for( var a = 0, aMax = reservation.Attendees.length; a < aMax; a++ )
+					newAttendeeIndex += 1;
+			}
+		};
+	} )();
+	events.priceCategoryAddButtonClick = ( function()
+	{
+		var regexId = /[0-9]+/;
+		var id = -1;
+		var performance = null;
+		var priceList = null;
+		var quantityOfAttendees = null;
+		var quantityToAdd = 1;
+		var reservation = null;
+		var categoryId = -1;
+		var priceCategory = null;
+		var section = null;
+		var attendees = [{}];
+		var attendee = {};
+		var index = -1;
+		var newAttendeeIds = [''];
+		return function( source )
+		{
+			id = source.id.match( regexId )[0];
+			performance = getItemFromCollection( id, Performances );
+			priceList = document.getElementById( 'performance_{0}_priceCategory'.MergeValues( id ) );
+			quantityOfAttendees = document.getElementById( 'performance_{0}_quantityOfAttendees'.MergeValues( id ) );
+			if( !performance || !priceList || !quantityOfAttendees )
+				return;
+			categoryId = priceList[priceList.selectedIndex].value;
+			priceCategory = getItemFromCollection( categoryId, performance.PriceCategories );
+			if( !priceCategory )
+				return;
+			reservation = getItemFromCollection( id, Order.Reservations );
+			if( !reservation )
+			{
+				reservation =
+				{
+					Id: performance.Id,
+					Name: performance.Name,
+					Attendees: [],
+					Total: 0
+				};
+				Order.Reservations.push( reservation );
+			}
+			attendees = reservation.Attendees;
+			newAttendeeIds = [];
+			quantityToAdd = quantityOfAttendees[quantityOfAttendees.selectedIndex].value; //If allowSeatSelection, this should already be limited to the max availability in this section.
+			if( events.AllowSeatSelection )
+			{
+				section =
+				{
+					Id: -1,
+					GroupPrice: 0,
+					Price: 0,
+					Heads: 0
+				};
+			}
+			else
+				section = priceCategory.Sections[0];
+			for( var q = 0; q < quantityToAdd; q++ )
+			{
+				newAttendeeIndex += 1;
+				attendee =
+				{
+					Id: 'res' + newAttendeeIndex,
+					PerformanceId: performance.Id,
+					FirstName: '',
+					LastName: '',
+					PriceCategoryId: priceCategory.Id,
+					SectionId: section.Id,
+					Row: null,
+					Seat: null,
+					SeatId: -1,
+					Price: section.Price,
+					GroupPrice: section.GroupPrice,
+					Heads: section.Heads,
+					DeltaTotal: 0,
+					Index: 0,
+					Priced: 0,
+					PricedText: '',
+					PricedTitle: '',
+					PricedCategoryName: '',
+					CustomFields: {}
+				};
+				index = attendees.length;
+				for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+				{
+					//Attendees are grouped by priceCategories, and we want to keep them grouped this way.
+					//Note: this is important for visual appearance AND for *price calculation*.
+					if( attendees[a].PriceCategoryId == attendee.PriceCategoryId )
+						index = a;
+				}
+				attendees.splice( index + 1, 0, attendee );
+				if( events.AllowSeatSelection && priceCategory.Sections.length == 1 )
+				{
+					//Only one section? Autoselect the seat... if there is one available.
+					attendee.SectionId = priceCategory.Sections[0].Id;
+					attendee.SectionName = priceCategory.Sections[0].Name;
+					autoSelectSeat( attendee );
+				}
+				newAttendeeIds.push( 'reservation_' + attendee.Id );
+			}
+			populatePriceCategoryList( performance, true );//Visually reset the list(s), true = hard reset (to first option)
+			populateReservationsListing( newAttendeeIds );
+		};
+	} )();
+	events.changeSeatSelection = ( function()
+	{
+		var regexId = /res[0-9]+/;
+		var id = -1;
+		var name = null;
+		var reservation = null;
+		var performance = null;
+		var attendees = [];
+		var attendee = null;
+		var currentAttendee = null;
+		var priceCategory = null;
+		var section = null;
+		var seating = null;
+		var seatingSection = null;
+		var rows = [];
+		var row = null;
+		var seats = [];
+		var seat = null;
+		var selectedIndex = -1;
+		var autoselect = false;
+		var el = null;
+		return function( source, performanceId )
+		{
+			//Note: this function only happens when allowSeatSelection
+			reservation = getItemFromCollection( performanceId, Order.Reservations );
+			performance = getItemFromCollection( performanceId, Performances );
+			if( !reservation || !performance )
+				return;
+			seating = performance.Seating;
+			attendees = reservation.Attendees;
+			id = source.id.match( regexId )[0];
+			currentAttendee = getItemFromCollection( id, attendees );
+			selectedIndex = source.selectedIndex;
+			autoselect = false;
+			seatingSection = null;//Must reset before switch
+			name = source.id.replace( regexId, '' );
+			switch( name )
+			{
+				case 'section_':
+					if( selectedIndex < 1 )
+					{
+						currentAttendee.SectionId = -1;
+						currentAttendee.SectionName = '';
+					}
+					else
+					{
+						currentAttendee.SectionId = parseInt( source[source.selectedIndex].value ); //Must remain int
+						currentAttendee.SectionName = source[source.selectedIndex].textContent;
+						autoselect = true; //Try to autoselect an available seat. If not, then the user may choose to replace another attendee in the first row selected.
+						seatingSection = getItemFromCollection( currentAttendee.SectionId, seating );
+					}
+					currentAttendee.Row = null;
+					currentAttendee.Seat = null;
+					currentAttendee.SeatId = -1;
+					break;
+				case 'row_':
+					seatingSection = getItemFromCollection( currentAttendee.SectionId, seating );
+					if( selectedIndex < 1 )
+						currentAttendee.Row = null;
+					else
+					{
+						currentAttendee.Row = source[source.selectedIndex].value;
+						autoselect = true; //Try to autoselect an available seat. If not, then the user may choose to replace another attendee in this row.
+					}
+					currentAttendee.Seat = null;
+					currentAttendee.SeatId = -1;
+					break;
+				case 'seat_':
+					seatingSection = getItemFromCollection( currentAttendee.SectionId, seating );
+					if( selectedIndex < 1 )
+					{
+						currentAttendee.Seat = null;
+						currentAttendee.SeatId = -1;
+					}
+					else
+					{
+						currentAttendee.Seat = source[source.selectedIndex].innerHTML;
+						currentAttendee.SeatId = parseInt(source[source.selectedIndex].value);
+						if( seatingSection )
+							seatingSection.SeatsAvailable -= 1;//Any time SeatId is assigned to a *specific* attendee
+						performance.SeatsTaken += 1;//Any time SeatId is assigned to a *specific* attendee
+					}
+					break;
+				default: //Should never happen
+					return;
+			}
+			//Under all cases, the total will need to be recalculated. So reset the present values.
+			currentAttendee.Priced = 0;
+			currentAttendee.PricedText = '';
+			currentAttendee.PricedTitle = '';
+			currentAttendee.PricedCategoryName = '';
+			//If the seat was reserved before completing the order (after ajax),
+			//and the reserver has changed the seat, clear error class.
+			el = document.getElementById( 'reservation_{0}'.MergeValues( id ) );
+			removeClassname( el, 'has_error' );
+			if( !seatingSection )
+			{
+				currentAttendee.GroupPrice = 0;
+				currentAttendee.Price = 0;
+				currentAttendee.Heads = 0;
+				populateReservationsListing();
+				return;
+			}
+			priceCategory = getItemFromCollection( currentAttendee.PriceCategoryId, performance.PriceCategories );
+			section = getItemFromCollection( currentAttendee.SectionId, priceCategory.Sections );
+			currentAttendee.GroupPrice = section.GroupPrice;
+			currentAttendee.Price = section.Price;
+			currentAttendee.Heads = section.Heads;
+			rows = seatingSection.Rows;
+			if( autoselect )
+				autoSelectSeat( currentAttendee );
+			if( currentAttendee.Row == null && rows.length == 1 )
+				currentAttendee.Row = rows[0].Id;
+			if( currentAttendee.Row == null )
+			{
+				populateReservationsListing();
+				return;
+			}
+			row = getItemFromCollection( currentAttendee.Row, rows );
+			if( !row )
+			{
+				populateReservationsListing();
+				return;
+			}
+			seats = row.Seats;
+			if( currentAttendee.Seat == null && seats.length == 1 )
+			{
+				currentAttendee.Seat = seats[0].Id;
+				currentAttendee.SeatId = seats[0].SeatId;
+				seatingSection.SeatsAvailable -= 1;//Any time SeatId is assigned to a *specific* attendee
+				performance.SeatsTaken += 1;//Any time SeatId is assigned to a *specific* attendee
+			}
+			if( currentAttendee.Seat == null )
+			{
+				populateReservationsListing();
+				return;
+			}
+			for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+			{
+				//We're looking for the previousAttendee this selection action may be replacing
+				attendee = attendees[a];
+				if( attendee.SeatId == currentAttendee.SeatId && attendee.Id != currentAttendee.Id )
+				{
+					attendee.SectionId = -1;
+					attendee.SectionName = '';
+					attendee.Row = null;
+					attendee.Seat = null;
+					attendee.SeatId = -1;
+					seatingSection.SeatsAvailable += 1;//We just replaced another attendee, so we need to balance the change.
+					performance.SeatsTaken -= 1;//We just replaced another attendee, so we need to balance the change.
+					attendee.GroupPrice = 0;
+					attendee.Price = 0;
+					attendee.Heads = 0;
+					attendee.Priced = 0;
+					attendee.PricedText = '';
+					attendee.PricedTitle = '';
+					attendee.PricedCategoryName = '';
+					populateReservationsListing( 'section_{0},row_{0},seat_{0}'.MergeValues( attendee.Id ).split( ',' ) );
+					return;
+				}
+			}
+			if( seatingSection.SeatsAvailable < 1 )
+			{
+				//Reset the list when we've run out of seats:
+				// This will in effect cause recalculation of seating availability (when allowSeatSelection)
+				// and remove the ability to add more seats to this section (from the interface).
+				populatePriceCategoryList( performance );
+			}
+			populateReservationsListing();
+		};
+	} )();
+	events.reservationRemoveButtonClick = function( source )
+	{ 
+		var id = source.value;
+		var reservation = null;
+		var attendees = null;
+		var attendee = null;
+		var seatingSection = null;
+		for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+		{
+			reservation = Order.Reservations[r];
+			attendees = reservation.Attendees;
+			for( var a = attendees.length - 1; a > -1; a-- )
+			{
+				attendee = attendees[a];
+				if( attendee.Id == id )
+				{
+					if( typeof ( formJson ) != 'undefined' )
+					{
+						//Remove embedded form data too (otherwise newforms will break)
+						for( var key in formJson )
+						{
+							if( key.indexOf( id ) > -1 )
+								delete formJson[key];
+						}
+					}
+					var el = document.getElementById( 'reservation_{0}'.MergeValues( attendee.Id ) );
+					el.parentNode.removeChild(el);
+					attendees.splice( a, 1 );//We remove the attendee before the following because seating recalculation is dependent on it.
+					var performance = getItemFromCollection( reservation.Id, Performances );
+					performance.SeatsTaken += 1;//Must add the seat (for !allowSeatSelection)
+					//Reset the list(s)
+					// This will in effect cause recalculation of seating availability (when allowSeatSelection).
+					populatePriceCategoryList( performance );
+					populateReservationsListing();
+					return;
+				}
+			}
+		}
+	};
+	var calculateAttendeesPriced = ( function()
+	{
+		var reverseNumericalSort = function( a, b )
+		{
+			if( a < b )
+				return 1;
+			if( a > b )
+				return -1;
+			return 0;
+		};
+		var groups = null;
+		var group = null;
+		var groupPricing = null;
+		var prices = [];
+		var groupPrice = 0;
+		var priceOfAdditionals = -1;
+		var groupedAttendees = [];
+		var key = -1;
+		var attendees = null;
+		var attendee = null;
+		var priceCategory = null;
+		var performance = null;
+		var headIndex = -1;
+		var section = null;
+		var subtotal = -1;
+		var priceTitle = '';
+		var priceText = '';
+		var heads = 0;
+		var groupReservationIndex = 0;
+		var resetData = true;
+		return function( reservation )
+		{
+			/*
+				The following grouping and sorting is necessary for edge cases where two sections may have the same head count and group price, but the price varies.
+				They should get the cheaper price, so we sort for it here.
+				Note: Chrome's object array 'custom sort function' does not sort properly on arrays greater than 10 items. The following is a workaround.
+			*/
+			attendees = reservation.Attendees;
+			if( !performance || performance.Id != reservation.Id )
+			{
+				performance = getItemFromCollection( reservation.Id, Performances );
+				resetData = true;
+			}
+			groups = { heads: [], collection: {} };
+			group = {};
+			groupPricing = {};
+			prices = [];
+			groupedAttendees = [];
+			for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+			{
+				//First reset the attendee's calculated price
+				// and place them in the selected section (set the heads, price and group price)
+				attendee = attendees[a];
+				if( resetData || !priceCategory || priceCategory.Id != attendee.PriceCategoryId )
+				{
+					priceCategory = getItemFromCollection( attendee.PriceCategoryId, performance.PriceCategories );
+					resetData = true; //Section pricing *must* reset.
+				}
+				attendee.Index = attendees.indexOf( attendee ) + 1;
+				if( attendee.Index < 1 )//No attendees? Then this would be -1 + 1 = 0. Ensure that the first attendee has an index.
+					attendee.Index = 1;
+				attendee.Priced = 0;
+				attendee.PricedText = '';
+				attendee.PricedTitle = '';
+				attendee.PricedCategoryName = priceCategory.Name;
+				if( events.AllowSeatSelection )
+				{
+					if( resetData || !section || section.Id != attendee.SectionId )
+						section = getItemFromCollection( attendee.SectionId, priceCategory.Sections );
+					if( !section || attendee.SeatId < 1 )
+					{
+						//If we don't have a section for this attendee,
+						// set a default/unused value (that will be) ignored by price calculation.
+						section =
+						{
+							Heads: 0,
+							Price: -1,
+							GroupPrice: -1
+						};
+					}
+				}
+				else
+				{
+					section = priceCategory.Sections[0];
+				}
+				resetData = false;
+				attendee.Heads = section.Heads;
+				attendee.Price = section.Price;
+				attendee.GroupPrice = section.GroupPrice;
+				//Now group the attendee based on section head count and group price.
+				group = groups.collection[attendee.Heads];
+				if( !group )
+				{
+					group = { groupPricing: [], collection: {} };
+					groups.collection[attendee.Heads] = group;
+					groups.heads.push( attendee.Heads );
+				}
+				groupPricing = group.collection[attendee.GroupPrice];
+				if( !groupPricing )
+				{
+					groupPricing = { prices: [], collection: {} };
+					group.collection[attendee.GroupPrice] = groupPricing;
+					group.groupPricing.push( attendee.GroupPrice );
+				}
+				if( attendee.Price == 0 /* Either group additions have been explicitly disabled, */
+				|| attendee.Price >= attendee.GroupPrice /* or it's more economical to start a new group... */ )
+				{
+					//What will happen is that these attendees will be calculated first.
+					// Essentially, they do not allow additions to the group; so, the group will fill up and a new group will be made for remainders.
+					key = attendee.GroupPrice;
+				}
+				else
+				{
+					key = attendee.Price;
+				}
+				prices = groupPricing.collection[key];
+				if( !prices )
+				{
+					prices = [];
+					groupPricing.collection[key] = prices;
+					groupPricing.prices.push( key );
+				}
+				prices.push( attendee );
+			}
+			//Sort heads desc.
+			// This is not necessary for price calculation, just easier for debugging purposes.
+			groups.heads.sort( reverseNumericalSort );
+			while( groups.heads.length )
+			{
+				heads = groups.heads.shift();
+				if( heads == 0 )
+				{
+					//No such thing as zero people.
+					// This happens when allowSeatSelection is enabled, and the attendee has no seat assigned.
+					continue;
+				}
+				group = groups.collection[heads];
+				//Sort group pricing desc.
+				// This is not necessary for price calculation, just easier for debugging purposes.
+				group.groupPricing.sort( reverseNumericalSort );
+				while( group.groupPricing.length )
+				{
+					groupPrice = group.groupPricing.shift();
+					groupPricing = group.collection[ groupPrice ];
+					totalOfPricesInGroup = 0;
+					for( var p = 0, pMax = groupPricing.prices.length; p < pMax; p++ )
+					{
+						//Add up all the attendee prices in this grouping (they have the same group price and head count).
+						groupedAttendees = groupPricing.collection[groupPricing.prices[p]];
+						for( var a = 0, aMax = groupedAttendees.length; a < aMax; a++ )
+							totalOfPricesInGroup += groupedAttendees[a].Price;
+					}
+					headIndex = 0; //Reset the head index
+					//Sort prices desc.
+					// This *is* necessary for price calculation.
+					groupPricing.prices.sort( reverseNumericalSort );
+					while( groupPricing.prices.length )
+					{
+						priceOfAdditionals = groupPricing.prices.shift();
+						groupedAttendees = groupPricing.collection[ priceOfAdditionals ];
+						while( groupedAttendees.length )
+						{
+							attendee = groupedAttendees.shift();
+							subtotal = attendee.Price;
+							priceTitle = '';
+							priceText = formatPrice( subtotal, true );
+							headIndex++;
+							if( heads > 1 )//Group pricing:
+							{
+								/* If the remaining reservations by price is greater than a new group (with however many more by price), then start a new group... */
+								if( headIndex > heads )
+								{
+									if( priceOfAdditionals == attendee.GroupPrice //Start a new group
+									|| totalOfPricesInGroup >= attendee.GroupPrice )
+										headIndex = 1; //Start a new group
+								}
+								totalOfPricesInGroup -= attendee.Price;
+								if( headIndex == 1 )//The first one is charged group rate (even if there is only one in the group, we use group rate).
+								{
+									groupReservationIndex = attendee.Index;
+									subtotal = attendee.GroupPrice;
+									priceText = formatPrice( subtotal );
+								}
+								else if( headIndex <= heads )
+								{
+									subtotal = 0; //Included in group price.
+									priceTitle = '{0} #{1}'.MergeValues( texts.includedInReservation, groupReservationIndex );
+									priceText = '( {0} )'.MergeValues( texts.included );
+								}
+								else
+								{
+									//Note: priceTitle should be set before priceText is overriden.
+									priceTitle = '{0} {1} #{2}'.MergeValues( priceText, texts.inAdditionToReservation, groupReservationIndex );
+									priceText = '{0} {1}'.MergeValues( priceText, texts.additional );
+								}
+							}
+							attendee.Priced = subtotal; //At this point, embedded forms have had no effect; which is correct (visually).
+							attendee.PricedTitle = priceTitle; //At this point, embedded forms have had no effect; which is correct (visually).
+							attendee.PricedText = priceText; //At this point, embedded forms have had no effect; which is correct (visually).
+						}
+					}
+				}
+			}
+		};
+	} )();
+	var embeddedForms =
+	{
+		get: ( function()
+		{
+			var regexesFormIds = {};
+			return function( key, id )
+			{
+				regexesFormIds[key] = regexesFormIds[key] || new RegExp( 'res{0}\\-'.MergeValues( key ), 'g' );
+				return (this[key] || '').replace( regexesFormIds[key], id + '-' );
+			};
+		} )()
+	};
+	var set_EmbeddedForms = ( function()
+	{
+		var seek = null;
+		var embeddedForm = '';
+		var id = 0;
+		return function()
+		{
+			for( var p = 0, pMax = Performances.length; p < pMax; p++ )
+			{
+				id = Performances[p].ReservationFormId;
+				if( embeddedForms[id] )
+					continue;
+				embeddedForm = '';
+				seek = document.getElementById( 'PerReservationForm_{0}'.MergeValues( id ) );
+				//The embeddedForm is textContent within an html comment. This is to inhibit JS initialization of its contents.
+				if( seek )
+					embeddedForm = seek.firstChild.textContent;
+				embeddedForms[id] = embeddedForm;
+			}
+		};
+	} )();
+	var slice = Array.prototype.slice;
+	var validate_OldEmbeddedForms = ( function()
+	{
+		//CCOEVENTS-111.
+		var regexName = /^(tran|res)[0-9]+\-/i;
+		var fields = [];
+		var field = null;
+		var name = null;
+		var value = null;
+		var type = null;
+		return function()
+		{
+			fields = [];
+			fields = fields.concat( slice.apply( form.getElementsByTagName( 'input' ) ) );
+			fields = fields.concat( slice.apply( form.getElementsByTagName( 'select' ) ) );
+			fields = fields.concat( slice.apply( form.getElementsByTagName( 'textarea' ) ) );
+			for( var f = 0, fMax = fields.length; f < fMax; f++ )
+			{
+				field = fields[f];
+				name = field.getAttribute( 'name' ) || '';
+				if( !name.match( regexName ) || field.getAttribute( 'required' ) !== 'true' )
+					continue;
+				value = field.value;
+				if( value.trim() !== '' )
+					continue;
+				alert( texts.fieldCannotBeEmpty.MergeProperties( { field: name.replace( regexName, '' ) } ) );
+				if( field.scrollIntoView )
+				{
+					field.scrollIntoView( { block: 'start', behavior: 'smooth' } );
+					field.focus();
+					field.select();
+				}
+				return false;
+			}
+			return true;
+		};
+	} )();
+	var registerFieldListeners = ( function()
+	{
+		/**
+		 * Get the id and control type for the given formbuilder form field.
+		 *
+		 * @description This is used to determine whether the total pricing amount for the embedded events form that
+		 * this field is a part of needs to be updated when this field's value changes. In other words, is this a
+		 * field representing a monetary amount that contributes to the total amount of the form?
+		 * @param {{id:string}|undefined} field
+		 * @returns {{controlType: string, controlId: string, controlPricing: string|undefined }|null}
+		 */
+		function getEmbeddedFormFieldData(field) {
+            // If the field is from formbuilder,
+			if (!('formJson' in window) || !field?.id?.startsWith('input_'))
+			{
+				return null;
+			}
+
+			const controlId = field.id.split('_')[1];
+			const controlTypeName = controlId + '_type';
+			const controlPricingName = controlId + '_pricing';
+			const controlType = formJson[controlTypeName];
+			const controlPricing = formJson[controlPricingName];
+			return { controlId, controlType, controlPricing };
+		}
+		
+		function updateFormTotalsIfFieldHasAmount(field)
+		{
+			const embeddedInputData = getEmbeddedFormFieldData(field);
+			const embeddedInputHasAmount = !!embeddedInputData && (embeddedInputData.controlType === 'control_amount' || !!embeddedInputData.controlPricing);
+			if (embeddedInputHasAmount)
+			{
+				// the global updateValue function is defined in userform.js. 
+				// it updates a cached field `selectedElements` with the currently selected amount 
+				// of the provided pricing control which is later used in `updateTotal`.
+				updateValue(embeddedInputData.controlId);
+				updateTotals();
+			}
+		}
+		var callback = function( field, property, type, name ) //Note: variable scope changes
+		{
+			updateFormTotalsIfFieldHasAmount(field);
+			
+			var value = field.value;
+			var prop = property[name];
+			switch( type )
+			{
+				case 'checkbox':
+					if( field.checked )
+					{
+						if( typeof ( prop ) == 'undefined' )
+							property[name] = [value];
+						else if( prop.indexOf( value ) == -1 )
+							prop.push( value );
+					}
+					else if( typeof ( prop ) != 'undefined' )
+					{
+						//It's possible that an embedded form could be set with a default value checked.
+						//Unchecking requires that the property is defined.
+						var prop = property[name];
+						var index = prop.indexOf( value );
+						prop.splice( index, 1 );
+						if( prop.length == 0 )
+							delete property[name];
+					}
+					return;
+			}
+			if( value != '' )
+				property[name] = [value];
+			else if( typeof ( prop ) != 'undefined' )
+				delete property[name];
+		};
+		var fields = [];
+		var field = null;
+		var privateCallback = null;
+		return function( container, property )
+		{
+			fields = [];
+			fields = fields.concat( slice.apply( container.getElementsByTagName( 'input' ) ) );
+			fields = fields.concat( slice.apply( container.getElementsByTagName( 'select' ) ) );
+			fields = fields.concat( slice.apply( container.getElementsByTagName( 'textarea' ) ) );
+			for( var f = 0, fMax = fields.length; f < fMax; f++ )
+			{
+				field = fields[f];
+				var nodeName = field.nodeName.toLowerCase();
+				var type = ( field.getAttribute( 'type' ) || 'text' ).toLowerCase();
+				if( nodeName != 'input' )//CCOEVENTS-205.
+					type = nodeName;
+				var name = field.getAttribute( 'name' ) || field.id;
+				privateCallback = ( function( field, property, type, name )
+				{
+					var field = field;
+					var property = property;
+					return function()
+					{
+						callback( field, property, type, name );
+					};
+				} )( field, property, type, name );
+				// handle fields that are preselected (have an initial value)
+				updateFormTotalsIfFieldHasAmount(field);
+				switch( type )
+				{
+					case 'hidden'://CCOEVENTS-179.
+						break;
+					case 'checkbox':
+					case 'radio':
+					case 'select'://CCOEVENTS-205.
+						field.addEventListener( 'change', privateCallback );
+						break;
+					default:
+						//These listeners are a bit more aggressive than just 'onchage' event.
+						//i know of (at least) input[number] fields requiring this.
+						field.addEventListener( 'mouseup', privateCallback );
+						field.addEventListener( 'keyup', privateCallback );
+						break;
+				}
+			}
+		};
+	} )();
+	events.toggleAdditionals = ( function()
+	{
+		var reservation = null;
+		var count = 0;
+		var container = null;
+		return function( id, visible )
+		{
+			reservation = getItemFromCollection( id, Order.Reservations );
+			count = reservation.Attendees.length;
+			container = $j( document.getElementById( 'performance_{0}_additionalsToggle'.MergeValues( id ) ) );
+			if( visible )
+			{
+				container.find( '.toggle_options' ).slideDown(180);
+				container.find( '.toggle_message' ).slideUp(180);
+			}
+			else
+			{
+				container.find( '.toggle_options' ).slideUp( 180 );
+				container.find( '.toggle_message' ).slideDown( 180 );
+			}
+			document.getElementById( 'performance_{0}'.MergeValues( id ) ).setAttribute( 'data-attendees-count', count );
+		};
+	} )();
+	var populateReservationsListing = ( function( context )
+	{
+		var reservation = null;
+		var reservationIndex = null;
+		var reservationFirstName = null;
+		var reservationLastName = null;
+		var reservationSeatSelection = null;
+		var reservationPrice = null;
+		var performance = null;
+		var embeddedForm = null;
+		var subtotal = 0;
+		var reservationsList = null;
+		var attendees = null;
+		var attendeesCount = -1;
+		var div = document.createElement( 'div' );
+		var currentAttendee = null;
+		var previousAttendee = null;
+		var scriptTags = null;
+		var price = null;
+		return function( elementIdsToFlash )
+		{
+			attendeesCount = 0;
+			for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+			{
+				reservation = Order.Reservations[r];
+				performance = getItemFromCollection( reservation.Id, Performances );
+				if( !performance )
+					return;
+				reservationsList = document.getElementById( 'performance_{0}_reservations'.MergeValues( reservation.Id ) );
+				if( !reservationsList )
+					continue;
+				attendees = reservation.Attendees;
+				attendeesCount += attendees.length;
+				if( !attendees.length )
+				{
+					reservationsList.innerHTML = '';
+					events.toggleAdditionals( performance.Id, true );
+					continue;
+				}
+				else if( !reservationsList.firstChild )
+				{
+					if( !isMobile )
+					{
+						div.innerHTML = templates.get( 'reservationListHeader',
+						{
+							id: reservation.Id,
+							seat_selection_display: events.AllowSeatSelection ? 'block' : 'none',
+							hideName: ( !events.AllowSeatSelection && events.Settings.Reservation.Name == -1 ? 'hidden' : '' ),
+							firstNameLabel: texts.firstName,
+							lastNameLabel: texts.lastName,
+							seatSelectionLabel: texts.seatSelection,
+							categoryLabel: texts.category,
+							priceLabel: texts.price
+						} );
+						while( div.firstChild )
+							reservationsList.appendChild( div.firstChild );
+					}
+					else
+					{
+						//There must be at least one child inserted.
+						reservationsList.appendChild( document.createTextNode("") );
+					}
+				}
+				events.toggleAdditionals( performance.Id, false );
+				subtotal = 0;
+				calculateAttendeesPriced( reservation );//Calculate price for display by the attendees, and their subtotals
+				previousAttendee = reservationsList.lastChild;
+				for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+				{
+					const attendee = attendees[a];
+					currentAttendee = document.getElementById( 'reservation_{0}'.MergeValues( attendee.Id ) );
+					seatSelection = '';
+					if( currentAttendee )
+					{
+						//Store changed values
+						attendee.FirstName = document.getElementById( 'reservation_{0}_firstName'.MergeValues( attendee.Id ) ).value;
+						attendee.LastName = document.getElementById( 'reservation_{0}_lastName'.MergeValues( attendee.Id ) ).value;
+						//Update dom
+						document.getElementById( 'reservation_{0}_index'.MergeValues( attendee.Id ) ).innerHTML = attendee.Index;
+						price = document.getElementById( 'reservation_{0}_price'.MergeValues( attendee.Id ) );
+						price.innerHTML = attendee.PricedText;
+						price.setAttribute('title', attendee.PricedTitle);
+						if( events.AllowSeatSelection )//Original seat selection logic appears to be: displayPriceCategory(element)
+						{
+							//Note: Seat selection data storage occurs in changeSeatSelection()
+							seatSelection = generateSeatSelectionLists( attendee );
+							document.getElementById( 'reservation_{0}_seat_selection'.MergeValues( attendee.Id ) ).innerHTML = seatSelection;
+						}
+						//When there is an embedded form, we need to keep track of (processed) form data.
+						//FYI: This happens in registerFieldListeners().
+					}
+					else
+					{
+						if( events.AllowSeatSelection )//Original seat selection logic appears to be: displayPriceCategory(element)
+						{
+							seatSelection = generateSeatSelectionLists( attendee );
+						}
+						embeddedForm = embeddedForms.get(performance.ReservationFormId, attendee.Id);
+						if( !isMobile )
+						{
+							div.innerHTML = templates.get( 'reservationListItem',
+							{
+								id: attendee.Id,
+								index: attendee.Index,
+								hideName: ( !events.AllowSeatSelection && events.Settings.Reservation.Name == -1 ? 'hidden' : '' ),
+								firstName: attendee.FirstName,
+								lastName: attendee.LastName,
+								seatSelection: seatSelection,
+								name: attendee.PricedCategoryName,
+								price: attendee.PricedText,
+								priceTitle: attendee.PricedTitle,
+								embeddedForm: embeddedForm,
+								priceCssClass: ( events.AllowSeatSelection ? 'g120 no_margin' : 'inline_block' )
+							} );
+						}
+						else
+						{
+							div.innerHTML = templates.get( 'reservationListItemMobile',
+							{
+								id: attendee.Id,
+								index: attendee.Index,
+								hideName: ( !events.AllowSeatSelection && events.Settings.Reservation.Name == -1 ? 'hidden' : '' ),
+								firstName: attendee.FirstName,
+								firstNameLabel: texts.firstName,
+								lastName: attendee.LastName,
+								lastNameLabel: texts.lastName,
+								seatSelection: seatSelection,
+								name: attendee.PricedCategoryName,
+								price: attendee.PricedText,
+								priceTitle: attendee.PricedTitle,
+								embeddedForm: embeddedForm
+							} );
+						}
+						
+						const attendeeEmbeddedFormElement = div.lastElementChild.lastElementChild;
+						while( div.firstChild )
+							reservationsList.insertBefore( div.firstChild, previousAttendee.nextSibling );
+						currentAttendee = document.getElementById( 'reservation_{0}'.MergeValues( attendee.Id ) );
+						scriptTags = currentAttendee.getElementsByTagName( 'script' );//For embeddedForm
+						for( var s = 0, sMax = scriptTags.length; s < sMax; s++ )
+							context.eval( scriptTags[s].innerHTML );//Should eval outside this enclosure
+
+						// Hold off processing the embedded form until it's properties are fully loaded into the global 
+						// 'formJson'. This happens asynchronously in one of the scripts that are evaluated.
+						setTimeout(() => {
+							initTotal();
+							populateCustomFieldsWithInitialValues(attendeeEmbeddedFormElement, attendee.CustomFields);
+							registerFieldListeners( attendeeEmbeddedFormElement, attendee.CustomFields ); //target container is embeddedForm
+						}, 0);
+					}
+					subtotal += attendee.Priced;
+					previousAttendee = currentAttendee;
+				}
+				if( elementIdsToFlash && elementIdsToFlash.length )
+					setTimeout( 'Events.flashElements(["{0}"])'.MergeValues( elementIdsToFlash.join( '","' ) ), 0 );
+				reservation.Total = subtotal;
+			}
+			if(!anyPerformancesHavePricedCategory(Performances))
+			{
+				document.querySelectorAll('.price-display, .price-header')
+					.forEach(el => el.style.display = 'none');
+			}
+			if( attendeesCount > 0 )
+				removeClassname( secondaryFormItems, 'hidden' );//dimmed
+			else //Must have at least one attendee, otherwise we should hide secondary items.
+				addClassname( secondaryFormItems, 'hidden' );//dimmed
+			calculateTotals();
+			storeProgress();
+		};
+	} )( this );
+
+	/**
+	 * Make sure form fields that are preselected - fields that have an initial value - are included
+	 * in the custom fields list gets submitted.
+	 * @param embeddedFormElement
+	 * @param CustomFields
+	 */
+	var populateCustomFieldsWithInitialValues = function (embeddedFormElement, CustomFields)
+	{
+		const customFieldTypes = ['select', 'checkbox', 'radio', 'text'];
+		const fields = Array.from(embeddedFormElement.querySelectorAll('input,select'))
+								.filter(field => customFieldTypes.includes(field.type) || field.nodeName.toLowerCase() === 'select');
+		for (const field of fields)
+		{
+			const checkableFields = ['checkbox', 'radio'];
+			const shouldSetCustomField =  (!checkableFields.includes(field.type) || field.checked) && !!field.value;
+			if (shouldSetCustomField)
+			{
+				const fieldName = field.getAttribute('name') || field.name;
+				CustomFields[fieldName] = [field.value];
+			}
+		}
+	}
+	var calculateTotals = ( function()
+	{
+		var subtotal = 0;
+		var total = 0;
+		var deltaTotal = 0; //This is for embedded forms.
+		var reservation = null;
+		var performance = null;
+		var attendees = null;
+		var aMax = 0;
+		var surcharge = null;
+		var subtotalField = null;
+		var html = [''];
+		var attendeesCount = 0;
+		var additionalInformationTotalField = null;
+		var discounts = null;
+		var discount = null;
+		var discountPercentReduction = 0;
+		var discountPriceReduction = 0;
+		var count = 0;
+		return function()
+		{
+			attendeesCount = 0;
+			total = 0;
+			html = [];
+			for( var p = 0, pMax = Performances.length; p < pMax; p++ )
+			{
+				//Cycle through Performances since they are in correct order of appearance on the page.
+				performance = Performances[p];
+				reservation = getItemFromCollection( performance.Id, Order.Reservations );
+				if( !reservation )
+					continue;
+				subtotalField = document.getElementById( 'performance_{0}_total'.MergeValues( performance.Id ) );
+				attendees = reservation.Attendees;
+				subtotal = reservation.Total;
+				deltaTotal = 0;
+				aMax = attendees.length;
+				attendeesCount += attendees.length;
+				if( aMax )
+				{
+					for( var a = 0; a < aMax; a++ )
+					{
+						//i originally thought it would be a good idea if the embedded form could impose some sort of discount, thus the name deltaTotal (allowing a negative value).
+						//This could be problematic in many ways, so...
+						if( attendees[a].DeltaTotal > 0 )//If an embedded form gives a negative value, it should not affect the total.
+							deltaTotal += attendees[a].DeltaTotal;
+					}
+					total += subtotal + deltaTotal;
+					html.push( templates.get( 'subtotalItem',
+					{
+						subtotalFor: texts.subtotalFor.MergeProperties( { item: reservation.Name } ),
+						subtotal: formatPrice( subtotal + deltaTotal )
+					} ) );
+				}
+				
+				if(aMax && anyPerformancesHavePricedCategory(Performances))
+				{
+					subtotalField.parentNode.style.display = 'block';
+					subtotalField.innerHTML = formatPrice( subtotal + deltaTotal );
+				}
+				else
+				{
+					subtotalField.parentNode.style.display = 'none';
+					subtotalField.innerHTML = '';
+				}
+			}
+			additionalInformationTotalField = document.getElementById( 'additional_{0}_total'.MergeValues( events.TransactionFormId ) );
+			if( additionalInformationTotalField ) //Embedded transaction form
+			{
+				if( Order.AdditionalInformationTotal > 0 )
+				{
+					additionalInformationTotalField.parentNode.style.display = 'block';
+					additionalInformationTotalField.innerHTML = formatPrice( Order.AdditionalInformationTotal );
+					html.push( templates.get( 'subtotalItem',
+					{
+						subtotalFor: texts.subtotalFor.MergeProperties( { item: texts.additionalInformation } ),
+						subtotal: formatPrice( Order.AdditionalInformationTotal )
+					} ) );
+					total += Order.AdditionalInformationTotal;
+				}
+				else
+					additionalInformationTotalField.parentNode.style.display = 'none';
+			}
+			if( total < 0 )
+				total = 0;
+			if( html.length == 0 )//No reservation this far, yet we may have a total (donation > 0 (later on), or some other case) so show a zero subtotal
+			{
+				html.push( templates.get( 'subtotalItem',
+				{
+					subtotalFor: texts.subtotal,
+					subtotal: formatPrice( 0 )
+				} ) );
+			}
+			Order.Subtotal = total;
+			if( Order.Subtotal == 0 )//Discount does not apply if there is a zero total.
+			{
+				if( discountCode ) //It's possible that discount codes are not enabled on this event.
+					discountCode.parentNode.parentNode.style.display = 'none';
+			}
+			else
+			{
+				if( discountCode ) //It's possible that discount codes are not enabled on this event.
+					discountCode.parentNode.parentNode.style.display = 'block';
+				if( Order.Discounts.length )
+				{
+					Order.TotalDiscount = total;//First store our running total.
+					//Calculate discount(s)
+					discountPercentReduction = 0;
+					discountPriceReduction = 0;
+					discounts = Order.Discounts;
+					discounts.sort( function( a, b )//Sort percentages to the top (works in chrome)
+					{
+						if( a.Type == '%' && b.Type == '$' )
+							return -1;
+						if( a.Type == '$' && b.Type == '%' )
+							return 1;
+						return 0;
+					} );
+					for( var d = 0, dMax = discounts.length; d < dMax; d++ )
+					{
+						discount = discounts[d];
+						if( discount.Minimum > 0 && Order.Subtotal < discount.Minimum )
+							continue;
+						switch( discount.Type )
+						{
+							case '%':
+								discountPercentReduction += discount.Amount;
+								html.push( templates.get( 'subtotalItem',
+								{
+									subtotalFor: texts.discountCodeItem.MergeProperties( { code: discount.Code } ),
+									subtotal: formatPrice(( total * ( discount.Amount / 100 ) ) * -1 )
+								} ) );
+								break;
+							case '$':
+								discountPriceReduction += discount.Amount;
+								html.push( templates.get( 'subtotalItem',
+								{
+									subtotalFor: texts.discountCodeItem.MergeProperties( { code: discount.Code } ),
+									subtotal: formatPrice( discount.Amount * -1 )
+								} ) );
+								break;
+						}
+					}
+					if( discountPercentReduction > 0 )
+						total -= total * ( discountPercentReduction / 100 );
+					total -= discountPriceReduction;
+					if( total < 0 )
+						total = 0;
+					Order.TotalDiscount -= total;//Now we get the amount discounted.
+				}
+			}
+			Order.TotalSurcharge = total; //Store the running total before surcharge calculation
+			surcharge = Performances[0].Surcharge; //Same for all Performances
+			switch( surcharge.Type )
+			{
+				case 1:
+					if( attendeesCount == 0 )//No attendees? Move on. No need to show 0 charge.
+						break;
+					subtotal = attendeesCount * surcharge.Amount;
+					html.push( templates.get( 'surcharge1Item',
+					{
+						label: texts.surcharge1Item.MergeProperties( {
+							amount: formatPrice( surcharge.Amount ),
+							name: surcharge.Name,
+							count: attendeesCount
+						} ),
+						surcharge: formatPrice( subtotal )
+					} ) );
+					total += subtotal;
+					break;
+				case 2:
+					html.push( templates.get( 'surcharge2Item',
+					{
+						label: texts.surcharge2Item.MergeProperties( { name: surcharge.Name } ),
+						surcharge: formatPrice( surcharge.Amount )
+					} ) );
+					total += surcharge.Amount;
+					break;
+				case 3:
+					if( total == 0 )//x% of 0 is 0. Hide.
+						break;
+					subtotal = ( surcharge.Amount / 100 ) * total;
+					html.push( templates.get( 'surcharge3Item',
+					{
+						label: texts.surcharge3Item.MergeProperties( {
+							amount: surcharge.Amount + '%',
+							name: surcharge.Name
+						} ),
+						surcharge: formatPrice( subtotal )
+					} ) );
+					total += subtotal;
+					break;
+			}
+			Order.TotalSurcharge = total - Order.TotalSurcharge; //Now get the surcharge amount.
+			if( Order.TotalDonation > 0 )
+			{
+				html.push( templates.get( 'subtotalItem',
+				{
+					subtotalFor: texts.donation,
+					subtotal: formatPrice( Order.TotalDonation )
+				} ) );
+				total += Order.TotalDonation;
+			}
+			Order.Total = total; //This is it, total should not be modified from this point on.
+			validateOrder();
+			
+			var hasFormEmbeddedInReservations = [...document.getElementsByClassName('embedded_form')]
+				.some(e => e.innerHTML.trim());
+			var attendeeUsingPricedCategory = anyPerformancesHavePricedCategory(Performances);
+			var hasEmbeddedForm = hasFormEmbeddedInReservations
+				|| !!document.getElementById('formContainer');
+			var performanceHasPaymentOptions = attendeeUsingPricedCategory
+				|| totalDonation //the total donation field does not exist 
+				|| anyPerformanceHaveSurcharge(Performances)
+				|| hasEmbeddedForm;  //Embedded forms are assumed to have additional payment options until we can determine whether it actually does. 
+			
+			if (!performanceHasPaymentOptions)
+			{
+				summary.style.display = 'none';
+			}
+			
+			if( attendeesCount == 0 && Order.Subtotal + Order.AdditionalInformationTotal + Order.TotalDonation + Order.TotalSurcharge == 0 )
+			{
+				//How is this different than (only) total?
+				//total reflects the final price of the order after Discounts are applied, and total can equal 0 in many instances.
+				//So here we check that there is no amount whatsoever before hiding display of the calculation.
+				//We also ensure that we have 0 attendees. If there is even one attendee (even if it is free) we display the total field.
+				totalsField.style.display = 'none';
+				payment.style.display = 'none';
+				return;
+			}
+			totalsField.style.display = 'block';
+			html.push( templates.get( 'totalItem',
+			{
+				label: texts.total,
+				total: formatPrice( total )
+			} ) );
+			totalsField.innerHTML = html.join( '\n' );
+			if( total == 0 )
+			{
+				//CCOEVENTS-96.
+				// There is no need for payment if there is no amount due.
+				payment.style.display = 'none';
+				return;
+			}
+			count = paymentMethod.options.length - 1;
+			paymentMethod.parentNode.setAttribute( 'data-count', count );
+			if( count == 1 )
+			{
+				paymentMethod.selectedIndex = 1;
+				paymentMethod.nextElementSibling.innerHTML = paymentMethod.value;
+				events.paymentMethodSelect( paymentMethod );
+			}
+			payment.style.display = 'block';
+		};
+	} )();
+	//modifySubtotal is a global function available to embedded forms.
+	//It exposes the ability to modify the total.
+	//It should *not* be part of the Events object prototype (not like this: events.modifySubtotal, or this var modifySubtotal).
+	modifySubtotal = ( function()
+	{
+		var regexId = /res[0-9]+/;
+		var regexPartialId = /_([^\-_]+)/;
+		var id = '';
+		var attendees = null;
+		var attendee = null;
+		var seek = null;
+		var body = document.body;
+		var deltaTotal = 0;
+		var index = -1;
+		var isNewForm = false;
+		var additionalInformationData =
+		{
+			fields: [],
+			values: {}
+		};
+		var attendeeData = {};//If the data is not from an embedded new form, we need to cache values of form items trigerring the change in price for an accurate total.
+		var attendeeItem = null;
+		return function( source, selectedElements )//This is for embedded forms; selectedElements is for new forms
+		{
+			deltaTotal = 0;
+			if( typeof ( selectedElements ) != 'undefined' )
+			{
+				//If the data is coming from the new form, the prices have already been calculated for us.
+				isNewForm = true;
+				id = source.id.match( regexPartialId ).pop();
+				for( var item in selectedElements )
+				{
+					if( item.indexOf( id ) == -1 )
+						continue;
+					deltaTotal += selectedElements[item];
+				}
+			}
+			else
+			{
+				//If it is not the new form, we need to sum up the subtotals when calculating the total.
+				isNewForm = false;
+				deltaTotal = parseFloat( source.getAttribute( 'amount' ) ) || 0;
+				switch( source.nodeName.toLowerCase() )
+				{
+					case 'select':
+						deltaTotal = parseFloat( source[source.selectedIndex].getAttribute( 'amount' ) ) || 0;
+						break;
+					case 'input':
+						switch( source.type )
+						{
+							case 'checkbox':
+								if( !source.checked )
+									deltaTotal = 0;
+								break;
+						}
+						break;
+				}
+			}
+			attendee = null;
+			seek = source;
+			id = '';
+			while( seek.parentNode && seek != body && seek != additionalInformation )
+			{
+				if( seek.id.indexOf( 'reservation_' ) > -1 )
+				{
+					id = seek.id.match( regexId )[0];
+					break;
+				}
+				seek = seek.parentNode;
+			}
+			if( id )
+			{
+				for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+				{
+					attendees = Order.Reservations[r].Attendees;
+					attendee = getItemFromCollection( id, attendees );
+					if( attendee )
+						break;
+				}
+			}
+			if( attendee )
+			{
+				attendee.DeltaTotal = 0;//Reset
+				if( isNewForm )
+				{
+					attendee.DeltaTotal = deltaTotal;
+				}
+				else
+				{
+					attendeeItem = attendeeData[attendee.Id];
+					if( !attendeeItem )
+					{
+						attendeeItem =
+						{
+							fields: [],
+							values: {}
+						};
+						attendeeData[attendee.Id] = attendeeItem;
+					}
+					index = attendeeItem.fields.indexOf( source );
+					if( index == -1 )
+					{
+						index = attendeeItem.fields.length;
+						attendeeItem.fields.push( source );
+					}
+					attendeeItem.values[index] = deltaTotal;
+					for( var a = 0, aMax = attendeeItem.fields.length; a < aMax; a++ )
+						attendee.DeltaTotal += attendeeItem.values[a];
+				}
+			}
+			else if( seek == additionalInformation )
+			{
+				Order.AdditionalInformationTotal = 0;//Reset
+				if( isNewForm )
+				{
+					Order.AdditionalInformationTotal = deltaTotal;
+				}
+				else
+				{
+					index = additionalInformationData.fields.indexOf( source );
+					if( index == -1 )
+					{
+						index = additionalInformationData.fields.length;
+						additionalInformationData.fields.push( source );
+					}
+					additionalInformationData.values[index] = deltaTotal;
+					for( var a = 0, aMax = additionalInformationData.fields.length; a < aMax; a++ )
+						Order.AdditionalInformationTotal += additionalInformationData.values[a];
+				}
+			}
+			calculateTotals();
+			storeProgress();
+		};
+	} )();
+	events.updateDonation = function( ev )
+	{
+		if( !totalDonation )
+			return;
+		Order.TotalDonation = parseFloat( totalDonation.value ) || 0;
+		if( Order.TotalDonation < 0 )
+			Order.TotalDonation = 0;
+		if( ev && ev.type == "change" )//Only update field value to a valid number "onchange" event.
+			totalDonation.value = formatPrice( Order.TotalDonation, false, '' );
+		if( Order.TotalDonation > 0 )
+			totalDonation.nextElementSibling.style.display = 'inline-block';
+		//You must call calculateTotals() everytime, otherwise there will be visually incorrect totals
+		calculateTotals();
+		storeProgress();
+	};
+	events.validateDiscountCode = ( function()
+	{
+		var code = null;
+		var discount = null;
+		var request = new Co.Ajax.RequestObject( '/WebServices/Tools/Events/ValidateDiscountCode' );
+		request.Method = 'POST';
+		request.EnableCaching = true;
+		request.Callback = function( response )
+		{
+			discount = response.responseJson;
+			if( typeof ( discount ) == 'undefined' )
+			{
+				alert( texts.unknownError );
+				return;
+			}
+			if( discount.Error )
+			{
+				alert( discount.Error );
+				discountCode.select();
+				discountCode.focus();
+				return;
+			}
+			discountCode.value = '';
+			Order.Discounts.push( discount );
+			calculateTotals();
+			storeProgress();
+			if( Order.Subtotal < discount.Minimum )
+			{
+				alert( texts.discountCodeMinimum.MergeProperties( {
+					code: discount.Code,
+					amount: formatPrice( discount.Minimum )
+				} )
+				);
+			}
+		};
+		return function( ev )
+		{
+			if( ev )
+			{
+				if( ev.keyCode == 13 )
+					ev.preventDefault(); //Don't submit
+				else
+					return; //Allow validation via Enter key, but not any other key
+			}
+			if( !discountCode )
+				return;
+			code = discountCode.value.Trim().toUpperCase();
+			if( !code )//No need to show an error on empty values. Maybe they missclicked?
+			{
+				return;
+			}
+			for( var d = 0, dMax = Order.Discounts.length; d < dMax; d++ )
+			{
+				discount = Order.Discounts[d];
+				if( discount.Code == code )
+				{
+					if( Order.Subtotal < discount.Minimum )
+					{
+						alert( texts.usedDiscountCode
+							+ '\n\n'
+							+ texts.discountCodeMinimum.MergeProperties( {
+								code: discount.Code,
+								amount: formatPrice( discount.Minimum )
+							} )
+						);
+					}
+					else
+						alert( texts.usedDiscountCode );
+					discountCode.value = '';
+					discountCode.select();
+					discountCode.focus();
+					return;
+				}
+			}
+			request.Parameters = { eventId: events.EventId, code: code };
+			Co.Ajax.Request( request );
+		};
+	} )();
+	events.paymentMethodSelect = ( function()
+	{
+		var regexSpaces = /[\s]+/gi;
+		return function( source )
+		{
+			payment.className = source[source.selectedIndex].value.replace( regexSpaces, '_' ).toLowerCase();
+		};
+	} )();
+	events.detectCardType = ( function()
+	{
+		var cardTypes = [{
+			name: 'Unknown',
+			value: '',
+			ranges: []
+		}, {
+			name: 'American Express',
+			value: '',
+			ranges: [[34], [37]]
+		}, {
+			name: 'China UnionPay',
+			value: '',
+			ranges: [[62], [88]]
+		}, {
+			name: 'Diners ClubCarte Blanche',
+			value: '',
+			ranges: [[300, 305]]
+		}, {
+			name: 'Diners Club International',
+			value: '',
+			ranges: [[300, 305], [309], [36], [38, 39]]
+		}, {
+			name: 'Diners Club US & Canada',
+			value: '',
+			ranges: [[54], [55]]
+		}, {
+			name: 'Discover Card',
+			value: '',
+			ranges: [[6011], [622126, 622925], [644, 649], [65]]
+		}, {
+			name: 'JCB',
+			value: '',
+			ranges: [[3528, 3589]]
+		}, {
+			name: 'Laser',
+			value: '',
+			ranges: [[6304], [6706], [6771], [6709]]
+		}, {
+			name: 'Maestro',
+			value: '',
+			ranges: [[5018], [5020], [5038], [5612], [5893], [6304], [6759], [6761], [6762], [6763], [0604], [6390]]
+		}, {
+			name: 'Dankort',
+			value: '',
+			ranges: [[5019]]
+		}, {
+			name: 'MasterCard',
+			value: 'Master Card',
+			ranges: [[2], [50, 55]]
+		}, {
+			name: 'Visa',
+			value: '',
+			ranges: [[4]]
+		}, {
+			name: 'Visa Electron',
+			value: '',
+			ranges: [[4026], [417500], [4405], [4508], [4844], [4913], [4917]]
+		}];
+		return function( field )
+		{
+			var value = field.value.Trim();
+
+			// Get all card types which start with the same digits as current card number.
+			var potentialTypes = cardTypes.filter(function(cardType)
+			{
+				return cardType.ranges.some(function(range)
+				{
+					var prefix = value.substr(0, range[0].toString().length);
+					prefix = parseInt(prefix) || 0;
+
+					if (range.length == 1 && range == prefix)
+						return true;
+					else if (prefix >= range[0] && prefix <= range[1])
+						return true;
+				})
+			})
+
+			if (!potentialTypes) potentialTypes = [cardTypes[0]];
+
+			// Get all of the CC types which are possible on this form.
+			var options = $j(paymentCreditCardType.options).map(function() { return this.value }).get();
+
+			// See if the currently input CC number might be any of those.
+			var cardTypeInUse = options.find(function (option)
+			{
+				return potentialTypes.some(function (type) {
+					return option == (type.value || type.name);
+				});
+			});
+
+			var index = options.indexOf(cardTypeInUse);
+
+			paymentCreditCardType.selectedIndex = index;
+		};
+	} )();
+	events.cancelNonNumericalInput = ( function()
+	{
+		var code = null;
+		var stop = function( ev )
+		{
+			if( typeof ( ev.preventDefault ) != 'undefined' )
+				ev.preventDefault();
+			if( typeof ( ev.stopImmediatePropagation ) != 'undefined' )
+				ev.stopImmediatePropagation();
+			if( typeof ( ev.stopPropagation ) != 'undefined' )
+				ev.stopPropagation();
+			if( typeof ( ev.returnValue ) != 'undefined' )
+				ev.returnValue = false;
+			if( typeof ( ev.cancelBubble ) != 'undefined' )
+				ev.cancelBubble = true;
+			return false;
+		};
+		return function( ev, field )
+		{
+			if( typeof ( ev.code ) != 'undefined' )
+				code = ev.code;
+			else if( typeof ( ev.which ) != 'undefined'
+			|| typeof ( ev.keyCode ) != 'undefined' )
+				code = ev.which || ev.keyCode;
+			else
+				code = 0;
+			if( code == 32
+			|| code > 187
+			|| ( code > 57 && code < 91 ) )
+				stop( ev );
+		};
+	} )();
+	events.ensureNumericalValue = ( function()
+	{
+		var regexNonNumerical = /[^0-9]/g;
+		return function( field )
+		{
+			value = field.value;
+			field.value = field.value.replace( regexNonNumerical, '' );
+		};
+	} )();
+	events.validateStateRequired = ( function()
+	{
+		var value = '';
+		var parentContainer = null;
+		return function()
+		{
+			if( this.Settings.Transaction.Address != 1 )//CCOEVENTS-52
+				return;
+			if( !parentContainer )
+				parentContainer = reserversBillingState.parentNode.parentNode;
+			value = reserversCountry[reserversCountry.selectedIndex].value;
+			if( value == 'US' || value == 'CA' )
+				addClassname( parentContainer, 'required' );
+			else
+				removeClassname( parentContainer, 'required' );
+		};
+	} )();
+	var containsAllowedDomain = ( function()
+	{
+		var domain = '';
+		var value = '';
+		var dMax = -1;
+		return function( field )
+		{
+			dMax = events.AllowedDomains.length;
+			if( dMax == 0 )
+				return true;
+			value = field.value.Trim();
+			for( var d = 0; d < dMax; d++ )
+			{
+				domain = events.AllowedDomains[d];
+				if( value.indexOf( domain ) > -1 )
+					return true
+			}
+			return false;
+		};
+	} )();
+	var validateOrder = ( function()
+	{
+		/*
+			Since this step is prior to completing an order, form values are stored into the Order here.
+			The form is also validated for any errors (ie notices).
+			Note: Seat selection data storage occurs in changeSeatSelection().
+		*/
+		var notices = [''];
+		var reservationIndex = 0;
+		var reservation = null;
+		var attendees = [];
+		var attendee = null;
+		var parent = null;
+		var fields = [null];
+		var field = null;
+		var name = null;
+		var value = null;
+		return function()
+		{
+			if( disableForm )
+				return;
+			notices = [];
+			reservationIndex = 0;
+			for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+			{
+				//Validate Reservations
+				//Name, Last name, etc.
+				reservation = Order.Reservations[r];
+				attendees = reservation.Attendees;
+				for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+				{
+					++reservationIndex;
+					attendee = attendees[a];
+					attendee.FirstName = document.getElementById( 'reservation_{0}_firstName'.MergeValues( attendee.Id ) ).value;
+					attendee.LastName = document.getElementById( 'reservation_{0}_lastName'.MergeValues( attendee.Id ) ).value;
+					if( notices.length )
+						continue;
+					if( !attendee.FirstName && ( events.AllowSeatSelection || events.Settings.Reservation.Name == 1 ) )
+					{
+						notices.push( texts.fieldForItemCannotBeEmpty.MergeProperties( {
+							field: texts.firstName.toLowerCase().ToSentenceCase(),
+							item: texts.reservationIndex.MergeProperties( {
+								index: reservationIndex
+							} )
+						} ) );
+						notices.push( texts.pleaseSpecifyField.MergeProperties( {
+							field: texts.firstName.toLowerCase()
+						} ) );
+					}
+					else if( !attendee.LastName && ( events.AllowSeatSelection || events.Settings.Reservation.Name == 1 ) )
+					{
+						notices.push( texts.fieldForItemCannotBeEmpty.MergeProperties( {
+							field: texts.lastName.toLowerCase().ToSentenceCase(),
+							item: texts.reservationIndex.MergeProperties( {
+								index: reservationIndex
+							} )
+						} ) );
+						notices.push( texts.pleaseSpecifyField.MergeProperties( {
+							field: texts.lastName.toLowerCase()
+						} ) );
+					}
+					else if( events.AllowSeatSelection && attendee.SeatId < 1 )
+					{
+						notices.push( texts.fieldForItemCannotBeEmpty.MergeProperties( {
+							field: texts.seatSelection.toLowerCase().ToSentenceCase(),
+							item: texts.reservationIndex.MergeProperties( { index: reservationIndex } )
+						} ) );
+						notices.push( texts.pleaseSpecifyField.MergeProperties( {
+							field: texts.seat.toLowerCase()
+						} ) );
+					}
+				}
+			}
+			if( reservationIndex == 0 && Order.Subtotal == 0 && Order.TotalDonation == 0 )
+			{
+				//There needs to be at least one reservation, or a monetary total to allow the order to proceed.
+				//If there is none, no need to go further.
+				orderIsValid = false;
+				validationNotice.style.display = 'none'; //Changed from buttons; we want buttons to show always.
+				return;
+			}
+			validationNotice.removeAttribute('style'); //Changed from buttons; we want buttons to show always.
+			if( reservationIndex == 0 )
+				submitButton.innerHTML = '<span>{0}</span>'.MergeValues( texts.submit );
+			else
+				submitButton.innerHTML = '<span>{0}</span>'.MergeValues( texts.makeReservation );
+			//Verify required fields are not empty
+			fields = [
+				reserversTitle,
+				reserversFirstName,
+				reserversLastName,
+				reserversEmailAddress,
+				reserversOptIn,
+				reserversBillingAddress1,
+				reserversBillingCity,
+				reserversBillingState,
+				reserversBillingPostCode,
+				reserversCountry,
+				reserversPhone
+			];
+			storeProgress( fields );
+			while( fields.length )
+			{
+				field = fields.shift();
+				if (!field)
+					continue;
+				value = field.value.Trim();
+				setReferenceValue( Order, field );//CCOEVENTS-199.
+				if( notices.length )
+					continue;
+				parent = field.parentNode.parentNode;
+				if( !value && parent.className.indexOf( 'required' ) > -1 )
+				{
+					name = parent.firstElementChild.textContent.toLowerCase();
+					notices.push( texts.fieldInPlacementWasNotSpecified.MergeProperties( {
+						field: name.ToSentenceCase(),
+						placement: texts.reserversInformation
+					} ) );
+					notices.push( texts.pleaseSpecifyField.MergeProperties( {
+						field: name
+					} ) );
+				}
+			}
+			//Verify AllowedDomains
+			if( !notices.length && !containsAllowedDomain(reserversEmailAddress) )
+			{
+				notices.push( texts.reserversAllowedDomains.MergeProperties( {
+					domains: '<br/><b>' + events.AllowedDomains.join(',&nbsp;') + '</b>'
+				} ) );
+			}
+			//Verify required payment fields are set
+			if( !notices.length && Order.Total > 0 ) //CCOEVENTS-96. Changed to Order.Total as we should not be requesting payment if there is no amount due.
+			{
+				storeProgress( [paymentMethod, paymentComments] );
+				field = paymentMethod;
+				value = field.value.Trim();
+				setReferenceValue( Order, field );//CCOEVENTS-199.
+				if( !value && !notices.length )
+					notices.push( texts.pleaseSelectPaymentMethod );
+				switch( value )
+				{
+					case 'Credit Card':
+						fields = [
+							paymentCreditCardNumber,
+							paymentCardExpirationMonth,
+							paymentCardExpirationYear,
+							paymentCardCode,
+							paymentCreditCardType,
+							paymentComments
+						];
+						break;
+					case 'PayPal':
+						fields = [
+							paymentComments
+						];
+						break;
+					default:
+						fields = [paymentComments];
+						break;
+				}
+				while( fields.length )
+				{
+					field = fields.shift();
+					if (!field) //e.g., if PaymentCardCode field is missing.
+						continue;
+					value = field.value.Trim();
+					setReferenceValue( Order, field );//CCOEVENTS-199.
+					if( notices.length )
+						continue;
+					parent = field.parentNode.parentNode;
+					if( !value && parent.className.indexOf( 'required' ) > -1 )
+					{
+						name = parent.firstElementChild.textContent.toLowerCase();
+						notices.push( texts.fieldInPlacementWasNotSpecified.MergeProperties( {
+							field: name.ToSentenceCase(),
+							placement: texts.paymentInformation
+						} ) );
+						notices.push( texts.pleaseSpecifyField.MergeProperties( {
+							field: name
+						} ) );
+					}
+				}
+			}
+			//Finish up...
+			if( notices.length )
+			{
+				modifyButtonState( submitButton, true );
+				validationNotice.innerHTML = notices.join( '<br />' );
+				validationNotice.removeAttribute( 'style' );
+				orderIsValid = false;
+			}
+			else
+			{
+				modifyButtonState( submitButton, false );
+				validationNotice.style.display = 'none';
+				orderIsValid = true;
+			}
+		};
+	} )();
+	var modifyButtonState = function( button, disable, replacementInnerHTML )
+	{
+		if( disable )
+		{
+			if( button.disabled )
+				return;
+			button.disabled = true;
+			addClassname( button.parentNode, 'disabled' );
+			if( typeof ( replacementInnerHTML ) != 'undefined' )
+			{
+				button.originalInnerHTML = button.innerHTML;
+				button.innerHTML = replacementInnerHTML;
+			}
+		}
+		else if( !disable )
+		{
+			if( !button.disabled )
+				return;
+			button.disabled = false;
+			removeClassname( button.parentNode, 'disabled' );
+			if( typeof ( button.originalInnerHTML ) != 'undefined' )
+				button.innerHTML = button.originalInnerHTML;
+		}
+	};
+	var validateOrderInterval = function()
+	{
+		if( !reservationFormIsDirty || disableForm )
+			return;
+		reservationFormIsDirty = false;
+		validateOrder();
+	};
+
+	function hasLocalStorage() {
+		if (!('localStorage' in window))
+			return false
+		try {
+			// CCOEVENTS-223
+			localStorage.setItem("test_for_ipad", "this really shouldn't be a big deal");
+		} catch (err) {
+			// I guess it was a big deal
+			return false;
+		}
+
+		return true;
+	}
+
+	var storeProgress = (function()
+	{
+		if(!hasLocalStorage())
+			return function () { };
+
+		var key = 'Event_{0}_StoredProgress';
+		var storedOrder = {};
+		var save = function()
+		{
+			storedOrder.expires = Date.now() + ( 20 * 60 * 1000 );//20 minutes
+			localStorage[key.MergeValues( Events.EventId )] = JSON.stringify( storedOrder );
+		};
+		var field = null;
+		return function( fields )
+		{
+			if( fields )
+			{
+				for( var f = 0, fMax = fields.length; f < fMax; f++ )
+				{
+					var field = fields[f];
+					if( !field || !field.id )
+						continue;
+					setReferenceValue( storedOrder, field );
+				}
+				save();
+				return; //We only wanted to save a list of fields, so we return now.
+			}
+			storedOrder.Reservations = Order.Reservations;
+			storedOrder.CustomFields = Order.CustomFields;
+			storedOrder.AdditionalInformationTotal = Order.AdditionalInformationTotal;//CCOEVENTS-179.
+			storedOrder.Discounts = Order.Discounts;
+			storedOrder.TotalDonation = Order.TotalDonation;
+			save();
+		};
+	} )();
+	var setReferenceValue = function( collection, field )
+	{
+		//CCOEVENTS-199.
+		// This was to centralize handling of field value updates
+		if( !field || !field.id )
+			return;
+		if( field.getAttribute( 'type' ) == 'checkbox' )//CCOEVENTS-182.
+		{
+			if( field.checked )
+				collection[field.id] = field.value.Trim();
+			else
+				collection[field.id] = '';
+		}
+		else
+			collection[field.id] = field.value.Trim();
+	};
+	var restoreProgress = ( function()
+	{
+		if (!hasLocalStorage())
+			return function () { };
+		var restored = false;
+		var key = 'Event_{0}_StoredProgress';
+		var storedOrder = {};
+		return function()
+		{
+			if( restored )
+				return;
+			restored = true;
+			storedOrder = JSON.parse( localStorage[key.MergeValues( Events.EventId )] || null );
+			deleteStoredProgress();
+			if( !storedOrder || Date.now() > storedOrder.expires )
+				return;
+			for( var i in storedOrder )
+			{
+				if( storedOrder.hasOwnProperty( i ) )
+					Order[i] = storedOrder[i];
+			}
+		};
+	} )();
+	var deleteStoredProgress = (function()
+	{
+		if (!hasLocalStorage())
+			return function () { };
+		var key = 'Event_{0}_StoredProgress';
+		return function()
+		{
+			delete localStorage[key.MergeValues( Events.EventId )];
+		};
+	})();
+	events.completeOrder = ( function()
+	{
+		var performance = null;
+		var reservation = null;
+		var seating = null;
+		var seatingSection = null;
+		var seatingRow = null;
+		var seatIds = [0];
+		var attendees = null;
+		var attendee = null;
+		var capacity = 0;
+		var el = null;
+		var errorIds = [''];
+		var text = [''];
+		var rest = null;
+		var request = new Co.Ajax.RequestObject('/WebServices/Tools/Events/CompleteOrder');
+		var redirectLink = null;
+		request.Headers.push({ Name: 'Accept', Value: 'application/json' });
+		request.Method = 'POST';
+		request.EnableCaching = true;
+
+		function enableForm() {
+			errorIds = [];//Should be reset here.
+			modifyButtonState(submitButton, false);
+			disableForm = false;
+		}
+
+		request.Callback = function( response )
+		{
+			rest = response.responseJson;
+			if( typeof ( rest ) == 'undefined' )
+			{
+				alert( texts.unknownError );
+				return;
+			}
+			if( rest.Info )
+				console.log( rest.Info );
+			if( rest.RedirectLink )
+			{
+				//Could be a receipt or a paypal redirect.
+				redirectLink = rest.RedirectLink.toLowerCase();
+				if( redirectLink.indexOf( 'events/register' ) > -1 && redirectLink.indexOf( '?code=' ) > -1 )//Should be a receipt...
+					deleteStoredProgress();
+				window.location.href = rest.RedirectLink;
+				return;
+			}
+			disableForm = false;
+			if( rest.Error )
+			{
+				enableForm();
+				if( rest.ErrorType )
+				{
+					switch( rest.ErrorType )
+					{
+						case 'OverCapacity':
+						case 'SectionUnavailable':
+						case 'SeatUnavailable':
+							Performances = rest.Performances;
+							resetAutoSelectSeat = true;
+							resetGenerateSeatSelectionLists = true;
+							for( var p = 0, pMax = Performances.length; p < pMax; p++ )
+							{
+								performance = Performances[p];
+								document.getElementById( 'performance_{0}'.MergeValues( performance.Id ) ).setAttribute( 'data-sections-count', performance.SeatingSectionsPossible ); //CCOEVENTS-55
+								reservation = getItemFromCollection( performance.Id, Order.Reservations );
+								if( !reservation )
+									continue;
+								attendees = reservation.Attendees;
+								seatIds = [];
+								if( events.AllowSeatSelection )
+								{
+									seating = performance.Seating;
+									for( var s = 0, sMax = seating.length; s < sMax; s++ )
+									{
+										seatingSection = seating[s];
+										for( var r = 0, rMax = seatingSection.Rows.length; r < rMax; r++ )
+										{
+											seatingRow = seatingSection.Rows[r];
+											for( var i = 0, iMax = seatingRow.Seats.length; i < iMax; i++ )
+												seatIds.push( seatingRow.Seats[i].SeatId );
+										}
+									}
+								}
+								capacity = ( performance.SeatsAvailable - (events.ShouldHoldSeats ? performance.SeatBuffer : 0) - attendees.length );
+								for( var a = attendees.length - 1; a > -1; a-- )
+								{
+									attendee = attendees[a];
+									if( events.AllowSeatSelection && seatIds.indexOf( attendee.SeatId ) == -1
+									|| !events.AllowSeatSelection && capacity > a )
+									{
+										//Ran out of available seats (seatBuffer or no more space)
+										//The seat was taken before the order completed.
+										attendee.SectionId = -1;
+										attendee.SectionName = '';
+										attendee.Row = null;
+										attendee.Seat = null;
+										attendee.SeatId = -1;
+										attendee.GroupPrice = 0;
+										attendee.Price = 0;
+										attendee.Heads = 0;
+										attendee.Priced = 0;
+										attendee.PricedText = '';
+										attendee.PricedTitle = '';
+										attendee.PricedCategoryName = '';
+										el = document.getElementById( 'reservation_{0}'.MergeValues( attendee.Id ) );
+										addClassname( el, 'has_error' );
+										errorIds = errorIds.concat( 'section_{0},row_{0},seat_{0}'.MergeValues( attendee.Id ).split( ',' ) );
+									}
+								}
+							}
+							//Reset the list(s)
+							// This will in effect cause recalculation of seating availability (when allowSeatSelection).
+							events.populatePriceCategoryLists();
+							break;
+						case 'TotalChanged':
+							text = [];
+							text.push( texts.yourTotalChanged );
+							text.push( texts.yourTotalWas.MergeProperties( { total: formatPrice( Order.Total, false ) } ) );
+							text.push( texts.yourTotalIs.MergeProperties( { total: '<b class="medium">' + formatPrice( rest.Order.Total, false ) + '</b>' } ) );
+							text.push( texts.pressButtonToCompleteOrder.MergeProperties( { button_name: '<b>' + submitButton.textContent + '</b>' } ) );
+							totalChangedNotice.innerHTML = templates.get( 'totalChangedNotice',
+							{
+								heading: text[0],
+								totalWas: text[1],
+								totalIs: text[2],
+								whatToDo: text[3]
+							} );
+							totalChangedNotice.style.display = 'block';
+							Order = rest.Order;
+							registerFieldListeners( additionalInformation, Order.CustomFields );
+							for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+							{
+								reservation = Order.Reservations[r];
+								attendees = reservation.Attendees;
+								for( var a = 0, aMax = attendees.length; a < aMax; a++ )
+								{
+									attendee = attendees[a];
+									registerFieldListeners( document.getElementById( 'reservation_{0}'.MergeValues( attendee.Id ) ).lastElementChild.lastElementChild, attendee.CustomFields );
+								}
+							}
+							storeProgress();
+							break;
+					}
+				}
+				//There may be multiple areas affected by the error.
+				//Instead of showing a long message with a bunch of errors, we alert only the first instance.
+				//The interface should reflect all the other areas in error.
+				alert( rest.Error );
+				populateReservationsListing( errorIds );
+				return;
+			}
+		};
+		return function()
+		{
+			if( !orderIsValid || disableForm || !validate_OldEmbeddedForms() )
+				return;
+			disableForm = true;
+			modifyButtonState(submitButton, true, '<span class="one_moment">{0}</span>'.MergeValues(texts.oneMoment));
+
+			function makeReservation() {
+				request.Parameters = {
+					eventId: events.EventId,
+					order: JSON.stringify( Order )
+				};
+				Co.Ajax.Request( request );
+			}
+			
+			// Stripe integration is only loaded on pages which need it.
+			if (Order.PaymentMethod == 'Credit Card' && 'hasStripeProcessing' in window && hasStripeProcessing(form)) {
+				(async () => {
+
+					try {
+						Order.StripeIntentSecret = await processWithStripe(form, {
+							amount: Order.Total
+						});
+					} catch (ex) {
+						enableForm();
+
+						var errorMessage = 'An error occurred while processing your payment. Please try again, or contact us for assistance.'.Translate();
+
+						if (ex) {
+							errorMessage += '\n' + 'Additional information:'.Translate() + ' ' + ex;
+						}
+
+						alert(errorMessage);
+
+						return;
+					}
+
+					// The try catch only knows how to handle stripe errors.
+					makeReservation();
+				})();
+			} else {
+				makeReservation();
+			}
+		};
+	} )();
+	events.getText = function(key)
+	{
+		//This exposes translated messages to the outer context of the application
+		if( texts[key] )
+			return texts[key];
+	};
+	events.toggleSeatingMap = ( function()
+	{
+		//CWNP-1008.
+		var name = 'performance_{0}_seatingMap';
+		var iframes = [];
+		var iframe = null;
+		var toggleSeatingMapState = function( target )
+		{
+			for( var i = 0, iMax = iframes.length; i < iMax; i++ )
+			{
+				iframe = iframes[i];
+				if( iframe === target )
+				{
+					toggleClassname( target.parentNode, 'expanded' );
+					continue;
+				}
+				removeClassname( iframe.parentNode, 'expanded' );
+			}
+		};
+		var onload = function()
+		{
+			toggleSeatingMapState( iframe );
+		};
+		return function( id, url )
+		{
+			iframe = document.getElementById( name.MergeValues( id ) );
+			if( iframes.indexOf( iframe ) > -1 )
+			{
+				toggleSeatingMapState( iframe );
+				return;
+			}
+			if( !url )
+				return;
+			iframes.push( iframe );
+			iframe.onload = onload;
+			iframe.src = url;
+		};
+	})();
+	var rePopulateFormValues = ( function()
+	{
+		var fields = [];
+		var field = null;
+		var nodeName = '';
+		var type = '';
+		var value = null;
+		var options = [];
+		return function()
+		{
+			if( !initialized )
+				return;
+			fields =
+			[
+				totalDonation,
+				reserversTitle,
+				reserversFirstName,
+				reserversLastName,
+				reserversEmailAddress,
+				reserversOptIn,
+				reserversBillingAddress1,
+				reserversBillingCity,
+				reserversBillingState,
+				reserversBillingPostCode,
+				reserversCountry,
+				reserversPhone,
+				paymentMethod,
+				paymentCreditCardNumber,
+				paymentCardExpirationMonth,
+				paymentCardExpirationYear,
+				paymentCardCode,
+				paymentCreditCardType,
+				paymentComments
+			];
+			for( var f = 0, fMax = fields.length; f < fMax; f++ )
+			{
+				field = fields[f];
+				if( !field )//Possible that one of the form items will be null because of a setting. Ex: Donation is disabled.
+					continue;
+				value = Order[field.id] || '';
+				nodeName = field.nodeName.toLowerCase();
+				type = (field.getAttribute('type')|| 'text').toLowerCase();
+				switch( nodeName )
+				{
+					case 'select':
+						options = field.options;
+						for( var o = 0, oMax = options.length; o < oMax; o++ )
+						{
+							if( options[o].value == value )
+							{
+								field.selectedIndex = o;
+								break;
+							}
+						}
+						break;
+					case 'input':
+						switch( type )
+						{
+							case 'email':
+							case 'text':
+							case 'tel':
+								field.value = value;
+								break;
+							case 'checkbox':
+								if( value !== '' )//CCOEVENTS-182. This way we can allow 0 values... not sure if it's necessary.
+									field.checked = true;
+								else
+									field.checked = false;
+								break;
+						}
+						break;
+					case 'textarea':
+						field.value = value;
+						break;
+				}
+			}
+		};
+	} )();
+	var rePopulateCustomFields = (function()
+	{
+		var fields = [];
+		var field = null;
+		var nodeName = '';
+		var type = '';
+		var values = [];
+		var value = null;
+		var items = [];
+		var reservation = null;
+		var customFields = null;
+		var selectedIndex = -1;
+		return function()
+		{
+			items = [Order.CustomFields];
+			for( var r = 0, rMax = Order.Reservations.length; r < rMax; r++ )
+			{
+				reservation = Order.Reservations[r];
+				for( var a = 0, aMax = reservation.Attendees.length; a < aMax; a++ )
+					items.push( reservation.Attendees[a].CustomFields );
+			}
+			for( var i = 0, iMax = items.length; i < iMax; i++ )
+			{
+				customFields = items[i];
+				for( var key in customFields )
+				{
+					if( !customFields.hasOwnProperty( key ) )
+						continue;
+					values = customFields[key];
+					fields = document.getElementsByName( key );
+					for( var f = 0, fMax = fields.length; f < fMax; f++ )
+					{
+						field = fields[f];
+						nodeName = field.nodeName.toLowerCase();
+						type = ( field.getAttribute( 'type' ) || 'text' ).toLowerCase();
+						switch( nodeName )
+						{
+							case 'input':
+								switch( type )
+								{
+									case 'checkbox':
+									case 'radio':
+										if( !field.checked && values.indexOf(field.value) > -1 )
+											field.click();
+										break;
+									default:
+										field.value = values[0];
+										if( field.onchange )
+											field.onchange();
+										break;
+								}
+								break;
+							case 'select':
+								selectedIndex = field.selectedIndex;
+								for( var o = 0, oMax = field.options.length; o < oMax; o++ )
+								{
+									if( field.options[o].value == values[0] )
+										selectedIndex = o + 1;
+								}
+								field.selectedIndex = selectedIndex;
+								if( field.onchange )
+									field.onchange();
+								break;
+							default:
+								field.value = values[0];
+								if( field.onchange )
+									field.onchange();
+								break;
+						}
+					}
+				}
+			}
+		};
+	})();
+	function anyPerformancesHavePricedCategory(performances)
+	{
+		return performances.flatMap(p => p.PriceCategories.flatMap(pc => pc.Sections))
+			.some(s => s.GroupPrice > 0 || s.Price > 0);
+	}
+	function anyPerformanceHaveSurcharge(performances)
+	{
+		return performances.some(p => p.Surcharge?.Amount > 0);
+	}
+	events.InitializeReservationSystem = ( function()
+	{
+		var regexMergeTags = /<<([0-9a-zA-Z_]+)>>/g;
+		var interval = null;
+		return function()
+		{
+			if( initialized )
+				return;
+			initialized = true;
+			isMobile = Co.BrowserInfo.IsMobileDevice();
+			events.CurrencySymbol = events.CurrencySymbol.replace(/\s/g, '\u00a0');//Non-breaking spaces keep the currency symbol and the price together on smaller screen widths.
+			//Initialize message texts
+			Object.CopyTo(texts, {
+				free                           : ('Free').Translate(),
+				firstName                      : ('First Name').Translate(),
+				lastName                       : ('Last Name').Translate(),
+				seatSelection                  : ('Seat Selection').Translate(),
+				category                       : ('Category').Translate(),
+				price                          : ('Price').Translate(),
+				subtotalFor                    : ('Subtotal for <<item>>').Translate().replace(regexMergeTags, '{$1}'),
+				subtotal                       : ('subtotal').Translate(),
+				surcharge1Item                 : ('<<amount>> <<name>> for <<count>> reservations').Translate().replace(regexMergeTags, '{$1}'),
+				surcharge2Item                 : ('<<name>> for this transaction').Translate().replace(regexMergeTags, '{$1}'),
+				surcharge3Item                 : ('<<amount>> <<name>>').Translate().replace(regexMergeTags, '{$1}'),
+				total                          : ('Total').Translate(),
+				section                        : ('Section').Translate(),
+				row                            : events.RowName,
+				seat                           : ('Seat').Translate(),
+				selectACategory                : ('Select a category').Translate(),
+				priceEach                      : ('<<price>> each').Translate().replace(regexMergeTags, '{$1}'),
+				priceForQuantity               : ('<<price>> for up to <<quantity>> reservations').Translate().replace(regexMergeTags, '{$1}'),
+				surcharge1Notice               : ('<<amount>> <<name>> applies per reservation.').Translate().replace(regexMergeTags, '{$1}'),
+				surcharge2Notice               : ('<<amount>> <<name>> applies for this transaction.').Translate().replace(regexMergeTags, '{$1}'),
+				surcharge3Notice               : ('<<amount>> <<name>> applies to the total.').Translate().replace(regexMergeTags, '{$1}'),
+				seatSelectionNotice            : ('Price may vary based on seat selection.').Translate(),
+				eachAdditional                 : ('each additional').Translate(),
+				//texts.eachAdditionalWhereApplicable = ( '<<amount>> each addl. (where applicable)' ).replace( regexMergeTags, '{$1}' ).Translate(),
+				includedInReservation          : ('Included in reservation').Translate(),
+				included                       : ('included').Translate(),
+				inAdditionToReservation        : ('in addition to reservation').Translate(),
+				additional                     : ('additional').Translate(),
+				additionalInformation          : ('Additional Information').Translate(),
+				donation                       : ('Donation').Translate(),
+				discountCodeTooltip            : ('If you have a discount code, enter it here').Translate(),
+				invalidDiscountCode            : ('You have entered an invalid discount code.').Translate(),
+				usedDiscountCode               : ('This discount code is already used.').Translate(),
+				discountCodeMinimum            : ('Discount code "<<code>>" requires a <<amount>> minimum.').Translate().replace(regexMergeTags, '{$1}'),
+				discountCodeItem               : ('discount code "<<code>>"').Translate().replace(regexMergeTags, '{$1}'),
+				submit                         : ('Submit').Translate(),
+				makeReservation                : ('Make Reservation').Translate(),
+				oneMoment                      : ('One Moment').Translate(),
+				reserversInformation           : ("Your Information").Translate(),
+				paymentInformation             : ('Payment Information').Translate(),
+				//Error messages
+				error                          : ('Error').Translate(),
+				fieldCannotBeEmpty             : ('<<field>> cannot be empty.').Translate().replace(regexMergeTags, '{$1}'),
+				fieldForItemCannotBeEmpty      : ('<<field>> for <<item>> cannot be empty.').Translate().replace(regexMergeTags, '{$1}'),
+				fieldWasNotSpecified           : ('<<field>> was not specified.').Translate().replace(regexMergeTags, '{$1}'),
+				fieldForItemWasNotSpecified    : ('<<field>> for <<item>> was not specified.').Translate().replace(regexMergeTags, '{$1}'),
+				fieldInPlacementWasNotSpecified: ('<<field>> in <<placement>> was not specified.').Translate().replace(regexMergeTags, '{$1}'),
+				pleaseSpecifyField             : ('Please specify <<field>>.').Translate().replace(regexMergeTags, '{$1}'),
+				reservationIndex               : ('reservation <<index>>').Translate().replace(regexMergeTags, '#{$1}'),
+				pleaseSelectPaymentMethod      : ('Please select at least one payment method').Translate(),
+				yourTotalChanged               : ('Your order total has changed').Translate(),
+				yourTotalWas                   : ('Your total was <<total>>').Translate().replace(regexMergeTags, '{$1}'),
+				yourTotalIs                    : ('Now your total is <<total>>').Translate().replace(regexMergeTags, '{$1}'),
+				pressButtonToCompleteOrder     : ('Press the <<button_name>> button to complete this order').Translate().replace(regexMergeTags, '{$1}'),
+				reserversAllowedDomains        : ("Your email address must be from the following domain(s): <<domains>>").Translate().replace(regexMergeTags, '{$1}'),
+				unknownError                   : ('An unknown error occurred and your request could not be processed. Please try again.').Translate(),
+				add                            : ('Add').Translate(),
+				'continue'                     : Co.Translator.Translate('Continue')
+			});
+
+			//Get necessary DOM elements
+			form                       = document.getElementById( 'RegisterSinglePage' );
+			totalsField                = document.getElementById( 'Totals' );
+			additionalInformation      = document.getElementById( 'AdditionalInformation' );
+			donationsAndDiscounts      = document.getElementById( 'DonationsAndDiscounts' );
+			discountCode               = document.getElementById( 'DiscountCode' );
+			reserversInformation       = document.getElementById( 'ReserversInformation' );
+			secondaryFormItems         = document.getElementById( 'SecondaryFormItems' );
+			payment                    = document.getElementById( 'Payment' );
+			summary                    = document.getElementById( 'Summary' );
+			creditCard                 = document.getElementById( 'CreditCard' );
+			buttons                    = document.getElementById( 'Buttons' );
+			submitButton               = document.getElementById( 'SubmitButton' );
+			validationNotice           = document.getElementById( 'ValidationNotice' );
+			totalChangedNotice         = document.getElementById( 'TotalChangedNotice' );
+			//Form fields
+			totalDonation              = document.getElementById( 'TotalDonation' );
+			reserversOptIn             = document.getElementById( 'ReserversOptIn' );
+			//Required form fields
+			reserversTitle             = document.getElementById( 'ReserversTitle' );
+			reserversFirstName         = document.getElementById( 'ReserversFirstName' );
+			reserversLastName          = document.getElementById( 'ReserversLastName' );
+			reserversEmailAddress      = document.getElementById( 'ReserversEmailAddress' );
+			reserversBillingAddress1   = document.getElementById( 'ReserversBillingAddress1' );
+			reserversBillingCity       = document.getElementById( 'ReserversBillingCity' );
+			reserversBillingState      = document.getElementById( 'ReserversBillingState' );
+			reserversBillingPostCode   = document.getElementById( 'ReserversBillingPostCode' );
+			reserversCountry           = document.getElementById( 'ReserversCountry' );
+			reserversPhone             = document.getElementById( 'ReserversPhone' );
+			paymentMethod              = document.getElementById( 'PaymentMethod' );
+			paymentCreditCardNumber    = document.getElementById( 'PaymentCreditCardNumber' );
+			paymentCardExpirationMonth = document.getElementById( 'PaymentCardExpirationMonth' );
+			paymentCardExpirationYear  = document.getElementById( 'PaymentCardExpirationYear' );
+			paymentCardCode            = document.getElementById( 'PaymentCardCode' );
+			paymentCreditCardType      = document.getElementById( 'PaymentCreditCardType' );
+			paymentComments            = document.getElementById( 'PaymentComments' );
+
+			//Order of the following functions is important.
+			set_EmbeddedForms();
+			restoreProgress();
+			populateCustomFieldsWithInitialValues(additionalInformation, Order.CustomFields);
+			registerFieldListeners( additionalInformation, Order.CustomFields );//This must happen *after* restoreProgress(), otherwise CustomFields will be dereferenced.
+			setNewAttendeeIndex();
+			rePopulateFormValues();
+			events.populatePriceCategoryLists();
+			populateReservationsListing();
+			rePopulateCustomFields();
+			events.updateDonation();
+			events.validateStateRequired();
+			events.paymentMethodSelect( paymentMethod ); //Ensure restored form has visible payment section.
+			interval = setInterval( validateOrderInterval, 770 );
+
+			form.addEventListener( 'keydown', function() { reservationFormIsDirty = true; } );
+			form.addEventListener( 'change', function() { reservationFormIsDirty = true; } );
+		};
+	} )();
+	return events;
+} )();
+

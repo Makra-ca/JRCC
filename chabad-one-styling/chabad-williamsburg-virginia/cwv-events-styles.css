@@ -1,0 +1,1737 @@
+/* =========================================================
+   CHABAD WILLIAMSBURG VIRGINIA EVENTS - GRID LAYOUT STYLING
+   Color Scheme: Gold (#C9A227), Black (#1a1a1a), Dark Red (#8B0000)
+   Only applies to /tools/events/ pages
+   ALL SELECTORS SCOPED TO body.cwv-events-listing
+   ========================================================= */
+
+/* Page Background - White */
+body.cwv-events-listing {
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   PAGE TITLE STYLING
+   ========================================================= */
+body.cwv-events-listing .cwv-styled-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 5rem !important;
+    font-weight: 800 !important;
+    color: #1a1a1a !important;
+    text-align: center !important;
+    margin: 2rem auto 0.75rem !important;
+    padding: 0 1.5rem !important;
+    background: none !important;
+    letter-spacing: -2px !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+body.cwv-events-listing #cwv-title-accent {
+    width: 80px !important;
+    height: 5px !important;
+    background: linear-gradient(90deg, #C9A227, #8B0000) !important;
+    margin: 1rem auto 2.5rem !important;
+    border-radius: 3px !important;
+}
+
+/* =========================================================
+   EVENTS GRID CONTAINER
+   ========================================================= */
+body.cwv-events-listing .cwv-events-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)) !important;
+    gap: 2.5rem !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    padding: 0 2rem 3rem !important;
+}
+
+/* Hide original event content when modernized */
+body.cwv-events-listing .event.cwv-modernized > .clearfix,
+body.cwv-events-listing .event.cwv-modernized > .vertical_padding {
+    display: none !important;
+}
+
+/* =========================================================
+   EVENT CARD
+   ========================================================= */
+body.cwv-events-listing .event.cwv-modernized {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+    font-family: 'Urbanist', sans-serif !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+body.cwv-events-listing .event.cwv-modernized:hover {
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-6px) !important;
+}
+
+/* =========================================================
+   HEADER WITH IMAGE BANNER
+   ========================================================= */
+body.cwv-events-listing .cwv-event-header {
+    position: relative !important;
+    height: 280px !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+}
+
+body.cwv-events-listing .cwv-event-image {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+}
+
+body.cwv-events-listing .cwv-event-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+/* Gradient overlay */
+body.cwv-events-listing .cwv-event-header::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 80% !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%) !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+}
+
+body.cwv-events-listing .cwv-header-content {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 3 !important;
+    padding: 2rem 2.25rem !important;
+}
+
+body.cwv-events-listing .cwv-event-category {
+    display: inline-block !important;
+    background: rgba(201, 162, 39, 0.9) !important;
+    color: #1a1a1a !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.25rem !important;
+    border-radius: 16px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 0.85rem !important;
+}
+
+body.cwv-events-listing .cwv-event-title,
+body.cwv-events-listing h2.cwv-event-title {
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    line-height: 1.25 !important;
+    margin: 0 !important;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+    background: none !important;
+    padding: 0 !important;
+}
+
+body.cwv-events-listing .cwv-event-title a {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+/* =========================================================
+   EVENT BODY
+   ========================================================= */
+body.cwv-events-listing .cwv-event-body {
+    padding: 2.25rem !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+body.cwv-events-listing .cwv-event-description {
+    font-size: 1.5rem !important;
+    color: #555 !important;
+    line-height: 1.65 !important;
+    margin-bottom: 1.75rem !important;
+}
+
+/* =========================================================
+   INFO ROWS
+   ========================================================= */
+body.cwv-events-listing .cwv-event-info {
+    border-top: 2px solid #f0f0f0 !important;
+    padding-top: 1.75rem !important;
+    margin-top: auto !important;
+}
+
+body.cwv-events-listing .cwv-info-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    margin-bottom: 1.5rem !important;
+    gap: 1.25rem !important;
+}
+
+body.cwv-events-listing .cwv-info-row:last-child {
+    margin-bottom: 0 !important;
+}
+
+body.cwv-events-listing .cwv-info-icon {
+    width: 60px !important;
+    height: 60px !important;
+    background: rgba(201, 162, 39, 0.1) !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+body.cwv-events-listing .cwv-info-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+    color: #C9A227 !important;
+}
+
+body.cwv-events-listing .cwv-info-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+body.cwv-events-listing .cwv-info-label {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #999 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 0.35rem !important;
+    display: block !important;
+}
+
+body.cwv-events-listing .cwv-info-value {
+    font-size: 1.5rem !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+}
+
+/* =========================================================
+   PRICING
+   ========================================================= */
+body.cwv-events-listing .cwv-pricing-grid {
+    display: flex !important;
+    gap: 1.25rem !important;
+    margin-top: 1.75rem !important;
+    flex-wrap: wrap !important;
+}
+
+body.cwv-events-listing .cwv-price-item {
+    background: #FBF8F0 !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 14px !important;
+    text-align: center !important;
+    flex: 1 !important;
+    min-width: 120px !important;
+    border: 1px solid rgba(201, 162, 39, 0.2) !important;
+}
+
+body.cwv-events-listing .cwv-price-label {
+    font-size: 1rem !important;
+    color: #888 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: block !important;
+    margin-bottom: 0.25rem !important;
+}
+
+body.cwv-events-listing .cwv-price-value {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: #C9A227 !important;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+body.cwv-events-listing .cwv-event-footer {
+    background: #FAFAFA !important;
+    padding: 1.75rem 2.25rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-top: 2px solid #f0f0f0 !important;
+    gap: 1.5rem !important;
+    flex-wrap: wrap !important;
+}
+
+body.cwv-events-listing .cwv-date-display {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+}
+
+body.cwv-events-listing .cwv-date-box {
+    background: #1a1a1a !important;
+    color: #C9A227 !important;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+    min-width: 70px !important;
+}
+
+body.cwv-events-listing .cwv-date-month {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    display: block !important;
+    color: #C9A227 !important;
+}
+
+body.cwv-events-listing .cwv-date-day {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+    display: block !important;
+    color: #fff !important;
+}
+
+body.cwv-events-listing .cwv-date-text {
+    font-size: 1.4rem !important;
+    color: #666 !important;
+    font-weight: 500 !important;
+}
+
+/* Footer actions */
+body.cwv-events-listing .cwv-footer-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+}
+
+body.cwv-events-listing .cwv-login-checkbox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.1rem !important;
+    color: #666 !important;
+    cursor: pointer !important;
+}
+
+body.cwv-events-listing .cwv-login-checkbox input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: #C9A227 !important;
+    cursor: pointer !important;
+}
+
+body.cwv-events-listing .cwv-login-checkbox span {
+    font-weight: 500 !important;
+}
+
+/* Login Notice - moved below cards */
+body.cwv-events-listing .blue.f-small.clearfix {
+    max-width: 600px !important;
+    margin: 2rem auto !important;
+    text-align: center !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    color: #666 !important;
+}
+
+body.cwv-events-listing .blue.f-small.clearfix a {
+    color: #C9A227 !important;
+    text-decoration: underline !important;
+}
+
+body.cwv-events-listing .blue.f-small.clearfix a:hover {
+    color: #8B0000 !important;
+}
+
+/* Register Button */
+body.cwv-events-listing .cwv-register-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    background: #C9A227 !important;
+    color: #1a1a1a !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    padding: 1.1rem 2rem !important;
+    border-radius: 14px !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+    border: none !important;
+    white-space: nowrap !important;
+}
+
+body.cwv-events-listing .cwv-register-btn:hover {
+    background: #1a1a1a !important;
+    color: #C9A227 !important;
+    transform: scale(1.03) !important;
+}
+
+body.cwv-events-listing .cwv-register-btn svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: currentColor !important;
+}
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+@media (max-width: 1100px) {
+    body.cwv-events-listing .cwv-events-grid {
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)) !important;
+        gap: 2rem !important;
+        padding: 0 1.5rem 2.5rem !important;
+    }
+
+    body.cwv-events-listing .cwv-styled-title {
+        font-size: 4rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-header {
+        height: 240px !important;
+    }
+
+    body.cwv-events-listing .cwv-event-title,
+    body.cwv-events-listing h2.cwv-event-title {
+        font-size: 2rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-description {
+        font-size: 1.3rem !important;
+    }
+
+    body.cwv-events-listing .cwv-info-value {
+        font-size: 1.3rem !important;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE - MOBILE (Single Column)
+   ========================================================= */
+@media (max-width: 520px) {
+    body.cwv-events-listing .cwv-events-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem !important;
+        padding: 0 1rem 2rem !important;
+    }
+
+    body.cwv-events-listing .cwv-styled-title {
+        font-size: 2.75rem !important;
+    }
+
+    body.cwv-events-listing #cwv-title-accent {
+        margin-bottom: 2rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-header {
+        height: 200px !important;
+    }
+
+    body.cwv-events-listing .cwv-header-content {
+        padding: 1.5rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-category {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 1rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-title,
+    body.cwv-events-listing h2.cwv-event-title {
+        font-size: 1.75rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-body {
+        padding: 1.5rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-description {
+        font-size: 1.2rem !important;
+    }
+
+    body.cwv-events-listing .cwv-info-icon {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    body.cwv-events-listing .cwv-info-icon svg {
+        width: 26px !important;
+        height: 26px !important;
+    }
+
+    body.cwv-events-listing .cwv-info-label {
+        font-size: 0.85rem !important;
+    }
+
+    body.cwv-events-listing .cwv-info-value {
+        font-size: 1.2rem !important;
+    }
+
+    body.cwv-events-listing .cwv-price-value {
+        font-size: 1.6rem !important;
+    }
+
+    body.cwv-events-listing .cwv-event-footer {
+        padding: 1.25rem 1.5rem !important;
+    }
+
+    body.cwv-events-listing .cwv-date-day {
+        font-size: 1.6rem !important;
+    }
+
+    body.cwv-events-listing .cwv-date-text {
+        font-size: 1.1rem !important;
+    }
+
+    body.cwv-events-listing .cwv-register-btn {
+        flex: 1 !important;
+        justify-content: center !important;
+        font-size: 1.2rem !important;
+        padding: 1rem 1.5rem !important;
+    }
+
+    body.cwv-events-listing .cwv-footer-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 1rem !important;
+    }
+
+    body.cwv-events-listing .cwv-login-checkbox {
+        font-size: 1rem !important;
+    }
+}
+
+/* =========================================================
+   =========================================================
+   SINGLE EVENT REGISTRATION PAGE STYLES
+   For /tools/events/register_cdo/ pages
+   ALL SELECTORS SCOPED TO body.cwv-registration-page
+   =========================================================
+   ========================================================= */
+
+/* =========================================================
+   SINGLE EVENT - PAGE BACKGROUND
+   ========================================================= */
+body.cwv-registration-page {
+    background: #ffffff !important;
+    min-height: 100vh !important;
+}
+
+/* Remove default backgrounds for single event */
+body.cwv-registration-page #BodyContainer,
+body.cwv-registration-page #co_content_container,
+body.cwv-registration-page .body_wrapper,
+body.cwv-registration-page .master-content-wrapper {
+    background: transparent !important;
+}
+
+/* =========================================================
+   FOOTER PROTECTION - Ensure footer is not affected
+   ========================================================= */
+body.cwv-registration-page #footer input,
+body.cwv-registration-page #footer select,
+body.cwv-registration-page #footer textarea,
+body.cwv-registration-page .footer input,
+body.cwv-registration-page .footer select,
+body.cwv-registration-page .footer textarea,
+body.cwv-registration-page .footer3 input,
+body.cwv-registration-page .footer3 select,
+body.cwv-registration-page .footer3 textarea {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    padding: initial !important;
+    border: initial !important;
+    border-radius: initial !important;
+    background: initial !important;
+    box-shadow: none !important;
+    width: auto !important;
+    max-width: none !important;
+}
+
+body.cwv-registration-page #footer label,
+body.cwv-registration-page .footer label,
+body.cwv-registration-page .footer3 label {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+    display: initial !important;
+    margin-bottom: initial !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - MAIN CONTAINER
+   ========================================================= */
+body.cwv-registration-page .master-content-wrapper {
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 3rem 2rem 4rem !important;
+}
+
+body.cwv-registration-page .master-content-wrapper > header.article-header {
+    display: none !important;
+}
+
+body.cwv-registration-page .vertical_padding {
+    background: transparent !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+body.cwv-registration-page form#RegisterSinglePage {
+    font-family: 'Inter', sans-serif !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - REGISTER HEADER
+   ========================================================= */
+body.cwv-registration-page #RegisterHeader {
+    padding: 0 !important;
+    background: transparent !important;
+    margin-bottom: 0 !important;
+}
+
+body.cwv-registration-page #RegisterHeader .banner_image {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 28px !important;
+    overflow: hidden !important;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 10px 30px rgba(0,0,0,0.08) !important;
+    position: relative !important;
+}
+
+body.cwv-registration-page #RegisterHeader .banner_image img {
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column1,
+body.cwv-registration-page #RegisterHeader .column2 {
+    float: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column1 {
+    background: #ffffff !important;
+    border-radius: 24px 24px 0 0 !important;
+    margin-top: 2.5rem !important;
+    position: relative !important;
+    z-index: 10 !important;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 3.5rem 3.5rem 2.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column1::before {
+    content: '✡ Special Event' !important;
+    display: inline-block !important;
+    background: #1a1a1a !important;
+    color: #C9A227 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 30px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 2rem !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+}
+
+body.cwv-registration-page #RegisterHeader .event_name {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 3.5rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2 !important;
+    letter-spacing: -1px !important;
+}
+
+body.cwv-registration-page #RegisterHeader .event_description {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.4rem !important;
+    line-height: 1.8 !important;
+    color: #555 !important;
+    max-width: 800px !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column2,
+body.cwv-registration-page #RegisterHeader .column2.cwv-info-styled,
+body.cwv-registration-page #RegisterHeader div.column2,
+body.cwv-registration-page .column2.cwv-info-styled {
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    color: #333 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    padding: 2.5rem 3.5rem !important;
+    border-radius: 0 !important;
+    margin-top: 0 !important;
+}
+
+body.cwv-registration-page #RegisterHeader .column2 .heading {
+    display: none !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - INFO CARDS
+   ========================================================= */
+body.cwv-registration-page .cwv-info-icon {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    border-radius: 14px !important;
+    background: rgba(201, 162, 39, 0.1) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+body.cwv-registration-page .cwv-info-icon svg {
+    width: 32px !important;
+    height: 32px !important;
+    color: #C9A227 !important;
+    stroke: #C9A227 !important;
+}
+
+body.cwv-registration-page .cwv-info-card {
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 1.75rem 2rem !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04) !important;
+    border: 1px solid rgba(0,0,0,0.08) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    flex: 0 1 320px !important;
+}
+
+body.cwv-registration-page .cwv-info-card:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04) !important;
+    border-color: rgba(201, 162, 39, 0.3) !important;
+}
+
+body.cwv-registration-page .cwv-card-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    color: #C9A227 !important;
+    margin-bottom: 0.5rem !important;
+    display: block !important;
+}
+
+body.cwv-registration-page .cwv-info-text {
+    flex: 1 !important;
+    min-width: 0 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    line-height: 1.5 !important;
+}
+
+body.cwv-registration-page .cwv-info-content {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    line-height: 1.5 !important;
+    margin-top: 0.25rem !important;
+}
+
+body.cwv-registration-page .cwv-info-content a {
+    color: #333 !important;
+    text-decoration: none !important;
+}
+
+body.cwv-registration-page .cwv-info-content a:hover {
+    color: #C9A227 !important;
+}
+
+body.cwv-registration-page .cwv-info-section-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(201, 162, 39, 0.3) !important;
+    display: block !important;
+    grid-column: 1 / -1 !important;
+    text-align: center !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+}
+
+/* Info cards wrapper */
+body.cwv-registration-page .cwv-info-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+body.cwv-registration-page .cwv-info-cards-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    gap: 30px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+body.cwv-registration-page .cwv-info-cards-grid > div {
+    flex: 1 1 calc(50% - 15px) !important;
+    min-width: 200px !important;
+    display: block !important;
+}
+
+@media (max-width: 900px) {
+    body.cwv-registration-page .cwv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    body.cwv-registration-page .cwv-info-cards-grid {
+        gap: 20px !important;
+    }
+
+    body.cwv-registration-page .cwv-info-cards-grid > div {
+        flex: 1 1 100% !important;
+    }
+}
+
+/* =========================================================
+   SINGLE EVENT - REGISTER BODY
+   ========================================================= */
+body.cwv-registration-page #RegisterBody {
+    background: #ffffff !important;
+    padding: 3rem 3.5rem !important;
+    border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.cwv-registration-page #RegisterBody .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 2rem !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - RESERVATIONS PRICING SECTION
+   ========================================================= */
+body.cwv-registration-page #RegisterBody .cwv-pricing-container {
+    background: linear-gradient(135deg, #FBF8F0 0%, #F8F4E8 100%) !important;
+    border-radius: 20px !important;
+    padding: 2rem 2.5rem !important;
+    margin-bottom: 2rem !important;
+    border: 2px solid rgba(201, 162, 39, 0.2) !important;
+    box-shadow: 0 4px 20px rgba(201, 162, 39, 0.08) !important;
+}
+
+body.cwv-registration-page #RegisterBody .cwv-pricing-title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #C9A227 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(201, 162, 39, 0.3) !important;
+    display: block !important;
+}
+
+body.cwv-registration-page .cwv-pricing-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: 12px !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid rgba(0,0,0,0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+body.cwv-registration-page .cwv-pricing-item:hover {
+    border-color: rgba(201, 162, 39, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(201, 162, 39, 0.1) !important;
+}
+
+body.cwv-registration-page .cwv-pricing-label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+}
+
+body.cwv-registration-page .cwv-pricing-amount {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    color: #C9A227 !important;
+}
+
+/* Sponsorship levels */
+body.cwv-registration-page .cwv-sponsorship-levels {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+    justify-content: center !important;
+    margin-top: 1.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px dashed rgba(201, 162, 39, 0.3) !important;
+}
+
+body.cwv-registration-page .cwv-sponsorship-level {
+    background: linear-gradient(135deg, #C9A227 0%, #D4AF37 100%) !important;
+    color: #1a1a1a !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    padding: 0.75rem 1.5rem !important;
+    border-radius: 30px !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+    transition: all 0.3s ease !important;
+}
+
+body.cwv-registration-page .cwv-sponsorship-level:hover {
+    transform: translateY(-2px) scale(1.05) !important;
+    box-shadow: 0 8px 25px rgba(201, 162, 39, 0.4) !important;
+}
+
+/* VIP badge style - using dark red for distinction */
+body.cwv-registration-page .cwv-vip-badge {
+    display: inline-block !important;
+    background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%) !important;
+    color: #ffffff !important;
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 20px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-right: 0.5rem !important;
+    vertical-align: middle !important;
+}
+
+body.cwv-registration-page .cwv-sponsorship-text {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-style: italic !important;
+    color: #666 !important;
+    text-align: center !important;
+    margin-top: 1rem !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance {
+    background: #ffffff !important;
+    border: 2px solid rgba(201, 162, 39, 0.2) !important;
+    border-left: 4px solid #C9A227 !important;
+    border-radius: 12px !important;
+    padding: 1.5rem 2rem !important;
+    margin-bottom: 1rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance:hover {
+    border-color: #C9A227 !important;
+    background: #FFFDF8 !important;
+    box-shadow: 0 8px 24px rgba(201, 162, 39, 0.15) !important;
+    transform: translateX(4px) !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .bold {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .price {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #C9A227 !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - CATEGORY SELECTION / TOGGLE OPTIONS
+   ========================================================= */
+body.cwv-registration-page #RegisterBody .performance .toggle_options {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    margin-top: 1.25rem !important;
+    padding: 0 !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options .inline_block {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .cwv-category-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #555 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    padding: 0.6rem 1rem !important;
+    border: 2px solid #999 !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    min-width: 120px !important;
+    cursor: pointer !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options select:focus {
+    border-color: #C9A227 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+}
+
+/* Continue button styling */
+body.cwv-registration-page #RegisterBody .performance .toggle_options button,
+body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="submit"],
+body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="button"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    background: #C9A227 !important;
+    color: #1a1a1a !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 1.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    white-space: nowrap !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options button:hover,
+body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="submit"]:hover,
+body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="button"]:hover {
+    background: #1a1a1a !important;
+    color: #C9A227 !important;
+    transform: scale(1.03) !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options a {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    color: #999 !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance .toggle_options a:hover {
+    color: #C9A227 !important;
+}
+
+@media (max-width: 600px) {
+    body.cwv-registration-page #RegisterBody .performance .toggle_options {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+    }
+
+    body.cwv-registration-page #RegisterBody .performance .toggle_options .inline_block {
+        width: 100% !important;
+    }
+
+    body.cwv-registration-page #RegisterBody .performance .toggle_options select {
+        flex: 1 !important;
+        width: 100% !important;
+    }
+
+    body.cwv-registration-page #RegisterBody .performance .toggle_options button,
+    body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="submit"],
+    body.cwv-registration-page #RegisterBody .performance .toggle_options input[type="button"] {
+        width: 100% !important;
+    }
+}
+
+/* =========================================================
+   SINGLE EVENT - RESERVATION ROWS
+   ========================================================= */
+body.cwv-registration-page #RegisterBody .reservation,
+body.cwv-registration-page #RegisterBody .clearfix.reservation {
+    position: relative !important;
+    background: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 1rem 3rem 1rem 1rem !important;
+    margin-bottom: 0.75rem !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    transition: all 0.2s ease !important;
+}
+
+body.cwv-registration-page #RegisterBody .reservation:hover {
+    background: #FAFAFA !important;
+}
+
+/* Delete button styling */
+body.cwv-registration-page #RegisterBody .remove_reservation,
+body.cwv-registration-page #RegisterBody button.remove_reservation,
+body.cwv-registration-page button.remove_reservation {
+    position: absolute !important;
+    right: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    max-width: 28px !important;
+    border-radius: 50% !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #999 !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    opacity: 0.6 !important;
+    z-index: 100 !important;
+}
+
+body.cwv-registration-page #RegisterBody .reservation:hover .remove_reservation {
+    opacity: 1 !important;
+    background: #ffebee !important;
+    border-color: #8B0000 !important;
+    color: #8B0000 !important;
+}
+
+body.cwv-registration-page #RegisterBody .remove_reservation:hover {
+    background: #8B0000 !important;
+    border-color: #8B0000 !important;
+    color: white !important;
+    transform: translateY(-50%) scale(1.1) !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - FORM FIELDS (VISIBLE BORDERS!)
+   ========================================================= */
+body.cwv-registration-page #RegisterBody .bottom_padding {
+    background: #ffffff !important;
+    border-radius: 0 0 24px 24px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08) !important;
+    padding: 0 !important;
+    margin-bottom: 3rem !important;
+    overflow: hidden !important;
+}
+
+/* Global form input styles */
+body.cwv-registration-page #RegisterBody .bottom_padding input,
+body.cwv-registration-page #RegisterBody .bottom_padding select,
+body.cwv-registration-page #RegisterBody .bottom_padding textarea,
+body.cwv-registration-page #Summary input,
+body.cwv-registration-page #Summary select,
+body.cwv-registration-page #Summary textarea,
+body.cwv-registration-page #ReserversInformation input,
+body.cwv-registration-page #ReserversInformation select,
+body.cwv-registration-page #ReserversInformation textarea,
+body.cwv-registration-page #Payment input,
+body.cwv-registration-page #Payment select,
+body.cwv-registration-page #Payment textarea,
+body.cwv-registration-page form#RegisterSinglePage input[type="text"],
+body.cwv-registration-page form#RegisterSinglePage input[type="email"],
+body.cwv-registration-page form#RegisterSinglePage input[type="tel"],
+body.cwv-registration-page form#RegisterSinglePage input[type="number"],
+body.cwv-registration-page form#RegisterSinglePage select,
+body.cwv-registration-page form#RegisterSinglePage textarea {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.1rem !important;
+    border: 2px solid #999 !important;
+    border-width: 2px !important;
+    border-style: solid !important;
+    border-color: #999 !important;
+    border-radius: 10px !important;
+    transition: all 0.25s ease !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+body.cwv-registration-page #RegisterBody .bottom_padding input:focus,
+body.cwv-registration-page #RegisterBody .bottom_padding select:focus,
+body.cwv-registration-page #RegisterBody .bottom_padding textarea:focus,
+body.cwv-registration-page #Summary input:focus,
+body.cwv-registration-page #Summary select:focus,
+body.cwv-registration-page #Summary textarea:focus,
+body.cwv-registration-page #ReserversInformation input:focus,
+body.cwv-registration-page #ReserversInformation select:focus,
+body.cwv-registration-page #ReserversInformation textarea:focus,
+body.cwv-registration-page #Payment input:focus,
+body.cwv-registration-page #Payment select:focus,
+body.cwv-registration-page #Payment textarea:focus {
+    border-color: #C9A227 !important;
+    outline: none !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.12) !important;
+}
+
+body.cwv-registration-page #RegisterBody .bottom_padding textarea,
+body.cwv-registration-page #Summary textarea,
+body.cwv-registration-page #ReserversInformation textarea,
+body.cwv-registration-page #Payment textarea {
+    min-height: 100px !important;
+    resize: vertical !important;
+}
+
+/* Form labels */
+body.cwv-registration-page #RegisterBody .bottom_padding label,
+body.cwv-registration-page #Summary label,
+body.cwv-registration-page #ReserversInformation label,
+body.cwv-registration-page #Payment label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #333 !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - SECTION STYLING
+   ========================================================= */
+body.cwv-registration-page #Summary {
+    padding: 2.5rem 3.5rem !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+body.cwv-registration-page #Summary .title,
+body.cwv-registration-page #ReserversInformation .title,
+body.cwv-registration-page #Payment .title {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+body.cwv-registration-page #Summary .title::before,
+body.cwv-registration-page #ReserversInformation .title::before,
+body.cwv-registration-page #Payment .title::before {
+    content: '' !important;
+    width: 5px !important;
+    height: 28px !important;
+    background: #C9A227 !important;
+    border-radius: 3px !important;
+}
+
+body.cwv-registration-page #ReserversInformation {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - FORM FIELDS GRID LAYOUT
+   ========================================================= */
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem 2rem !important;
+    width: 100% !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div {
+    float: none !important;
+    margin-left: 0 !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix:last-child {
+    grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation table tbody {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem 2rem !important;
+    width: 100% !important;
+}
+
+body.cwv-registration-page #ReserversInformation table tr {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+}
+
+body.cwv-registration-page #ReserversInformation table td {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+body.cwv-registration-page #ReserversInformation table tr:last-child {
+    grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #555 !important;
+    margin-bottom: 0.4rem !important;
+}
+
+body.cwv-registration-page #ReserversInformation input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    accent-color: #C9A227 !important;
+    cursor: pointer !important;
+}
+
+body.cwv-registration-page #ReserversInformation label[for*="checkbox"],
+body.cwv-registration-page #ReserversInformation .checkbox-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    font-size: 1rem !important;
+    color: #555 !important;
+    cursor: pointer !important;
+}
+
+body.cwv-registration-page #ReserversInformation .f-small,
+body.cwv-registration-page #ReserversInformation small,
+body.cwv-registration-page #ReserversInformation .help-text {
+    font-size: 0.9rem !important;
+    color: #888 !important;
+    margin-top: 0.25rem !important;
+    grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page #ReserversInformation .required,
+body.cwv-registration-page #ReserversInformation span[style*="color: red"],
+body.cwv-registration-page #ReserversInformation .red {
+    color: #8B0000 !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 768px) {
+    body.cwv-registration-page #ReserversInformation {
+        padding: 2rem 1.5rem !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title),
+    body.cwv-registration-page #ReserversInformation table tbody {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix:last-child,
+    body.cwv-registration-page #ReserversInformation table tr:last-child {
+        grid-column: 1 !important;
+    }
+}
+
+body.cwv-registration-page #Payment {
+    padding: 3rem 3.5rem !important;
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    background: #ffffff !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - PAYMENT INFORMATION 2-COLUMN GRID
+   ========================================================= */
+body.cwv-registration-page .credit_card .large_top_padding > div {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 15px 30px !important;
+    max-width: 100% !important;
+    align-items: start !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.title {
+    grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding.required:first-of-type {
+    grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding {
+    display: block !important;
+    text-align: left !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding .bold,
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding .FormLabel,
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding .label {
+    float: none !important;
+    display: block !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 8px !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding .float_left {
+    float: none !important;
+    display: inline-block !important;
+    width: auto !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding input[type="text"],
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding select:not([name="x_exp_month"]):not([name="x_exp_year"]) {
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix.small_vertical_padding:not(:has([name="x_exp_month"])) .float_left {
+    display: block !important;
+    width: 100% !important;
+}
+
+body.cwv-registration-page .credit_card select[name="x_exp_month"],
+body.cwv-registration-page .credit_card select[name="x_exp_year"] {
+    width: auto !important;
+    min-width: 100px !important;
+    margin-right: 10px !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix:has([name="x_exp_month"]) .float_left {
+    display: inline-block !important;
+    width: auto !important;
+    margin-right: 5px !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix:has(textarea) {
+    grid-column: 1 / -1 !important;
+    text-align: left !important;
+}
+
+body.cwv-registration-page .credit_card .clearfix:has(textarea) .bold {
+    margin-left: 0 !important;
+}
+
+body.cwv-registration-page .credit_card textarea {
+    width: 100% !important;
+}
+
+body.cwv-registration-page .credit_card .small_vertical_padding:has(.required_indicator) {
+    grid-column: 1 / -1 !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - SUBMIT BUTTON
+   ========================================================= */
+body.cwv-registration-page #Buttons {
+    padding: 2.5rem 3.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    background: #ffffff !important;
+}
+
+body.cwv-registration-page #SubmitButton,
+body.cwv-registration-page #Buttons button[name="submit"],
+body.cwv-registration-page #Buttons input[type="submit"] {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    background: #C9A227 !important;
+    color: #1a1a1a !important;
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 1.4rem 3.5rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+}
+
+body.cwv-registration-page #SubmitButton:hover,
+body.cwv-registration-page #Buttons button[name="submit"]:hover,
+body.cwv-registration-page #Buttons input[type="submit"]:hover {
+    background: #1a1a1a !important;
+    color: #C9A227 !important;
+    transform: scale(1.03) !important;
+}
+
+body.cwv-registration-page #Buttons .total strong,
+body.cwv-registration-page #Buttons .total .amount {
+    font-family: 'Urbanist', sans-serif !important;
+    font-size: 2.75rem !important;
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - OVERRIDE CMS DEFAULT BORDER COLORS
+   ========================================================= */
+body.cwv-registration-page #RegisterBody *,
+body.cwv-registration-page #Summary *,
+body.cwv-registration-page #ReserversInformation *,
+body.cwv-registration-page #Payment *,
+body.cwv-registration-page .bottom_padding * {
+    border-color: #C9A227 !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance {
+    border: 2px solid transparent !important;
+}
+
+body.cwv-registration-page #RegisterBody .performance:hover {
+    border-color: #C9A227 !important;
+}
+
+body.cwv-registration-page #RegisterBody .reservation {
+    border: none !important;
+}
+
+body.cwv-registration-page #RegisterBody .remove_reservation {
+    border: 1px solid #ddd !important;
+}
+
+body.cwv-registration-page #RegisterBody .reservation:hover .remove_reservation {
+    border-color: #8B0000 !important;
+}
+
+body.cwv-registration-page #RegisterBody .remove_reservation:hover {
+    border-color: #8B0000 !important;
+}
+
+/* Form inputs - use #999 for default, #C9A227 for focus */
+body.cwv-registration-page #RegisterBody input,
+body.cwv-registration-page #RegisterBody select,
+body.cwv-registration-page #RegisterBody textarea,
+body.cwv-registration-page #Summary input,
+body.cwv-registration-page #Summary select,
+body.cwv-registration-page #Summary textarea,
+body.cwv-registration-page #ReserversInformation input,
+body.cwv-registration-page #ReserversInformation select,
+body.cwv-registration-page #ReserversInformation textarea,
+body.cwv-registration-page #Payment input,
+body.cwv-registration-page #Payment select,
+body.cwv-registration-page #Payment textarea {
+    border-color: #999 !important;
+}
+
+body.cwv-registration-page #RegisterBody input:focus,
+body.cwv-registration-page #RegisterBody select:focus,
+body.cwv-registration-page #RegisterBody textarea:focus,
+body.cwv-registration-page #Summary input:focus,
+body.cwv-registration-page #Summary select:focus,
+body.cwv-registration-page #Summary textarea:focus,
+body.cwv-registration-page #ReserversInformation input:focus,
+body.cwv-registration-page #ReserversInformation select:focus,
+body.cwv-registration-page #ReserversInformation textarea:focus,
+body.cwv-registration-page #Payment input:focus,
+body.cwv-registration-page #Payment select:focus,
+body.cwv-registration-page #Payment textarea:focus {
+    border-color: #C9A227 !important;
+}
+
+body.cwv-registration-page .cwv-info-section-title {
+    border-bottom-color: rgba(201, 162, 39, 0.3) !important;
+}
+
+body.cwv-registration-page #Summary,
+body.cwv-registration-page #ReserversInformation,
+body.cwv-registration-page #Payment,
+body.cwv-registration-page #RegisterBody {
+    border-color: rgba(0,0,0,0.06) !important;
+}
+
+/* Override shaded containers to white */
+.cco_body .ads .container.shaded,
+.container.shaded,
+.footnote.selected {
+    background-color: #ffffff !important;
+}
+
+/* Override RegisterHeader blue background to white */
+#RegisterHeader.clearfix.blue,
+#RegisterHeader.blue {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+}
+
+form#RegisterSinglePage {
+    border-radius: 24px !important;
+    overflow: hidden !important;
+}
+
+/* =========================================================
+   SINGLE EVENT - RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+    body.cwv-registration-page .master-content-wrapper {
+        padding: 1.5rem 1rem !important;
+    }
+
+    body.cwv-registration-page #RegisterHeader .column1 {
+        padding: 2rem 1.5rem !important;
+        margin-top: 1.5rem !important;
+    }
+
+    body.cwv-registration-page #RegisterHeader .event_name {
+        font-size: 2.25rem !important;
+    }
+
+    body.cwv-registration-page #RegisterHeader .event_description {
+        font-size: 1.15rem !important;
+    }
+
+    body.cwv-registration-page #RegisterHeader .column2 {
+        padding: 1.5rem !important;
+        grid-template-columns: 1fr !important;
+    }
+
+    body.cwv-registration-page .cwv-info-icon {
+        width: 40px !important;
+        height: 40px !important;
+        min-width: 40px !important;
+        border-radius: 10px !important;
+    }
+
+    body.cwv-registration-page .cwv-info-icon svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    body.cwv-registration-page .cwv-info-card {
+        padding: 0.75rem !important;
+        gap: 0.5rem !important;
+        border-radius: 12px !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    body.cwv-registration-page .cwv-info-text {
+        font-size: 0.9rem !important;
+    }
+
+    body.cwv-registration-page .cwv-card-label {
+        font-size: 0.65rem !important;
+    }
+
+    body.cwv-registration-page .cwv-info-content {
+        font-size: 0.8rem !important;
+    }
+
+    body.cwv-registration-page .cwv-info-section-title {
+        font-size: 1.15rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    body.cwv-registration-page .cwv-info-cards-grid {
+        justify-content: space-between !important;
+    }
+
+    body.cwv-registration-page #RegisterBody,
+    body.cwv-registration-page #Summary,
+    body.cwv-registration-page #ReserversInformation,
+    body.cwv-registration-page #Payment,
+    body.cwv-registration-page #Buttons {
+        padding: 2rem 1.5rem !important;
+    }
+
+    body.cwv-registration-page #Buttons {
+        flex-direction: column !important;
+        gap: 2rem !important;
+        text-align: center !important;
+    }
+
+    body.cwv-registration-page #SubmitButton,
+    body.cwv-registration-page #Buttons button[name="submit"],
+    body.cwv-registration-page #Buttons input[type="submit"] {
+        width: 100% !important;
+        padding: 1.25rem 2rem !important;
+    }
+
+    body.cwv-registration-page #Summary label,
+    body.cwv-registration-page #ReserversInformation label,
+    body.cwv-registration-page #Payment label {
+        font-size: 1rem !important;
+    }
+}

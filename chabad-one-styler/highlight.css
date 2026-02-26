@@ -251,3 +251,44 @@ body.chabad-styler-active * {
 .chabad-styler-panel-content::-webkit-scrollbar-thumb:hover {
   background: #555 !important;
 }
+
+/* Direct Children List */
+.chabad-styler-children-list {
+  margin-top: 8px !important;
+  padding: 8px !important;
+  background: #2a2a2a !important;
+  border-radius: 6px !important;
+  border-left: 2px solid #C9A227 !important;
+}
+
+.chabad-styler-child-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 4px 0 !important;
+  border-bottom: 1px solid #333 !important;
+}
+
+.chabad-styler-child-item:last-child {
+  border-bottom: none !important;
+}
+
+.chabad-styler-child-item code {
+  font-family: 'SF Mono', 'Consolas', 'Monaco', monospace !important;
+  font-size: 11px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  color: #8bc34a !important;
+  word-break: break-all !important;
+  display: inline !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.chabad-styler-child-size {
+  font-family: 'SF Mono', 'Consolas', 'Monaco', monospace !important;
+  font-size: 10px !important;
+  color: #888 !important;
+  white-space: nowrap !important;
+}

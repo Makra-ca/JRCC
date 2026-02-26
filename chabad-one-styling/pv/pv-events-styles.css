@@ -821,10 +821,10 @@ body.pv-registration-page .pv-info-cards-grid {
 }
 
 /* Info cards - 2 columns on larger screens */
-body.pv-registration-page .pv-info-cards-grid > div {
+body.pv-registration-page .pv-info-cards-grid > div.pv-info-card {
     flex: 1 1 calc(50% - 15px) !important;
     min-width: 200px !important;
-    display: block !important;
+    display: flex !important;
 }
 
 /* Responsive - Single column on tablets (900px and below) */
@@ -2205,25 +2205,39 @@ form#RegisterSinglePage {
         height: 20px !important;
     }
 
-    body.pv-registration-page .pv-info-card {
-        padding: 0.75rem !important;
-        gap: 0.5rem !important;
-        border-radius: 12px !important;
+    /* Info cards grid - stack vertically on mobile */
+    body.pv-registration-page .pv-info-cards-grid {
         flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    body.pv-registration-page .pv-info-card {
+        display: flex !important;
+        flex-direction: row !important;
         align-items: center !important;
-        text-align: center !important;
+        padding: 1rem 1.25rem !important;
+        gap: 1rem !important;
+        border-radius: 14px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     body.pv-registration-page .pv-info-text {
-        font-size: 0.9rem !important;
+        flex: 1 !important;
+        min-width: 0 !important;
+        text-align: left !important;
     }
 
     body.pv-registration-page .pv-card-label {
-        font-size: 0.65rem !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 0.25rem !important;
     }
 
     body.pv-registration-page .pv-info-content {
-        font-size: 0.8rem !important;
+        font-size: 0.95rem !important;
+        line-height: 1.4 !important;
+        word-break: break-word !important;
     }
 
     body.pv-registration-page .pv-info-section-title {
@@ -2231,9 +2245,36 @@ form#RegisterSinglePage {
         margin-bottom: 0.75rem !important;
     }
 
-    /* Grid gap adjustment handled by 600px media query above */
-    body.pv-registration-page .pv-info-cards-grid {
-        justify-content: space-between !important;
+    /* FIX: Remove gap between First Name and Last Name on mobile */
+    body.pv-registration-page #RegisterBody .reservation .clearfix.small_top_padding > .inline_block,
+    body.pv-registration-page #RegisterBody .reservation .clearfix.small_top_padding > div.inline_block.small_bottom_margin {
+        flex: 0 0 auto !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        flex-basis: auto !important;
+        flex-grow: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Your Information - 2 columns on mobile */
+    body.pv-registration-page #ReserversInformation > div.large_top_padding > div.clearfix {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem 1rem !important;
+    }
+
+    body.pv-registration-page #ReserversInformation > div.large_top_padding > div.clearfix > .clearfix.small_vertical_padding {
+        flex: 1 1 calc(50% - 0.5rem) !important;
+        min-width: 140px !important;
+        max-width: 100% !important;
+    }
+
+    /* Full width for email and billing address */
+    body.pv-registration-page #ReserversInformation > div.large_top_padding > div.clearfix > .clearfix.small_vertical_padding:has(input[name*="email"]),
+    body.pv-registration-page #ReserversInformation > div.large_top_padding > div.clearfix > .clearfix.small_vertical_padding:has(input[name*="address"]),
+    body.pv-registration-page #ReserversInformation > div.large_top_padding > div.clearfix > .clearfix.small_vertical_padding:has(input[name*="billing"]) {
+        flex: 1 1 100% !important;
     }
 
     body.pv-registration-page #RegisterBody,

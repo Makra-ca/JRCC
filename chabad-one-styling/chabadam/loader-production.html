@@ -1,0 +1,15 @@
+<!--
+  PRODUCTION LOADER - Add this to site header/footer
+  Loads the Women's Challah Bake form overlay from Vercel
+-->
+
+<script>
+(function() {
+    // Only load on the target page
+    if (!window.location.href.includes('aid/6781190')) return;
+
+    var s = document.createElement('script');
+    s.src = 'https://chabad-one-styling.vercel.app/chabadam/chabadam-form-production.js';
+    document.head.appendChild(s);
+})();
+</script>

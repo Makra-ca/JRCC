@@ -159,7 +159,10 @@
       outerHTML: element.outerHTML.substring(0, 800),
 
       // Text content
-      textContent: element.textContent.trim().substring(0, 200)
+      textContent: element.textContent.trim().substring(0, 200),
+
+      // Direct children for layout debugging
+      directChildren: getDirectChildren(element)
     };
 
     return info;
@@ -281,9 +284,47 @@
       flexDirection: computed.flexDirection,
       justifyContent: computed.justifyContent,
       alignItems: computed.alignItems,
+      gap: computed.gap,
       float: computed.float,
       overflow: computed.overflow
     };
+  }
+
+  // Get direct children info for layout debugging
+  function getDirectChildren(element) {
+    return Array.from(element.children)
+      .filter(child => !child.classList.contains('chabad-styler-panel') &&
+                       !child.classList.contains('chabad-styler-notification'))
+      .map(child => {
+        const computed = window.getComputedStyle(child);
+        const rect = child.getBoundingClientRect();
+        const classes = Array.from(child.classList)
+          .filter(c => !c.startsWith('chabad-styler'))
+          .slice(0, 4);
+
+        return {
+          tag: child.tagName.toLowerCase(),
+          id: child.id || null,
+          classes: classes,
+          selector: child.tagName.toLowerCase() +
+                   (child.id ? '#' + child.id : '') +
+                   (classes.length > 0 ? '.' + classes.join('.') : ''),
+          width: Math.round(rect.width) + 'px',
+          height: Math.round(rect.height) + 'px',
+          display: computed.display,
+          flex: computed.flex,
+          flexGrow: computed.flexGrow,
+          flexShrink: computed.flexShrink,
+          flexBasis: computed.flexBasis,
+          float: computed.float,
+          order: computed.order !== '0' ? computed.order : null,
+          marginLeft: computed.marginLeft,
+          marginRight: computed.marginRight,
+          paddingLeft: computed.paddingLeft,
+          paddingRight: computed.paddingRight,
+          textContent: child.textContent.trim().substring(0, 20) || null
+        };
+      });
   }
 
   function getDimensions(element) {
@@ -487,6 +528,13 @@ ${info.inlineStyles || 'none'}
 ### Text Content
 ${info.textContent || '(empty)'}
 
+### Direct Children (${info.directChildren.length}) - FLEX DEBUG
+| # | Selector | Width | Flex | Float | Order | Text |
+|---|----------|-------|------|-------|-------|------|
+${info.directChildren.length > 0 ? info.directChildren.map((c, i) =>
+  `| ${i + 1} | \`${c.selector}\` | ${c.width} | ${c.flex} | ${c.float} | ${c.order || '-'} | ${c.textContent ? '"' + c.textContent + '"' : '-'} |`
+).join('\n') : '| - | No children | - | - | - | - | - |'}
+
 ### Outer HTML (truncated)
 \`\`\`html
 ${info.outerHTML}
@@ -519,6 +567,15 @@ ${info.outerHTML}
           <span class="chabad-styler-label">Parents:</span>
           <code>${info.parentChain.map(p => p.tagName + (p.classes.length > 0 ? '.' + p.classes[0] : '')).join(' < ')}</code>
         </div>
+        <div class="chabad-styler-info-row">
+          <span class="chabad-styler-label">Children:</span>
+          <code>${info.directChildren.length} direct ${info.directChildren.length === 1 ? 'child' : 'children'}</code>
+        </div>
+        ${info.directChildren.length > 0 && info.directChildren.length <= 6 ? `
+        <div class="chabad-styler-children-list">
+          ${info.directChildren.map(c => `<div class="chabad-styler-child-item"><code>${c.selector}</code> <span class="chabad-styler-child-size">${c.width}×${c.height}</span></div>`).join('')}
+        </div>
+        ` : ''}
       </div>
       <p class="chabad-styler-hint">Click "Copy Info" to get full details for Claude</p>
     `;
