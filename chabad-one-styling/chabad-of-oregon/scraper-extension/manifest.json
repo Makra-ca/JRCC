@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Event Image Capture",
+  "version": "1.1",
+  "description": "Click images to save them with page URL in filename",
+  "permissions": ["activeTab", "downloads", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "48": "icon.png"
+    }
+  },
+  "icons": {
+    "48": "icon.png",
+    "128": "icon.png"
+  }
+}
