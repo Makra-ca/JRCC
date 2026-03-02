@@ -302,16 +302,135 @@
       }
     }
 
+    // =========================================================
+    // FIX ADD BUTTON - Change "Add" to "Add Reservations"
+    // =========================================================
+    function styleAddButton() {
+      var addButtons = document.querySelectorAll('.add_attendee, button.add_attendee');
+      addButtons.forEach(function(btn) {
+        if (btn.classList.contains('cwv-add-styled')) return;
+        btn.classList.add('cwv-add-styled');
+
+        // Change button text
+        var span = btn.querySelector('span');
+        if (span && span.textContent.trim() === 'Add') {
+          span.textContent = 'Add Reservation';
+        } else if (btn.textContent.trim() === 'Add') {
+          btn.textContent = 'Add Reservation';
+        }
+
+        log('Add button styled');
+      });
+    }
+
+    // =========================================================
+    // STYLE YOUR INFORMATION - Single column, label left
+    // CSS can't override CMS grid, so we use JS
+    // =========================================================
+    function styleYourInformation() {
+      // Get the form container (not the title div)
+      var container = document.querySelector('#ReserversInformation > div.large_top_padding.medium_bottom_padding > div.clearfix:not(.title)');
+      if (!container) {
+        log('Your Information container not found');
+        return;
+      }
+      if (container.classList.contains('cwv-info-styled')) return;
+      container.classList.add('cwv-info-styled');
+
+      log('Styling Your Information, found rows:', container.children.length);
+
+      // Container: single column
+      container.style.setProperty('display', 'flex', 'important');
+      container.style.setProperty('flex-direction', 'column', 'important');
+      container.style.setProperty('gap', '0.75rem', 'important');
+
+      // Each field row (direct children with class clearfix)
+      var rows = container.children;
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (!row.classList.contains('clearfix')) continue;
+
+        row.style.setProperty('display', 'flex', 'important');
+        row.style.setProperty('flex-direction', 'row', 'important');
+        row.style.setProperty('align-items', 'center', 'important');
+        row.style.setProperty('gap', '1rem', 'important');
+        row.style.setProperty('width', '100%', 'important');
+
+        // Find label (first child div)
+        var label = row.querySelector('.label, .g140');
+        if (label) {
+          label.style.setProperty('flex', '0 0 150px', 'important');
+          label.style.setProperty('min-width', '150px', 'important');
+          label.style.setProperty('max-width', '150px', 'important');
+          label.style.setProperty('text-align', 'right', 'important');
+          label.style.setProperty('float', 'none', 'important');
+          label.style.setProperty('margin', '0', 'important');
+        }
+
+        // Find input wrapper
+        var inputWrapper = row.querySelector('.float_left, .left_margin');
+        if (inputWrapper) {
+          inputWrapper.style.setProperty('flex', '1', 'important');
+          inputWrapper.style.setProperty('float', 'none', 'important');
+          inputWrapper.style.setProperty('margin', '0', 'important');
+        }
+      }
+
+      log('Your Information styled as single column');
+    }
+
+    // =========================================================
+    // HIDE TOGGLE_OPTIONS - Respect CMS visibility control
+    // CMS sets inline display:none when it should be hidden
+    // CMS removes/changes it when user clicks "Add additional reservations"
+    // We only force hide when CMS wants it hidden (has inline display:none)
+    // =========================================================
+    function hideToggleOptions() {
+      var toggleOptions = document.querySelectorAll('.additionals_toggle > .toggle_options, .toggle_options.medium_vertical_padding.left_padding');
+      toggleOptions.forEach(function(el) {
+        // Check if CMS has set inline display:none
+        var inlineDisplay = el.style.display;
+
+        if (inlineDisplay === 'none') {
+          // CMS wants it hidden - reinforce with !important to override any CSS
+          el.style.setProperty('display', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('height', '0', 'important');
+          el.style.setProperty('overflow', 'hidden', 'important');
+          log('Toggle options: CMS wants hidden, enforcing');
+        } else {
+          // CMS wants it visible (user adding reservation) - remove our overrides
+          el.style.removeProperty('visibility');
+          el.style.removeProperty('height');
+          el.style.removeProperty('overflow');
+          log('Toggle options: CMS wants visible, allowing');
+        }
+      });
+    }
+
     // Run initial styling
     log('Running initial styling...');
     styleDeleteButtons();
     styleFormInputs();
     centerButtonsSection();
+    styleAddButton();
+    hideToggleOptions();
+    styleYourInformation();
 
     // Run again after short delays (for CMS async loading)
     setTimeout(styleFormInputs, 300);
     setTimeout(styleFormInputs, 800);
     setTimeout(centerButtonsSection, 300);
+    setTimeout(styleAddButton, 300);
+    setTimeout(styleAddButton, 800);
+    setTimeout(styleAddButton, 1500);
+    setTimeout(hideToggleOptions, 100);
+    setTimeout(hideToggleOptions, 300);
+    setTimeout(hideToggleOptions, 800);
+    setTimeout(hideToggleOptions, 1500);
+    setTimeout(styleYourInformation, 100);
+    setTimeout(styleYourInformation, 500);
+    setTimeout(styleYourInformation, 1000);
 
     // Log element states after a delay
     setTimeout(function() {
@@ -332,6 +451,8 @@
         });
         styleDeleteButtons();
         styleFormInputs();
+        styleAddButton();
+        hideToggleOptions();
       });
       observer.observe(registerBody, {
         childList: true,

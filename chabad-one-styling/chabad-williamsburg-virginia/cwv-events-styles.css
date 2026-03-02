@@ -1002,14 +1002,17 @@ body.cwv-registration-page #RegisterBody .performance .price {
 
 /* =========================================================
    SINGLE EVENT - CATEGORY SELECTION / TOGGLE OPTIONS
+   Hide the duplicate category/add/x row - "Add Reservation" button handles this
    ========================================================= */
-body.cwv-registration-page #RegisterBody .performance .toggle_options {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    gap: 1.5rem !important;
-    margin-top: 1.25rem !important;
+body.cwv-registration-page .additionals_toggle > .toggle_options,
+body.cwv-registration-page #RegisterBody .performance .toggle_options,
+body.cwv-registration-page #RegisterBody .toggle_options.medium_vertical_padding {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
     padding: 0 !important;
+    margin: 0 !important;
 }
 
 body.cwv-registration-page #RegisterBody .performance .toggle_options .inline_block {
@@ -1301,52 +1304,69 @@ body.cwv-registration-page #ReserversInformation {
 }
 
 /* =========================================================
-   SINGLE EVENT - FORM FIELDS GRID LAYOUT
+   SINGLE EVENT - YOUR INFORMATION: Single column, label LEFT of input
    ========================================================= */
 body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
     width: 100% !important;
 }
 
+/* Each field row: horizontal flex - label left, input right */
 body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 0.5rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem !important;
 }
 
-body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div {
+/* Label: fixed width on left, right-aligned */
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div.label,
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div:first-child {
+    flex: 0 0 160px !important;
+    min-width: 160px !important;
+    text-align: right !important;
+    padding-right: 0.5rem !important;
+    float: none !important;
+    margin: 0 !important;
+}
+
+/* Input wrapper: takes remaining space */
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div.float_left,
+body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div:last-child {
+    flex: 1 !important;
     float: none !important;
     margin-left: 0 !important;
 }
 
-body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix:last-child {
-    grid-column: 1 / -1 !important;
-}
-
+/* Table layout: single column with label left */
 body.cwv-registration-page #ReserversInformation table tbody {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 1.5rem 2rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
     width: 100% !important;
 }
 
 body.cwv-registration-page #ReserversInformation table tr {
     display: flex !important;
-    flex-direction: column !important;
-    gap: 0.5rem !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem !important;
 }
 
-body.cwv-registration-page #ReserversInformation table td {
-    display: block !important;
-    width: 100% !important;
-    padding: 0 !important;
+body.cwv-registration-page #ReserversInformation table td:first-child {
+    flex: 0 0 160px !important;
+    min-width: 160px !important;
+    text-align: right !important;
+    padding-right: 0.5rem !important;
     border: none !important;
 }
 
-body.cwv-registration-page #ReserversInformation table tr:last-child {
-    grid-column: 1 / -1 !important;
+body.cwv-registration-page #ReserversInformation table td:last-child {
+    flex: 1 !important;
+    padding: 0 !important;
+    border: none !important;
 }
 
 body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) label {
@@ -1734,4 +1754,153 @@ form#RegisterSinglePage {
     body.cwv-registration-page #Payment label {
         font-size: 1rem !important;
     }
+}
+
+/* =========================================================
+   TALLER HEADER BANNER FOR EVENT FLYER
+   ========================================================= */
+body.cwv-registration-page #RegisterHeader .banner_image {
+    max-height: 500px !important;
+    min-height: 350px !important;
+}
+
+body.cwv-registration-page #RegisterHeader .banner_image img {
+    max-height: 500px !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+/* =========================================================
+   ADD RESERVATION BUTTON STYLING
+   ========================================================= */
+body.cwv-registration-page .add_attendee.cwv-add-styled,
+body.cwv-registration-page button.add_attendee.cwv-add-styled {
+    background: #C9A227 !important;
+    color: #1a1a1a !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 0.9rem 2rem !important;
+    border: none !important;
+    border-radius: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+body.cwv-registration-page .add_attendee.cwv-add-styled:hover,
+body.cwv-registration-page button.add_attendee.cwv-add-styled:hover {
+    background: #b8912a !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+}
+
+body.cwv-registration-page .add_attendee.cwv-add-styled:disabled,
+body.cwv-registration-page button.add_attendee.cwv-add-styled:disabled {
+    background: #ddd !important;
+    color: #999 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Mobile responsive for single column layout */
+@media (max-width: 768px) {
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > .label,
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div:first-child {
+        flex: none !important;
+        min-width: auto !important;
+        width: 100% !important;
+        text-align: left !important;
+        padding-right: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation > div > div.clearfix:not(.title) > div.clearfix > div:last-child {
+        width: 100% !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation table tr {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation table td:first-child {
+        flex: none !important;
+        min-width: auto !important;
+        width: 100% !important;
+        text-align: left !important;
+        padding-right: 0 !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    body.cwv-registration-page #ReserversInformation table td:last-child {
+        width: 100% !important;
+    }
+
+    body.cwv-registration-page #RegisterHeader .banner_image {
+        max-height: 300px !important;
+        min-height: 200px !important;
+    }
+}
+
+/* =========================================================
+   FORCE HIDE TOGGLE_OPTIONS - Must be at END of file
+   This hides the duplicate category/add/x row after reservation added
+   ========================================================= */
+body.cwv-registration-page #Performances [id*="_additionalsToggle"] > .toggle_options,
+body.cwv-registration-page #RegisterBody .additionals_toggle > .toggle_options.medium_vertical_padding,
+body.cwv-registration-page div.toggle_options.medium_vertical_padding.left_padding.clearfix {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    pointer-events: none !important;
+}
+
+/* =========================================================
+   YOUR INFORMATION - SINGLE COLUMN LAYOUT (MUST BE AT END)
+   Exact selector from browser to ensure it matches
+   ========================================================= */
+
+/* Container: single column stack */
+body.cwv-registration-page #ReserversInformation > div.large_top_padding.medium_bottom_padding > div.clearfix {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+}
+
+/* Each field row: horizontal layout */
+body.cwv-registration-page #ReserversInformation > div.large_top_padding.medium_bottom_padding > div.clearfix > div.clearfix.small_vertical_padding {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    width: 100% !important;
+}
+
+/* Label: fixed width on left */
+body.cwv-registration-page #ReserversInformation div.clearfix.small_vertical_padding > div.label {
+    flex: 0 0 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    text-align: right !important;
+    padding-right: 0.5rem !important;
+    float: none !important;
+    margin: 0 !important;
+}
+
+/* Input wrapper: takes remaining space */
+body.cwv-registration-page #ReserversInformation div.clearfix.small_vertical_padding > div.float_left {
+    flex: 1 !important;
+    float: none !important;
+    margin: 0 !important;
 }
