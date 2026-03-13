@@ -13,14 +13,14 @@
   --gold-light: #F5EED6;
   --black: #1a1a1a;
   --dark-red: #8B0000;
-  --cream: #FFFDF7;
+  --cream: #fafafa;  /* Updated: soft off-white instead of yellow-cream */
   --white: #ffffff;
-  --gray-100: #f7f7f5;
-  --gray-200: #e8e8e4;
-  --gray-300: #d4d4cd;
-  --gray-500: #7a7a72;
-  --gray-700: #4a4a45;
-  --gray-900: #1f1f1c;
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-500: #737373;
+  --gray-700: #404040;
+  --gray-900: #171717;
 
   /* Font sizes in px (CMS uses 10px base, so rem is unreliable) */
   --font-xs: 11px;
@@ -34,7 +34,7 @@
 
 /* ===== PAGE BACKGROUND ===== */
 body.cwv-registration-page {
-  background: linear-gradient(135deg, var(--cream) 0%, #f8f6f0 100%) !important;
+  background: var(--cream) !important;  /* Clean soft off-white */
   min-height: 100vh !important;
   font-family: 'Inter', sans-serif !important;
 }
@@ -102,7 +102,15 @@ body.cwv-registration-page #RegisterHeader {
   padding: 0 !important;
   background: transparent !important;
   margin-bottom: 0 !important;
+  margin-top: 0 !important;
   border: none !important;
+}
+
+/* Remove white line above banner - ensure no gaps */
+body.cwv-registration-page .master-content-wrapper > *:first-child,
+body.cwv-registration-page #RegisterHeader:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 body.cwv-registration-page #RegisterHeader .banner_image {
@@ -110,12 +118,18 @@ body.cwv-registration-page #RegisterHeader .banner_image {
   padding: 0 !important;
   border-radius: 16px 16px 0 0 !important;
   overflow: hidden !important;
+  border: none !important;
+  border-top: none !important;
+  line-height: 0 !important;  /* Remove gap under image */
 }
 
 body.cwv-registration-page #RegisterHeader .banner_image img {
   width: 100% !important;
   height: auto !important;
   display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 /* ===== EVENT INTRO (Black Section) ===== */
@@ -205,58 +219,69 @@ body.cwv-registration-page .cwv-read-more-btn.cwv-expanded svg {
   transform: rotate(180deg) !important;
 }
 
-/* ===== INFO CARDS (Location, Date, Pricing - Vertical Stack with Floating Boxes) ===== */
+/* ===== INFO CARDS (Location + Date side-by-side, Pricing below) ===== */
 body.cwv-registration-page #RegisterHeader .column2 {
   background: var(--gray-100) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  gap: 1rem !important;
+  gap: 1.25rem !important;
   padding: 2rem !important;
 }
 
 body.cwv-registration-page .cwv-info-cards-grid {
-  display: flex !important;
-  flex-direction: column !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
   gap: 1rem !important;
   width: 100% !important;
-  max-width: 400px !important;
+  max-width: 700px !important;
 }
 
-body.cwv-registration-page .cwv-info-card {
-  width: 100% !important;
-  background: var(--white) !important;
-  border-radius: 14px !important;
+/* Pricing card spans full width below Location + Date */
+body.cwv-registration-page .cwv-info-card.cwv-pricing-card {
+  grid-column: 1 / -1 !important;
+}
+
+body.cwv-registration-page .cwv-info-cards-grid .cwv-info-card {
+  background: #ffffff !important;
+  border-radius: 12px !important;
   padding: 1.25rem 1.5rem !important;
-  border: 1px solid rgba(0, 0, 0, 0.06) !important;
-  border-left: 4px solid var(--gold) !important;
+  /* Full border around card - using direct hex for reliability */
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #C9A227 !important;
+  border-top: 2px solid #C9A227 !important;
+  border-right: 2px solid #C9A227 !important;
+  border-bottom: 2px solid #C9A227 !important;
+  border-left: 2px solid #C9A227 !important;
   display: flex !important;
   align-items: center !important;
   gap: 1rem !important;
-  /* Floating shadow effect */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04) !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  /* Subtle shadow */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
-body.cwv-registration-page .cwv-info-card:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06) !important;
+body.cwv-registration-page .cwv-info-cards-grid .cwv-info-card:hover {
+  box-shadow: 0 4px 16px rgba(201, 162, 39, 0.2) !important;
+  transform: translateY(-2px) !important;
 }
 
 body.cwv-registration-page .cwv-info-icon {
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 50% !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 10px !important;
   background: var(--gold-light) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
+  border: 1px solid rgba(201, 162, 39, 0.2) !important;
 }
 
 body.cwv-registration-page .cwv-info-icon svg {
-  width: 20px !important;
-  height: 20px !important;
+  width: 22px !important;
+  height: 22px !important;
   color: var(--gold-dark) !important;
   stroke: var(--gold-dark) !important;
 }
@@ -265,9 +290,9 @@ body.cwv-registration-page .cwv-card-label {
   font-size: 10px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 1.5px !important;
   color: var(--gold-dark) !important;
-  margin-bottom: 0.2rem !important;
+  margin-bottom: 0.35rem !important;
   display: block !important;
 }
 
@@ -275,6 +300,7 @@ body.cwv-registration-page .cwv-info-content {
   font-size: 14px !important;
   font-weight: 600 !important;
   color: var(--gray-700) !important;
+  line-height: 1.4 !important;
 }
 
 /* ===== FORM CARD (White Area) ===== */
@@ -572,14 +598,14 @@ body.cwv-registration-page .reservation button.remove_reservation:hover {
   opacity: 1 !important;
 }
 
-/* Inputs */
+/* Inputs - Stronger visible borders */
 body.cwv-registration-page .reservation input.co_form_input {
   font-family: 'Inter', sans-serif !important;
   font-size: 14px !important;
-  padding: 0.6rem 0.75rem !important;
-  border: 1px solid var(--gray-200) !important;
-  border-radius: 6px !important;
-  background: var(--gray-100) !important;
+  padding: 0.7rem 0.9rem !important;
+  border: 2px solid var(--gray-300) !important;
+  border-radius: 8px !important;
+  background: var(--white) !important;
   width: 100% !important;
   box-sizing: border-box !important;
   transition: all 0.15s ease !important;
@@ -589,7 +615,7 @@ body.cwv-registration-page .reservation input.co_form_input:focus {
   border-color: var(--gold) !important;
   background: var(--white) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2) !important;
 }
 
 /* Hide embedded form */
@@ -613,6 +639,41 @@ body.cwv-registration-page .subtotal span:last-child {
   font-weight: 700 !important;
   color: var(--black) !important;
   margin-left: 0.5rem !important;
+}
+
+/* =========================================================
+   SEGMENT HEADERS (for multi-segment events like Seder 1, Seder 2)
+   ========================================================= */
+
+body.cwv-registration-page .cwv-segment-header {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 1rem !important;
+  padding: 1rem 1.5rem !important;
+  margin-bottom: 1rem !important;
+  background: linear-gradient(135deg, var(--black) 0%, #2a2a2a 100%) !important;
+  border-radius: 10px !important;
+  border-left: 4px solid var(--gold) !important;
+}
+
+body.cwv-registration-page .cwv-segment-name {
+  font-family: 'Urbanist', sans-serif !important;
+  font-size: var(--font-xl) !important;
+  font-weight: 700 !important;
+  color: var(--white) !important;
+  letter-spacing: -0.5px !important;
+}
+
+body.cwv-registration-page .cwv-segment-date {
+  font-family: 'Inter', sans-serif !important;
+  font-size: var(--font-base) !important;
+  font-weight: 500 !important;
+  color: var(--gold) !important;
+}
+
+/* Hide original CMS segment title since we're adding our own */
+body.cwv-registration-page .performance > [class*="title"]:not(.cwv-segment-header) {
+  /* Keep visible for now - the original title may have other content */
 }
 
 /* =========================================================
@@ -693,24 +754,24 @@ body.cwv-registration-page .toggle_options > .inline_block > div:first-child {
   color: var(--gray-500) !important;
 }
 
-/* Dropdowns */
+/* Dropdowns - Stronger visible borders */
 body.cwv-registration-page .toggle_options select.co_form_input {
   font-family: 'Inter', sans-serif !important;
   font-size: 14px !important;
   padding: 0.75rem 1rem !important;
-  border: 1px solid var(--gray-200) !important;
-  border-radius: 6px !important;
+  border: 2px solid var(--gray-300) !important;
+  border-radius: 8px !important;
   background: var(--white) !important;
   cursor: pointer !important;
   width: 100% !important;
-  height: 46px !important;
+  height: 48px !important;
   transition: border-color 0.15s ease !important;
 }
 
 body.cwv-registration-page .toggle_options select.co_form_input:focus {
   border-color: var(--gold) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2) !important;
 }
 
 /* Add/Continue button in toggle */
@@ -766,8 +827,8 @@ body.cwv-registration-page #RegisterBody textarea {
   font-family: 'Inter', sans-serif !important;
   font-size: 14px !important;
   padding: 0.75rem 1rem !important;
-  border: 1px solid var(--gray-200) !important;
-  border-radius: 6px !important;
+  border: 2px solid var(--gray-300) !important;
+  border-radius: 8px !important;
   background: var(--white) !important;
   transition: all 0.15s ease !important;
   width: 100% !important;
@@ -779,7 +840,7 @@ body.cwv-registration-page #RegisterBody select:focus,
 body.cwv-registration-page #RegisterBody textarea:focus {
   outline: none !important;
   border-color: var(--gold) !important;
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2) !important;
 }
 
 /* Form rows - only target field wrappers with .small_vertical_padding, NOT form containers */
@@ -1501,7 +1562,7 @@ body.cwv-registration-page #ReserversInformation select.reservation_input_select
   font-family: 'Inter', sans-serif !important;
   font-size: var(--font-base) !important;
   padding: 0.85rem 1rem !important;
-  border: 1px solid var(--gray-200) !important;
+  border: 2px solid var(--gray-300) !important;
   border-radius: 8px !important;
   background: var(--white) !important;
   width: 100% !important;
@@ -1512,7 +1573,7 @@ body.cwv-registration-page #ReserversInformation input:focus,
 body.cwv-registration-page #ReserversInformation select:focus {
   border-color: var(--gold) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px var(--gold-light) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2) !important;
 }
 
 body.cwv-registration-page #ReserversInformation .info,
@@ -1659,7 +1720,7 @@ body.cwv-registration-page #Payment select {
   font-family: 'Inter', sans-serif !important;
   font-size: var(--font-base) !important;
   padding: 0.85rem 1rem !important;
-  border: 1px solid var(--gray-200) !important;
+  border: 2px solid var(--gray-300) !important;
   border-radius: 8px !important;
   background: var(--white) !important;
   width: 100% !important;
@@ -1670,14 +1731,14 @@ body.cwv-registration-page #Payment input:focus,
 body.cwv-registration-page #Payment select:focus {
   border-color: var(--gold) !important;
   outline: none !important;
-  box-shadow: 0 0 0 3px var(--gold-light) !important;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2) !important;
 }
 
 body.cwv-registration-page #Payment textarea {
   font-family: 'Inter', sans-serif !important;
   font-size: var(--font-base) !important;
   padding: 0.85rem 1rem !important;
-  border: 1px solid var(--gray-200) !important;
+  border: 2px solid var(--gray-300) !important;
   border-radius: 8px !important;
   background: var(--white) !important;
   width: 100% !important;
@@ -1940,13 +2001,18 @@ body.cwv-registration-page #ValidationNotice {
     padding: 1.25rem 1rem !important;
   }
 
-  /* Info cards on mobile */
+  /* Info cards on mobile - stack vertically */
   body.cwv-registration-page .cwv-info-cards-grid {
+    grid-template-columns: 1fr !important;
     max-width: 100% !important;
   }
 
   body.cwv-registration-page .cwv-info-card {
     padding: 1rem 1.25rem !important;
+  }
+
+  body.cwv-registration-page .cwv-info-card.cwv-pricing-card {
+    grid-column: 1 !important;
   }
 
   body.cwv-registration-page #RegisterBody > .wrapper {

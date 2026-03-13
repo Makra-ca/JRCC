@@ -183,9 +183,9 @@
           newContent += '</div>';
         }
 
-        // Pricing card
+        // Pricing card (full width below Location + Date)
         if (pricing) {
-          newContent += '<div class="cwv-info-card">';
+          newContent += '<div class="cwv-info-card cwv-pricing-card">';
           newContent += '<div class="cwv-info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>';
           newContent += '<div class="cwv-info-text"><span class="cwv-card-label">Pricing</span><div class="cwv-info-content">' + pricing + '</div></div>';
           newContent += '</div>';
@@ -218,38 +218,12 @@
     }
 
     // =========================================================
-    // ADD READ MORE TOGGLE TO DESCRIPTION
+    // SHOW FULL DESCRIPTION BY DEFAULT (no truncation)
     // =========================================================
-    if (eventDescription && !eventDescription.classList.contains('cwv-truncated')) {
-      // Only add if description is long enough
-      if (eventDescription.textContent.length > 150) {
-        eventDescription.classList.add('cwv-truncated');
-
-        var readMoreBtn = document.createElement('button');
-        readMoreBtn.type = 'button';
-        readMoreBtn.className = 'cwv-read-more-btn';
-        readMoreBtn.innerHTML = 'Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
-
-        eventDescription.parentNode.insertBefore(readMoreBtn, eventDescription.nextSibling);
-
-        readMoreBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          var isExpanded = eventDescription.classList.contains('cwv-expanded');
-
-          if (isExpanded) {
-            eventDescription.classList.remove('cwv-expanded');
-            eventDescription.classList.add('cwv-truncated');
-            readMoreBtn.classList.remove('cwv-expanded');
-            readMoreBtn.innerHTML = 'Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
-          } else {
-            eventDescription.classList.remove('cwv-truncated');
-            eventDescription.classList.add('cwv-expanded');
-            readMoreBtn.classList.add('cwv-expanded');
-            readMoreBtn.innerHTML = 'Show less <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
-          }
-        });
-      }
+    if (eventDescription) {
+      // Ensure description is fully visible - no truncation
+      eventDescription.classList.remove('cwv-truncated');
+      eventDescription.classList.add('cwv-expanded');
     }
 
     // =========================================================
@@ -504,10 +478,226 @@
         clearTimeout(window.cwvFormDebounce);
         window.cwvFormDebounce = setTimeout(function() {
           styleFormInputs();
+          displaySegmentNames();
         }, 100);
       });
       formObserver.observe(form, { childList: true, subtree: true });
     }
+
+    // =========================================================
+    // AUTO-POPULATE BILLING NAME FROM FIRST RESERVATION
+    // Copies first/last name from first reservation to billing info
+    // =========================================================
+    function autoPopulateBillingName() {
+      log('Setting up auto-populate for billing name...');
+
+      // Flag to track if we've already populated (don't overwrite user edits)
+      var hasPopulated = {
+        firstName: false,
+        lastName: false
+      };
+
+      // Find Your Information section fields
+      var reserversSection = document.querySelector('#ReserversInformation');
+      if (!reserversSection) {
+        log('ReserversInformation section not found');
+        return;
+      }
+
+      // Find the Your Information input fields by common patterns
+      var billingFirstName = reserversSection.querySelector('input[name*="firstName"], input[id*="FirstName"], input[name*="first_name"], input[name*="FirstName"]');
+      var billingLastName = reserversSection.querySelector('input[name*="lastName"], input[id*="LastName"], input[name*="last_name"], input[name*="LastName"]');
+
+      log('Billing fields found - firstName:', !!billingFirstName, 'lastName:', !!billingLastName);
+
+      // Function to copy value from reservation to billing info
+      function copyToBilling(sourceInput, targetInput, fieldName) {
+        if (!sourceInput || !targetInput) return;
+
+        // Listen for blur (when user leaves field) and input events
+        sourceInput.addEventListener('blur', function() {
+          var value = sourceInput.value.trim();
+
+          // Only populate if target is empty and source has value
+          if (value && !targetInput.value.trim() && !hasPopulated[fieldName]) {
+            targetInput.value = value;
+            targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+            targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+            hasPopulated[fieldName] = true;
+            log('Auto-populated billing ' + fieldName + ':', value);
+          }
+        });
+
+        // Also listen for changes in case populated programmatically
+        sourceInput.addEventListener('change', function() {
+          var value = sourceInput.value.trim();
+
+          if (value && !targetInput.value.trim() && !hasPopulated[fieldName]) {
+            targetInput.value = value;
+            targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+            targetInput.dispatchEvent(new Event('change', { bubbles: true }));
+            hasPopulated[fieldName] = true;
+            log('Auto-populated billing ' + fieldName + ':', value);
+          }
+        });
+      }
+
+      // Set up listener for first reservation row
+      function setupReservationListeners() {
+        // Find first reservation's name inputs
+        var firstResFirstName = document.querySelector('.reservation input[name^="firstname"], .reservation input[id*="firstName"], .reservation input[name*="FirstName"]');
+        var firstResLastName = document.querySelector('.reservation input[name^="lastname"], .reservation input[id*="lastName"], .reservation input[name*="LastName"]');
+
+        log('Reservation inputs - firstName:', !!firstResFirstName, 'lastName:', !!firstResLastName);
+
+        if (firstResFirstName && billingFirstName) {
+          copyToBilling(firstResFirstName, billingFirstName, 'firstName');
+        }
+
+        if (firstResLastName && billingLastName) {
+          copyToBilling(firstResLastName, billingLastName, 'lastName');
+        }
+      }
+
+      // Initial setup
+      setupReservationListeners();
+
+      // Also watch for new reservations being added (DOM changes)
+      var registerBody = document.querySelector('#RegisterBody');
+      if (registerBody) {
+        var nameObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length > 0) {
+              setTimeout(setupReservationListeners, 100);
+            }
+          });
+        });
+        nameObserver.observe(registerBody, { childList: true, subtree: true });
+      }
+
+      log('Auto-populate billing name listeners set up');
+    }
+
+    // =========================================================
+    // SET USA AS DEFAULT COUNTRY
+    // =========================================================
+    function setDefaultCountry() {
+      log('Setting default country to USA...');
+
+      var reserversSection = document.querySelector('#ReserversInformation');
+      if (!reserversSection) return;
+
+      var countrySelect = reserversSection.querySelector('select[name*="country"], select[id*="Country"], select[name*="Country"]');
+      if (!countrySelect) {
+        log('Country select not found');
+        return;
+      }
+
+      // Only set if empty/default
+      if (countrySelect.value && countrySelect.value !== '' && countrySelect.value !== '0') {
+        log('Country already set:', countrySelect.value);
+        return;
+      }
+
+      // Try common values for United States
+      var usValues = ['United States', 'US', 'USA', 'United States of America', 'UNITED STATES'];
+      var options = countrySelect.options;
+
+      for (var i = 0; i < options.length; i++) {
+        var optText = options[i].text.trim().toUpperCase();
+        var optVal = options[i].value.trim().toUpperCase();
+
+        for (var j = 0; j < usValues.length; j++) {
+          if (optText === usValues[j].toUpperCase() || optVal === usValues[j].toUpperCase()) {
+            countrySelect.value = options[i].value;
+            countrySelect.dispatchEvent(new Event('change', { bubbles: true }));
+            log('Country set to:', options[i].text);
+            return;
+          }
+        }
+      }
+
+      log('USA option not found in country dropdown');
+    }
+
+    // =========================================================
+    // DISPLAY SEGMENT NAMES AS HEADINGS
+    // When there are multiple segments (like Seder 1, Seder 2),
+    // show segment name prominently above each reservation section
+    // =========================================================
+    function displaySegmentNames() {
+      // Find all performance/segment sections
+      var performances = document.querySelectorAll('.performance');
+
+      if (performances.length <= 1) {
+        log('Single or no performance sections, skipping segment names');
+        return;
+      }
+
+      performances.forEach(function(perf, perfIndex) {
+        // Check if already processed
+        if (perf.dataset.segmentStyled === 'true') return;
+
+        // Find all title elements and get the one with the segment name
+        var titles = perf.querySelectorAll('[class*="title"]');
+        var segmentName = '';
+        var segmentDate = '';
+
+        // Look through titles for the one containing segment info (date pattern)
+        titles.forEach(function(titleEl) {
+          var text = titleEl.textContent.trim();
+          // Match pattern like "First night Seder March 1st Apr 1, 2026 7:30PM"
+          // Look for month names which indicate this is the segment title
+          if (/jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec/i.test(text) && text.length > 10) {
+            // Extract segment name (before the date) and date/time
+            var dateMatch = text.match(/^(.+?)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2},?\s+\d{4})\s*(\d{1,2}:\d{2}[AP]M)?/i);
+            if (dateMatch) {
+              segmentName = dateMatch[1].trim();
+              segmentDate = dateMatch[2] + ' ' + dateMatch[3] + (dateMatch[4] ? ' ' + dateMatch[4] : '');
+            } else {
+              // Fallback: just use the whole text
+              segmentName = text;
+            }
+          }
+        });
+
+        if (!segmentName) {
+          log('No segment name found for performance', perfIndex);
+          return;
+        }
+
+        log('Found segment:', segmentName, 'Date:', segmentDate);
+
+        // Create styled segment header if it doesn't exist
+        var existingHeader = perf.querySelector('.cwv-segment-header');
+        if (!existingHeader) {
+          var header = document.createElement('div');
+          header.className = 'cwv-segment-header';
+          header.innerHTML = '<span class="cwv-segment-name">' + segmentName + '</span>' +
+                            (segmentDate ? '<span class="cwv-segment-date">' + segmentDate + '</span>' : '');
+
+          // Insert at the beginning of the performance section
+          perf.insertBefore(header, perf.firstChild);
+        }
+
+        perf.dataset.segmentStyled = 'true';
+        log('Segment header added for:', segmentName);
+      });
+    }
+
+    // Run auto-populate functions
+    autoPopulateBillingName();
+    setDefaultCountry();
+    displaySegmentNames();
+
+    // Run after delays for CMS async loading
+    setTimeout(autoPopulateBillingName, 500);
+    setTimeout(autoPopulateBillingName, 1500);
+    setTimeout(setDefaultCountry, 300);
+    setTimeout(setDefaultCountry, 800);
+    setTimeout(displaySegmentNames, 300);
+    setTimeout(displaySegmentNames, 800);
+    setTimeout(displaySegmentNames, 1500);
   }
 
   log('CWV Events: Script complete');
