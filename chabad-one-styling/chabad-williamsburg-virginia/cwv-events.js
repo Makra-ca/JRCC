@@ -324,7 +324,8 @@
     }
 
     // =========================================================
-    // STYLE YOUR INFORMATION - Single column, label left
+    // STYLE YOUR INFORMATION - Single column, label left (desktop)
+    // On mobile: label on top, input below
     // CSS can't override CMS grid, so we use JS
     // =========================================================
     function styleYourInformation() {
@@ -334,15 +335,19 @@
         log('Your Information container not found');
         return;
       }
-      if (container.classList.contains('cwv-info-styled')) return;
-      container.classList.add('cwv-info-styled');
 
-      log('Styling Your Information, found rows:', container.children.length);
+      var isMobile = window.innerWidth < 600;
 
-      // Container: single column
+      // Remove old/opposite classes and re-apply styles
+      container.classList.remove('cwv-info-styled', 'cwv-info-styled-mobile', 'cwv-info-styled-desktop');
+      container.classList.add(isMobile ? 'cwv-info-styled-mobile' : 'cwv-info-styled-desktop');
+
+      log('Styling Your Information, mobile:', isMobile, 'rows:', container.children.length);
+
+      // Container: single column stack
       container.style.setProperty('display', 'flex', 'important');
       container.style.setProperty('flex-direction', 'column', 'important');
-      container.style.setProperty('gap', '0.75rem', 'important');
+      container.style.setProperty('gap', isMobile ? '1rem' : '0.75rem', 'important');
 
       // Each field row (direct children with class clearfix)
       var rows = container.children;
@@ -351,20 +356,37 @@
         if (!row.classList.contains('clearfix')) continue;
 
         row.style.setProperty('display', 'flex', 'important');
-        row.style.setProperty('flex-direction', 'row', 'important');
-        row.style.setProperty('align-items', 'center', 'important');
-        row.style.setProperty('gap', '1rem', 'important');
         row.style.setProperty('width', '100%', 'important');
+
+        if (isMobile) {
+          // Mobile: stack vertically, label on top
+          row.style.setProperty('flex-direction', 'column', 'important');
+          row.style.setProperty('align-items', 'stretch', 'important');
+          row.style.setProperty('gap', '0.25rem', 'important');
+        } else {
+          // Desktop: horizontal, label left
+          row.style.setProperty('flex-direction', 'row', 'important');
+          row.style.setProperty('align-items', 'center', 'important');
+          row.style.setProperty('gap', '1rem', 'important');
+        }
 
         // Find label (first child div)
         var label = row.querySelector('.label, .g140');
         if (label) {
-          label.style.setProperty('flex', '0 0 150px', 'important');
-          label.style.setProperty('min-width', '150px', 'important');
-          label.style.setProperty('max-width', '150px', 'important');
-          label.style.setProperty('text-align', 'right', 'important');
           label.style.setProperty('float', 'none', 'important');
           label.style.setProperty('margin', '0', 'important');
+
+          if (isMobile) {
+            label.style.setProperty('flex', 'none', 'important');
+            label.style.setProperty('min-width', 'auto', 'important');
+            label.style.setProperty('max-width', 'none', 'important');
+            label.style.setProperty('text-align', 'left', 'important');
+          } else {
+            label.style.setProperty('flex', '0 0 150px', 'important');
+            label.style.setProperty('min-width', '150px', 'important');
+            label.style.setProperty('max-width', '150px', 'important');
+            label.style.setProperty('text-align', 'right', 'important');
+          }
         }
 
         // Find input wrapper
@@ -373,10 +395,13 @@
           inputWrapper.style.setProperty('flex', '1', 'important');
           inputWrapper.style.setProperty('float', 'none', 'important');
           inputWrapper.style.setProperty('margin', '0', 'important');
+          if (isMobile) {
+            inputWrapper.style.setProperty('width', '100%', 'important');
+          }
         }
       }
 
-      log('Your Information styled as single column');
+      log('Your Information styled:', isMobile ? 'mobile (stacked)' : 'desktop (label left)');
     }
 
     // =========================================================
