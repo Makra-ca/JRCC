@@ -801,6 +801,7 @@
             return `
                 <article class="event-card" data-when="${sederNight || ''}" data-age="${event.ageGroup || ''}">
                     ${distanceBadge}
+                    ${event.imageUrl ? `<img src="${ensureHttps(event.imageUrl)}" alt="${event.title}" class="event-card-image">` : ''}
                     <div class="event-card-content">
                         <h2 class="event-title">${event.title}</h2>
 
@@ -969,6 +970,9 @@
                 'seder night': 'sederNight',
                 'sedernight': 'sederNight',
                 'when': 'sederNight',
+                'image url': 'imageUrl',
+                'imageurl': 'imageUrl',
+                'image': 'imageUrl',
                 // Zip code mappings
                 'zip code': 'zipCode',
                 'zipcode': 'zipCode',
