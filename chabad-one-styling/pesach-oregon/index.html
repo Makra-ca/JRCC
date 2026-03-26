@@ -1089,7 +1089,7 @@
                 }
 
                 // Sort by distance
-                filtered.sort((a, b) => (a.distance || 9999) - (b.distance || 9999));
+                filtered.sort((a, b) => (a.distance ?? 9999) - (b.distance ?? 9999));
             } else {
                 // Remove distance from events when not searching
                 filtered.forEach(event => delete event.distance);
